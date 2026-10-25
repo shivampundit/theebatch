@@ -1,0 +1,14 @@
+# Source archive: keep locally, do not push the 3.83 GB originals to GitHub Pages.
+/assets/0.SORTED/
+/assets/0.SORTED_1/
+/assets/SEARCHED ALREADY/
+/assets/508_Photos/
+/assets/*.xlsx
+
+# Keep the original single-file prototype locally as a design reference.
+/sebi_grade_a_officers_batch_2025_26_130_officers_nism_patalganga_digital_memory_portal.html
+
+# Generated build metadata (the generated data and media remain tracked).
+/build/
+__pycache__/
+*.pyc

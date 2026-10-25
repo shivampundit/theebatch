@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f5f7fc" />
+  <meta name="description" content="{{description}}" />
+  <title>{{title}} · The Batch Archive</title>
+  <link rel="icon" href="{{root}}assets/icons/monogram.svg" type="image/svg+xml" />
+  <link rel="manifest" href="{{root}}manifest.webmanifest" />
+  {{preload}}
+  <link rel="stylesheet" href="{{root}}css/styles.css" />
+  <link rel="stylesheet" href="{{root}}css/pages.css" />
+  {{extra_styles}}
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body data-page="{{page}}" data-root="{{root}}" {{body_attrs}}>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+  <header class="site-header" id="siteHeader">
+    <a class="brand" href="{{root}}index.html" aria-label="The Batch Archive home">
+      <span class="brand__mark" aria-hidden="true">25<span>26</span></span>
+      <span class="brand__copy"><strong>The Batch Archive<span>.</span></strong><small>SEBI · NISM Patalganga</small></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav class="nav" id="primaryNav" aria-label="Primary navigation">
+      <a href="{{root}}journey.html" data-nav="journey">Journey</a>
+      <a href="{{root}}albums.html" data-nav="albums">Albums</a>
+      <a href="{{root}}classroom.html" data-nav="classroom">Classroom</a>
+      <a href="{{root}}yearbook.html" data-nav="yearbook">Batch of 130</a>
+      <a class="nav__private" href="{{root}}private.html" data-nav="private">Private corner</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">Dark mode</button>
+  </header>
+  <main id="main">{{content}}</main>
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div><span class="brand__mark">25<span>26</span></span><p>A little piece of Patalganga.<br />For the batch, for the years ahead.</p></div>
+      <div class="footer__links"><strong>Keep exploring</strong><a href="{{root}}visits.html">Visits &amp; attachments</a><a href="{{root}}activities.html">Beyond the classroom</a><a href="{{root}}speakers.html">Our speakers</a><a href="{{root}}saved.html">My saved photographs</a><a href="{{root}}about.html">About the archive</a></div>
+      <div class="footer__extras"><p class="footer__note">SEBI Grade A · Batch 2025–26<br />NISM Patalganga · July–October 2026<br /><span>Independent commemorative batch archive.</span></p><div class="footer__controls"><button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false">Pause animations</button><a class="inaugurate-link" href="{{root}}inaugurate.html" aria-label="Open the ceremonial inauguration" title="Ceremonial inauguration">IN</a></div></div>
+    </div>
+  </footer>
+  <a class="back-top" href="#main" aria-label="Back to top">↑</a>
+  <dialog class="lightbox" id="lightbox" aria-label="Photograph viewer">
+    <div class="lightbox__tools"><button id="slidePlay" type="button" aria-pressed="false">Play slideshow</button><button id="saveCurrentPhoto" type="button" aria-pressed="false">Save photo</button><button id="sharePhoto" type="button">Copy photo link</button><a id="downloadPhoto" download>Download</a><button type="button" data-close-lightbox aria-label="Close photograph viewer">Close</button></div>
+    <button class="lightbox__nav lightbox__nav--prev" type="button" data-lightbox-prev aria-label="Previous photograph">‹</button>
+    <img id="lightboxImage" alt="" />
+    <button class="lightbox__nav lightbox__nav--next" type="button" data-lightbox-next aria-label="Next photograph">›</button>
+    <p id="lightboxCaption" aria-live="polite"></p>
+    <span class="lightbox__status" id="lightboxStatus" role="status"></span>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="{{root}}data/portal-data.js"></script>
+  <script src="{{root}}js/app.js"></script>
+  {{extra_scripts}}
+</body>
+</html>

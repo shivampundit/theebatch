@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f5f7fc" />
+  <meta name="description" content="A device-local journal for personal induction memories." />
+  <title>The private corner · The Batch Archive</title>
+  <link rel="icon" href="assets/icons/monogram.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.webmanifest" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body data-page="private" data-root="" >
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+  <header class="site-header" id="siteHeader">
+    <a class="brand" href="index.html" aria-label="The Batch Archive home">
+      <span class="brand__mark" aria-hidden="true">25<span>26</span></span>
+      <span class="brand__copy"><strong>The Batch Archive<span>.</span></strong><small>SEBI · NISM Patalganga</small></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav class="nav" id="primaryNav" aria-label="Primary navigation">
+      <a href="journey.html" data-nav="journey">Journey</a>
+      <a href="albums.html" data-nav="albums">Albums</a>
+      <a href="classroom.html" data-nav="classroom">Classroom</a>
+      <a href="yearbook.html" data-nav="yearbook">Batch of 130</a>
+      <a class="nav__private" href="private.html" data-nav="private">Private corner</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">Dark mode</button>
+  </header>
+  <main id="main"><section class="page-intro"><img class="page-intro__ambient" src="media/albums/batch-life/01.jpg" alt="" loading="lazy" /><div class="wrap page-intro__inner"><div class="reveal"><a class="breadcrumb" href="index.html">Home <span>/ Just for the batch</span></a><p class="eyebrow">Just for the batch</p><h1>A little space of our own.</h1><p>A device-local journal for personal induction memories.</p></div></div></section>
+<section class="section"><div class="wrap private-shell">
+  <div class="private-intro reveal"><p class="eyebrow">Notes to our future selves</p><h2>Some memories begin with a few words.</h2><p>Keep a moment, an observation, or a promise in a journal that stays on this device.</p><div class="journal-prompts"><button type="button" data-prompt="A moment from induction I want to remember: ">A moment to remember ↗</button><button type="button" data-prompt="What I would tell my first-day self: ">A note to my first-day self ↗</button><button type="button" data-prompt="When we meet again, I hope we remember: ">For our next reunion ↗</button></div><p class="privacy-note">Notes are saved in this browser. Export a backup to keep them. The batch phrase is a casual gate, so please keep confidential information out of the journal.</p></div>
+  <div class="vault reveal"><form class="vault__gate" id="vaultGate"><span class="vault__mark">◇</span><h3>Enter the private corner</h3><p>Enter the shared password to view a small private photo collection and your device journal.</p><label><span>Password</span><input id="vaultPassphrase" type="password" autocomplete="off" required /></label><button id="privateUnlockButton" class="button button--primary" type="submit">Unlock private corner ↗</button><small id="vaultMessage" role="status"></small></form>
+  <div class="vault__content is-hidden" id="vaultContent"><div class="vault__top"><div><span>Device journal</span><h3>Notes to our future selves</h3></div><button id="lockVault" type="button">Lock</button></div>
+    <section class="private-collection" id="room-508" aria-labelledby="privatePhotoTitle"><h3 id="privatePhotoTitle" tabindex="-1">A few shared moments.</h3><p id="privatePhotoCount" aria-live="polite"></p><div class="private-photo-grid" id="privatePhotos"></div></section>
+    <form id="memoryForm"><label><span>Your name</span><input id="memoryAuthor" maxlength="60" required /></label><label><span>A memory, line, or promise</span><textarea id="memoryText" maxlength="500" required></textarea></label><button class="button button--primary" type="submit">Save my memory</button></form>
+    <div class="memory-actions"><button id="exportMemories" type="button">Export journal</button><button id="importMemories" type="button">Restore backup</button><button id="clearMemories" type="button">Clear journal</button></div><input class="is-hidden" id="journalFile" type="file" accept=".json,application/json" /><p id="journalStatus" class="journal-status" role="status"></p><div class="memory-list" id="memoryList"></div>
+  </div></div>
+</div></section>
+<dialog class="lightbox" id="privatePhotoViewer" aria-label="Private photograph viewer"><div class="lightbox__tools"><a id="privatePhotoDownload" download>Download</a><button id="privatePhotoClose" type="button">Close</button></div><button class="lightbox__nav lightbox__nav--prev" id="privatePhotoPrevious" type="button" aria-label="Previous private photograph">‹</button><img id="privatePhotoImage" alt="" /><button class="lightbox__nav lightbox__nav--next" id="privatePhotoNext" type="button" aria-label="Next private photograph">›</button><p id="privatePhotoCaption" aria-live="polite"></p></dialog>
+</main>
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div><span class="brand__mark">25<span>26</span></span><p>A little piece of Patalganga.<br />For the batch, for the years ahead.</p></div>
+      <div class="footer__links"><strong>Keep exploring</strong><a href="visits.html">Visits &amp; attachments</a><a href="activities.html">Beyond the classroom</a><a href="speakers.html">Our speakers</a><a href="saved.html">My saved photographs</a><a href="about.html">About the archive</a></div>
+      <div class="footer__extras"><p class="footer__note">SEBI Grade A · Batch 2025–26<br />NISM Patalganga · July–October 2026<br /><span>Independent commemorative batch archive.</span></p><div class="footer__controls"><button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false">Pause animations</button><a class="inaugurate-link" href="inaugurate.html" aria-label="Open the ceremonial inauguration" title="Ceremonial inauguration">IN</a></div></div>
+    </div>
+  </footer>
+  <a class="back-top" href="#main" aria-label="Back to top">↑</a>
+  <dialog class="lightbox" id="lightbox" aria-label="Photograph viewer">
+    <div class="lightbox__tools"><button id="slidePlay" type="button" aria-pressed="false">Play slideshow</button><button id="saveCurrentPhoto" type="button" aria-pressed="false">Save photo</button><button id="sharePhoto" type="button">Copy photo link</button><a id="downloadPhoto" download>Download</a><button type="button" data-close-lightbox aria-label="Close photograph viewer">Close</button></div>
+    <button class="lightbox__nav lightbox__nav--prev" type="button" data-lightbox-prev aria-label="Previous photograph">‹</button>
+    <img id="lightboxImage" alt="" />
+    <button class="lightbox__nav lightbox__nav--next" type="button" data-lightbox-next aria-label="Next photograph">›</button>
+    <p id="lightboxCaption" aria-live="polite"></p>
+    <span class="lightbox__status" id="lightboxStatus" role="status"></span>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="data/portal-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="data/private-room508.js"></script><script src="js/private-gallery.js"></script>
+</body>
+</html>

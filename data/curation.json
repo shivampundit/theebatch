@@ -1,0 +1,12 @@
+{
+  "featuredOfficerNumbers": [101, 114, 23, 45, 112, 20, 31, 24, 113],
+  "officerSearchAliases": {
+    "20": ["aryan prayapati"],
+    "24": ["bhabesh kumar"],
+    "31": ["divy rawal", "divy raval"],
+    "45": ["venkateswara", "venkateshwar", "venkateswar"],
+    "112": ["sooraj"],
+    "113": ["subhrojit", "subhrajit"]
+  },
+  "photoOfficerTags": {}
+}

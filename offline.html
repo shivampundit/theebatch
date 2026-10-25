@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f5f7fc" />
+  <meta name="description" content="Return to a saved chapter or connect to explore more." />
+  <title>You are offline · The Batch Archive</title>
+  <link rel="icon" href="assets/icons/monogram.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.webmanifest" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body data-page="offline" data-root="" >
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+  <header class="site-header" id="siteHeader">
+    <a class="brand" href="index.html" aria-label="The Batch Archive home">
+      <span class="brand__mark" aria-hidden="true">25<span>26</span></span>
+      <span class="brand__copy"><strong>The Batch Archive<span>.</span></strong><small>SEBI · NISM Patalganga</small></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav class="nav" id="primaryNav" aria-label="Primary navigation">
+      <a href="journey.html" data-nav="journey">Journey</a>
+      <a href="albums.html" data-nav="albums">Albums</a>
+      <a href="classroom.html" data-nav="classroom">Classroom</a>
+      <a href="yearbook.html" data-nav="yearbook">Batch of 130</a>
+      <a class="nav__private" href="private.html" data-nav="private">Private corner</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">Dark mode</button>
+  </header>
+  <main id="main"><section class="page-intro"><img class="page-intro__ambient" src="media/albums/batch-life/01.jpg" alt="" loading="lazy" /><div class="wrap page-intro__inner"><div class="reveal"><a class="breadcrumb" href="index.html">Home <span>/ A pause in the journey</span></a><p class="eyebrow">A pause in the journey</p><h1>Our memories will be here.</h1><p>Return to a saved chapter or connect to explore more.</p></div></div></section>
+<section class="section"><div class="wrap closing-card"><div><p class="eyebrow">A moment offline</p><h2>This page has not been saved yet.</h2><p>Pages and photographs you have already opened can be available offline. Connect to the internet to explore this chapter for the first time.</p></div><a class="button button--primary" href="index.html">Back to the archive ↗</a></div></section>
+</main>
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div><span class="brand__mark">25<span>26</span></span><p>A little piece of Patalganga.<br />For the batch, for the years ahead.</p></div>
+      <div class="footer__links"><strong>Keep exploring</strong><a href="visits.html">Visits &amp; attachments</a><a href="activities.html">Beyond the classroom</a><a href="speakers.html">Our speakers</a><a href="saved.html">My saved photographs</a><a href="about.html">About the archive</a></div>
+      <div class="footer__extras"><p class="footer__note">SEBI Grade A · Batch 2025–26<br />NISM Patalganga · July–October 2026<br /><span>Independent commemorative batch archive.</span></p><div class="footer__controls"><button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false">Pause animations</button><a class="inaugurate-link" href="inaugurate.html" aria-label="Open the ceremonial inauguration" title="Ceremonial inauguration">IN</a></div></div>
+    </div>
+  </footer>
+  <a class="back-top" href="#main" aria-label="Back to top">↑</a>
+  <dialog class="lightbox" id="lightbox" aria-label="Photograph viewer">
+    <div class="lightbox__tools"><button id="slidePlay" type="button" aria-pressed="false">Play slideshow</button><button id="saveCurrentPhoto" type="button" aria-pressed="false">Save photo</button><button id="sharePhoto" type="button">Copy photo link</button><a id="downloadPhoto" download>Download</a><button type="button" data-close-lightbox aria-label="Close photograph viewer">Close</button></div>
+    <button class="lightbox__nav lightbox__nav--prev" type="button" data-lightbox-prev aria-label="Previous photograph">‹</button>
+    <img id="lightboxImage" alt="" />
+    <button class="lightbox__nav lightbox__nav--next" type="button" data-lightbox-next aria-label="Next photograph">›</button>
+    <p id="lightboxCaption" aria-live="polite"></p>
+    <span class="lightbox__status" id="lightboxStatus" role="status"></span>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="data/portal-data.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

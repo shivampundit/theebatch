@@ -1,0 +1,11 @@
+{{intro}}
+<section class="section collection-section"><div class="wrap">
+  <div class="collection-links"><a href="albums.html">All albums</a><a href="visits.html">Visits &amp; attachments ↗</a><a href="activities.html">Beyond the classroom ↗</a></div>
+  <div class="album-toolbar">
+    <label class="search-field"><span>Find an album</span><input type="search" id="albumSearch" placeholder="Try a city, activity, or memory" /></label>
+    <div class="filter-chips" id="albumFilters" role="group" aria-label="Album categories"><button type="button" data-album-filter="all" aria-pressed="true">All memories</button><button type="button" data-album-filter="milestones" aria-pressed="false">Milestones</button><button type="button" data-album-filter="visits" aria-pressed="false">Visits &amp; attachments</button><button type="button" data-album-filter="activities" aria-pressed="false">Beyond the classroom</button><button type="button" data-album-filter="everyday" aria-pressed="false">Batch life</button></div>
+    <p id="albumCount" class="result-count" aria-live="polite"></p>
+  </div>
+  <div class="album-grid" id="albumGrid"></div>
+  <noscript>{{album_links}}</noscript>
+</div></section>
