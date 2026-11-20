@@ -453,7 +453,7 @@ window.PORTAL_DATA = {
     {
       "number": 90,
       "name": "Ruturaj Vivek Mulik",
-      "photo": "media/officers/090-ruturaj-vivek-mulik.jpg"
+      "photo": "media/officers/090-ruturaj-vivek-mulik.png"
     },
     {
       "number": 91,
