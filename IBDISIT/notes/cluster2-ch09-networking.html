@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 9: Data Communication &amp; Networks (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 2 &bull; Chapter 9 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-9-1" class="active">9.1 Physical Layer &amp; Switching</a></li>
+          <li><a href="#sec-9-2">9.2 OSI 7-Layer vs. TCP/IP (SVG)</a></li>
+          <li><a href="#sec-9-3">9.3 Data Link: CRC, ARQ &amp; MAC</a></li>
+          <li><a href="#sec-9-4">9.4 IPv4, Subnetting, IPv6 &amp; Routing</a></li>
+          <li><a href="#sec-9-5">9.5 TCP vs. UDP &amp; Congestion Control</a></li>
+          <li><a href="#sec-9-6">9.6 App Layer, DNS &amp; Master Ports</a></li>
+          <li><a href="#sec-9-7">9.7 Worked Exam Numericals (8)</a></li>
+          <li><a href="#sec-9-8">9.8 Banking Networks + 10M Blueprint</a></li>
+          <li><a href="#sec-9-9">9.9 Rapid Revision + 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-09">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster2-ch08-dbms-rdbms.html">&larr; Prev: Ch 8 DBMS</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 2: Databases, Networks &amp; Security</span>
+            <span class="badge badge-warn">Topic 9 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">Guaranteed Subnetting &amp; Port MCQs</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 9: Data Communication &amp; Computer Networks</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Exhaustive exam-depth coverage of Nyquist/Shannon limits, OSI 7-Layer vs. TCP/IP encapsulation (SVG), CRC/GBN/SR/CSMA-CD/CSMA-CA,
+            IPv4/CIDR Subnetting/NAT/IPv6, RIP/OSPF/BGP routing, TCP 3-way handshake &amp; AIMD congestion control, Master Well-Known Ports &amp; HTTP/DNS,
+            8 step-by-step worked numericals, banking INFINET/MPLS/DMZ architecture, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 9.1 ==================== -->
+        <section id="sec-9-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">9.1 Physical Layer, Channel Capacity, Switching &amp; Multiplexing</h2>
+            <span class="badge badge-info">Core Foundation</span>
+          </div>
+          <ul>
+            <li><strong>Nyquist Bit Rate (Noiseless Channel):</strong> <mark><code>Max Bit Rate = 2 &middot; B &middot; log2(L)</code></mark> (<code>B</code> = bandwidth in Hz, <code>L</code> = signal levels).</li>
+            <li><strong>Shannon Capacity (Noisy Channel):</strong> <mark><code>C = B &middot; log2(1 + SNR)</code></mark>, where <code>SNR_dB = 10 &middot; log10(SNR)</code> &rArr; <code>SNR = 10^(SNR_dB / 10)</code>.</li>
+            <li><strong>Switching Modes:</strong>
+              <strong>Circuit Switching</strong> (dedicated end-to-end physical path reserved before data transfer; constant delay, wastes idle bandwidth—PSTN) vs.
+              <strong>Packet Switching</strong> (store-and-forward packets sharing links via statistical multiplexing: <em>Datagram</em> [IP, independent routes] vs. <em>Virtual Circuit</em> [MPLS, fixed label path]).</li>
+            <li><strong>Multiplexing &amp; Media:</strong>
+              <strong>FDM</strong> (analog frequency bands), <strong>WDM</strong> (optical fiber wavelengths), <strong>TDM</strong> (time slots — Synchronous vs. Statistical), <strong>CDMA</strong> (orthogonal codes).
+              <strong>Optical Fiber:</strong> Uses <mark>Total Internal Reflection</mark>; Single-Mode (laser, long-haul WAN) vs. Multi-Mode (LED, short-range DC).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 9.2 ==================== -->
+        <section id="sec-9-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">9.2 OSI 7-Layer vs. TCP/IP 4-Layer Architecture &amp; PDUs</h2>
+            <span class="badge badge-warn">Must-Memorize Map</span>
+          </div>
+
+          <!-- Inline SVG: OSI vs TCP/IP Stack -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 250" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="OSI 7-Layer vs TCP/IP 4-Layer Model Mapping">
+              <rect x="10" y="6" width="740" height="238" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <!-- Headers -->
+              <text x="155" y="26" text-anchor="middle" fill="#0f2942" font-size="11.5" font-weight="800">OSI 7 Layers (All People Seem To Need Data Processing)</text>
+              <text x="415" y="26" text-anchor="middle" fill="#0f2942" font-size="11.5" font-weight="800">PDU &amp; Devices</text>
+              <text x="625" y="26" text-anchor="middle" fill="#0f2942" font-size="11.5" font-weight="800">TCP/IP 4 Layers</text>
+
+              <!-- L7, L6, L5 -> App -->
+              <rect x="24" y="36" width="262" height="24" rx="4" fill="#0d9488"/><text x="155" y="52" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">L7 Application (HTTP, DNS, SMTP, SSH)</text>
+              <rect x="24" y="64" width="262" height="24" rx="4" fill="#0f766e"/><text x="155" y="80" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">L6 Presentation (TLS/SSL, JSON, Compression)</text>
+              <rect x="24" y="92" width="262" height="24" rx="4" fill="#115e59"/><text x="155" y="108" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">L5 Session (Dialog Control, Checkpoints, RPC)</text>
+              <rect x="302" y="36" width="225" height="80" rx="6" fill="#e6f7f5" stroke="#0d9488"/>
+              <text x="415" y="70" text-anchor="middle" fill="#0f2942" font-size="11" font-weight="700">PDU: Data / Message</text>
+              <text x="415" y="88" text-anchor="middle" fill="#475569" font-size="10">WAF, Proxy, L7 Load Balancer</text>
+              <rect x="542" y="36" width="194" height="80" rx="6" fill="#0d9488"/>
+              <text x="639" y="80" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Application Layer</text>
+
+              <!-- L4 -->
+              <rect x="24" y="122" width="262" height="26" rx="4" fill="#1d4ed8"/><text x="155" y="139" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">L4 Transport (TCP, UDP, QUIC — Ports)</text>
+              <rect x="302" y="122" width="225" height="26" rx="4" fill="#dbeafe" stroke="#1d4ed8"/><text x="415" y="139" text-anchor="middle" fill="#1e3a8a" font-size="10.5" font-weight="700">Segment (TCP) / Datagram (UDP)</text>
+              <rect x="542" y="122" width="194" height="26" rx="4" fill="#1d4ed8"/><text x="639" y="139" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Transport Layer</text>
+
+              <!-- L3 -->
+              <rect x="24" y="154" width="262" height="26" rx="4" fill="#6d28d9"/><text x="155" y="171" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">L3 Network (IPv4/IPv6, ICMP, OSPF, IPsec)</text>
+              <rect x="302" y="154" width="225" height="26" rx="4" fill="#ede9fe" stroke="#6d28d9"/><text x="415" y="171" text-anchor="middle" fill="#4c1d95" font-size="10.5" font-weight="700">Packet &bull; Router / L3 Switch</text>
+              <rect x="542" y="154" width="194" height="26" rx="4" fill="#6d28d9"/><text x="639" y="171" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Internet Layer</text>
+
+              <!-- L2 & L1 -->
+              <rect x="24" y="186" width="262" height="24" rx="4" fill="#0f2942"/><text x="155" y="202" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">L2 Data Link (Ethernet, Wi-Fi, ARP, MAC)</text>
+              <rect x="24" y="214" width="262" height="24" rx="4" fill="#475569"/><text x="155" y="230" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">L1 Physical (Cables, Signals, Encoding)</text>
+              <rect x="302" y="186" width="225" height="52" rx="6" fill="#f1f5f9" stroke="#475569"/>
+              <text x="415" y="206" text-anchor="middle" fill="#0f2942" font-size="10.5" font-weight="700">L2: Frame (Switch/Bridge)</text>
+              <text x="415" y="226" text-anchor="middle" fill="#475569" font-size="10.5" font-weight="700">L1: Bits (Hub/Repeater)</text>
+              <rect x="542" y="186" width="194" height="52" rx="6" fill="#0f2942"/>
+              <text x="639" y="216" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">Network Access Layer</text>
+            </svg>
+          </div>
+          <p style="margin:0;font-size:0.9rem;">
+            <strong>Collision vs. Broadcast Domain Trap:</strong>
+            <strong>Hub / Repeater (L1):</strong> 1 Collision Domain, 1 Broadcast Domain.
+            <strong>Switch / Bridge (L2):</strong> <mark>Per-port Collision Domain</mark>, 1 Broadcast Domain (unless segmented by VLANs!).
+            <strong>Router (L3):</strong> <mark>Separates BOTH Collision and Broadcast Domains</mark>.
+          </p>
+        </section>
+
+        <!-- ==================== 9.3 ==================== -->
+        <section id="sec-9-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">9.3 Data Link Layer: Error Control (CRC), Sliding Window &amp; MAC</h2>
+          </div>
+          <ul>
+            <li><strong>CRC (Cyclic Redundancy Check):</strong> Uses binary modulo-2 (XOR) polynomial division. Generator of degree <code>r</code> (length <code>r + 1</code> bits) appends <code>r</code> zero bits to data; remainder is attached as FCS. Detects all burst errors of length &le; <code>r</code>.</li>
+            <li><strong>Sliding Window ARQ Comparison (<code>k</code>-bit sequence number &rarr; <code>2^k</code> seq numbers):</strong>
+              &bull; <strong>Stop-and-Wait:</strong> <code>W_s = 1, W_r = 1</code>; Efficiency <mark><code>&eta; = 1 / (1 + 2a)</code></mark> where <code>a = T_p / T_t</code>.<br>
+              &bull; <strong>Go-Back-N (GBN):</strong> <mark><code>W_s = 2^k - 1, W_r = 1</code></mark>; cumulative ACK; discards out-of-order frames.<br>
+              &bull; <strong>Selective Repeat (SR):</strong> <mark><code>W_s = W_r = 2^(k - 1)</code></mark>; buffers out-of-order frames; retransmits only lost frame.</li>
+            <li><strong>MAC Protocols:</strong>
+              <strong>Pure ALOHA</strong> (max efficiency <mark><code>18.4%</code></mark>, vulnerable time <code>2T_t</code>) vs.
+              <strong>Slotted ALOHA</strong> (max <mark><code>36.8%</code></mark>, vulnerable time <code>T_t</code>).<br>
+              <strong>CSMA/CD (Ethernet 802.3):</strong> Detects collisions during transmission &rarr; requires <mark><code>T_t &ge; 2 &middot; T_p</code> &rArr; <code>L_min = 2 &middot; T_p &middot; BW</code></mark> (Binary Exponential Backoff on collision).<br>
+              <strong>CSMA/CA (Wi-Fi 802.11):</strong> Cannot reliably detect collisions over radio &rarr; uses <mark>RTS / CTS</mark> handshake to solve the <strong>Hidden Terminal Problem</strong>.</li>
+            <li><strong>ARP &amp; VLANs:</strong> <strong>ARP</strong> resolves 32-bit IPv4 &rarr; 48-bit MAC via <mark>L2 Broadcast Request (`FF:FF:FF:FF:FF:FF`) + Unicast Reply</mark>. <strong>IEEE 802.1Q</strong> inserts a 4-byte VLAN tag (12-bit VID &rarr; up to 4094 VLANs). <strong>STP (802.1D)</strong> prevents L2 broadcast storms/loops.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 9.4 ==================== -->
+        <section id="sec-9-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">9.4 Network Layer: IPv4, Subnetting/CIDR, IPv6 &amp; Routing Protocols</h2>
+            <span class="badge badge-danger">Highest Networking Numerical Yield</span>
+          </div>
+
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>IPv4 Class / Range</th>
+                  <th>First Octet</th>
+                  <th>Default Mask</th>
+                  <th>RFC 1918 Private / Special Reserved Ranges</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Class A</strong></td><td><code>1 – 126</code></td><td><code>/8 (255.0.0.0)</code></td><td>Private: <mark><code>10.0.0.0/8</code></mark> &bull; Loopback: <mark><code>127.0.0.0/8</code></mark></td></tr>
+                <tr><td><strong>Class B</strong></td><td><code>128 – 191</code></td><td><code>/16 (255.255.0.0)</code></td><td>Private: <mark><code>172.16.0.0/12</code></mark> (<code>172.16–172.31</code>) &bull; APIPA: <code>169.254.0.0/16</code></td></tr>
+                <tr><td><strong>Class C</strong></td><td><code>192 – 223</code></td><td><code>/24 (255.255.255.0)</code></td><td>Private: <mark><code>192.168.0.0/16</code></mark></td></tr>
+                <tr><td><strong>Class D / E</strong></td><td><code>224–239</code> / <code>240–255</code></td><td>N/A</td><td>Class D = <mark>Multicast</mark>; Class E = Experimental / Reserved</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <ul>
+            <li><strong>IPv4 Header (20–60 bytes):</strong> Key fields — <strong>IHL</strong> (4-bit, units of 4 bytes), <strong>Fragment Offset</strong> (13-bit, units of <mark>8 bytes</mark> &rarr; payload of non-last fragments MUST be a multiple of 8!), <strong>Flags</strong> (<code>DF</code> = Don't Fragment, <code>MF</code> = More Fragments), <strong>TTL</strong> (decremented by 1 at every router; <code>TTL=0</code> drops packet &amp; sends ICMP Time Exceeded — basis of <code>traceroute</code>!).</li>
+            <li><strong>IPv6 (128-bit):</strong> Fixed <mark>40-byte header</mark>, <mark>NO header checksum</mark> (handled by L2/L4), <mark>NO router fragmentation</mark> (Path MTU Discovery only), <strong>NDP (Neighbor Discovery Protocol)</strong> over ICMPv6 replaces ARP; Loopback = <code>::1</code>.</li>
+            <li><strong>Routing Protocols Matrix:</strong>
+              &bull; <strong>RIP (Distance Vector / IGP):</strong> Bellman-Ford, metric = Hop Count (max <mark>15 hops</mark>, 16 = unreachable), UDP port 520; Count-to-Infinity mitigated by Split Horizon &amp; Poison Reverse.<br>
+              &bull; <strong>OSPF (Link State / IGP):</strong> Dijkstra's SPF algorithm, metric = Cost (<code>10^8 / Bandwidth</code>), protocol 89, hierarchical Areas (Area 0 = Backbone), fast convergence.<br>
+              &bull; <strong>BGP (Path Vector / EGP):</strong> The routing protocol of the Internet! Runs over <mark>TCP Port 179</mark>, prevents inter-AS loops via <code>AS-PATH</code> attribute, supports policy-based routing.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 9.5 ==================== -->
+        <section id="sec-9-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">9.5 Transport Layer: TCP vs. UDP, 3-Way Handshake &amp; Congestion Control</h2>
+            <span class="badge badge-purple">High Paper III Trap Zone</span>
+          </div>
+          <ul>
+            <li><strong>TCP vs. UDP:</strong>
+              <strong>TCP</strong> (20–60 B header) is connection-oriented, reliable, ordered byte-stream with Flow Control + Congestion Control.
+              <strong>UDP</strong> (<mark>8-byte fixed header</mark>: Src Port, Dst Port, Length, Checksum) is connectionless, low-overhead (used by DNS, DHCP, SNMP, NTP, VoIP, and HTTP/3 QUIC).</li>
+            <li><strong>TCP 3-Way Handshake &amp; Teardown:</strong>
+              Setup: <code>Client --SYN(seq=x)--&gt; Server</code> &rarr; <code>Server --SYN+ACK(seq=y, ack=x+1)--&gt; Client</code> &rarr; <code>Client --ACK(ack=y+1)--&gt; Server</code>.<br>
+              Teardown (4-Way): <code>FIN &rarr; ACK &rarr; FIN &rarr; ACK</code>. Active closer waits in <mark><code>TIME_WAIT</code> for <code>2 MSL</code></mark> (Maximum Segment Lifetime) to drain delayed duplicate packets.</li>
+            <li><strong>Flow Control vs. Congestion Control:</strong>
+              <strong>Flow Control</strong> protects the <em>Receiver</em> from overflow via advertised Receive Window (<code>rwnd</code>).
+              <strong>Congestion Control</strong> protects the <em>Network</em> via Congestion Window (<code>cwnd</code>). Sending rate = <mark><code>min(cwnd, rwnd)</code></mark>.</li>
+            <li><strong>TCP Reno Congestion Control Phases (Guaranteed MCQ!):</strong>
+              1. <strong>Slow Start:</strong> Starts at <code>cwnd = 1 MSS</code>, grows <mark>EXPONENTIALLY</mark> (doubles every RTT) until <code>cwnd &ge; ssthresh</code>.<br>
+              2. <strong>Congestion Avoidance (AIMD):</strong> Grows <mark>LINEARLY</mark> (<code>+1 MSS</code> per RTT).<br>
+              3. <strong>Packet Loss via 3 Duplicate ACKs (Fast Retransmit/Recovery):</strong> <mark><code>ssthresh = cwnd / 2</code>, <code>cwnd = ssthresh</code></mark> (halves window — Multiplicative Decrease).<br>
+              4. <strong>Packet Loss via Timeout (Severe Congestion):</strong> <mark><code>ssthresh = cwnd / 2</code>, <code>cwnd = 1 MSS</code></mark> (restarts Slow Start!).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 9.6 ==================== -->
+        <section id="sec-9-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">9.6 Application Layer (HTTP/DNS/DHCP) &amp; Master Well-Known Ports Table</h2>
+            <span class="badge badge-warn">Direct 1-Mark Score Booster</span>
+          </div>
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Port</th>
+                  <th>Protocol</th>
+                  <th>Transport</th>
+                  <th>Purpose / Exam Note</th>
+                  <th>Port</th>
+                  <th>Protocol</th>
+                  <th>Transport</th>
+                  <th>Purpose / Exam Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><mark>20 / 21</mark></td><td>FTP</td><td>TCP</td><td>20 Data / 21 Control</td><td><mark>161 / 162</mark></td><td>SNMP</td><td>UDP</td><td>161 Poll / 162 Trap</td></tr>
+                <tr><td><mark>22</mark></td><td>SSH / SFTP</td><td>TCP</td><td>Encrypted remote shell</td><td><mark>179</mark></td><td>BGP</td><td>TCP</td><td>Inter-AS routing</td></tr>
+                <tr><td><mark>23</mark></td><td>Telnet</td><td>TCP</td><td>Plaintext (insecure!)</td><td><mark>389 / 636</mark></td><td>LDAP / LDAPS</td><td>TCP</td><td>Active Directory</td></tr>
+                <tr><td><mark>25 / 587</mark></td><td>SMTP</td><td>TCP</td><td>Mail push / submission</td><td><mark>443</mark></td><td>HTTPS / QUIC</td><td>TCP/UDP</td><td>TLS web / HTTP3</td></tr>
+                <tr><td><mark>53</mark></td><td>DNS</td><td>UDP &amp; TCP</td><td>UDP query / TCP zone xfer</td><td><mark>445</mark></td><td>SMB</td><td>TCP</td><td>Windows file share</td></tr>
+                <tr><td><mark>67 / 68</mark></td><td>DHCP</td><td>UDP</td><td>DORA IP assignment</td><td><mark>514</mark></td><td>Syslog</td><td>UDP</td><td>SIEM log shipping</td></tr>
+                <tr><td><mark>80</mark></td><td>HTTP</td><td>TCP</td><td>Web (unencrypted)</td><td><mark>993 / 995</mark></td><td>IMAPS/POP3S</td><td>TCP</td><td>Encrypted mail pull</td></tr>
+                <tr><td><mark>110 / 143</mark></td><td>POP3 / IMAP</td><td>TCP</td><td>Mail retrieval</td><td><mark>3389</mark></td><td>RDP</td><td>TCP/UDP</td><td>Remote Desktop</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>HTTP Evolution:</strong> HTTP/1.1 (persistent connections, pipelining HOL blocking) &rarr; <strong>HTTP/2</strong> (binary framing, multiplexing over 1 TCP conn, HPACK header compression) &rarr; <mark><strong>HTTP/3</strong> (runs over QUIC on <strong>UDP 443</strong>, eliminating TCP head-of-line blocking + built-in TLS 1.3)</mark>.</li>
+            <li><strong>Key HTTP Status Codes:</strong> <code>200 OK</code>, <code>201 Created</code>, <code>301 Moved Permanently</code>, <code>400 Bad Request</code>, <mark><code>401 Unauthorized</code> (unauthenticated)</mark> vs. <mark><code>403 Forbidden</code> (authenticated, no permission)</mark>, <code>404 Not Found</code>, <mark><code>429 Too Many Requests</code> (rate limit)</mark>, <code>500 Internal Server Error</code>, <code>502 Bad Gateway</code>, <code>503 Service Unavailable</code>, <code>504 Gateway Timeout</code>.</li>
+            <li><strong>DNS Records:</strong> <code>A</code> (IPv4), <code>AAAA</code> (IPv6), <code>CNAME</code> (alias), <code>MX</code> (mail server), <code>PTR</code> (reverse DNS), <code>TXT</code> (SPF/DKIM/DMARC anti-phishing!). <strong>DHCP DORA:</strong> Discover &rarr; Offer &rarr; Request &rarr; Acknowledge.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 9.7 ==================== -->
+        <section id="sec-9-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">9.7 Worked Exam Numericals (8 Step-by-Step Networking Problems)</h2>
+            <span class="badge badge-warn">Guaranteed 2-Mark Scoring Zone</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 1: CIDR Subnetting Breakdown</span>
+            <strong>Problem:</strong> Analyze <code>192.168.45.130/26</code>.<br>
+            <strong>Mask:</strong> <code>/26</code> = <code>255.255.255.192</code>. Block size = <code>256 - 192 = 64</code>. Subnets: <code>.0, .64, .128, .192</code>.<br>
+            Since <code>130</code> lies in <code>[128, 191]</code>:
+            <strong>Network ID:</strong> <mark><code>192.168.45.128</code></mark> &bull;
+            <strong>Broadcast ID:</strong> <mark><code>192.168.45.191</code></mark> &bull;
+            <strong>Usable Hosts:</strong> <code>2^(32-26) - 2 =</code> <mark><code>62</code></mark> (<code>.129</code> to <code>.190</code>).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 2: CIDR Route Aggregation (Supernetting)</span>
+            <strong>Problem:</strong> Aggregate <code>192.168.8.0/24</code>, <code>192.168.9.0/24</code>, <code>192.168.10.0/24</code>, and <code>192.168.11.0/24</code> into one CIDR block.<br>
+            <strong>3rd Octet in Binary:</strong> <code>8=00001000, 9=00001001, 10=00001010, 11=00001011</code>. First 6 bits match (<code>8+8+6 = 22</code> bits)!<br>
+            <strong>Supernet:</strong> <mark><code>192.168.8.0/22</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 3: IPv4 Fragmentation &amp; Fragment Offsets</span>
+            <strong>Problem:</strong> IPv4 packet of Total Length <code>2420 B</code> (Header <code>20 B</code>, Payload <code>2400 B</code>) enters a link with <code>MTU = 1020 B</code>.<br>
+            <strong>Max payload per fragment:</strong> <code>1020 - 20 = 1000 B</code> (already a multiple of 8!).<br>
+            &bull; <strong>Frag 1:</strong> Payload <code>1000 B</code>, <code>MF=1</code>, Offset = <code>0 / 8 =</code> <mark><code>0</code></mark>.<br>
+            &bull; <strong>Frag 2:</strong> Payload <code>1000 B</code>, <code>MF=1</code>, Offset = <code>1000 / 8 =</code> <mark><code>125</code></mark>.<br>
+            &bull; <strong>Frag 3:</strong> Payload <code>400 B</code>, <code>MF=0</code>, Offset = <code>2000 / 8 =</code> <mark><code>250</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 4: Stop-and-Wait Efficiency &amp; Optimal Sliding Window</span>
+            <strong>Given:</strong> Frame <code>L = 1000 B = 8000 bits</code>, <code>BW = 1 Mbps</code>, Propagation delay <code>T_p = 20 ms</code>.<br>
+            <code>T_t = 8000 / 10^6 = 8 ms</code>. <code>a = T_p / T_t = 20 / 8 = 2.5</code>.<br>
+            <strong>Stop-and-Wait Efficiency:</strong> <code>1 / (1 + 2(2.5)) = 1 / 6 =</code> <mark><code>16.67%</code></mark>.<br>
+            <strong>Optimal Window Size (for 100% utilization):</strong> <code>W = 1 + 2a =</code> <mark><code>6 frames</code></mark> (needs <code>ceil(log2 6) = 3</code> sequence bits).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 5: CSMA/CD Minimum Frame Size</span>
+            <strong>Given:</strong> Cable length <code>d = 2 km</code>, signal speed <code>v = 2 &times; 10^8 m/s</code>, <code>BW = 10 Mbps</code>.<br>
+            <code>T_p = 2000 / (2 &times; 10^8) = 10 &mu;s</code>.
+            <code>L_min = 2 &middot; T_p &middot; BW = 2 &times; 10^-5 &times; 10^7 = 200 bits =</code> <mark><code>25 bytes</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 6: Shannon Channel Capacity</span>
+            <strong>Given:</strong> Bandwidth <code>B = 3 kHz</code>, <code>SNR_dB = 30 dB</code>.<br>
+            <code>SNR = 10^(30/10) = 1000</code>.
+            <code>C = 3000 &times; log2(1 + 1000) &approx; 3000 &times; 9.97 &approx;</code> <mark><code>29.9 kbps (~30 kbps)</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 7: CRC Checksum Generation</span>
+            <strong>Data:</strong> <code>1101</code>, <strong>Generator:</strong> <code>1011</code> (degree <code>r = 3</code> &rarr; append 3 zeros: <code>1101000</code>).<br>
+            XOR-divide <code>1101000</code> by <code>1011</code>: <code>1101 ^ 1011 = 0110</code> &rarr; bring down <code>0</code>: <code>1100 ^ 1011 = 0111</code> &rarr; bring down <code>0</code>: <code>1110 ^ 1011 = 0101</code> &rarr; bring down <code>0</code>: <code>1010 ^ 1011 = 0001</code>.<br>
+            <strong>CRC Remainder:</strong> <mark><code>001</code></mark> &rarr; Transmitted codeword = <code>1101001</code>.
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Numerical 8: TCP Reno <code>cwnd</code> After 3 Duplicate ACKs vs. Timeout</span>
+            <strong>Given:</strong> <code>MSS = 1 KB</code>, current <code>cwnd = 32 KB</code>.<br>
+            &bull; If <strong>3 Duplicate ACKs</strong> occur: <code>ssthresh = 16 KB</code>, <code>cwnd =</code> <mark><code>16 KB</code></mark> (linear growth resumes).<br>
+            &bull; If a <strong>Timeout</strong> occurs: <code>ssthresh = 16 KB</code>, <code>cwnd =</code> <mark><code>1 KB (1 MSS)</code></mark> (exponential Slow Start restarts).
+          </div>
+        </section>
+
+        <!-- ==================== 9.8 ==================== -->
+        <section id="sec-9-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">9.8 Banking &amp; SIDBI Network Architecture Context + 10-Mark Blueprint</h2>
+            <span class="badge badge-live">Descriptive Edge</span>
+          </div>
+          <ul>
+            <li><strong>INFINET &amp; MPLS WAN:</strong> Indian banks and AIFIs connect to RBI's RTGS/NEFT/SFMS messaging backbone over closed-user-group MPLS networks (INFINET managed by IDRBT), isolated from the public Internet.</li>
+            <li><strong>3-Tier DMZ Segmentation &amp; Zero-Trust Micro-Segmentation:</strong> Public-facing portals (<a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">Udyamimitra / GST Sahay</a>) sit behind WAF + L7 Load Balancers in an external <strong>DMZ</strong>, separated by stateful firewalls from the internal App tier and air-gapped CBS Database tier—aligned with <a href="https://m.rbi.org.in/scripts/BS_ViewMasDirections.aspx?id=13597" target="_blank" rel="noopener noreferrer">RBI AIFI Cybersecurity &amp; Tech Risk Directions 2026</a>.</li>
+            <li><strong>Email &amp; Domain Authentication:</strong> Enforcing <code>SPF + DKIM + DMARC (p=reject)</code> in DNS TXT records prevents spoofing of SIDBI/banking domains in MSME phishing campaigns.</li>
+          </ul>
+          <div class="callout callout-info" style="margin-top:0.85rem;">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"Design a secure, high-availability enterprise network architecture for an AIFI like SIDBI hosting public MSME portals and internal Core Banking databases. Cover VLAN/DMZ segmentation, BGP/MPLS redundancy, and transport security." (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (25w):</strong> Banking networks must balance 24&times;7 availability with strict isolation of financial databases.<br>
+            &bull; <strong>Layered Defense &amp; DMZ (80w):</strong> Dual-firewall 3-tier DMZ (WAF/Reverse Proxy &rarr; App Subnet &rarr; Isolated DB Subnet), IEEE 802.1Q VLAN segmentation + NAC, and Zero-Trust micro-segmentation.<br>
+            &bull; <strong>Redundancy &amp; Crypto (75w):</strong> Dual-ISP BGP multi-homing for internet portals, redundant MPLS/SD-WAN links between Regional Offices, PDC, and DR sites, TLS 1.3 + mTLS for partner APIs, and DNSSEC/DMARC.<br>
+            &bull; <strong>Conclusion (20w):</strong> Continuous NetFlow/SIEM monitoring ensures rapid anomaly containment under RBI resilience mandates.
+          </div>
+        </section>
+
+        <!-- ==================== 9.9 ==================== -->
+        <section id="sec-9-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">9.9 5-Minute Rapid Revision Sheet &amp; 15 Exam-Level Practice MCQs</h2>
+            <span class="badge badge-warn">Last-Day Cram + Drill</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li>Nyquist (noiseless): <code>2B log2(L)</code>; Shannon (noisy): <mark><code>B log2(1 + SNR)</code></mark>.</li>
+            <li>OSI PDUs: L1 Bits, L2 Frame, L3 Packet, L4 Segment/Datagram, L5–L7 Data.</li>
+            <li><mark>Switch (L2)</mark> separates Collision Domains only; <mark>Router (L3)</mark> separates BOTH Collision &amp; Broadcast Domains.</li>
+            <li>Stop-and-Wait efficiency = <code>1 / (1 + 2a)</code>; optimal sliding window = <code>1 + 2a</code>.</li>
+            <li>Go-Back-N: <code>W_s = 2^k - 1, W_r = 1</code>; Selective Repeat: <code>W_s = W_r = 2^(k - 1)</code>.</li>
+            <li>Pure ALOHA max throughput = <mark>18.4%</mark>; Slotted ALOHA = <mark>36.8%</mark>.</li>
+            <li>CSMA/CD (Ethernet) min frame size = <mark><code>2 &middot; T_p &middot; BW</code></mark>; CSMA/CA (Wi-Fi) uses RTS/CTS for Hidden Terminal.</li>
+            <li><mark>ARP</mark> = L2 Broadcast Request, Unicast Reply (maps IPv4 &rarr; 48-bit MAC).</li>
+            <li>RFC 1918 Private IPv4: <mark><code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code></mark>; Loopback = <code>127.0.0.0/8</code>; APIPA = <code>169.254.0.0/16</code>.</li>
+            <li>IPv4 Fragment Offset is measured in <mark>8-byte units</mark>; non-last fragments must carry payload divisible by 8.</li>
+            <li>IPv4 <code>TTL</code> decrements by 1 per router (prevents routing loops; powers <code>traceroute</code>).</li>
+            <li><mark>IPv6</mark> = 128-bit, fixed <mark>40-byte</mark> header, NO header checksum, NO router fragmentation, NDP replaces ARP.</li>
+            <li><mark>RIP</mark> = Bellman-Ford, max 15 hops; <mark>OSPF</mark> = Dijkstra Link-State; <mark>BGP</mark> = Path-Vector over <mark>TCP 179</mark>.</li>
+            <li><mark>UDP</mark> header = fixed <strong>8 bytes</strong>; <mark>TCP</mark> header = 20–60 bytes.</li>
+            <li>TCP 3-Way Handshake = <code>SYN &rarr; SYN-ACK &rarr; ACK</code>; <code>TIME_WAIT</code> lasts <code>2 MSL</code>.</li>
+            <li>TCP effective window = <code>min(cwnd, rwnd)</code> (Congestion vs. Flow Control).</li>
+            <li>TCP Slow Start = exponential; Congestion Avoidance = linear (AIMD); 3 Dup ACKs halves <code>cwnd</code>; Timeout resets <code>cwnd = 1 MSS</code>.</li>
+            <li>Key Ports: FTP(20/21), SSH(22), Telnet(23), SMTP(25), DNS(53), DHCP(67/68), HTTP(80), POP3(110), IMAP(143), SNMP(161/162), BGP(179), HTTPS(443), RDP(3389).</li>
+            <li><mark>HTTP/3</mark> uses <strong>QUIC over UDP 443</strong> to eliminate TCP Head-of-Line blocking.</li>
+            <li><mark>401 Unauthorized</mark> = missing/invalid auth; <mark>403 Forbidden</mark> = authenticated but lacks permission; <mark>429</mark> = rate limited.</li>
+            <li><mark>DHCP DORA:</mark> Discover &rarr; Offer &rarr; Request &rarr; Acknowledge (UDP 67/68).</li>
+            <li>DNS uses <mark>UDP 53</mark> for standard queries and <mark>TCP 53</mark> for zone transfers / large DNSSEC responses.</li>
+            <li>DNS <code>TXT</code> records carry <mark>SPF, DKIM, and DMARC</mark> email anti-spoofing policies.</li>
+            <li>IEEE <code>802.1Q</code> = VLAN tagging; IEEE <code>802.1D</code> = Spanning Tree Protocol (loop prevention).</li>
+            <li>Banking networks isolate CBS behind dual-firewall <mark>DMZ</mark> tiers and use <mark>INFINET / MPLS</mark> for RTGS/NEFT.</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 9 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (22 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch9-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster2-ch08-dbms-rdbms.html">&larr; Prev: Chapter 8 — DBMS &amp; RDBMS</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-09', '[data-chapter-complete="it-09"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch9-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch9-q1',
+              marks: 2,
+              section: 'CIDR Subnetting',
+              prompt: 'What is the Broadcast Address and the number of usable host IP addresses in the subnet 172.16.20.75/27?',
+              options: [
+                'Broadcast: 172.16.20.95 | Usable hosts: 30',
+                'Broadcast: 172.16.20.95 | Usable hosts: 32',
+                'Broadcast: 172.16.20.127 | Usable hosts: 62',
+                'Broadcast: 172.16.20.79 | Usable hosts: 14',
+                'Broadcast: 172.16.20.255 | Usable hosts: 254'
+              ],
+              correctIndex: 0,
+              explanation: '/27 mask = 255.255.255.224 → block size = 256 - 224 = 32. Subnets: .0, .32, .64, .96. Thus 75 falls in .64–.95 (Network .64, Broadcast .95). Usable hosts = 2^5 - 2 = 30.'
+            },
+            {
+              id: 'ch9-q2',
+              marks: 1,
+              section: 'Private IPv4 (RFC 1918)',
+              prompt: 'Which of the following IPv4 addresses is a PUBLIC (routable on the Internet) address rather than an RFC 1918 private address?',
+              options: [
+                '10.245.12.8',
+                '172.20.14.5',
+                '172.32.10.1',
+                '192.168.100.55',
+                '172.16.0.10'
+              ],
+              correctIndex: 2,
+              explanation: 'Class B RFC 1918 private range is 172.16.0.0/12 (172.16.0.0 through 172.31.255.255). Hence 172.32.10.1 is a PUBLIC IPv4 address!'
+            },
+            {
+              id: 'ch9-q3',
+              marks: 1,
+              section: 'OSI Devices',
+              prompt: 'Which network device separates BOTH Collision Domains and Broadcast Domains by default?',
+              options: [
+                'Physical Hub',
+                'Repeater',
+                'Unmanaged Layer-2 Switch',
+                'Layer-2 Bridge',
+                'Router'
+              ],
+              correctIndex: 4,
+              explanation: 'Hubs/Repeaters share both domains; L2 Switches/Bridges isolate Collision Domains per port but forward broadcasts; Routers (L3) isolate both Collision and Broadcast Domains.'
+            },
+            {
+              id: 'ch9-q4',
+              marks: 2,
+              section: 'Sliding Window ARQ',
+              prompt: 'A Selective Repeat ARQ protocol uses a 4-bit sequence number field. What is the MAXIMUM allowable sender window size (Ws) to prevent ambiguity between new and old frames?',
+              options: [
+                '4 frames',
+                '7 frames',
+                '8 frames',
+                '15 frames',
+                '16 frames'
+              ],
+              correctIndex: 2,
+              explanation: 'For Selective Repeat with k-bit sequence numbers, Ws = Wr <= 2^(k - 1) = 2^(4 - 1) = 8 frames (whereas Go-Back-N allows 2^4 - 1 = 15).'
+            },
+            {
+              id: 'ch9-q5',
+              marks: 1,
+              section: 'MAC Protocols',
+              prompt: 'What is the theoretical maximum channel efficiency of Pure ALOHA versus Slotted ALOHA?',
+              options: [
+                'Pure: 50.0% | Slotted: 100.0%',
+                'Pure: 18.4% | Slotted: 36.8%',
+                'Pure: 36.8% | Slotted: 73.6%',
+                'Pure: 25.0% | Slotted: 50.0%',
+                'Pure: 10.0% | Slotted: 20.0%'
+              ],
+              correctIndex: 1,
+              explanation: 'Pure ALOHA peaks at 1/(2e) ≈ 18.4% (vulnerable period 2Tt), while Slotted ALOHA doubles this to 1/e ≈ 36.8% (vulnerable period Tt).'
+            },
+            {
+              id: 'ch9-q6',
+              marks: 2,
+              section: 'IPv4 Fragmentation',
+              prompt: 'An IPv4 packet carries a 1600-byte payload (20-byte header) and must traverse a link with MTU = 600 bytes. What is the Fragment Offset value written in the header of the SECOND fragment?',
+              options: [
+                '70',
+                '72',
+                '75',
+                '576',
+                '580'
+              ],
+              correctIndex: 1,
+              explanation: 'Max payload = 600 - 20 = 580 B. Largest multiple of 8 <= 580 is 576 B! Thus Fragment 1 carries bytes 0..575, and Fragment 2 starts at byte 576 → Fragment Offset = 576 / 8 = 72.'
+            },
+            {
+              id: 'ch9-q7',
+              marks: 1,
+              section: 'IPv6 Architecture',
+              prompt: 'Which change was intentionally introduced in IPv6 compared to IPv4 to accelerate packet forwarding at core routers?',
+              options: [
+                'Variable-length 20–60 byte base header',
+                'Mandatory router-level fragmentation on every hop',
+                'Fixed 40-byte base header with NO header checksum and NO router fragmentation',
+                'Replacement of 128-bit addresses with 64-bit MAC addresses',
+                'Mandatory broadcast ARP requests for neighbor discovery'
+              ],
+              correctIndex: 2,
+              explanation: 'IPv6 uses a streamlined fixed 40-byte header, removes the header checksum (no recalculation per hop when Hop Limit decrements), and forbids intermediate routers from fragmenting packets.'
+            },
+            {
+              id: 'ch9-q8',
+              marks: 1,
+              section: 'Routing Protocols',
+              prompt: 'Which routing protocol operates as a Path-Vector Exterior Gateway Protocol (EGP) over TCP Port 179 to exchange routes between Autonomous Systems on the Internet?',
+              options: [
+                'RIPv2',
+                'OSPF',
+                'IS-IS',
+                'BGP',
+                'ARP'
+              ],
+              correctIndex: 3,
+              explanation: 'Border Gateway Protocol (BGP) is the Internet\'s Path-Vector EGP running over TCP port 179, using AS-PATH attributes to prevent inter-domain routing loops.'
+            },
+            {
+              id: 'ch9-q9',
+              marks: 2,
+              section: 'TCP Congestion Control',
+              prompt: 'A TCP Reno sender has MSS = 1 KB and current congestion window cwnd = 24 KB when it receives 3 Duplicate ACKs (no timeout). What are the updated ssthresh and cwnd values?',
+              options: [
+                'ssthresh = 12 KB, cwnd = 1 KB',
+                'ssthresh = 12 KB, cwnd = 12 KB',
+                'ssthresh = 24 KB, cwnd = 12 KB',
+                'ssthresh = 6 KB, cwnd = 6 KB',
+                'ssthresh = 24 KB, cwnd = 48 KB'
+              ],
+              correctIndex: 1,
+              explanation: 'In TCP Reno Fast Recovery on 3 Duplicate ACKs, ssthresh = cwnd/2 = 12 KB and cwnd is halved to 12 KB (a timeout would reset cwnd all the way down to 1 MSS).'
+            },
+            {
+              id: 'ch9-q10',
+              marks: 1,
+              section: 'TCP vs UDP',
+              prompt: 'What is the fixed size of a standard UDP header?',
+              options: [
+                '4 bytes',
+                '8 bytes',
+                '16 bytes',
+                '20 bytes',
+                '40 bytes'
+              ],
+              correctIndex: 1,
+              explanation: 'UDP has a minimal fixed 8-byte header: Source Port (2B), Destination Port (2B), Length (2B), and Checksum (2B).'
+            },
+            {
+              id: 'ch9-q11',
+              marks: 1,
+              section: 'Well-Known Ports',
+              prompt: 'Which transport protocol and well-known port numbers are used by SNMP (Simple Network Management Protocol) for standard polling and asynchronous Trap alerts respectively?',
+              options: [
+                'TCP 20 and TCP 21',
+                'UDP 67 and UDP 68',
+                'UDP 161 and UDP 162',
+                'TCP 389 and TCP 636',
+                'TCP 110 and TCP 143'
+              ],
+              correctIndex: 2,
+              explanation: 'SNMP uses UDP port 161 for manager-to-agent polling requests and UDP port 162 for agent-to-manager Trap notifications.'
+            },
+            {
+              id: 'ch9-q12',
+              marks: 1,
+              section: 'HTTP Evolution',
+              prompt: 'HTTP/3 eliminates TCP Head-of-Line (HOL) blocking by running over which underlying transport protocol?',
+              options: [
+                'SCTP over ICMP',
+                'QUIC over UDP (Port 443)',
+                'Raw IPv4 without port numbers',
+                'FTP Control Channel (Port 21)',
+                'Telnet over TCP (Port 23)'
+              ],
+              correctIndex: 1,
+              explanation: 'HTTP/3 runs over QUIC (built on UDP port 443 with built-in TLS 1.3), providing independent multiplexed streams without TCP-level head-of-line blocking.'
+            },
+            {
+              id: 'ch9-q13',
+              marks: 1,
+              section: 'HTTP Status Codes',
+              prompt: 'A partner NBFC sends a valid OAuth 2.0 Bearer token to a SIDBI API endpoint, so their identity is verified, but their role lacks permission to access admin audit logs. Which HTTP status code should the API return?',
+              options: [
+                '400 Bad Request',
+                '401 Unauthorized',
+                '403 Forbidden',
+                '404 Not Found',
+                '502 Bad Gateway'
+              ],
+              correctIndex: 2,
+              explanation: '401 indicates missing or invalid authentication; 403 Forbidden indicates the client IS authenticated but is NOT authorized to access that specific resource.'
+            },
+            {
+              id: 'ch9-q14',
+              marks: 2,
+              section: 'CSMA/CD Numerical',
+              prompt: 'A 100 Mbps Ethernet LAN spans a propagation delay of 5 microseconds. What is the MINIMUM frame size required for CSMA/CD collision detection to work reliably?',
+              options: [
+                '50 bytes',
+                '100 bytes',
+                '125 bytes',
+                '250 bytes',
+                '500 bytes'
+              ],
+              correctIndex: 2,
+              explanation: 'L_min = 2 × Tp × BW = 2 × (5 × 10^-6 s) × (100 × 10^6 bps) = 1000 bits = 1000 / 8 = 125 bytes.'
+            },
+            {
+              id: 'ch9-q15',
+              marks: 1,
+              section: 'DNS & Anti-Phishing',
+              prompt: 'Which DNS resource record type stores SPF, DKIM, and DMARC policies used by banks to block spoofed phishing emails?',
+              options: [
+                'A Record',
+                'AAAA Record',
+                'PTR Record',
+                'TXT Record',
+                'SOA Record'
+              ],
+              correctIndex: 3,
+              explanation: 'SPF, DKIM public keys, and DMARC enforcement policies are published in DNS TXT records.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

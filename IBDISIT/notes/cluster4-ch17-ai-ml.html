@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 17: AI &amp; Machine Learning (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 4 &bull; Chapter 17 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-17-1" class="active">17.1 AI Agents, A* &amp; Minimax</a></li>
+          <li><a href="#sec-17-2">17.2 ML Paradigms &amp; Algorithms</a></li>
+          <li><a href="#sec-17-3">17.3 Bias-Variance, L1/L2 &amp; Imbalance</a></li>
+          <li><a href="#sec-17-4">17.4 Confusion Matrix &amp; ROC/PR-AUC</a></li>
+          <li><a href="#sec-17-5">17.5 Deep Learning: CNN, LSTM, ReLU</a></li>
+          <li><a href="#sec-17-6">17.6 XAI (SHAP/LIME) &amp; MLOps Drift</a></li>
+          <li><a href="#sec-17-7">17.7 Worked AI/ML Numericals (7)</a></li>
+          <li><a href="#sec-17-8">17.8 Banking AI Governance Blueprint</a></li>
+          <li><a href="#sec-17-9">17.9 Rapid Revision + 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-17">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster3-ch16-app-development.html">&larr; Prev: Ch 16 App Dev</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 4: Data, AI/ML &amp; Emerging Tech</span>
+            <span class="badge badge-warn">Topic 17 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">High Paper III Part A &amp; Part B Yield</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 17: Artificial Intelligence &amp; Machine Learning</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Exhaustive exam-depth guide covering AI Search (BFS/IDS/A*/Alpha-Beta), Supervised/Unsupervised/RL algorithms (Random Forest, XGBoost, SVM, K-Means, DBSCAN, PCA),
+            Bias–Variance Trade-Off (SVG), L1/L2 Regularization &amp; SMOTE, Confusion Matrix &amp; ROC/PR-AUC metrics, Deep Learning (Backprop, ReLU/Softmax, CNN/LSTM/Autoencoders),
+            Explainable AI (SHAP/LIME) &amp; Drift (PSI), 7 worked numericals, banking AI governance, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 17.1 ==================== -->
+        <section id="sec-17-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">17.1 Classical AI: Intelligent Agents, Search (A*) &amp; Adversarial Games</h2>
+            <span class="badge badge-info">AI Foundations</span>
+          </div>
+          <ul>
+            <li><strong>PEAS Task Environment:</strong> Performance measure, Environment, Actuators, Sensors.</li>
+            <li><strong>Search Algorithms Comparison:</strong>
+              &bull; <strong>BFS:</strong> Complete &amp; optimal (unit step cost), high memory <code>O(b^d)</code>.<br>
+              &bull; <strong>DFS:</strong> Low memory <code>O(b &middot; m)</code>, NOT complete (loops) &amp; NOT optimal.<br>
+              &bull; <strong>Iterative Deepening DFS (IDDFS):</strong> Combines BFS optimality/completeness with DFS linear space <code>O(b &middot; d)</code>!<br>
+              &bull; <mark><strong>A* Search:</strong></mark> Evaluates <mark><code>f(n) = g(n) + h(n)</code></mark> (path cost so far + heuristic estimate to goal). Guaranteed <strong>Optimal</strong> iff heuristic <code>h(n)</code> is <mark><strong>Admissible</strong> (<code>h(n) &le; h*(n)</code> — NEVER overestimates true remaining cost!)</mark>.</li>
+            <li><strong>Minimax &amp; Alpha-Beta Pruning:</strong> Used in 2-player zero-sum games (Chess). Alpha-Beta pruning skips provably irrelevant subtrees <mark>without ever changing the final Minimax decision</mark>, cutting time from <code>O(b^m)</code> to <code>O(b^(m/2))</code> under optimal move ordering.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 17.2 ==================== -->
+        <section id="sec-17-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">17.2 Machine Learning Paradigms &amp; Core Algorithms Matrix</h2>
+            <span class="badge badge-danger">Top Paper III Objective Zone</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Algorithm</th>
+                  <th>Type</th>
+                  <th>Core Mechanism</th>
+                  <th>Exam Traps &amp; Banking Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Logistic Regression</strong></td>
+                  <td><mark>Supervised Classification</mark></td>
+                  <td>Sigmoid <code>&sigma;(z) = 1/(1+e^-z)</code> + Binary Cross-Entropy (Log-Loss)</td>
+                  <td><strong>Trap:</strong> Despite its name, it is a <strong>Classifier</strong>! Gold standard interpretable credit scorecard.</td>
+                </tr>
+                <tr>
+                  <td><strong>Decision Trees (ID3/CART)</strong></td>
+                  <td>Supervised (Class/Reg)</td>
+                  <td>Splits by <mark>Information Gain (Entropy)</mark> or <mark>Gini Impurity</mark></td>
+                  <td>Prone to overfitting unless pruned (max_depth); needs no feature scaling.</td>
+                </tr>
+                <tr>
+                  <td><strong>Random Forest (Bagging)</strong></td>
+                  <td>Ensemble (Parallel)</td>
+                  <td>Bootstrap samples + random feature subsets &rarr; majority vote</td>
+                  <td>Primarily reduces <mark><strong>Variance</strong></mark> (overfitting) of deep trees!</td>
+                </tr>
+                <tr>
+                  <td><strong>XGBoost / LightGBM (Boosting)</strong></td>
+                  <td>Ensemble (Sequential)</td>
+                  <td>Each new weak tree fits residual errors of previous trees</td>
+                  <td>Primarily reduces <mark><strong>Bias</strong></mark>; dominant algorithm on tabular MSME credit &amp; fraud data!</td>
+                </tr>
+                <tr>
+                  <td><strong>SVM</strong></td>
+                  <td>Supervised Classification</td>
+                  <td>Finds <mark>Maximum Margin Hyperplane</mark>; <mark>Kernel Trick (RBF/Poly)</mark> maps non-linear data to higher dimensions</td>
+                  <td>Depends only on Support Vectors; sensitive to feature scaling.</td>
+                </tr>
+                <tr>
+                  <td><strong>k-NN</strong></td>
+                  <td>Supervised (<mark>Lazy Learner</mark>)</td>
+                  <td>Stores data (<code>O(1)</code> train); classifies by majority of <code>k</code> nearest neighbors</td>
+                  <td>Slow prediction; suffers <mark>Curse of Dimensionality</mark>; MUST normalize features!</td>
+                </tr>
+                <tr>
+                  <td><strong>K-Means</strong></td>
+                  <td>Unsupervised Clustering</td>
+                  <td>Minimizes intra-cluster variance (WCSS); choose <code>k</code> via Elbow / Silhouette</td>
+                  <td>Assumes spherical clusters; sensitive to outliers &amp; random init (use K-Means++).</td>
+                </tr>
+                <tr>
+                  <td><strong>DBSCAN</strong></td>
+                  <td>Unsupervised Density</td>
+                  <td>Groups dense points (<code>eps, minPts</code>); flags sparse points as <mark>Noise/Outliers</mark></td>
+                  <td>Finds arbitrary cluster shapes without pre-specifying <code>k</code>; ideal for fraud anomaly detection!</td>
+                </tr>
+                <tr>
+                  <td><strong>PCA</strong></td>
+                  <td>Unsupervised Dim. Reduction</td>
+                  <td>Projects features onto orthogonal <mark>Eigenvectors</mark> of covariance matrix maximizing variance</td>
+                  <td>Linear reduction; MUST standardize features (mean 0, var 1) before PCA!</td>
+                </tr>
+                <tr>
+                  <td><strong>Reinforcement Learning</strong></td>
+                  <td>Sequential MDP</td>
+                  <td>Agent maximizes cumulative discounted reward <code>&gamma;</code> via Trial-and-Error (Q-Learning)</td>
+                  <td>Key dilemma: <mark>Exploration vs. Exploitation</mark> (&epsilon;-greedy).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 17.3 ==================== -->
+        <section id="sec-17-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">17.3 Bias–Variance Trade-Off (SVG), L1/L2 Regularization &amp; Class Imbalance</h2>
+            <span class="badge badge-warn">Guaranteed Concept Trap</span>
+          </div>
+
+          <!-- Inline SVG: Bias-Variance Curve -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 190" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="Bias-Variance Trade-Off and Overfitting Curve">
+              <rect x="10" y="6" width="740" height="178" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <line x1="65" y1="152" x2="700" y2="152" stroke="#475569" stroke-width="1.8"/>
+              <line x1="65" y1="28" x2="65" y2="152" stroke="#475569" stroke-width="1.8"/>
+              <text x="382" y="174" text-anchor="middle" fill="#475569" font-size="11" font-weight="700">Model Complexity &rarr;</text>
+              <text x="30" y="92" text-anchor="middle" fill="#475569" font-size="11" font-weight="700" transform="rotate(-90 30 92)">Error</text>
+              <!-- Optimal line -->
+              <line x1="365" y1="30" x2="365" y2="152" stroke="#0d9488" stroke-width="2" stroke-dasharray="5,4"/>
+              <text x="365" y="24" text-anchor="middle" fill="#0f766e" font-size="10.5" font-weight="800">Sweet Spot (Optimal Generalization)</text>
+              <!-- Training Error -->
+              <path d="M 80 55 Q 240 120 680 142" fill="none" stroke="#1d4ed8" stroke-width="2.8"/>
+              <text x="615" y="134" fill="#1d4ed8" font-size="10.5" font-weight="700">Training Error</text>
+              <!-- Validation Error -->
+              <path d="M 80 42 Q 350 135 680 45" fill="none" stroke="#b91c1c" stroke-width="2.8"/>
+              <text x="605" y="42" fill="#b91c1c" font-size="10.5" font-weight="700">Validation / Test Error</text>
+              <!-- Zone labels -->
+              <text x="190" y="140" text-anchor="middle" fill="#b45309" font-size="10.5" font-weight="700">UNDERFITTING (High Bias)</text>
+              <text x="530" y="106" text-anchor="middle" fill="#b91c1c" font-size="10.5" font-weight="700">OVERFITTING (High Variance)</text>
+            </svg>
+          </div>
+
+          <ul>
+            <li><strong>Underfitting (High Bias):</strong> High training error AND high test error (model too simple). <strong>Overfitting (High Variance):</strong> Very low training error, high test error (memorizes noise).</li>
+            <li><strong>L1 vs. L2 Regularization (Controls Overfitting):</strong>
+              &bull; <mark><strong>L1 (Lasso):</strong></mark> Adds <code>&lambda;&Sigma;|w_i|</code> &rarr; drives weak feature weights to <strong>EXACTLY ZERO</strong> (automatic <mark>Feature Selection / Sparse model</mark>!).<br>
+              &bull; <mark><strong>L2 (Ridge):</strong></mark> Adds <code>&lambda;&Sigma;w_i^2</code> &rarr; shrinks correlated weights smoothly toward zero without zeroing them out (handles multicollinearity).</li>
+            <li><strong>Imbalanced Datasets (Fraud / NPA = 1–2% Positive):</strong> Avoid the <strong>Accuracy Paradox</strong>! Fix via <mark>SMOTE</mark> (Synthetic Minority Oversampling — apply <strong>ONLY on training fold</strong>, NEVER before train/test split to prevent Data Leakage!), class weights, and <strong>PR-AUC / F1 / Recall</strong>.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 17.4 ==================== -->
+        <section id="sec-17-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">17.4 Confusion Matrix, Precision/Recall/F1 &amp; ROC vs. PR-AUC</h2>
+            <span class="badge badge-danger">Guaranteed 2-Mark Numerical</span>
+          </div>
+          <ul>
+            <li><strong>Type I Error (False Positive — <code>FP</code>):</strong> Flagging a genuine MSME transaction as fraud (customer friction).</li>
+            <li><strong>Type II Error (False Negative — <code>FN</code>):</strong> Missing an actual fraudulent/defaulting borrower (direct financial loss!).</li>
+            <li><strong>Core Formulas:</strong>
+              &bull; <mark><code>Precision = TP / (TP + FP)</code></mark> (of predicted positives, how many are truly positive?)<br>
+              &bull; <mark><code>Recall (Sensitivity / TPR) = TP / (TP + FN)</code></mark> (of actual positives, how many did we catch?)<br>
+              &bull; <code>Specificity (TNR) = TN / (TN + FP)</code> &bull; <code>FPR = 1 - Specificity = FP / (FP + TN)</code>.<br>
+              &bull; <mark><code>F1-Score = 2 &middot; (Precision &middot; Recall) / (Precision + Recall)</code></mark> (Harmonic Mean — penalizes extreme imbalance!).</li>
+            <li><strong>ROC-AUC vs. PR-AUC:</strong> ROC plots <code>TPR vs. FPR</code> (0.5 = random, 1.0 = perfect). On highly skewed fraud/NPA datasets (99:1), <mark>PR-AUC (Precision-Recall AUC)</mark> is far more informative than ROC-AUC!</li>
+            <li><strong>Regression Metrics:</strong> <code>MAE</code> (robust to outliers), <code>MSE / RMSE</code> (penalizes large errors heavily), <code>R^2</code> (proportion of variance explained; <mark>Adjusted <code>R^2</code></mark> penalizes useless added features!).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 17.5 ==================== -->
+        <section id="sec-17-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">17.5 Deep Learning: Neural Networks, Activations, CNNs, LSTMs &amp; Transformers</h2>
+          </div>
+          <ul>
+            <li><strong>Perceptron &amp; Backpropagation:</strong> A single-layer Perceptron is a linear classifier (<mark>cannot solve non-linear XOR!</mark>). Multi-Layer Perceptrons (MLPs) learn non-linear boundaries via <mark>Backpropagation</mark> (chain rule of calculus) + Optimizers (SGD, Momentum, <mark>Adam</mark> adaptive learning rate).</li>
+            <li><strong>Activation Functions:</strong>
+              <strong>Sigmoid</strong> (outputs <code>(0,1)</code>, suffers <mark>Vanishing Gradient</mark>),
+              <strong>Tanh</strong> (<code>(-1,1)</code>, zero-centered),
+              <mark><strong>ReLU (<code>max(0, x)</code>)</strong></mark> (fast, mitigates vanishing gradient; Leaky ReLU fixes "Dying ReLU"),
+              <mark><strong>Softmax</strong></mark> (output layer for multi-class classification; converts logits into probabilities summing to <code>1.0</code>).</li>
+            <li><strong>Deep Architectures:</strong>
+              <strong>CNN</strong> (spatial filters + pooling &rarr; KYC ID/cheque OCR),
+              <strong>LSTM / GRU</strong> (gated recurrent units solving RNN vanishing gradient &rarr; cash-flow time-series),
+              <strong>Transformers</strong> (Self-Attention &rarr; parallel sequence modeling, LLMs),
+              <strong>Autoencoders</strong> (bottleneck reconstruction error detects zero-day fraud anomalies!),
+              <strong>Dropout</strong> (randomly disables neurons during training to prevent overfitting).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 17.6 ==================== -->
+        <section id="sec-17-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">17.6 Explainable AI (SHAP / LIME) &amp; MLOps Model Drift (PSI)</h2>
+            <span class="badge badge-purple">Modern Banking AI Governance</span>
+          </div>
+          <ul>
+            <li><strong>Explainable AI (XAI):</strong> Regulators reject "black-box" credit rejections.
+              &bull; <mark><strong>SHAP (SHapley Additive exPlanations):</strong></mark> Game-theoretic additive feature attribution providing consistent local AND global explanations.<br>
+              &bull; <mark><strong>LIME (Local Interpretable Model-agnostic Explanations):</strong></mark> Fits a simple interpretable linear surrogate locally around a single prediction.</li>
+            <li><strong>Model Drift Monitoring (MLOps):</strong>
+              &bull; <strong>Data Drift (Covariate Shift):</strong> Input distribution <code>P(X)</code> shifts over time (measured via <mark><strong>PSI — Population Stability Index</strong></mark>: <code>&lt;0.1</code> stable, <code>0.1–0.25</code> moderate shift, <code>&gt;0.25</code> critical drift requiring retraining!).<br>
+              &bull; <strong>Concept Drift:</strong> The underlying mapping <code>P(Y|X)</code> changes (e.g., macro interest shock alters MSME default risk for the same turnover).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 17.7 ==================== -->
+        <section id="sec-17-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">17.7 Worked Exam Numericals (7 Step-by-Step AI/ML Problems)</h2>
+            <span class="badge badge-warn">2-Mark Scoring Zone</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 1: Confusion Matrix — Precision, Recall &amp; F1-Score</span>
+            <strong>Given:</strong> Fraud model tested on 1,000 transactions: <code>TP = 80, FP = 20, FN = 20, TN = 880</code>.<br>
+            &bull; <code>Precision = 80 / (80 + 20) =</code> <mark><code>0.80 (80%)</code></mark>.<br>
+            &bull; <code>Recall = 80 / (80 + 20) =</code> <mark><code>0.80 (80%)</code></mark>.<br>
+            &bull; <code>F1 = 2(0.8)(0.8)/(0.8+0.8) =</code> <mark><code>0.80</code></mark>. <code>Specificity = 880 / 900 = 97.78%</code>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 2: Decision Tree Gini Impurity</span>
+            <strong>Problem:</strong> A node contains <code>60%</code> Good Loans and <code>40%</code> Default Loans. Compute Gini Impurity.<br>
+            <strong>Formula:</strong> <code>Gini = 1 - (0.6^2 + 0.4^2) = 1 - (0.36 + 0.16) = 1 - 0.52 =</code> <mark><code>0.48</code></mark> (max binary Gini = 0.50 at 50/50 split; pure node = 0!).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 3: Shannon Entropy of a Binary Node</span>
+            <strong>Problem:</strong> Node has <code>50%</code> positive and <code>50%</code> negative samples.<br>
+            <code>H = -(0.5 log2 0.5 + 0.5 log2 0.5) = -(-0.5 - 0.5) =</code> <mark><code>1.0 bit</code></mark> (maximum uncertainty; pure node has Entropy = <code>0</code>).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 4: A* Search Node Selection</span>
+            Open list has Node A (<code>g=4, h=5</code>) and Node B (<code>g=6, h=2</code>). Which node does A* expand next?<br>
+            <code>f(A) = 4 + 5 = 9</code>; <code>f(B) = 6 + 2 = 8</code> &rarr; A* expands <mark>Node B</mark> (lowest <code>f(n)</code>!).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 5: ReLU vs. Sigmoid Neuron Output</span>
+            Neuron input <code>z = w&middot;x + b = (2)(3) + (-10) = -4</code>.<br>
+            &bull; <strong>ReLU(-4):</strong> <code>max(0, -4) =</code> <mark><code>0</code></mark>. &bull; <strong>Sigmoid(0):</strong> <code>1 / (1 + e^0) =</code> <mark><code>0.5</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 6: Softmax Probability Check</span>
+            Raw output logits = <code>[0, 0, 0]</code> across 3 risk classes (Low, Med, High).<br>
+            <code>e^0 = 1</code> for all 3 &rarr; Softmax probabilities = <mark><code>[1/3, 1/3, 1/3]</code></mark> (sums to 1.0).
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Numerical 7: k-NN Euclidean vs. Manhattan Distance</span>
+            Distance between MSME feature vectors <code>P(1, 2)</code> and <code>Q(4, 6)</code>:<br>
+            &bull; <strong>Euclidean (L2):</strong> <code>&radic;((4-1)^2 + (6-2)^2) = &radic;(9+16) =</code> <mark><code>5</code></mark>.<br>
+            &bull; <strong>Manhattan (L1):</strong> <code>|4-1| + |6-2| = 3 + 4 =</code> <mark><code>7</code></mark>.
+          </div>
+        </section>
+
+        <!-- ==================== 17.8 ==================== -->
+        <section id="sec-17-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">17.8 Banking &amp; SIDBI Responsible AI Governance (15-Mark Blueprint)</h2>
+            <span class="badge badge-live">Paper III Part B Edge</span>
+          </div>
+          <div class="callout callout-info">
+            <span class="callout-title">15-Mark Descriptive Model Outline (300 Words)</span>
+            <strong>Question:</strong> <em>"Design an ethical, explainable Machine Learning pipeline for automated MSME credit underwriting at SIDBI, addressing class imbalance, model explainability, drift monitoring, and DPDP Rules 2025 privacy safeguards."</em><br>
+            &bull; <strong>Intro (40w):</strong> Cash-flow ML scoring (using GST/AA feeds on <a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">SIDBI platforms</a>) accelerates MSME credit inclusion but introduces bias, opacity, and drift risks.<br>
+            &bull; <strong>Data &amp; Modeling (90w):</strong> Ingest consented GST/bank-statement features; train XGBoost/Logistic Regression ensembles; handle rare NPA defaults via SMOTE (train-fold only!) and class weights; evaluate via PR-AUC &amp; Recall rather than Accuracy.<br>
+            &bull; <strong>Explainability &amp; Fairness (80w):</strong> Attach <mark>SHAP</mark> local reason codes to every credit decision so officers can explain rejections; audit protected/proxy attributes to prevent demographic or regional bias.<br>
+            &bull; <strong>MLOps &amp; DPDP Compliance (70w):</strong> Track Population Stability Index (PSI) for data/concept drift with automated retraining; enforce data minimization, itemized consent, and PII anonymization under <a href="https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa" target="_blank" rel="noopener noreferrer">DPDP Rules 2025</a>.<br>
+            &bull; <strong>Conclusion (20w):</strong> Human-in-the-loop oversight turns ML into safe, auditable developmental credit intelligence.
+          </div>
+        </section>
+
+        <!-- ==================== 17.9 ==================== -->
+        <section id="sec-17-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">17.9 5-Minute Rapid Revision Sheet &amp; 15 Exam-Level Practice MCQs</h2>
+            <span class="badge badge-warn">Last-Day Cram + Drill</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li><mark>A* Search</mark> (<code>f = g + h</code>) is optimal iff heuristic <code>h(n)</code> is <strong>Admissible</strong> (never overestimates).</li>
+            <li><mark>Alpha-Beta Pruning</mark> speeds up Minimax without altering the final chosen move.</li>
+            <li><mark>Logistic Regression</mark> is a <strong>Classification</strong> algorithm (Sigmoid + Log-Loss), NOT regression!</li>
+            <li><mark>Bagging (Random Forest)</mark> reduces <strong>Variance</strong>; <mark>Boosting (XGBoost/AdaBoost)</mark> reduces <strong>Bias</strong>.</li>
+            <li><mark>SVM</mark> maximizes the margin hyperplane; <mark>Kernel Trick (RBF)</mark> solves non-linear separation.</li>
+            <li><mark>k-NN</mark> is a lazy learner (<code>O(1)</code> train) that requires feature normalization and suffers Curse of Dimensionality.</li>
+            <li><mark>DBSCAN</mark> discovers arbitrary-shaped clusters and isolates outliers (noise) without needing <code>k</code>.</li>
+            <li><mark>PCA</mark> projects data onto orthogonal eigenvectors maximizing variance (standardize features first!).</li>
+            <li><mark>Underfitting</mark> = High Bias; <mark>Overfitting</mark> = High Variance.</li>
+            <li><mark>L1 (Lasso)</mark> yields sparse weights (Feature Selection); <mark>L2 (Ridge)</mark> shrinks correlated weights smoothly.</li>
+            <li>Apply <mark>SMOTE</mark> ONLY on the training fold after train/test split to prevent Data Leakage!</li>
+            <li><mark>Type I Error = FP</mark>; <mark>Type II Error = FN</mark> (missing fraud/default).</li>
+            <li><code>Precision = TP/(TP+FP)</code>; <code>Recall = TP/(TP+FN)</code>; <code>F1</code> = Harmonic Mean of Precision &amp; Recall.</li>
+            <li>On skewed 99:1 fraud datasets, prefer <mark>PR-AUC</mark> over Accuracy or ROC-AUC.</li>
+            <li><mark>Adjusted R^2</mark> penalizes adding irrelevant predictors to linear regression.</li>
+            <li>Decision Tree Gini Impurity = <code>1 - &Sigma;p_i^2</code> (0 = pure, 0.5 = max binary impurity).</li>
+            <li>Single-layer Perceptron CANNOT solve non-linear <mark>XOR</mark>.</li>
+            <li><mark>ReLU (<code>max(0, x)</code>)</mark> mitigates Sigmoid's Vanishing Gradient problem.</li>
+            <li><mark>Softmax</mark> converts raw multi-class logits into a probability distribution summing to 1.</li>
+            <li><mark>LSTM / GRU</mark> gates solve the vanishing gradient problem in sequential RNNs.</li>
+            <li><mark>Dropout</mark> randomly zeroes neurons during training to reduce neural-net overfitting.</li>
+            <li><mark>Autoencoders</mark> detect unsupervised anomalies via high reconstruction error.</li>
+            <li><mark>SHAP</mark> (Shapley values) &amp; <mark>LIME</mark> provide Explainable AI (XAI) for credit decisions.</li>
+            <li><mark>PSI &gt; 0.25</mark> signals severe Data Drift requiring model investigation/retraining.</li>
+            <li><mark>Concept Drift</mark> = underlying relationship <code>P(Y|X)</code> changes over time.</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 17 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (21 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch17-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster3-ch16-app-development.html">&larr; Prev: Chapter 16 — App Dev</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-17', '[data-chapter-complete="it-17"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch17-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch17-q1',
+              marks: 1,
+              section: 'AI Search (A*)',
+              prompt: 'What condition MUST the heuristic function h(n) satisfy for A* Tree Search (f(n) = g(n) + h(n)) to be guaranteed to find the optimal lowest-cost path?',
+              options: [
+                'h(n) must always overestimate the true remaining cost',
+                'h(n) must be Admissible (never overestimate the true cost to the goal)',
+                'h(n) must always equal zero for all nodes',
+                'h(n) must be strictly greater than g(n)',
+                'h(n) must be randomly sampled at every step'
+              ],
+              correctIndex: 1,
+              explanation: 'An admissible heuristic satisfies 0 <= h(n) <= h*(n) (never overestimates), guaranteeing A* finds an optimal solution.'
+            },
+            {
+              id: 'ch17-q2',
+              marks: 1,
+              section: 'Ensemble Learning',
+              prompt: 'How do Bagging (e.g., Random Forest) and Boosting (e.g., XGBoost) primarily differ in how they improve predictive error?',
+              options: [
+                'Bagging builds models sequentially to reduce Bias; Boosting builds models in parallel to reduce Variance',
+                'Bagging builds models in parallel on bootstrapped samples primarily to reduce Variance; Boosting builds models sequentially correcting prior errors primarily to reduce Bias',
+                'Bagging works only for unsupervised clustering; Boosting works only for images',
+                'Bagging removes all decision trees; Boosting uses only linear regression',
+                'Both are identical unsupervised algorithms'
+              ],
+              correctIndex: 1,
+              explanation: 'Bagging averages independent parallel models to cut Variance (overfitting), while Boosting trains sequential learners on residuals to cut Bias.'
+            },
+            {
+              id: 'ch17-q3',
+              marks: 1,
+              section: 'Regularization',
+              prompt: 'Which regularization technique adds the penalty term λ·Σ|w_i| to the loss function and is uniquely valued for shrinking irrelevant feature coefficients to EXACTLY ZERO (performing automatic feature selection)?',
+              options: [
+                'L1 Regularization (Lasso)',
+                'L2 Regularization (Ridge)',
+                'Batch Normalization',
+                'Min-Max Scaling',
+                'K-Means Initialization'
+              ],
+              correctIndex: 0,
+              explanation: 'L1 (Lasso) regularization uses the absolute-value norm whose diamond constraint geometry produces sparse models with exact zero weights.'
+            },
+            {
+              id: 'ch17-q4',
+              marks: 2,
+              section: 'Confusion Matrix Math',
+              prompt: 'A credit-default classifier outputs TP = 60, FP = 40, FN = 20, TN = 880. What are its Precision and Recall?',
+              options: [
+                'Precision = 60%, Recall = 75%',
+                'Precision = 75%, Recall = 60%',
+                'Precision = 80%, Recall = 60%',
+                'Precision = 94%, Recall = 88%',
+                'Precision = 50%, Recall = 75%'
+              ],
+              correctIndex: 0,
+              explanation: 'Precision = TP / (TP + FP) = 60 / 100 = 60%. Recall = TP / (TP + FN) = 60 / 80 = 75%.'
+            },
+            {
+              id: 'ch17-q5',
+              marks: 1,
+              section: 'Imbalanced Data Trap',
+              prompt: 'A data scientist applies SMOTE oversampling to the ENTIRE banking fraud dataset BEFORE splitting into Train and Test sets, achieving 99% test recall. Why is this evaluation fatally flawed?',
+              options: [
+                'SMOTE cannot handle numeric features',
+                'It causes Data Leakage because synthetic test-set points share nearest neighbors with training points, artificially inflating test scores',
+                'SMOTE deletes all majority-class transactions',
+                'Test sets must always be larger than training sets',
+                'SMOTE converts classification into unsupervised clustering'
+              ],
+              correctIndex: 1,
+              explanation: 'Oversampling (SMOTE) must ALWAYS be applied strictly inside the training fold AFTER train/test splitting; otherwise synthetic neighbors leak information into the test set.'
+            },
+            {
+              id: 'ch17-q6',
+              marks: 2,
+              section: 'Decision Tree Gini',
+              prompt: 'A decision tree leaf node contains 70% Approved loans and 30% Rejected loans. What is the Gini Impurity of this node?',
+              options: [
+                '0.21',
+                '0.30',
+                '0.42',
+                '0.50',
+                '0.58'
+              ],
+              correctIndex: 2,
+              explanation: 'Gini = 1 - (0.7^2 + 0.3^2) = 1 - (0.49 + 0.09) = 1 - 0.58 = 0.42.'
+            },
+            {
+              id: 'ch17-q7',
+              marks: 1,
+              section: 'Unsupervised Clustering',
+              prompt: 'Which clustering algorithm discovers clusters of arbitrary non-spherical shapes, requires NO pre-specified cluster count k, and explicitly labels isolated anomalies as Noise?',
+              options: [
+                'K-Means',
+                'DBSCAN',
+                'Linear Regression',
+                'Naive Bayes',
+                'Logistic Regression'
+              ],
+              correctIndex: 1,
+              explanation: 'DBSCAN (Density-Based Spatial Clustering of Applications with Noise) groups dense regions via eps/minPts and flags sparse outliers as noise.'
+            },
+            {
+              id: 'ch17-q8',
+              marks: 1,
+              section: 'SVM Kernel Trick',
+              prompt: 'In Support Vector Machines (SVM), what does the "Kernel Trick" (such as the RBF kernel) accomplish?',
+              options: [
+                'It deletes support vectors to shrink RAM',
+                'It implicitly computes inner products in a high-dimensional feature space to separate non-linear data without explicitly computing high-dimensional coordinates',
+                'It converts supervised labels into unsupervised clusters',
+                'It replaces gradient descent with K-Means',
+                'It eliminates all hyperparameters'
+              ],
+              correctIndex: 1,
+              explanation: 'Kernel functions compute dot products in higher-dimensional spaces efficiently so linear hyperplanes in that space become non-linear boundaries in input space.'
+            },
+            {
+              id: 'ch17-q9',
+              marks: 1,
+              section: 'Neural Networks',
+              prompt: 'Why is the ReLU activation function f(x) = max(0, x) preferred over Sigmoid in hidden layers of deep neural networks?',
+              options: [
+                'ReLU outputs probabilities between 0 and 1',
+                'ReLU maintains a constant gradient of 1 for positive inputs, mitigating the Vanishing Gradient problem during backpropagation',
+                'ReLU eliminates the need for weights and biases',
+                'ReLU guarantees 0% training error on every dataset',
+                'Sigmoid cannot be differentiated mathematically'
+              ],
+              correctIndex: 1,
+              explanation: 'Sigmoid saturates near 0 and 1 where derivatives approach 0 (vanishing gradients); ReLU keeps a constant slope of 1 for x > 0 and computes cheaply.'
+            },
+            {
+              id: 'ch17-q10',
+              marks: 1,
+              section: 'Neural Network Output',
+              prompt: 'Which activation function is placed in the final output layer of a neural network classifying MSME borrowers into 4 mutually exclusive risk grades (AAA, AA, A, B) so outputs form a valid probability distribution summing to 1?',
+              options: [
+                'ReLU',
+                'Tanh',
+                'Softmax',
+                'Linear Identity',
+                'Step Function'
+              ],
+              correctIndex: 2,
+              explanation: 'Softmax exponentiates and normalizes raw class logits into positive probabilities that sum strictly to 1.0.'
+            },
+            {
+              id: 'ch17-q11',
+              marks: 1,
+              section: 'Bias-Variance Diagnosis',
+              prompt: 'A deep decision tree achieves 99.8% accuracy on the training set but only 64.0% accuracy on the unseen validation set. What is the exact diagnosis?',
+              options: [
+                'Underfitting (High Bias)',
+                'Overfitting (High Variance)',
+                'Optimal Generalization',
+                'Zero Variance',
+                'Perfect Regularization'
+              ],
+              correctIndex: 1,
+              explanation: 'Near-perfect training performance paired with poor validation performance is the textbook signature of Overfitting (High Variance).'
+            },
+            {
+              id: 'ch17-q12',
+              marks: 2,
+              section: 'F1-Score Calculation',
+              prompt: 'A fraud detector has Precision = 0.60 and Recall = 0.30. What is its F1-Score?',
+              options: [
+                '0.35',
+                '0.40',
+                '0.45',
+                '0.50',
+                '0.90'
+              ],
+              correctIndex: 1,
+              explanation: 'F1 = 2 × (P × R) / (P + R) = 2 × (0.60 × 0.30) / (0.60 + 0.30) = 0.36 / 0.90 = 0.40 (notice how Harmonic Mean 0.40 is strictly lower than Arithmetic Mean 0.45!).'
+            },
+            {
+              id: 'ch17-q13',
+              marks: 1,
+              section: 'Explainable AI (XAI)',
+              prompt: 'Which Explainable AI framework applies Shapley values from cooperative game theory to compute consistent local and global feature contributions for credit-risk ML models?',
+              options: [
+                'SHAP',
+                'SMOTE',
+                'DBSCAN',
+                'PCA',
+                'Adam'
+              ],
+              correctIndex: 0,
+              explanation: 'SHAP (SHapley Additive exPlanations) fairly attributes a model\'s prediction across input features using game-theoretic Shapley values.'
+            },
+            {
+              id: 'ch17-q14',
+              marks: 2,
+              section: 'MLOps Model Drift',
+              prompt: 'In banking credit-scoring MLOps monitoring, what does a Population Stability Index (PSI) value greater than 0.25 indicate?',
+              options: [
+                'Zero data drift — model is completely stable',
+                'Significant shift in the input population feature distribution requiring urgent investigation or retraining',
+                'The model has achieved 100% precision',
+                'The training dataset has zero missing values',
+                'The database index is fragmented'
+              ],
+              correctIndex: 1,
+              explanation: 'Standard banking PSI thresholds: PSI < 0.10 (no significant shift), 0.10–0.25 (moderate shift — monitor), PSI > 0.25 (major population shift — retrain/recalibrate).'
+            },
+            {
+              id: 'ch17-q15',
+              marks: 1,
+              section: 'Deep Learning (Anomaly)',
+              prompt: 'How does an unsupervised Autoencoder neural network trained exclusively on legitimate banking transactions detect a novel zero-day fraud attempt?',
+              options: [
+                'By matching exact SQL keywords',
+                'By flagging transactions that produce an abnormally high reconstruction error between input and decoded output',
+                'By sorting transactions alphabetically',
+                'By running Alpha-Beta pruning on account numbers',
+                'By applying L1 Lasso to HTTP headers'
+              ],
+              correctIndex: 1,
+              explanation: 'An Autoencoder learns to compress and reconstruct normal patterns accurately; anomalous/fraudulent inputs fail to reconstruct cleanly, producing a high reconstruction error spike.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 4: Programming in C, C++, Java, Python (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 1 &bull; Chapter 4 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-4-1" class="active">4.1 4-Language Architecture Matrix</a></li>
+          <li><a href="#sec-4-2">4.2 C: Memory, Pointers &amp; Storage Classes</a></li>
+          <li><a href="#sec-4-3">4.3 C++: Virtual Dispatch, RAII &amp; STL</a></li>
+          <li><a href="#sec-4-4">4.4 Java: JVM, Strings, Exceptions &amp; Map</a></li>
+          <li><a href="#sec-4-5">4.5 Python: Mutability, LEGB &amp; GIL</a></li>
+          <li><a href="#sec-4-6">4.6 Output-Tracing Lab (8 Code Traps)</a></li>
+          <li><a href="#sec-4-7">4.7 Banking Tech Stack + Blueprint</a></li>
+          <li><a href="#sec-4-8">4.8 5-Minute Rapid Revision Sheet</a></li>
+          <li><a href="#sec-4-9">4.9 Chapter Drill: 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-04">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster1-ch03-data-structures.html">&larr; Prev: Ch 3 Data Structures</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 1: Core CS &amp; Programming</span>
+            <span class="badge badge-warn">Topic 4 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">High Code-Output MCQ Yield</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 4: Programming in C, C++, Java &amp; Python</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Exhaustive exam-depth guide covering cross-language runtime models, C memory segments &amp; pointer traps,
+            C++ vtable/vptr &amp; smart pointers, Java JVM/String Pool/Checked Exceptions/Collections, Python mutability/LEGB/GIL/generators,
+            8 step-by-step code-output traces, banking tech-stack architecture, 25 rapid-revision one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 4.1 ==================== -->
+        <section id="sec-4-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">4.1 Cross-Language Architecture Matrix (C vs. C++ vs. Java vs. Python)</h2>
+            <span class="badge badge-info">Bird's-Eye Comparison</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>C</th>
+                  <th>C++</th>
+                  <th>Java</th>
+                  <th>Python (CPython)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Execution Model</strong></td>
+                  <td>Compiled (AOT native)</td>
+                  <td>Compiled (AOT native)</td>
+                  <td><mark>Bytecode + JVM JIT</mark></td>
+                  <td>Bytecode (<code>.pyc</code>) + PVM Interpreter</td>
+                </tr>
+                <tr>
+                  <td><strong>Typing Discipline</strong></td>
+                  <td>Static, Weak</td>
+                  <td>Static, Stronger than C</td>
+                  <td><mark>Static, Strong</mark></td>
+                  <td><mark>Dynamic, Strong</mark> (<code>"5"+2</code> &rarr; <code>TypeError</code>!)</td>
+                </tr>
+                <tr>
+                  <td><strong>Memory Management</strong></td>
+                  <td>Manual (<code>malloc/free</code>)</td>
+                  <td>Manual + <mark>RAII / Smart Pointers</mark></td>
+                  <td>Automatic <mark>JVM Garbage Collector</mark></td>
+                  <td><mark>Ref Counting + Cyclic GC</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Parameter Passing</strong></td>
+                  <td><mark>Pass-by-Value</mark> (pointers emulate ref)</td>
+                  <td>Pass-by-Value &amp; True Pass-by-Reference (<code>&amp;</code>)</td>
+                  <td><mark>STRICTLY Pass-by-Value</mark> (copies object reference)</td>
+                  <td><mark>Pass-by-Object-Reference</mark> (Assignment)</td>
+                </tr>
+                <tr>
+                  <td><strong>Multiple Inheritance</strong></td>
+                  <td>Not applicable (procedural)</td>
+                  <td>Yes (via <code>virtual</code> base class)</td>
+                  <td>No for classes; <mark>Yes via Interfaces</mark></td>
+                  <td>Yes (resolved via <mark>C3 Linearization / MRO</mark>)</td>
+                </tr>
+                <tr>
+                  <td><strong>Concurrency Model</strong></td>
+                  <td>POSIX threads (<code>pthreads</code>)</td>
+                  <td><code>std::thread</code>, atomics</td>
+                  <td>Native OS threads + <mark>Virtual Threads (Java 21+)</mark></td>
+                  <td><mark>GIL</mark> limits CPU threads; use <code>multiprocessing</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 4.2 ==================== -->
+        <section id="sec-4-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">4.2 C Programming Deep Dive: Memory Layout, Storage Classes &amp; Pointers</h2>
+            <span class="badge badge-danger">Top Output-Tracing Zone</span>
+          </div>
+
+          <!-- Inline SVG: C Process Memory Layout -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 110" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="C Process Virtual Memory Layout">
+              <rect x="10" y="20" width="135" height="58" rx="6" fill="#0f2942"/>
+              <text x="77" y="45" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">Text / Code</text>
+              <text x="77" y="62" text-anchor="middle" fill="#cbd5e1" font-size="9.5">Read-only machine code</text>
+
+              <rect x="152" y="20" width="135" height="58" rx="6" fill="#1d4ed8"/>
+              <text x="219" y="45" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">Init Data (.data)</text>
+              <text x="219" y="62" text-anchor="middle" fill="#dbeafe" font-size="9.5">Initialized globals/static</text>
+
+              <rect x="294" y="20" width="135" height="58" rx="6" fill="#0d9488"/>
+              <text x="361" y="45" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">BSS (.bss)</text>
+              <text x="361" y="62" text-anchor="middle" fill="#ccfbf1" font-size="9.5">Uninit globals/static (=0)</text>
+
+              <rect x="436" y="20" width="150" height="58" rx="6" fill="#b45309"/>
+              <text x="511" y="45" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">Heap &rarr;</text>
+              <text x="511" y="62" text-anchor="middle" fill="#fef3c7" font-size="9.5">malloc / calloc / new</text>
+
+              <rect x="593" y="20" width="157" height="58" rx="6" fill="#6d28d9"/>
+              <text x="671" y="45" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">&larr; Stack</text>
+              <text x="671" y="62" text-anchor="middle" fill="#ede9fe" font-size="9.5">Locals, params, return addr</text>
+
+              <text x="55" y="96" fill="#475569" font-size="10" font-weight="700">Low Address (0x0000...)</text>
+              <text x="695" y="96" text-anchor="end" fill="#475569" font-size="10" font-weight="700">High Address (0xFFFF...)</text>
+            </svg>
+          </div>
+
+          <h3 style="margin:0.9rem 0 0.45rem;font-size:1.05rem;">A. C Storage Classes (Guaranteed MCQ Table)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Storage Class</th>
+                  <th>Memory Segment</th>
+                  <th>Default Value</th>
+                  <th>Scope &amp; Lifetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>auto</code> (default local)</td>
+                  <td>Stack</td>
+                  <td><mark>Garbage</mark></td>
+                  <td>Block scope; destroyed when block exits</td>
+                </tr>
+                <tr>
+                  <td><code>register</code></td>
+                  <td>CPU Register (hint)</td>
+                  <td>Garbage</td>
+                  <td>Block scope; <mark>cannot apply <code>&amp;</code> (address-of)</mark> in C!</td>
+                </tr>
+                <tr>
+                  <td><code>static</code> (local)</td>
+                  <td><code>.data</code> or <code>.bss</code></td>
+                  <td><mark>Zero (0)</mark></td>
+                  <td>Block scope, but <mark>persists across function calls</mark> (program lifetime)</td>
+                </tr>
+                <tr>
+                  <td><code>static</code> (global)</td>
+                  <td><code>.data</code> or <code>.bss</code></td>
+                  <td>Zero (0)</td>
+                  <td><mark>Internal linkage</mark> (visible ONLY within the same <code>.c</code> file)</td>
+                </tr>
+                <tr>
+                  <td><code>extern</code></td>
+                  <td><code>.data</code> or <code>.bss</code></td>
+                  <td>Zero (0)</td>
+                  <td>Global across multiple files (external linkage); declaration, not allocation</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1rem 0 0.45rem;font-size:1.05rem;">B. Pointers, Dynamic Memory &amp; Struct vs. Union Traps</h3>
+          <ul>
+            <li><strong>Pointer Arithmetic:</strong> Adding <code>k</code> to pointer <code>T *p</code> advances address by <mark><code>k &times; sizeof(T)</code></mark> bytes (e.g., <code>int *p</code> at <code>1000</code> &rarr; <code>p + 3 = 1012</code> on 4-byte <code>int</code>).</li>
+            <li><strong>Const Pointer Distinction:</strong> <code>const int *p</code> = pointer to constant int (cannot modify <code>*p</code>, can change <code>p</code>); <code>int *const p</code> = constant pointer (can modify <code>*p</code>, cannot change <code>p</code>).</li>
+            <li><strong><code>malloc</code> vs. <code>calloc</code>:</strong> <code>malloc(n * sizeof(int))</code> allocates uninitialized (garbage) memory; <mark><code>calloc(n, sizeof(int))</code> zero-initializes every byte</mark>.</li>
+            <li><strong>Dangling vs. Wild Pointer vs. Memory Leak:</strong>
+              <strong>Wild Pointer</strong> = uninitialized pointer (random address);
+              <strong>Dangling Pointer</strong> = points to memory already freed via <code>free(p)</code> (fix: set <code>p = NULL</code>);
+              <strong>Memory Leak</strong> = heap memory allocated with no remaining pointer referencing it.</li>
+            <li><strong>Struct vs. Union:</strong> In a <code>struct</code>, each member gets separate memory (total size = sum + <mark>alignment padding</mark>). In a <code>union</code>, all members <mark>share the same memory offset</mark> (size = size of largest member, aligned).</li>
+            <li><strong>Macro Trap:</strong> <code>#define SQ(x) x*x</code> expands <code>SQ(3+2)</code> to <code>3+2*3+2 = 11</code> (NOT <code>25</code>!) because preprocessor does pure text substitution without parentheses.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 4.3 ==================== -->
+        <section id="sec-4-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">4.3 C++ Deep Dive: References, Virtual Dispatch (vtable/vptr), RAII &amp; STL</h2>
+          </div>
+          <ul>
+            <li><strong>Reference (<code>int &amp;r = x</code>) vs. Pointer:</strong> A C++ reference <mark>must be initialized at declaration, cannot be NULL, and cannot be reseated</mark> to another variable.</li>
+            <li><strong><code>new/delete</code> vs. <code>malloc/free</code>:</strong> <code>new</code> is an operator that allocates memory AND <mark>invokes the Constructor</mark> (type-safe, throws <code>std::bad_alloc</code>); <code>malloc</code> is a C library function returning <code>void*</code> (returns <code>NULL</code> on failure, no constructor).</li>
+            <li><strong>Runtime Polymorphism (<code>vtable</code> &amp; <code>vptr</code>):</strong> When a class declares at least one <code>virtual</code> function, the compiler creates one per-class <mark>vtable (Virtual Method Table)</mark> of function pointers and embeds a hidden <mark><code>vptr</code></mark> inside every object instance (adding 4 or 8 bytes to <code>sizeof(obj)</code>!).</li>
+            <li><strong>Virtual Destructor Rule:</strong> Always declare the base-class destructor <code>virtual</code> when deleting derived objects via a base pointer (<code>Base *b = new Derived(); delete b;</code>)—otherwise the derived destructor never runs (<mark>memory/resource leak</mark>).</li>
+            <li><strong>Pure Virtual Function &amp; Abstract Class:</strong> <code>virtual void pay() = 0;</code> makes the class abstract (cannot be instantiated directly).</li>
+            <li><strong>Diamond Problem:</strong> Solved using <mark>Virtual Inheritance</mark> (<code>class B : virtual public A</code>) so the bottom derived class inherits only ONE shared sub-object of <code>A</code>.</li>
+            <li><strong>Smart Pointers (RAII — C++11+):</strong>
+              <code>std::unique_ptr</code> (exclusive ownership, zero overhead, move-only),
+              <code>std::shared_ptr</code> (reference-counted shared ownership),
+              <code>std::weak_ptr</code> (non-owning observer that <mark>breaks circular <code>shared_ptr</code> reference cycles</mark>).</li>
+            <li><strong>STL Time Complexities:</strong> <code>std::vector</code> (<code>O(1)</code> random access, amortized <code>O(1)</code> <code>push_back</code>), <code>std::map</code> / <code>std::set</code> (Red-Black Tree: <mark><code>O(log n)</code></mark>), <code>std::unordered_map</code> (Hash Table: <mark><code>O(1)</code> avg, <code>O(n)</code> worst</mark>).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 4.4 ==================== -->
+        <section id="sec-4-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">4.4 Java Deep Dive: JVM, String Pool, Exceptions &amp; Collections</h2>
+            <span class="badge badge-warn">High Enterprise Banking Yield</span>
+          </div>
+
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Comparison</th>
+                  <th>Option A</th>
+                  <th>Option B</th>
+                  <th>Option C / Exam Verdict</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Strings</strong></td>
+                  <td><code>String</code> — <mark>Immutable</mark>, stored in String Constant Pool</td>
+                  <td><code>StringBuilder</code> — Mutable, <mark>NOT thread-safe</mark>, fastest</td>
+                  <td><code>StringBuffer</code> — Mutable, <mark>synchronized (thread-safe)</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Equality</strong></td>
+                  <td><code>==</code> — compares <mark>memory references</mark> (for objects)</td>
+                  <td><code>.equals()</code> — compares <mark>logical content</mark> (when overridden)</td>
+                  <td>Contract: equal objects MUST have identical <code>hashCode()</code>!</td>
+                </tr>
+                <tr>
+                  <td><strong>Keywords</strong></td>
+                  <td><code>final</code> — constant var / non-overridable method / non-inheritable class</td>
+                  <td><code>finally</code> — cleanup block (runs even on exception/return)</td>
+                  <td><code>finalize()</code> — GC hook (deprecated since Java 9)</td>
+                </tr>
+                <tr>
+                  <td><strong>Exceptions</strong></td>
+                  <td><strong>Checked</strong> (<code>IOException</code>, <code>SQLException</code>) — compiler enforces <code>try/throws</code></td>
+                  <td><strong>Unchecked</strong> (<code>NullPointerException</code>, <code>ArithmeticException</code>) — <code>RuntimeException</code></td>
+                  <td><strong>Error</strong> (<code>OutOfMemoryError</code>, <code>StackOverflowError</code>) — unrecoverable JVM error</td>
+                </tr>
+                <tr>
+                  <td><strong>Maps</strong></td>
+                  <td><code>HashMap</code> — unsynchronized, allows <mark>1 null key</mark> &amp; multiple null values</td>
+                  <td><code>Hashtable</code> — legacy synchronized, <mark>NO null keys/values</mark></td>
+                  <td><code>ConcurrentHashMap</code> — bucket-level locking, <mark>NO null keys/values</mark>, best for multi-threaded servers</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <ul>
+            <li><strong>JVM Memory Areas:</strong> <strong>Heap</strong> (shared; stores all objects &amp; arrays; Young Gen [Eden + S0/S1] + Old Gen), <strong>Metaspace</strong> (class metadata, replaced PermGen in Java 8), <strong>JVM Stack</strong> (per-thread stack frames &amp; local primitives), <strong>PC Register</strong> (per-thread).</li>
+            <li><strong>Java 8+ Interfaces:</strong> Interfaces can contain <code>default</code> and <code>static</code> methods (with bodies), while all fields remain implicitly <mark><code>public static final</code></mark>.</li>
+            <li><strong><code>static</code> Method Trap:</strong> Static methods CANNOT be overridden (runtime polymorphism)—declaring the same signature in a subclass performs <mark>Method Hiding</mark> (resolved at compile time using reference type!).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 4.5 ==================== -->
+        <section id="sec-4-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">4.5 Python Deep Dive: Mutability, LEGB Scope, Generators &amp; GIL</h2>
+            <span class="badge badge-purple">Modern Paper III Favorite</span>
+          </div>
+          <ul>
+            <li><strong>Mutable vs. Immutable:</strong>
+              &bull; <mark>Immutable (hashable &rarr; usable as <code>dict</code> keys / <code>set</code> elements):</mark> <code>int, float, bool, str, tuple, frozenset, bytes</code>.<br>
+              &bull; <mark>Mutable (unhashable):</mark> <code>list, dict, set, bytearray</code>. <em>(Trap: a <code>tuple</code> containing a <code>list</code> is NOT hashable!)</em></li>
+            <li><strong><code>is</code> vs. <code>==</code>:</strong> <code>==</code> checks value equality; <mark><code>is</code> checks object identity (<code>id(a) == id(b)</code>)</mark>. CPython caches small integers <code>[-5, 256]</code>, so <code>a=256; b=256; a is b</code> is <code>True</code>, whereas larger ints may be <code>False</code>.</li>
+            <li><strong>Shallow vs. Deep Copy:</strong> <code>b = a</code> creates an alias (same object). <code>b = a.copy()</code> or <code>a[:]</code> creates a <mark>Shallow Copy</mark> (new outer list, but inner nested lists are STILL shared!). <code>copy.deepcopy(a)</code> recursively copies nested structures.</li>
+            <li><strong>LEGB Scope Resolution Order:</strong> <mark>Local &rarr; Enclosing (closure) &rarr; Global &rarr; Built-in</mark>. Use <code>global</code> to rebind module-level variables and <code>nonlocal</code> to rebind enclosing-function variables.</li>
+            <li><strong>Generators (<code>yield</code>) vs. List Comprehensions:</strong> <code>[x*x for x in range(10**7)]</code> allocates the full list in RAM (<code>O(n)</code> space); <code>(x*x for x in range(10**7))</code> is a <mark>lazy Generator yielding 1 item at a time in <code>O(1)</code> memory</mark>.</li>
+            <li><strong>Global Interpreter Lock (GIL):</strong> In CPython, the GIL allows <mark>only ONE thread to execute Python bytecode at a time</mark> to protect reference counts. Thus, for <strong>CPU-bound</strong> ML/analytics use <mark><code>multiprocessing</code></mark> (or C-extension NumPy/Pandas which release the GIL); for <strong>I/O-bound</strong> API calls use <code>threading</code> or <code>asyncio</code>.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 4.6 ==================== -->
+        <section id="sec-4-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">4.6 Worked Code-Output &amp; Tracing Lab (8 Classic Paper III Traps)</h2>
+            <span class="badge badge-warn">Step-by-Step Output Analysis</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.85rem;">
+            <span class="callout-title">Trace 1 (C — Static Variable + Recursion)</span>
+            <pre><code>int fun(int n) {
+  static int x = 0;
+  if (n > 0) { x++; return fun(n - 1) + x; }
+  return 0;
+}
+// Output of printf("%d", fun(4));</code></pre>
+            <strong>Trace:</strong> <code>x</code> is <code>static</code> (single shared copy!). All 4 recursive calls execute <code>x++</code> BEFORE unwinding, so <code>x</code> reaches <code>4</code>. During unwinding, each frame adds the CURRENT value of <code>x</code> (= 4): <code>0 + 4 + 4 + 4 + 4 =</code> <mark><code>16</code></mark> (NOT 1+2+3+4=10!).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.85rem;">
+            <span class="callout-title">Trace 2 (C — Short-Circuit Evaluation Trap)</span>
+            <pre><code>int a = 0, b = 5, c = 10;
+int r = (a && ++b) || (c-- > 9);
+// Values of r, b, c?</code></pre>
+            <strong>Trace:</strong> In <code>(a && ++b)</code>, since <code>a == 0</code> (false), <code>++b</code> is <mark>SHORT-CIRCUITED (never executed!)</mark>, so <code>b</code> stays <code>5</code>. Next, <code>||</code> evaluates <code>(c-- > 9)</code>: post-decrement compares <code>10 > 9</code> (true &rarr; <code>r = 1</code>), then decrements <code>c</code> to <code>9</code>. Result: <mark><code>r=1, b=5, c=9</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.85rem;">
+            <span class="callout-title">Trace 3 (C++ — Virtual vs. Non-Virtual Dispatch)</span>
+            <pre><code>class Base {
+public:
+  void show() { cout &lt;&lt; "B1 "; }
+  virtual void print() { cout &lt;&lt; "B2"; }
+};
+class Derived : public Base {
+public:
+  void show() { cout &lt;&lt; "D1 "; }
+  void print() override { cout &lt;&lt; "D2"; }
+};
+Base *ptr = new Derived();
+ptr-&gt;show(); ptr-&gt;print();</code></pre>
+            <strong>Trace:</strong> <code>show()</code> is non-virtual &rarr; static binding (pointer type <code>Base*</code>) prints <code>B1</code>. <code>print()</code> is <code>virtual</code> &rarr; dynamic binding via <code>vptr</code> (actual object <code>Derived</code>) prints <code>D2</code>. Output: <mark><code>B1 D2</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.85rem;">
+            <span class="callout-title">Trace 4 (C++ — Constructor &amp; Destructor Execution Order)</span>
+            <strong>Rule:</strong> When creating a <code>Derived</code> object, constructors execute <mark>Top-Down (Base &rarr; Derived)</mark>, while destructors execute strictly in reverse <mark>Bottom-Up (Derived &rarr; Base)</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.85rem;">
+            <span class="callout-title">Trace 5 (Java — String Constant Pool Trap)</span>
+            <pre><code>String s1 = "SIDBI";
+String s2 = "SIDBI";
+String s3 = new String("SIDBI");
+System.out.println((s1 == s2) + " " + (s1 == s3) + " " + s1.equals(s3));</code></pre>
+            <strong>Trace:</strong> <code>s1</code> and <code>s2</code> share the exact same String Pool reference (<code>true</code>). <code>new String()</code> forces a distinct Heap object, so <code>s1 == s3</code> is <code>false</code>, while content check <code>s1.equals(s3)</code> is <code>true</code>. Output: <mark><code>true false true</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.85rem;">
+            <span class="callout-title">Trace 6 (Java — try / catch / finally Return Precedence)</span>
+            <pre><code>static int test() {
+  try { return 10; }
+  finally { return 20; }
+}</code></pre>
+            <strong>Trace:</strong> A <code>finally</code> block ALWAYS executes before the method returns; a <code>return</code> inside <code>finally</code> overrides the <code>try</code> return value! Output: <mark><code>20</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.85rem;">
+            <span class="callout-title">Trace 7 (Python — Mutable Default Argument Trap!)</span>
+            <pre><code>def add_loan(id, items=[]):
+  items.append(id)
+  return items
+print(add_loan(101), add_loan(102))</code></pre>
+            <strong>Trace:</strong> Default arguments in Python are evaluated <mark>ONCE at function definition time</mark>, not per call! Both calls mutate the SAME list object. Output: <mark><code>[101] [101, 102]</code></mark> (Fix: use <code>items=None</code>).
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Trace 8 (Python — Shallow Copy Nested Mutation)</span>
+            <pre><code>a = [[1, 2], [3, 4]]
+b = a[:]          # shallow copy
+b[0].append(99)
+print(a[0])</code></pre>
+            <strong>Trace:</strong> Slicing <code>a[:]</code> creates a shallow copy—outer list is new, but <code>b[0]</code> and <code>a[0]</code> still reference the SAME inner list! Output: <mark><code>[1, 2, 99]</code></mark>.
+          </div>
+        </section>
+
+        <!-- ==================== 4.7 ==================== -->
+        <section id="sec-4-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">4.7 Banking &amp; SIDBI Polyglot Stack + 10-Mark Descriptive Blueprint</h2>
+            <span class="badge badge-live">Descriptive Edge</span>
+          </div>
+          <ul>
+            <li><strong>Java (Spring Boot / Quarkus) in Core Digital Lending:</strong> Dominant for enterprise API gateways, <a href="https://www.sidbi.in/gst-sahay" target="_blank" rel="noopener noreferrer">GST Sahay (OCEN)</a> microservices, and <a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">Udyamimitra</a> workflows due to strong static typing, <code>BigDecimal</code> financial precision, mature JVM security/profiling, and high-concurrency scalability.</li>
+            <li><strong>C / C++ in Low-Latency Switches &amp; HSMs:</strong> Powers payment switch engines, cryptographic libraries (OpenSSL), and HSM firmware where deterministic microsecond latency matters—requiring strict memory-safety practices (RAII, smart pointers, static analysis) to prevent buffer-overflow CVEs.</li>
+            <li><strong>Python in MSME Risk Analytics &amp; AI:</strong> Powers credit-underwriting ML models, GST/ITR cash-flow parsing, fraud anomaly detection, and automated RBI/SIDBI supervisory reporting via NumPy, Pandas, and Scikit-learn (which execute vectorized C/C++ kernels underneath to bypass Python's GIL).</li>
+          </ul>
+
+          <div class="callout callout-info" style="margin-top:0.85rem;">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"Compare memory management and concurrency models in C++, Java, and Python. How should an IT architect at SIDBI choose between these languages for (a) a high-throughput MSME loan API gateway and (b) an ML credit-scoring pipeline?" (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (25w):</strong> Modern financial institutions adopt polyglot architectures matching runtime guarantees to workload risk.<br>
+            &bull; <strong>Memory &amp; Concurrency Comparison (95w):</strong> Contrast C++ RAII/smart pointers (zero GC pauses, manual safety risk), Java Generational GC + multi-threading/Virtual Threads (memory-safe, predictable throughput), and Python Ref-Counting + GIL (rapid prototyping, CPU-bound threads serialized unless using multiprocessing/C-extensions).<br>
+            &bull; <strong>Workload Mapping (60w):</strong> Choose <strong>Java</strong> for the MSME API gateway (strong static typing, <code>ConcurrentHashMap</code>, <code>BigDecimal</code>, zero buffer overflows) and <strong>Python</strong> for the ML credit-scoring pipeline (rich data-science ecosystem + NumPy/C-backend speed).<br>
+            &bull; <strong>Conclusion (20w):</strong> Expose Python ML scoring behind containerized REST/gRPC microservices consumed by the Java core.
+          </div>
+        </section>
+
+        <!-- ==================== 4.8 ==================== -->
+        <section id="sec-4-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">4.8 5-Minute Rapid Revision Sheet (25 High-Yield One-Liners)</h2>
+            <span class="badge badge-warn">Last-Day Cram</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0;">
+            <li>C memory layout (low &rarr; high): <mark>Text &rarr; .data (init) &rarr; .bss (uninit=0) &rarr; Heap (&uarr;) &rarr; Stack (&darr;)</mark>.</li>
+            <li><code>static</code> local variable lives in <code>.data/.bss</code>, defaults to <code>0</code>, and retains value across function calls.</li>
+            <li><code>static</code> global variable enforces <mark>internal linkage</mark> (file-private).</li>
+            <li><code>calloc(n, sz)</code> zero-initializes memory; <code>malloc(n*sz)</code> leaves garbage bytes.</li>
+            <li>Cannot take address (<code>&amp;</code>) of a <code>register</code> variable in C.</li>
+            <li><code>const int *p</code> = pointer to constant data; <code>int *const p</code> = constant pointer.</li>
+            <li><code>union</code> size = largest member (shared memory); <code>struct</code> size = sum of members + alignment padding.</li>
+            <li>C <code>&&</code> and <code>||</code> use <mark>short-circuit evaluation</mark> (right operand skipped if result already decided).</li>
+            <li>C++ references cannot be <code>NULL</code> and cannot be reseated after initialization.</li>
+            <li>C++ <code>virtual</code> functions use per-class <mark>vtable</mark> and per-object <mark>vptr</mark> for runtime dispatch.</li>
+            <li>Base class with virtual functions should always declare a <mark>virtual destructor</mark> to prevent leaks.</li>
+            <li>C++ Diamond Problem is resolved by <mark>Virtual Inheritance</mark> (<code>virtual public</code>).</li>
+            <li><code>std::weak_ptr</code> breaks circular reference cycles created by <code>std::shared_ptr</code>.</li>
+            <li>Java is <mark>STRICTLY Pass-by-Value</mark> (copies object reference value, never true pass-by-reference).</li>
+            <li>Java <code>String</code> is immutable (pooled); <code>StringBuilder</code> = fast/unsafe; <code>StringBuffer</code> = synchronized.</li>
+            <li>Java <code>==</code> compares object references; <code>.equals()</code> compares content.</li>
+            <li><code>finally</code> overrides <code>try</code> return values and executes unless <code>System.exit(0)</code> or JVM crash occurs.</li>
+            <li>Java <strong>Checked Exceptions</strong> (<code>IOException, SQLException</code>) must be handled/declared at compile time.</li>
+            <li><code>HashMap</code> allows 1 null key; <code>Hashtable</code> and <code>ConcurrentHashMap</code> forbid null keys/values.</li>
+            <li>Java <code>static</code> methods are <mark>hidden</mark> (compile-time), NOT overridden (runtime).</li>
+            <li>Python is <mark>Dynamically and Strongly typed</mark> (no implicit <code>"5" + 2</code> coercion).</li>
+            <li>Python immutable types: <code>int, float, str, tuple, frozenset, bytes</code>; mutable: <code>list, dict, set</code>.</li>
+            <li>Python default mutable arguments (<code>def f(a=[])</code>) are evaluated <mark>once at function definition</mark>.</li>
+            <li>Python scope lookup order = <mark>LEGB</mark> (Local &rarr; Enclosing &rarr; Global &rarr; Built-in).</li>
+            <li>CPython <mark>GIL</mark> serializes CPU threads &rarr; use <code>multiprocessing</code> for CPU-bound tasks and <code>asyncio/threading</code> for I/O.</li>
+          </ol>
+        </section>
+
+        <!-- ==================== 4.9 ==================== -->
+        <section id="sec-4-9" class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">4.9 Chapter 4 Exam-Level Practice Drill (15 Unbiased 5-Option MCQs)</h2>
+              <p class="card-subtitle">1 &amp; 2 Mark Mix (22 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+            </div>
+          </div>
+          <div id="ch4-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster1-ch03-data-structures.html">&larr; Prev: Chapter 3 — Data Structures &amp; File Structures</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-04', '[data-chapter-complete="it-04"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch4-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch4-q1',
+              marks: 1,
+              section: 'C Memory Segments',
+              prompt: 'In a standard C process memory layout, where are uninitialized global and static variables stored before program execution begins?',
+              options: [
+                'Text (Code) segment',
+                'Initialized Data (.data) segment',
+                'BSS (.bss) segment, initialized to zero',
+                'Heap segment allocated via malloc',
+                'Stack segment initialized to garbage'
+              ],
+              correctIndex: 2,
+              explanation: 'Uninitialized global and static variables reside in the .bss (Block Started by Symbol) segment and are zero-initialized by the OS loader before main() starts.'
+            },
+            {
+              id: 'ch4-q2',
+              marks: 2,
+              section: 'C Output Trace',
+              prompt: 'What is the output of the C snippet: #define MUL(a,b) a*b  ...  printf("%d", MUL(2+3, 4+1)); ?',
+              options: [
+                '11',
+                '15',
+                '20',
+                '25',
+                'Compilation Error'
+              ],
+              correctIndex: 1,
+              explanation: 'Macro substitution expands MUL(2+3, 4+1) literally to 2 + 3 * 4 + 1 = 2 + 12 + 1 = 15 (not 5 * 5 = 25).'
+            },
+            {
+              id: 'ch4-q3',
+              marks: 2,
+              section: 'C Short-Circuiting',
+              prompt: 'Given int x = 1, y = 2, z = 3; int res = (x == 1) || (++y > 2 && --z > 1); what are the final values of res, y, and z?',
+              options: [
+                'res=1, y=3, z=2',
+                'res=1, y=2, z=3',
+                'res=1, y=3, z=3',
+                'res=0, y=2, z=3',
+                'res=0, y=3, z=2'
+              ],
+              correctIndex: 1,
+              explanation: 'Because (x == 1) evaluates to true (1), logical OR (||) short-circuits immediately; neither ++y nor --z executes, leaving y=2 and z=3.'
+            },
+            {
+              id: 'ch4-q4',
+              marks: 1,
+              section: 'C Pointers',
+              prompt: 'If a pointer continues to hold the memory address of a heap block AFTER free() has deallocated that block, what is that pointer called?',
+              options: [
+                'Null Pointer',
+                'Void Pointer',
+                'Dangling Pointer',
+                'Function Pointer',
+                'Smart Pointer'
+              ],
+              correctIndex: 2,
+              explanation: 'A pointer referencing deallocated memory is a Dangling Pointer; dereferencing it causes undefined behavior (fix by setting ptr = NULL after free).'
+            },
+            {
+              id: 'ch4-q5',
+              marks: 2,
+              section: 'C++ Polymorphism',
+              prompt: 'In C++, why should a polymorphic base class declare its destructor as virtual?',
+              options: [
+                'To allow the base class to be instantiated without a constructor',
+                'To ensure the derived class destructor executes when deleting a derived object through a base class pointer',
+                'To prevent the compiler from generating a vtable for derived classes',
+                'To enable multiple inheritance without using virtual base classes',
+                'To automatically convert raw pointers into std::shared_ptr'
+              ],
+              correctIndex: 1,
+              explanation: 'Without a virtual destructor, delete basePtr invokes only ~Base() via static binding, skipping ~Derived() and causing resource leaks.'
+            },
+            {
+              id: 'ch4-q6',
+              marks: 1,
+              section: 'C++ Smart Pointers',
+              prompt: 'Which modern C++ smart pointer is specifically designed to observe a std::shared_ptr-managed object without incrementing the strong reference count, thereby breaking cyclic memory leaks?',
+              options: [
+                'std::unique_ptr',
+                'std::auto_ptr',
+                'std::weak_ptr',
+                'std::raw_ptr',
+                'std::static_ptr'
+              ],
+              correctIndex: 2,
+              explanation: 'std::weak_ptr holds a non-owning weak reference to an object managed by std::shared_ptr, preventing cyclic reference counts from never dropping to zero.'
+            },
+            {
+              id: 'ch4-q7',
+              marks: 1,
+              section: 'C++ STL Complexity',
+              prompt: 'What is the worst-case time complexity of searching for a key in C++ std::map versus std::unordered_map?',
+              options: [
+                'std::map: O(1); std::unordered_map: O(log n)',
+                'std::map: O(log n); std::unordered_map: O(n)',
+                'std::map: O(n); std::unordered_map: O(1)',
+                'std::map: O(log n); std::unordered_map: O(log n)',
+                'std::map: O(n log n); std::unordered_map: O(1)'
+              ],
+              correctIndex: 1,
+              explanation: 'std::map is implemented as a Red-Black Tree (guaranteed O(log n) worst case), whereas std::unordered_map is a Hash Table (O(1) average, O(n) worst case on hash collisions).'
+            },
+            {
+              id: 'ch4-q8',
+              marks: 2,
+              section: 'Java String Pool',
+              prompt: 'What does the following Java snippet print? String a = "BANK"; String b = new String("BANK"); String c = b.intern(); System.out.println((a == b) + "," + (a == c));',
+              options: [
+                'true,true',
+                'true,false',
+                'false,true',
+                'false,false',
+                'Compilation Error'
+              ],
+              correctIndex: 2,
+              explanation: 'b creates a new Heap object so a == b is false. Calling b.intern() returns the canonical String Pool reference matching a, making a == c true.'
+            },
+            {
+              id: 'ch4-q9',
+              marks: 1,
+              section: 'Java Parameter Passing',
+              prompt: 'How are object arguments passed to methods in Java?',
+              options: [
+                'Strictly Pass-by-Reference for all types',
+                'Pass-by-Value for primitives and Pass-by-Reference for objects',
+                'Strictly Pass-by-Value (for objects, a copy of the reference value is passed)',
+                'Pass-by-Name evaluated lazily at runtime',
+                'Pass-by-Copy-Restore upon method exit'
+              ],
+              correctIndex: 2,
+              explanation: 'Java is strictly Pass-by-Value: passing an object passes a copy of its reference. Reassigning the parameter inside the method does not rebind the caller\'s reference.'
+            },
+            {
+              id: 'ch4-q10',
+              marks: 1,
+              section: 'Java Collections',
+              prompt: 'Which Java Map implementation provides thread-safe concurrent access with bucket-level locking while disallowing null keys and null values?',
+              options: [
+                'HashMap',
+                'LinkedHashMap',
+                'TreeMap',
+                'ConcurrentHashMap',
+                'WeakHashMap'
+              ],
+              correctIndex: 3,
+              explanation: 'ConcurrentHashMap supports high-concurrency thread safety via fine-grained bucket locking/CAS and prohibits null keys and null values to avoid ambiguity in concurrent lookups.'
+            },
+            {
+              id: 'ch4-q11',
+              marks: 1,
+              section: 'Java Exceptions',
+              prompt: 'Which of the following Java exceptions is a CHECKED exception that the compiler requires you to catch or declare in a throws clause?',
+              options: [
+                'NullPointerException',
+                'ArrayIndexOutOfBoundsException',
+                'ArithmeticException',
+                'SQLException',
+                'IllegalArgumentException'
+              ],
+              correctIndex: 3,
+              explanation: 'SQLException (and IOException) inherit directly from Exception (not RuntimeException) and are Checked Exceptions enforced at compile time.'
+            },
+            {
+              id: 'ch4-q12',
+              marks: 2,
+              section: 'Python Output Trace',
+              prompt: 'What is the output of this Python code? def f(val, box=[]): box.append(val); return box  ...  a = f(1); b = f(2); print(a)',
+              options: [
+                '[1]',
+                '[2]',
+                '[1, 2]',
+                '[[1], [2]]',
+                'TypeError'
+              ],
+              correctIndex: 2,
+              explanation: 'Default mutable arguments are created once at function definition; both a and b reference the exact same list, which now holds [1, 2].'
+            },
+            {
+              id: 'ch4-q13',
+              marks: 2,
+              section: 'Python Hashability',
+              prompt: 'Which of the following Python objects will raise a TypeError ("unhashable type") if used as a key in a Python dictionary?',
+              options: [
+                '(10, "SIDBI", 2026)',
+                'frozenset({1, 2, 3})',
+                '(10, [20, 30])',
+                '"MSME_LOAN_01"',
+                '42.5'
+              ],
+              correctIndex: 2,
+              explanation: 'A tuple is hashable ONLY if all of its elements are also hashable/immutable. Because (10, [20, 30]) contains a mutable list, it is unhashable and raises TypeError.'
+            },
+            {
+              id: 'ch4-q14',
+              marks: 1,
+              section: 'Python Concurrency (GIL)',
+              prompt: 'In standard CPython, what is the primary impact of the Global Interpreter Lock (GIL) on a multi-threaded CPU-bound program running on an 8-core server?',
+              options: [
+                'It automatically distributes Python bytecode across all 8 cores in parallel',
+                'It allows only one thread to execute Python bytecode at any instant, preventing true multi-core CPU parallelism',
+                'It disables garbage collection whenever more than one thread exists',
+                'It blocks all asynchronous network I/O calls permanently',
+                'It converts Python threads into bare-metal Type-1 virtual machines'
+              ],
+              correctIndex: 1,
+              explanation: 'The CPython GIL serializes Python bytecode execution to one thread at a time; CPU-bound workloads must use multiprocessing or GIL-releasing C extensions (like NumPy).'
+            },
+            {
+              id: 'ch4-q15',
+              marks: 1,
+              section: 'Python Generators',
+              prompt: 'Why is a Python generator expression (x*x for x in range(10_000_000)) preferred over a list comprehension [x*x for x in range(10_000_000)] when streaming millions of bank transaction records?',
+              options: [
+                'Generators compile directly into C++ vtables',
+                'Generators evaluate lazily and yield one item at a time in O(1) memory instead of materializing the entire list in RAM',
+                'List comprehensions cannot iterate over integers larger than 65535',
+                'Generators automatically index every element in a B+ Tree',
+                'Generators bypass all Python syntax checking'
+              ],
+              correctIndex: 1,
+              explanation: 'Generators produce items on demand via yield/next(), keeping memory consumption O(1) regardless of input stream size.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

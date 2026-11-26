@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 3: Data Structures &amp; File Structures (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 1 &bull; Chapter 3 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-3-1" class="active">3.1 Arrays, Matrices &amp; Linked Lists</a></li>
+          <li><a href="#sec-3-2">3.2 Stacks, Queues &amp; Expressions</a></li>
+          <li><a href="#sec-3-3">3.3 Trees: BST, AVL, RB &amp; Heaps</a></li>
+          <li><a href="#sec-3-4">3.4 Graphs: Matrix, List, BFS &amp; DFS</a></li>
+          <li><a href="#sec-3-5">3.5 Hashing &amp; Collision Resolution</a></li>
+          <li><a href="#sec-3-6">3.6 File Structures, B-Trees &amp; B+ Trees</a></li>
+          <li><a href="#sec-3-7">3.7 Worked Exam Numericals (7)</a></li>
+          <li><a href="#sec-3-8">3.8 Banking &amp; SIDBI Context + Blueprint</a></li>
+          <li><a href="#sec-3-9">3.9 Rapid Revision + 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-03">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster1-ch02-computer-fundamentals.html">&larr; Prev: Ch 2 Fundamentals</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 1: Core CS &amp; Programming</span>
+            <span class="badge badge-warn">Topic 3 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">Very High Paper III Weightage</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 3: Data Structures &amp; File Structures</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Complete exam-depth treatise on Linear DS (Arrays, Row/Column-Major addressing, Linked Lists, Stacks, Circular Queues),
+            Non-Linear DS (Binary Trees, BST, AVL rotations, Red-Black, Heaps, Graphs), Hashing &amp; Probing, File Organization (Sequential, ISAM, Dense/Sparse Indexing, B-Trees &amp; B+ Trees),
+            7 worked exam numericals, banking/SIDBI data-engine context, 25 rapid-revision one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 3.1 ==================== -->
+        <section id="sec-3-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">3.1 Linear Data Structures: Arrays, Matrices &amp; Linked Lists</h2>
+            <span class="badge badge-info">Core Foundation</span>
+          </div>
+
+          <h3 style="margin:0.4rem 0 0.45rem;font-size:1.05rem;">A. Array Memory Addressing (Row-Major vs. Column-Major)</h3>
+          <p>
+            Arrays store homogeneous elements in <mark>contiguous memory locations</mark>, enabling <code>O(1)</code> random access via base-address arithmetic.
+            For a 2D array <code>A[M][N]</code> (<code>M</code> rows, <code>N</code> columns, element size <code>w</code> bytes, Base Address <code>B</code>, 0-based indices <code>i, j</code>):
+          </p>
+          <ul>
+            <li><strong>Row-Major Order (C, C++, Java, Python):</strong> <mark><code>Addr(A[i][j]) = B + w &times; (i &times; N + j)</code></mark></li>
+            <li><strong>Column-Major Order (Fortran, MATLAB, R):</strong> <mark><code>Addr(A[i][j]) = B + w &times; (j &times; M + i)</code></mark></li>
+            <li><em>General lower bounds <code>[L1..U1][L2..U2]</code>:</em> Replace <code>i</code> with <code>(i - L1)</code>, <code>j</code> with <code>(j - L2)</code>, <code>M = U1 - L1 + 1</code>, <code>N = U2 - L2 + 1</code>.</li>
+            <li><strong>Sparse Matrix:</strong> A matrix where most elements are zero. Stored compactly via <mark>3-Tuple (Row, Col, Value)</mark> or <mark>CSR (Compressed Sparse Row)</mark> format to avoid wasting <code>O(M &times; N)</code> RAM.</li>
+          </ul>
+
+          <h3 style="margin:1rem 0 0.45rem;font-size:1.05rem;">B. Arrays vs. Singly / Doubly / Circular Linked Lists (Complexity Matrix)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Operation</th>
+                  <th>Static Array</th>
+                  <th>Singly Linked List (Head only)</th>
+                  <th>Doubly Linked List (Head + Tail)</th>
+                  <th>Circular LL (Tail pointer)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Random Access (<code>k</code>-th)</strong></td>
+                  <td><mark><code>O(1)</code></mark></td>
+                  <td><code>O(n)</code></td>
+                  <td><code>O(n)</code></td>
+                  <td><code>O(n)</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Insert / Delete at Head</strong></td>
+                  <td><code>O(n)</code> (shifting)</td>
+                  <td><mark><code>O(1)</code></mark></td>
+                  <td><mark><code>O(1)</code></mark></td>
+                  <td><mark><code>O(1)</code></mark> (<code>tail-&gt;next</code> is head!)</td>
+                </tr>
+                <tr>
+                  <td><strong>Insert at Tail</strong></td>
+                  <td><code>O(1)</code> (if space)</td>
+                  <td><code>O(n)</code> (<code>O(1)</code> with tail ptr)</td>
+                  <td><mark><code>O(1)</code></mark></td>
+                  <td><mark><code>O(1)</code></mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Delete Last Node</strong></td>
+                  <td><code>O(1)</code></td>
+                  <td><mark><code>O(n)</code></mark> (even with tail ptr!)</td>
+                  <td><mark><code>O(1)</code></mark> (has <code>prev</code> ptr)</td>
+                  <td><code>O(n)</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Cache Locality</strong></td>
+                  <td><mark>Excellent (Spatial)</mark></td>
+                  <td>Poor (pointer chasing)</td>
+                  <td>Poor (+ extra <code>prev</code> ptr RAM)</td>
+                  <td>Poor</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout callout-warn" style="margin-top:0.85rem;">
+            <span class="callout-title">Classic Linked List Exam Traps</span>
+            &bull; Deleting the <strong>last node</strong> of a Singly Linked List takes <mark><code>O(n)</code> even if a <code>tail</code> pointer is maintained</mark>, because you must find the second-last node to update its <code>next</code> to <code>NULL</code>!<br>
+            &bull; <strong>Floyd's Cycle Detection (Tortoise &amp; Hare):</strong> Uses <code>slow</code> (+1 step) and <code>fast</code> (+2 steps) pointers to detect a loop in <mark><code>O(n)</code> time and <code>O(1)</code> auxiliary space</mark>.
+          </div>
+        </section>
+
+        <!-- ==================== 3.2 ==================== -->
+        <section id="sec-3-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">3.2 Stacks, Queues, Priority Queues &amp; Expression Conversion</h2>
+            <span class="badge badge-warn">High MCQ &amp; Trace Yield</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Structure</th>
+                  <th>Discipline</th>
+                  <th>Core Operations &amp; Conditions</th>
+                  <th>Key Applications</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Stack</strong></td>
+                  <td><mark>LIFO</mark> (Last-In First-Out)</td>
+                  <td><code>push</code>, <code>pop</code>, <code>peek</code> — all <code>O(1)</code>.<br>Overflow: <code>top == N-1</code>; Underflow: <code>top == -1</code>.</td>
+                  <td>Function call stack / recursion, DFS, Undo/Redo, Backtracking, Infix&rarr;Postfix, Balanced parentheses.</td>
+                </tr>
+                <tr>
+                  <td><strong>Linear Queue</strong></td>
+                  <td><mark>FIFO</mark> (First-In First-Out)</td>
+                  <td><code>enqueue</code> (rear), <code>dequeue</code> (front) — <code>O(1)</code>.<br>Trap: suffers <mark>False Overflow</mark> when <code>rear == N-1</code> even if front slots are free.</td>
+                  <td>CPU FCFS scheduling, print spoolers, BFS traversal, asynchronous messaging buffers.</td>
+                </tr>
+                <tr>
+                  <td><strong>Circular Queue</strong></td>
+                  <td>FIFO (wrap-around)</td>
+                  <td>Full: <mark><code>(rear + 1) % N == front</code></mark> (sacrifices 1 slot, or tracks <code>count</code>).</td>
+                  <td>OS ring buffers, network NIC packet queues, Round-Robin scheduling.</td>
+                </tr>
+                <tr>
+                  <td><strong>Deque</strong></td>
+                  <td>Insert/Delete at BOTH ends</td>
+                  <td>Input-restricted (insert 1 end) or Output-restricted (delete 1 end).</td>
+                  <td>Sliding Window Maximum (<code>O(n)</code>), Work-stealing thread schedulers.</td>
+                </tr>
+                <tr>
+                  <td><strong>Priority Queue</strong></td>
+                  <td>Highest/Lowest priority out first</td>
+                  <td>Implemented via <mark>Binary Heap</mark>: Insert <code>O(log n)</code>, Extract-Max/Min <code>O(log n)</code>, Peek <code>O(1)</code>.</td>
+                  <td>Dijkstra's shortest path, Prim's MST, Huffman coding, OS priority scheduling.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1rem 0 0.45rem;font-size:1.05rem;">Infix, Prefix (Polish) &amp; Postfix (Reverse Polish) Rules</h3>
+          <ul>
+            <li><strong>Why Postfix/Prefix?</strong> Eliminates parentheses and operator precedence ambiguity; evaluated in a <mark>single left-to-right scan using one Stack</mark> (Prefix is evaluated right-to-left).</li>
+            <li><strong>Operator Precedence &amp; Associativity:</strong>
+              1. <code>()</code> &rarr;
+              2. <mark><code>^</code> (Exponentiation — RIGHT-to-LEFT associative!)</mark> &rarr;
+              3. <code>*, /, %</code> (Left-to-Right) &rarr;
+              4. <code>+, -</code> (Left-to-Right).</li>
+            <li><strong>Implementing Queue with 2 Stacks:</strong> Enqueue pushes to <code>S1</code> (<code>O(1)</code>); Dequeue pops from <code>S2</code> (if <code>S2</code> is empty, transfer all from <code>S1</code> &rarr; <mark>Amortized <code>O(1)</code></mark>).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 3.3 ==================== -->
+        <section id="sec-3-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">3.3 Trees: Binary Trees, BST, AVL, Red-Black Trees &amp; Heaps</h2>
+            <span class="badge badge-danger">Top Paper III Objective Zone</span>
+          </div>
+
+          <h3 style="margin:0.4rem 0 0.45rem;font-size:1.05rem;">A. Essential Binary Tree Identities (Memorize!)</h3>
+          <ul>
+            <li>Max nodes at level <code>L</code> (root at <code>L=0</code>): <mark><code>2^L</code></mark>. Max nodes in tree of height <code>h</code>: <mark><code>2^(h+1) - 1</code></mark>.</li>
+            <li>Min height of a binary tree with <code>n</code> nodes: <mark><code>floor(log2 n)</code></mark>; Max height (skewed): <code>n - 1</code>.</li>
+            <li><strong>Leaf vs. Degree-2 Node Theorem:</strong> In ANY non-empty binary tree, <mark><code>n_0 = n_2 + 1</code></mark> (leaves = nodes with 2 children + 1).</li>
+            <li><strong>Full (Strict) Binary Tree:</strong> Every node has <code>0</code> or <code>2</code> children. Total nodes = <code>2L - 1</code> (always odd).</li>
+            <li><strong>Complete Binary Tree:</strong> All levels completely filled except possibly the last, which is filled <mark>left-to-right</mark> (used by Binary Heaps).</li>
+            <li><strong>Catalan Number (Unlabeled Binary Trees / Distinct BSTs with <code>n</code> keys):</strong> <mark><code>C_n = (2n)! / [(n + 1)! &middot; n!]</code></mark> (<code>C_1=1, C_2=2, C_3=5, C_4=14, C_5=42</code>).</li>
+            <li><strong>Unique Tree Reconstruction:</strong> <mark>Inorder + Preorder</mark> OR <mark>Inorder + Postorder</mark> uniquely determines a binary tree. <em>Preorder + Postorder alone is NOT unique</em> (unless every internal node has 2 children, i.e., Full Binary Tree).</li>
+          </ul>
+
+          <h3 style="margin:1rem 0 0.45rem;font-size:1.05rem;">B. BST vs. AVL Tree vs. Red-Black Tree vs. Binary Heap</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tree Type</th>
+                  <th>Invariant / Balance Rule</th>
+                  <th>Search / Insert / Delete</th>
+                  <th>Key Exam Facts &amp; Real-World Uses</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>BST</strong></td>
+                  <td><code>Left &lt; Root &lt; Right</code>;<br><mark>Inorder traversal = Sorted order</mark></td>
+                  <td>Avg: <code>O(log n)</code><br>Worst (skewed): <mark><code>O(n)</code></mark></td>
+                  <td>Deleting node with 2 children replaces it with <mark>Inorder Successor</mark> (min of right subtree) or Inorder Predecessor.</td>
+                </tr>
+                <tr>
+                  <td><strong>AVL Tree</strong></td>
+                  <td><mark>Balance Factor <code>BF = H_L - H_R &isin; {-1, 0, +1}</code></mark></td>
+                  <td>Worst: <mark><code>O(log n)</code></mark> guaranteed</td>
+                  <td>4 rotations: <strong>LL</strong> (Right), <strong>RR</strong> (Left), <strong>LR</strong> (Left-Right), <strong>RL</strong> (Right-Left). Max 1 rotation (single/double) per insert; up to <code>O(log n)</code> per delete. Min nodes: <code>N(h) = N(h-1) + N(h-2) + 1</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Red-Black Tree</strong></td>
+                  <td>Root black; no two adjacent reds; equal black-height on all root-to-NULL paths</td>
+                  <td>Worst: <mark><code>O(log n)</code></mark> (Height &le; <code>2 log2(n+1)</code>)</td>
+                  <td>More loosely balanced than AVL &rarr; <mark>faster insertions/deletions (at most 2–3 rotations)</mark>. Used in C++ <code>std::map</code>, Java <code>TreeMap</code>, Linux CFS scheduler.</td>
+                </tr>
+                <tr>
+                  <td><strong>Binary Heap</strong></td>
+                  <td>Complete Binary Tree + Heap order (Max: parent &ge; children; Min: parent &le; children)</td>
+                  <td>Peek: <code>O(1)</code> | Push/Pop: <code>O(log n)</code><br><strong>Build-Heap:</strong> <mark><code>O(n)</code></mark></td>
+                  <td>Stored in 0-indexed array: <code>parent = floor((i-1)/2)</code>, <code>left = 2i+1</code>, <code>right = 2i+2</code>. Last non-leaf node index = <code>floor(n/2) - 1</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 3.4 ==================== -->
+        <section id="sec-3-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">3.4 Graphs: Representations, BFS, DFS &amp; Topological Sort</h2>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Metric / Operation</th>
+                  <th>Adjacency Matrix</th>
+                  <th>Adjacency List</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Space Complexity</strong></td>
+                  <td><mark><code>O(V^2)</code></mark></td>
+                  <td><mark><code>O(V + E)</code></mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Check if Edge <code>(u, v)</code> Exists</strong></td>
+                  <td><mark><code>O(1)</code></mark></td>
+                  <td><code>O(deg(u))</code></td>
+                </tr>
+                <tr>
+                  <td><strong>BFS / DFS Traversal Time</strong></td>
+                  <td><code>O(V^2)</code></td>
+                  <td><mark><code>O(V + E)</code></mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Best Suited For</strong></td>
+                  <td>Dense graphs (<code>E &approx; V^2</code>)</td>
+                  <td><mark>Sparse graphs</mark> (real-world networks, payment graphs)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <ul style="margin-top:0.8rem;">
+            <li><strong>BFS (Breadth-First Search):</strong> Uses a <mark>Queue</mark>. Guarantees the <mark>shortest path (minimum edges) in unweighted graphs</mark>, checks Bipartiteness (2-coloring), and finds level-order distances.</li>
+            <li><strong>DFS (Depth-First Search):</strong> Uses a <mark>Stack / Recursion</mark>. Classifies edges into Tree, Back, Forward, and Cross edges (<mark>Back edge &harr; Cycle exists!</mark>). Powers <mark>Topological Sorting (only on DAGs)</mark>, Strongly Connected Components (Kosaraju / Tarjan), and Articulation Points / Bridges.</li>
+            <li><strong>Eulerian vs. Hamiltonian Trap:</strong> An undirected connected graph has an <strong>Eulerian Circuit</strong> iff <mark>every vertex has even degree</mark> (checkable in <code>O(V+E)</code>). Finding a <strong>Hamiltonian Cycle</strong> (visiting every vertex once) is <mark>NP-Complete</mark>.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 3.5 ==================== -->
+        <section id="sec-3-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">3.5 Hashing, Collision Resolution &amp; Dynamic Hashing</h2>
+            <span class="badge badge-purple">Frequent Paper III Trap</span>
+          </div>
+          <p>
+            A <strong>Hash Table</strong> maps keys to bucket indices via a hash function <code>h(k)</code> (commonly Division Method <code>h(k) = k mod m</code> where <code>m</code> is a <mark>prime number not close to a power of 2</mark>), achieving <mark><code>O(1)</code> average-case</mark> search/insert/delete (worst-case <code>O(n)</code> if all keys collide). Load factor <code>&alpha; = n / m</code> (keys / slots).
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Collision Technique</th>
+                  <th>Probe Formula / Mechanism</th>
+                  <th>Load Factor &alpha;</th>
+                  <th>Clustering &amp; Exam Traps</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Separate Chaining (Open Hashing)</strong></td>
+                  <td>Each bucket holds a linked list (or RB-tree in Java 8+ when length &gt; 8)</td>
+                  <td><mark>Can be &gt; 1</mark></td>
+                  <td>No clustering; easy deletion; extra pointer memory &amp; poorer cache locality.</td>
+                </tr>
+                <tr>
+                  <td><strong>Linear Probing (Open Addressing)</strong></td>
+                  <td><code>(h(k) + i) mod m</code></td>
+                  <td><code>&alpha; &le; 1</code></td>
+                  <td>Best cache locality, but suffers severe <mark>Primary Clustering</mark> (long contiguous runs). Requires <mark>Tombstone (Deleted)</mark> markers on deletion!</td>
+                </tr>
+                <tr>
+                  <td><strong>Quadratic Probing</strong></td>
+                  <td><code>(h(k) + c1&middot;i + c2&middot;i^2) mod m</code></td>
+                  <td><code>&alpha; &le; 0.5</code> (for prime <code>m</code>)</td>
+                  <td>Eliminates primary clustering, but suffers <mark>Secondary Clustering</mark> (keys with same initial hash follow same probe path).</td>
+                </tr>
+                <tr>
+                  <td><strong>Double Hashing</strong></td>
+                  <td><mark><code>(h1(k) + i &middot; h2(k)) mod m</code></mark></td>
+                  <td><code>&alpha; &le; 1</code></td>
+                  <td><mark>Eliminates BOTH primary &amp; secondary clustering</mark>. Rule: <code>h2(k)</code> must NEVER evaluate to 0 and should be coprime to <code>m</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul style="margin-top:0.8rem;">
+            <li><strong>Dynamic Hashing (for growing database files):</strong>
+              <strong>Extendible Hashing</strong> uses a memory directory of size <code>2^D</code> (Global Depth <code>D</code>) pointing to disk buckets (Local Depth <code>d</code>); splits only the overflowing bucket (doubles directory only when <code>d == D</code>)—no overflow chains!
+              <strong>Linear Hashing</strong> splits buckets sequentially round-robin without a directory.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 3.6 ==================== -->
+        <section id="sec-3-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">3.6 File Structures, Indexing, B-Trees &amp; B+ Trees</h2>
+            <span class="badge badge-danger">Critical DBMS + File Structures Bridge</span>
+          </div>
+
+          <h3 style="margin:0.4rem 0 0.45rem;font-size:1.05rem;">A. File Organization &amp; Index Types</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Index / File Type</th>
+                  <th>Ordering on Data File</th>
+                  <th>Dense or Sparse?</th>
+                  <th>Key Exam Property</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Primary Index</strong></td>
+                  <td>Ordered on <mark>Key</mark> field</td>
+                  <td><mark>Sparse</mark> (1 entry per disk block — anchor record)</td>
+                  <td>At most 1 primary index per table; binary search on index = <code>ceil(log2 b_i) + 1</code> disk I/Os.</td>
+                </tr>
+                <tr>
+                  <td><strong>Clustering Index</strong></td>
+                  <td>Ordered on <mark>Non-Key</mark> field (duplicates allowed)</td>
+                  <td><mark>Sparse</mark> (1 entry per distinct field value)</td>
+                  <td>Great for grouping records by <code>branch_id</code> or <code>msme_sector</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Secondary Index</strong></td>
+                  <td>Data file is <mark>Unordered</mark> on this field</td>
+                  <td><mark>ALWAYS Dense</mark> (1 entry per record!)</td>
+                  <td>A table can have multiple secondary indexes (e.g., PAN, Udyam ID, mobile).</td>
+                </tr>
+                <tr>
+                  <td><strong>ISAM (Indexed Sequential)</strong></td>
+                  <td>Static sequential blocks + static index</td>
+                  <td>Multi-level static sparse</td>
+                  <td>Degrades over time as inserts create <mark>overflow chains</mark> (solved by B+ Trees!).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">B. B-Tree vs. B+ Tree Architecture (Why Banks &amp; RDBMS Use B+ Trees)</h3>
+
+          <!-- Inline SVG: B-Tree vs B+ Tree -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 220" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="B-Tree vs B+ Tree Structure Comparison">
+              <!-- Left: B-Tree -->
+              <rect x="10" y="10" width="355" height="200" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="187" y="32" text-anchor="middle" fill="#0f2942" font-size="12.5" font-weight="700">B-Tree (Data Pointers in ALL Nodes)</text>
+              <rect x="135" y="48" width="105" height="32" rx="6" fill="#1d4ed8"/>
+              <text x="187" y="68" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">30* | 60*</text>
+              <line x1="150" y1="80" x2="75" y2="122" stroke="#475569" stroke-width="1.8"/>
+              <line x1="187" y1="80" x2="187" y2="122" stroke="#475569" stroke-width="1.8"/>
+              <line x1="225" y1="80" x2="300" y2="122" stroke="#475569" stroke-width="1.8"/>
+              <rect x="28" y="122" width="94" height="30" rx="6" fill="#0f2942"/>
+              <text x="75" y="141" text-anchor="middle" fill="#ffffff" font-size="10.5">10* | 20*</text>
+              <rect x="140" y="122" width="94" height="30" rx="6" fill="#0f2942"/>
+              <text x="187" y="141" text-anchor="middle" fill="#ffffff" font-size="10.5">40* | 50*</text>
+              <rect x="252" y="122" width="94" height="30" rx="6" fill="#0f2942"/>
+              <text x="299" y="141" text-anchor="middle" fill="#ffffff" font-size="10.5">70* | 80*</text>
+              <text x="187" y="176" text-anchor="middle" fill="#475569" font-size="10">* = Record Pointer inside node (lower fan-out)</text>
+              <text x="187" y="194" text-anchor="middle" fill="#b91c1c" font-size="10" font-weight="700">No leaf links &rarr; slow range scans</text>
+
+              <!-- Right: B+ Tree -->
+              <rect x="395" y="10" width="355" height="200" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="572" y="32" text-anchor="middle" fill="#0f2942" font-size="12.5" font-weight="700">B+ Tree (Data ONLY in Linked Leaves)</text>
+              <rect x="520" y="48" width="105" height="32" rx="6" fill="#0d9488"/>
+              <text x="572" y="68" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">30 | 60 (Keys only)</text>
+              <line x1="535" y1="80" x2="460" y2="122" stroke="#475569" stroke-width="1.8"/>
+              <line x1="572" y1="80" x2="572" y2="122" stroke="#475569" stroke-width="1.8"/>
+              <line x1="610" y1="80" x2="685" y2="122" stroke="#475569" stroke-width="1.8"/>
+              <rect x="410" y="122" width="96" height="30" rx="6" fill="#0f2942"/>
+              <text x="458" y="141" text-anchor="middle" fill="#ffffff" font-size="10.5">10* | 20*</text>
+              <rect x="524" y="122" width="96" height="30" rx="6" fill="#0f2942"/>
+              <text x="572" y="141" text-anchor="middle" fill="#ffffff" font-size="10.5">30* | 40* | 50*</text>
+              <rect x="638" y="122" width="96" height="30" rx="6" fill="#0f2942"/>
+              <text x="686" y="141" text-anchor="middle" fill="#ffffff" font-size="10.5">60* | 70* | 80*</text>
+              <!-- Leaf links -->
+              <line x1="506" y1="137" x2="524" y2="137" stroke="#eab308" stroke-width="3"/>
+              <line x1="620" y1="137" x2="638" y2="137" stroke="#eab308" stroke-width="3"/>
+              <text x="572" y="176" text-anchor="middle" fill="#0f766e" font-size="10" font-weight="700">Higher internal fan-out &rarr; shallower tree (fewer Disk I/Os)</text>
+              <text x="572" y="194" text-anchor="middle" fill="#15803d" font-size="10" font-weight="700">Linked leaf chain &rarr; ultra-fast SQL BETWEEN / range scans</text>
+            </svg>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature (Order <code>p</code>)</th>
+                  <th>B-Tree</th>
+                  <th>B+ Tree</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Data / Record Pointers</strong></td>
+                  <td>Stored in BOTH internal and leaf nodes</td>
+                  <td><mark>Stored ONLY in leaf nodes</mark> (internal nodes store routing keys only)</td>
+                </tr>
+                <tr>
+                  <td><strong>Duplicate Keys</strong></td>
+                  <td>No key is repeated</td>
+                  <td>Internal routing keys are duplicated in leaf nodes</td>
+                </tr>
+                <tr>
+                  <td><strong>Fan-out &amp; Height</strong></td>
+                  <td>Lower fan-out (record pointers consume block space)</td>
+                  <td><mark>Higher fan-out &rarr; shorter height &rarr; fewer disk reads</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Range / Sequential Queries</strong></td>
+                  <td>Slow (requires repeated tree traversal)</td>
+                  <td><mark>Very fast (leaves form a sorted doubly/singly linked list)</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Block Size Order Formula</strong></td>
+                  <td><code>p&middot;P_b + (p-1)&middot;(K + P_r) &le; B</code></td>
+                  <td><strong>Internal:</strong> <mark><code>p&middot;P_b + (p-1)&middot;K &le; B</code></mark><br><strong>Leaf:</strong> <mark><code>p_leaf&middot;(K + P_r) + P_b &le; B</code></mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Min Children (Non-Root)</strong></td>
+                  <td><code>ceil(p / 2)</code> children, <code>ceil(p / 2) - 1</code> keys</td>
+                  <td><code>ceil(p / 2)</code> children, <code>ceil(p / 2) - 1</code> keys (all leaves at same depth!)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 3.7 ==================== -->
+        <section id="sec-3-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">3.7 Worked Exam Numericals (7 Step-by-Step Problems)</h2>
+            <span class="badge badge-warn">2-Mark Paper III Favorites</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 1: 2D Array Row-Major vs. Column-Major Address</span>
+            <strong>Problem:</strong> Array <code>A[10][20]</code> (0-based), Base <code>B = 1000</code>, element size <code>w = 4 bytes</code>. Find address of <code>A[3][5]</code> in Row-Major and Column-Major.<br>
+            <strong>Row-Major:</strong> <code>1000 + 4 &times; (3 &times; 20 + 5) = 1000 + 4 &times; 65 =</code> <mark><code>1260</code></mark>.<br>
+            <strong>Column-Major:</strong> <code>1000 + 4 &times; (5 &times; 10 + 3) = 1000 + 4 &times; 53 =</code> <mark><code>1212</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 2: Infix to Postfix Conversion &amp; Postfix Evaluation</span>
+            <strong>(a) Convert Infix <code>A + B * (C ^ D - E)</code> to Postfix:</strong><br>
+            Scan: <code>A</code> &rarr; push <code>+</code> &rarr; <code>B</code> &rarr; push <code>*</code> &rarr; push <code>(</code> &rarr; <code>C</code> &rarr; push <code>^</code> &rarr; <code>D</code> &rarr; <code>-</code> pops <code>^</code> &rarr; <code>E</code> &rarr; <code>)</code> pops <code>-</code> &rarr; end pops <code>*, +</code> &rarr; <mark><code>A B C D ^ E - * +</code></mark>.<br>
+            <strong>(b) Evaluate Postfix <code>6 2 3 + - 3 8 2 / + *</code>:</strong><br>
+            <code>2+3=5</code> &rarr; <code>6-5=1</code> (Stack: <code>[1]</code>) &rarr; <code>8/2=4</code> &rarr; <code>3+4=7</code> (Stack: <code>[1, 7]</code>) &rarr; <code>1*7 =</code> <mark><code>7</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 3: Tree Reconstruction &amp; Catalan Count</span>
+            <strong>Problem:</strong> Given <code>Preorder = A B D E C F</code> and <code>Inorder = D B E A F C</code>, find <strong>Postorder</strong>. Also find distinct BSTs for <code>n = 4</code> keys.<br>
+            <strong>Step 1:</strong> First of Preorder is Root = <code>A</code>. In Inorder, <code>{D,B,E}</code> is Left subtree, <code>{F,C}</code> is Right subtree.<br>
+            <strong>Step 2:</strong> Left root = <code>B</code> (left <code>D</code>, right <code>E</code>). Right root = <code>C</code> (left <code>F</code>).<br>
+            <strong>Postorder (L-R-N):</strong> <mark><code>D E B F C A</code></mark>.<br>
+            <strong>Catalan (n=4):</strong> <code>C_4 = 8! / (5! &middot; 4!) = 40320 / (120 &times; 24) =</code> <mark><code>14 distinct BSTs</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 4: AVL Tree Insertion &amp; LR Rotation Trace</span>
+            <strong>Problem:</strong> Insert <code>30, 10, 20</code> sequentially into an empty AVL Tree.<br>
+            <strong>Trace:</strong> Insert <code>30</code> (root) &rarr; Insert <code>10</code> (left of 30) &rarr; Insert <code>20</code> (right of 10).<br>
+            Now at <code>30</code>, <code>BF = 2 - 0 = +2</code>; at left child <code>10</code>, <code>BF = 0 - 1 = -1</code> &rarr; <mark>LR Imbalance</mark>!<br>
+            <strong>Fix:</strong> (1) Left-rotate around <code>10</code> (<code>20</code> becomes left child of <code>30</code>, <code>10</code> left of <code>20</code>); (2) Right-rotate around <code>30</code> &rarr; <mark>New balanced root = <code>20</code> (Left: <code>10</code>, Right: <code>30</code>)</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 5: Double Hashing Probe Sequence</span>
+            <strong>Problem:</strong> Hash table size <code>m = 11</code>, <code>h1(k) = k mod 11</code>, <code>h2(k) = 7 - (k mod 7)</code>. Insert keys <code>22, 33</code>.<br>
+            <strong>Trace:</strong> <code>22</code> &rarr; <code>h1(22) = 0</code> (placed at slot <code>0</code>).<br>
+            <code>33</code> &rarr; <code>h1(33) = 0</code> (collision!). Compute <code>h2(33) = 7 - (33 mod 7) = 7 - 5 = 2</code>.<br>
+            Probe <code>i = 1</code>: <code>(0 + 1 &times; 2) mod 11 =</code> <mark>slot <code>2</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 6: B+ Tree Internal Node Order Calculation (Classic GATE/SIDBI)</span>
+            <strong>Problem:</strong> Disk block size <code>B = 4096 B</code>, Search Key <code>K = 12 B</code>, Block Pointer <code>P_b = 8 B</code>, Record Pointer <code>P_r = 10 B</code>. Find the maximum order <code>p</code> of an <strong>internal node</strong> of a B+ Tree.<br>
+            <strong>Formula (Internal node has NO record pointers!):</strong> <code>p &middot; P_b + (p - 1) &middot; K &le; B</code><br>
+            <code>p(8) + (p - 1)(12) &le; 4096</code> &rarr; <code>20p - 12 &le; 4096</code> &rarr; <code>20p &le; 4108</code> &rarr; <code>p &le; 205.4</code> &rarr; <mark><code>p = 205</code></mark>.
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Numerical 7: Primary Index Binary Search Disk I/O</span>
+            <strong>Problem:</strong> A sorted loan file has <code>30,000</code> records (<code>100 B</code> each) on <code>1024 B</code> blocks (unspanned). Primary index entry is <code>15 B</code>. Find worst-case disk accesses with vs. without the primary index.<br>
+            <strong>Data Blocks:</strong> Blocking factor <code>bfr = floor(1024 / 100) = 10</code> records/block &rarr; <code>30000 / 10 = 3000</code> data blocks. Binary search without index = <code>ceil(log2 3000) =</code> <mark>12 I/Os</mark>.<br>
+            <strong>Index Blocks:</strong> Primary index is sparse &rarr; <code>3000</code> index entries. <code>bfr_i = floor(1024 / 15) = 68</code> &rarr; <code>ceil(3000 / 68) = 45</code> index blocks.<br>
+            With Primary Index = <code>ceil(log2 45) + 1 = 6 + 1 =</code> <mark>7 I/Os</mark> (42% reduction in disk reads!).
+          </div>
+        </section>
+
+        <!-- ==================== 3.8 ==================== -->
+        <section id="sec-3-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">3.8 Banking &amp; SIDBI Data-Engine Context + 10-Mark Descriptive Blueprint</h2>
+            <span class="badge badge-live">Descriptive Edge</span>
+          </div>
+          <ul>
+            <li><strong>B+ Trees in Core Banking RDBMS (Oracle / PostgreSQL / InnoDB):</strong> Every MSME loan ledger query filtering by date range (<code>WHERE disbursal_date BETWEEN '2026-04-01' AND '2026-09-30'</code>) or sorted statement pagination relies on B+ Tree linked leaf chains for <code>O(log_p N + k)</code> I/O efficiency.</li>
+            <li><strong>Hash Indexes &amp; Bloom Filters in Real-Time Payments:</strong> Exact-match lookups (verifying an IFSC code, Udyam Registration Number, or checking a PAN against a sanctions/AML watchlist) use Hash Tables and probabilistic <mark>Bloom Filters</mark> (zero false negatives, tiny RAM footprint) before hitting disk.</li>
+            <li><strong>Graphs in Fraud &amp; Supply-Chain Finance:</strong> Detecting circular invoice discounting or shell-company collusion on platforms like <a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">TReDS (RXIL)</a> and <a href="https://www.sidbi.in/gst-sahay" target="_blank" rel="noopener noreferrer">GST Sahay</a> models buyers, sellers, and financiers as directed weighted graphs using DFS cycle detection and connected components.</li>
+          </ul>
+
+          <div class="callout callout-info" style="margin-top:0.85rem;">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"Why do enterprise banking RDBMS storage engines prefer B+ Trees over Binary Search Trees, Hash Indexes, and standard B-Trees for indexing loan and transaction tables?" (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (25w):</strong> Disk I/O is orders of magnitude slower than RAM; database indexes optimize block reads, not just CPU comparisons.<br>
+            &bull; <strong>Why not BST / AVL (45w):</strong> Binary trees have fan-out 2 &rarr; depth ~20+ for 1M accounts (20 random disk seeks); B+ Trees pack hundreds of keys per 4KB/8KB page &rarr; height 3–4.<br>
+            &bull; <strong>Why B+ Tree beats B-Tree &amp; Hashing (105w):</strong> (1) Internal nodes omit record pointers &rarr; higher fan-out; (2) Linked leaf pointers enable instant SQL <code>BETWEEN</code> / <code>ORDER BY</code> range scans (Hash indexes fail on range queries!); (3) Predictable uniform leaf depth.<br>
+            &bull; <strong>Conclusion (25w):</strong> Pair B+ Trees (primary/range ledger queries) with Hash Indexes (exact-match ID/KYC lookups) for hybrid banking performance.
+          </div>
+        </section>
+
+        <!-- ==================== 3.9 ==================== -->
+        <section id="sec-3-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">3.9 5-Minute Rapid Revision Sheet &amp; 15 Exam-Level Practice MCQs</h2>
+            <span class="badge badge-warn">Last-Day Cram + Drill</span>
+          </div>
+
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li>Row-Major (C/Java): <code>B + w(i&middot;N + j)</code>; Column-Major (Fortran/MATLAB): <code>B + w(j&middot;M + i)</code>.</li>
+            <li>Deleting the <mark>last node</mark> of a Singly LL is <code>O(n)</code> even with a tail pointer; Doubly LL does it in <code>O(1)</code>.</li>
+            <li><mark>Floyd's Cycle Detection</mark> (slow/fast pointers) runs in <code>O(n)</code> time and <code>O(1)</code> space.</li>
+            <li>Circular Queue full condition: <mark><code>(rear + 1) % N == front</code></mark>.</li>
+            <li>Exponentiation (<code>^</code>) is <mark>Right-to-Left associative</mark>; all basic arithmetic ops (<code>+ - * /</code>) are Left-to-Right.</li>
+            <li>Queue using 2 Stacks achieves <mark>Amortized <code>O(1)</code></mark> per operation.</li>
+            <li>In any non-empty binary tree: <mark><code>Leaves (n_0) = Degree-2 nodes (n_2) + 1</code></mark>.</li>
+            <li>Distinct BSTs with <code>n</code> keys = <mark>Catalan Number <code>C_n = (2n)! / ((n+1)!n!)</code></mark> (<code>n=3&rarr;5, n=4&rarr;14</code>).</li>
+            <li><mark>Inorder traversal of a BST</mark> always produces keys in strictly ascending sorted order.</li>
+            <li>Unique binary tree reconstruction needs <mark>Inorder + Preorder</mark> OR <mark>Inorder + Postorder</mark>.</li>
+            <li>AVL Tree Balance Factor <code>BF &isin; {-1, 0, +1}</code>; min nodes <code>N(h) = N(h-1) + N(h-2) + 1</code>.</li>
+            <li><mark>Red-Black Trees</mark> do fewer rotations on insert/delete than AVL (used in C++ <code>std::map</code>, Java <code>TreeMap</code>).</li>
+            <li><mark>Build-Heap</mark> takes <mark><code>O(n)</code></mark> time (NOT <code>O(n log n)</code>!); Insert/Extract takes <code>O(log n)</code>.</li>
+            <li>BFS uses a <mark>Queue</mark> (unweighted shortest path); DFS uses a <mark>Stack</mark> (back-edge = cycle, Topological Sort on DAGs).</li>
+            <li>Adjacency Matrix = <code>O(V^2)</code> space, <code>O(1)</code> edge check; Adjacency List = <code>O(V+E)</code> space (best for sparse graphs).</li>
+            <li>Eulerian circuit exists iff connected &amp; <mark>all vertices have even degree</mark>; Hamiltonian cycle is <mark>NP-Complete</mark>.</li>
+            <li>Linear Probing &rarr; <mark>Primary Clustering</mark>; Quadratic Probing &rarr; <mark>Secondary Clustering</mark>; Double Hashing &rarr; eliminates both!</li>
+            <li>Open Addressing deletions require <mark>Tombstone (Deleted)</mark> markers so probe chains aren't broken.</li>
+            <li><mark>Extendible Hashing</mark> uses Global Depth <code>D</code> &amp; Local Depth <code>d</code> with zero overflow chains.</li>
+            <li>Primary &amp; Clustering Indexes are <mark>Sparse</mark>; Secondary Index (on unordered field) is <mark>ALWAYS Dense</mark>.</li>
+            <li><mark>B+ Tree</mark> stores record pointers ONLY in leaves; internal nodes store keys + block pointers only (higher fan-out!).</li>
+            <li>B+ Tree leaves are <mark>linked sequentially</mark>, making SQL range queries (<code>BETWEEN</code>) ultra-fast.</li>
+            <li>B+ Tree internal order formula: <mark><code>p&middot;P_b + (p-1)&middot;K &le; B</code></mark>.</li>
+            <li>Hash Indexes excel at exact equality (<code>=</code>) but <mark>cannot efficiently serve range queries (<code>&lt;, &gt;, BETWEEN</code>)</mark>.</li>
+            <li><mark>Bloom Filter</mark> guarantees 0% false negatives (may have small false-positive rate) in minimal RAM.</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 3 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (22 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch3-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster1-ch02-computer-fundamentals.html">&larr; Prev: Chapter 2 — Computer Fundamentals</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-03', '[data-chapter-complete="it-03"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch3-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch3-q1',
+              marks: 2,
+              section: 'Array Addressing',
+              prompt: 'A 2D array A[8][12] (0-based indexing) is stored in Row-Major order with Base Address 2000 and element size 4 bytes. What is the memory address of A[2][5]?',
+              options: [
+                '2104',
+                '2116',
+                '2128',
+                '2168',
+                '2192'
+              ],
+              correctIndex: 1,
+              explanation: 'Row-Major: B + w × (i × N + j) = 2000 + 4 × (2 × 12 + 5) = 2000 + 4 × 29 = 2000 + 116 = 2116.'
+            },
+            {
+              id: 'ch3-q2',
+              marks: 1,
+              section: 'Linked Lists',
+              prompt: 'In a Singly Linked List that maintains both a head pointer and a tail pointer, what is the worst-case time complexity to DELETE the last node?',
+              options: [
+                'O(1)',
+                'O(log n)',
+                'O(n)',
+                'O(n log n)',
+                'O(n^2)'
+              ],
+              correctIndex: 2,
+              explanation: 'Even with a tail pointer, deleting the last node in a singly linked list requires traversing from head to find the second-last node so its next pointer can be set to NULL, taking O(n).'
+            },
+            {
+              id: 'ch3-q3',
+              marks: 2,
+              section: 'Postfix Evaluation',
+              prompt: 'What is the evaluated numerical result of the postfix expression: 8 2 3 ^ / 5 2 * + ?',
+              options: [
+                '9',
+                '10',
+                '11',
+                '14',
+                '18'
+              ],
+              correctIndex: 2,
+              explanation: '2^3 = 8; 8 / 8 = 1; 5 * 2 = 10; 1 + 10 = 11.'
+            },
+            {
+              id: 'ch3-q4',
+              marks: 1,
+              section: 'Queues',
+              prompt: 'Which condition accurately indicates that a Circular Queue of array capacity N (sacrificing one empty slot) is FULL?',
+              options: [
+                'rear == front',
+                'rear == N - 1',
+                '(rear + 1) % N == front',
+                '(front + 1) % N == rear',
+                'front == -1'
+              ],
+              correctIndex: 2,
+              explanation: 'In a circular array of size N using one sentinel empty slot, the queue is full when the next wrap-around position after rear equals front: (rear + 1) % N == front.'
+            },
+            {
+              id: 'ch3-q5',
+              marks: 1,
+              section: 'Binary Trees',
+              prompt: 'A non-empty binary tree contains exactly 17 nodes with two children (degree 2) and 9 nodes with one child (degree 1). How many leaf nodes does the tree have?',
+              options: [
+                '16 leaves',
+                '17 leaves',
+                '18 leaves',
+                '26 leaves',
+                '27 leaves'
+              ],
+              correctIndex: 2,
+              explanation: 'By the Binary Tree Leaf Theorem, n0 = n2 + 1 regardless of degree-1 nodes. Thus leaves = 17 + 1 = 18.'
+            },
+            {
+              id: 'ch3-q6',
+              marks: 2,
+              section: 'BST & Catalan',
+              prompt: 'How many structurally distinct Binary Search Trees (BSTs) can be formed using 5 distinct keys {10, 20, 30, 40, 50}?',
+              options: [
+                '14',
+                '28',
+                '42',
+                '64',
+                '120'
+              ],
+              correctIndex: 2,
+              explanation: 'The count of distinct BSTs is the 5th Catalan number: C5 = 10! / (6! × 5!) = 3,628,800 / (720 × 120) = 42.'
+            },
+            {
+              id: 'ch3-q7',
+              marks: 1,
+              section: 'Tree Reconstruction',
+              prompt: 'Which pair of traversals is ALWAYS sufficient to uniquely reconstruct an arbitrary binary tree with distinct node values?',
+              options: [
+                'Preorder and Postorder',
+                'Preorder and Level-Order',
+                'Inorder and Preorder',
+                'Postorder and Level-Order',
+                'Preorder alone'
+              ],
+              correctIndex: 2,
+              explanation: 'Inorder combined with either Preorder or Postorder uniquely identifies root and left/right subtree partitions. Preorder + Postorder is only unique for Full binary trees.'
+            },
+            {
+              id: 'ch3-q8',
+              marks: 2,
+              section: 'AVL & Red-Black Trees',
+              prompt: 'Why do standard library associative containers such as Java TreeMap and C++ std::map prefer Red-Black Trees over AVL Trees?',
+              options: [
+                'Red-Black Trees guarantee strictly shorter height than AVL Trees',
+                'Red-Black Trees perform fewer rotations on average during frequent insertions and deletions',
+                'AVL Trees cannot support O(log n) search time',
+                'Red-Black Trees do not store keys in sorted inorder sequence',
+                'AVL Trees cannot store negative integer keys'
+              ],
+              correctIndex: 1,
+              explanation: 'AVL trees are more rigidly balanced (better for lookup-heavy workloads), whereas Red-Black trees relax height to 2 log2(n+1), requiring fewer rotations on write-heavy insert/delete workloads.'
+            },
+            {
+              id: 'ch3-q9',
+              marks: 1,
+              section: 'Binary Heaps',
+              prompt: 'What is the tight worst-case time complexity of building a Binary Max-Heap from an unsorted array of n elements using the bottom-up Floyd Build-Heap algorithm?',
+              options: [
+                'O(log n)',
+                'O(n)',
+                'O(n log n)',
+                'O(n^2)',
+                'O(2^n)'
+              ],
+              correctIndex: 1,
+              explanation: 'Although a single heapify is O(log n), most nodes lie near the bottom of the heap with tiny heights; summing over all levels converges to tight O(n).'
+            },
+            {
+              id: 'ch3-q10',
+              marks: 1,
+              section: 'Graphs',
+              prompt: 'During a Depth-First Search (DFS) on a directed graph, the presence of which edge type proves that the graph contains at least one cycle?',
+              options: [
+                'Tree Edge',
+                'Forward Edge',
+                'Back Edge',
+                'Cross Edge',
+                'Bridge Edge'
+              ],
+              correctIndex: 2,
+              explanation: 'A directed graph has a cycle if and only if its DFS forest contains a Back Edge (an edge pointing to an ancestor currently on the recursion stack).'
+            },
+            {
+              id: 'ch3-q11',
+              marks: 2,
+              section: 'Hashing',
+              prompt: 'Which open-addressing collision resolution technique eliminates BOTH Primary Clustering and Secondary Clustering?',
+              options: [
+                'Linear Probing',
+                'Quadratic Probing',
+                'Double Hashing',
+                'Static Chaining with fixed array',
+                'Direct Addressing without hashing'
+              ],
+              correctIndex: 2,
+              explanation: 'Double Hashing uses a second hash function h2(k) as the probe step size, giving distinct step intervals even to keys colliding at the same h1(k), eliminating both primary and secondary clustering.'
+            },
+            {
+              id: 'ch3-q12',
+              marks: 1,
+              section: 'Database Indexing',
+              prompt: 'When creating a Secondary Index on a non-ordering attribute (such as Customer PAN or Mobile Number) of an unsorted database file, what type of index MUST it be?',
+              options: [
+                'Sparse Index',
+                'Dense Index',
+                'Clustering Sparse Index',
+                'Single-Level Static Overflow Index',
+                'Bit-Sliced Unindexed Heap'
+              ],
+              correctIndex: 1,
+              explanation: 'Because the underlying data file is not physically sorted by the secondary attribute, a Secondary Index must contain an entry for EVERY record—making it strictly Dense.'
+            },
+            {
+              id: 'ch3-q13',
+              marks: 2,
+              section: 'B+ Tree Order Numerical',
+              prompt: 'A B+ Tree uses 2048-byte disk blocks, 10-byte search keys, and 6-byte block pointers. What is the maximum order p (maximum child pointers) of an internal node?',
+              options: [
+                '120',
+                '128',
+                '136',
+                '144',
+                '156'
+              ],
+              correctIndex: 1,
+              explanation: 'Internal node formula: p × Pb + (p - 1) × K <= B → p(6) + (p - 1)(10) <= 2048 → 16p - 10 <= 2048 → 16p <= 2058 → p <= 128.625 → p = 128.'
+            },
+            {
+              id: 'ch3-q14',
+              marks: 1,
+              section: 'B-Tree vs B+ Tree',
+              prompt: 'Why are SQL range queries (such as fetching all MSME transactions BETWEEN two dates) dramatically faster in a B+ Tree than in a standard B-Tree?',
+              options: [
+                'B+ Trees store record pointers exclusively inside the root node',
+                'B+ Tree leaf nodes are linked sequentially, allowing linear scanning after finding the range start',
+                'B+ Trees disable disk block caching to save RAM',
+                'Standard B-Trees cannot store date or numeric keys',
+                'B+ Trees allow unbalanced leaf depths for recent records'
+              ],
+              correctIndex: 1,
+              explanation: 'In a B+ Tree, all data/record pointers reside at the leaf level connected as a sorted linked list; after one O(log_p N) root-to-leaf lookup, range scans simply follow leaf pointers.'
+            },
+            {
+              id: 'ch3-q15',
+              marks: 2,
+              section: 'Banking Data Structures',
+              prompt: 'A high-speed payment gateway uses a Bloom Filter in RAM to screen incoming account IDs against a 10-million-entry fraud watchlist. Which guarantee holds strictly true for a Bloom Filter?',
+              options: [
+                'Zero false positives and zero false negatives',
+                'Zero false negatives, with a small tunable false-positive probability',
+                'Zero false positives, with a high false-negative probability',
+                'Exact deletion of individual keys without counting bits',
+                'Guaranteed O(log n) sorted range retrieval of watchlist entries'
+              ],
+              correctIndex: 1,
+              explanation: 'A standard Bloom Filter never produces a false negative (if it says "not present", the key is definitely absent), though it may produce a small tunable rate of false positives verified against the main DB.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

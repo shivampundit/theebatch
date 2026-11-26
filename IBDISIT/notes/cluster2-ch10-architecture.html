@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 10: Computer &amp; Network Architecture (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 2 &bull; Chapter 10 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-10-1" class="active">10.1 ISA, Addressing Modes &amp; Endianness</a></li>
+          <li><a href="#sec-10-2">10.2 Pipelining, Hazards &amp; Forwarding</a></li>
+          <li><a href="#sec-10-3">10.3 Cache 3Cs, Flynn &amp; MESI Coherence</a></li>
+          <li><a href="#sec-10-4">10.4 DC Topology: Leaf-Spine &amp; SAN/NAS</a></li>
+          <li><a href="#sec-10-5">10.5 SDN, NFV, SD-WAN &amp; VXLAN</a></li>
+          <li><a href="#sec-10-6">10.6 L4/L7 Load Balancers, Proxy &amp; CDN</a></li>
+          <li><a href="#sec-10-7">10.7 Worked Exam Numericals (7)</a></li>
+          <li><a href="#sec-10-8">10.8 Banking DC Context + Blueprint</a></li>
+          <li><a href="#sec-10-9">10.9 Rapid Revision + 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-10">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster2-ch09-networking.html">&larr; Prev: Ch 9 Networking</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 2: Databases, Networks &amp; Security</span>
+            <span class="badge badge-warn">Topic 10 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">COA + Modern Enterprise DC Architecture</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 10: Computer &amp; Network Architecture</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Complete exam-depth guide uniting Computer Architecture (Addressing Modes, Endianness, 5-Stage Pipelining &amp; Hazards SVG,
+            3Cs Cache Misses, Flynn's Taxonomy, MESI Coherence) with Modern Network Architecture (Leaf-Spine Clos DC Topology, SAN vs. NAS,
+            SDN/OpenFlow, NFV, VXLAN, L4 vs. L7 Load Balancing, Reverse Proxies &amp; CDN), 7 worked numericals, banking PDC–DR context, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 10.1 ==================== -->
+        <section id="sec-10-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">10.1 Instruction Set Architecture (ISA), Addressing Modes &amp; Endianness</h2>
+            <span class="badge badge-info">COA Core</span>
+          </div>
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Addressing Mode</th>
+                  <th>Effective Address (EA) / Operand</th>
+                  <th>Primary Use / Exam Keyword</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Immediate</strong></td><td>Operand is embedded directly inside instruction</td><td>Loading constants (<code>ADD R1, #5</code>); 0 extra RAM refs</td></tr>
+                <tr><td><strong>Register</strong></td><td>Operand resides inside a CPU register</td><td>Fastest execution; 0 RAM refs</td></tr>
+                <tr><td><strong>Direct (Absolute)</strong></td><td><code>EA = A</code> (address field points directly to RAM)</td><td>Accessing global/static variables (1 RAM ref)</td></tr>
+                <tr><td><strong>Indirect</strong></td><td><code>EA = M[A]</code> (pointer in memory)</td><td>Pointers (2 RAM refs — slowest!)</td></tr>
+                <tr><td><strong>Register Indirect</strong></td><td><code>EA = Reg[R]</code></td><td>Traversing pointers/linked lists (1 RAM ref)</td></tr>
+                <tr><td><strong>Indexed</strong></td><td><code>EA = A + IndexReg</code></td><td><mark>Iterating through Arrays</mark></td></tr>
+                <tr><td><strong>Base-Register</strong></td><td><code>EA = BaseReg + Offset</code></td><td><mark>Relocatable code &amp; stack frame local vars</mark></td></tr>
+                <tr><td><strong>PC-Relative</strong></td><td><code>EA = PC + Offset</code></td><td><mark>Position-Independent Code (PIC) &amp; conditional branches</mark></td></tr>
+                <tr><td><strong>Auto-Increment / Dec</strong></td><td><code>EA = Reg[R]; R++</code></td><td><mark>Stack Push/Pop &amp; sequential array loops</mark></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>Instruction Formats:</strong> <strong>0-Address</strong> (Stack-organized, <code>PUSH/ADD</code>), <strong>1-Address</strong> (Accumulator-based), <strong>2-Address</strong> (x86 — overwrites one operand), <strong>3-Address</strong> (MIPS/ARM — <code>ADD R1, R2, R3</code>).</li>
+            <li><strong>Big-Endian vs. Little-Endian:</strong>
+              <mark>Big-Endian</mark> stores the <strong>Most Significant Byte (MSB)</strong> at the lowest memory address (used as <mark>Network Byte Order in TCP/IP</mark>).
+              <mark>Little-Endian</mark> stores the <strong>Least Significant Byte (LSB)</strong> at the lowest memory address (used by <mark>x86-64 &amp; default ARM</mark>).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 10.2 ==================== -->
+        <section id="sec-10-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">10.2 Instruction Pipelining, Hazards &amp; Superscalar Execution</h2>
+            <span class="badge badge-danger">Top COA Numerical &amp; Concept Zone</span>
+          </div>
+
+          <!-- Inline SVG: 5-Stage RISC Pipeline -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 155" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="5-Stage Classic RISC Instruction Pipeline">
+              <rect x="10" y="6" width="740" height="142" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="380" y="26" text-anchor="middle" fill="#0f2942" font-size="12" font-weight="700">Classic 5-Stage RISC Pipeline (Overlaps 5 Instructions &rarr; Ideal Throughput = 1 IPC)</text>
+              <!-- Stage boxes for I1 -->
+              <text x="36" y="57" fill="#0f2942" font-size="11" font-weight="700">I1:</text>
+              <rect x="65" y="40" width="95" height="24" rx="4" fill="#0f2942"/><text x="112" y="56" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">1. IF (Fetch)</text>
+              <rect x="166" y="40" width="95" height="24" rx="4" fill="#1d4ed8"/><text x="213" y="56" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">2. ID (Decode)</text>
+              <rect x="267" y="40" width="95" height="24" rx="4" fill="#0d9488"/><text x="314" y="56" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">3. EX (ALU)</text>
+              <rect x="368" y="40" width="95" height="24" rx="4" fill="#b45309"/><text x="415" y="56" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">4. MEM</text>
+              <rect x="469" y="40" width="95" height="24" rx="4" fill="#6d28d9"/><text x="516" y="56" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">5. WB</text>
+              <!-- I2 -->
+              <text x="36" y="88" fill="#0f2942" font-size="11" font-weight="700">I2:</text>
+              <rect x="166" y="71" width="95" height="24" rx="4" fill="#0f2942"/><text x="213" y="87" text-anchor="middle" fill="#fff" font-size="10">IF</text>
+              <rect x="267" y="71" width="95" height="24" rx="4" fill="#1d4ed8"/><text x="314" y="87" text-anchor="middle" fill="#fff" font-size="10">ID</text>
+              <rect x="368" y="71" width="95" height="24" rx="4" fill="#0d9488"/><text x="415" y="87" text-anchor="middle" fill="#fff" font-size="10">EX</text>
+              <rect x="469" y="71" width="95" height="24" rx="4" fill="#b45309"/><text x="516" y="87" text-anchor="middle" fill="#fff" font-size="10">MEM</text>
+              <rect x="570" y="71" width="95" height="24" rx="4" fill="#6d28d9"/><text x="617" y="87" text-anchor="middle" fill="#fff" font-size="10">WB</text>
+              <!-- Formula bar -->
+              <text x="380" y="128" text-anchor="middle" fill="#0f766e" font-size="11" font-weight="700">Total Cycles (k stages, n instructions) = (k + n - 1) &bull; Clock Period t_p = max(stage_delay) + latch_delay</text>
+            </svg>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Hazard Type</th>
+                  <th>Cause</th>
+                  <th>Hardware / Compiler Mitigation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. Structural Hazard</strong></td>
+                  <td>Two instructions need the same hardware unit in the same cycle (e.g., unified RAM for IF &amp; MEM)</td>
+                  <td><mark>Split L1i &amp; L1d Caches (Modified Harvard)</mark>, duplicate ALUs</td>
+                </tr>
+                <tr>
+                  <td><strong>2. Data Hazard</strong></td>
+                  <td>
+                    &bull; <mark><strong>RAW</strong> (Read-After-Write)</mark> = True Dependency<br>
+                    &bull; <strong>WAR</strong> (Write-After-Read) = Anti-Dependency<br>
+                    &bull; <strong>WAW</strong> (Write-After-Write) = Output Dependency
+                  </td>
+                  <td>
+                    &bull; <mark>Operand Forwarding (Bypassing)</mark> &amp; Pipeline Stalls (Bubbles) for RAW<br>
+                    &bull; <mark>Register Renaming (Tomasulo's Algorithm)</mark> eliminates WAR &amp; WAW!
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>3. Control Hazard</strong></td>
+                  <td>Conditional branch/jump changes PC before branch outcome is known</td>
+                  <td><mark>Dynamic Branch Prediction (2-bit saturating counter)</mark>, Branch Target Buffer (BTB), Delayed Branch, Speculative Execution</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 10.3 ==================== -->
+        <section id="sec-10-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">10.3 Cache 3Cs, Flynn's Taxonomy &amp; Multiprocessor Cache Coherence (MESI)</h2>
+          </div>
+          <ul>
+            <li><strong>The 3 Cs of Cache Misses:</strong>
+              (1) <mark>Compulsory (Cold) Miss</mark> — very first access to a block (reduced by larger block size / prefetching);
+              (2) <mark>Capacity Miss</mark> — cache too small to hold working set (fixed only by larger cache);
+              (3) <mark>Conflict (Collision) Miss</mark> — multiple blocks map to same set in Direct/Set-Associative cache (eliminated by Fully Associative or higher <code>k</code>-way associativity!).</li>
+            <li><strong>Flynn's Taxonomy (4 Architectures):</strong>
+              <strong>SISD</strong> (classic single-core CPU),
+              <mark><strong>SIMD</strong></mark> (one instruction operates on vector/matrix data simultaneously — <mark>GPUs, Intel AVX-512, AI tensor units</mark>),
+              <strong>MISD</strong> (rare — fault-tolerant space-shuttle voting systems),
+              <mark><strong>MIMD</strong></mark> (modern multi-core servers, distributed cloud clusters).</li>
+            <li><strong>SMP (UMA) vs. NUMA:</strong> In <strong>UMA / SMP</strong>, all cores experience uniform latency to shared RAM. In <strong>NUMA</strong> (Non-Uniform Memory Access — multi-socket enterprise servers), each CPU socket has fast local RAM and slower remote RAM across interconnect.</li>
+            <li><strong>Cache Coherence — MESI Protocol (Snooping):</strong> Keeps private per-core L1/L2 caches consistent across cores using 4 states:
+              <mark><strong>M</strong>odified</mark> (dirty, exclusive to this cache),
+              <mark><strong>E</strong>xclusive</mark> (clean, only in this cache),
+              <mark><strong>S</strong>hared</mark> (clean, present in &ge;2 caches),
+              <mark><strong>I</strong>nvalid</mark> (stale, must fetch).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 10.4 ==================== -->
+        <section id="sec-10-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">10.4 Enterprise Data Centre Topologies: 3-Tier vs. Leaf-Spine &amp; SAN vs. NAS</h2>
+            <span class="badge badge-warn">Modern Network Architecture</span>
+          </div>
+
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Legacy 3-Tier (Access – Distribution – Core)</th>
+                  <th>Modern Leaf-Spine (Clos Fabric)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Traffic Pattern</strong></td>
+                  <td>Optimized for <mark>North-South</mark> (client &harr; server)</td>
+                  <td>Optimized for <mark>East-West</mark> (microservice &harr; DB / VM traffic)</td>
+                </tr>
+                <tr>
+                  <td><strong>Loop Prevention</strong></td>
+                  <td>Spanning Tree Protocol (STP) — <mark>blocks redundant links!</mark></td>
+                  <td><mark>L3 ECMP (Equal-Cost Multi-Path)</mark> — ALL links active!</td>
+                </tr>
+                <tr>
+                  <td><strong>Hop Latency</strong></td>
+                  <td>Variable hops depending on path</td>
+                  <td><mark>Predictable fixed 2-hop latency</mark> (Leaf &rarr; Spine &rarr; Leaf)</td>
+                </tr>
+                <tr>
+                  <td><strong>Scalability</strong></td>
+                  <td>Hard to scale horizontally</td>
+                  <td>Add Spines for bandwidth; add Leafs for server ports</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Storage Network</th>
+                  <th>Access Granularity</th>
+                  <th>Protocols</th>
+                  <th>Banking Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>SAN (Storage Area Network)</strong></td>
+                  <td><mark>Block-level</mark> (OS sees raw disk LUNs)</td>
+                  <td><mark>Fibre Channel (FC), iSCSI, NVMe-oF</mark></td>
+                  <td>High-IOPS Core Banking RDBMS (Oracle/DB2) &amp; VMware ESXi datastores</td>
+                </tr>
+                <tr>
+                  <td><strong>NAS (Network Attached Storage)</strong></td>
+                  <td><mark>File-level</mark> (shared folders)</td>
+                  <td><mark>NFS (Linux), SMB/CIFS (Windows)</mark></td>
+                  <td>KYC scanned PDFs, MSME project reports, shared audit files</td>
+                </tr>
+                <tr>
+                  <td><strong>Object Storage</strong></td>
+                  <td><mark>Object + Metadata + REST API</mark></td>
+                  <td>HTTP/HTTPS (S3-compatible)</td>
+                  <td>Immutable WORM backups, data lakes, unstructured archives</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 10.5 ==================== -->
+        <section id="sec-10-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">10.5 SDN (Software-Defined Networking), NFV, SD-WAN &amp; VXLAN</h2>
+            <span class="badge badge-purple">High Paper III Descriptive &amp; MCQ Yield</span>
+          </div>
+          <ul>
+            <li><strong>SDN Architecture:</strong> Programmatically decouples the <mark>Control Plane</mark> (routing/policy intelligence centralized in an <strong>SDN Controller</strong>) from the <mark>Data / Forwarding Plane</mark> (high-speed commodity switches).
+              &bull; <strong>Southbound API:</strong> Controller &harr; Switches (<mark>OpenFlow</mark>, NETCONF, BGP-LS).<br>
+              &bull; <strong>Northbound API:</strong> Controller &harr; Business/Security Apps (<mark>REST APIs</mark>).</li>
+            <li><strong>NFV (Network Functions Virtualization):</strong> Replaces dedicated proprietary hardware appliances (firewalls, NAT gateways, IPS, load balancers) with software <mark>Virtual Network Functions (VNFs)</mark> running on standard x86 servers/containers. <em>(SDN = separates control/data plane; NFV = virtualizes network appliances—they complement each other!)</em></li>
+            <li><strong>SD-WAN:</strong> Applies SDN to wide-area branch links, dynamically steering traffic across MPLS, broadband, and 5G based on real-time latency/jitter SLAs.</li>
+            <li><strong>VXLAN (Virtual Extensible LAN):</strong> Encapsulates Layer-2 Ethernet frames inside Layer-3 <mark>UDP (Port 4789)</mark> packets, expanding segmentation from 4,094 VLANs (12-bit) to <mark>16.7 million VNIs (24-bit)</mark> for multi-tenant clouds.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 10.6 ==================== -->
+        <section id="sec-10-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">10.6 High Availability: L4 vs. L7 Load Balancers, Reverse Proxies &amp; CDN</h2>
+          </div>
+          <ul>
+            <li><strong>L4 vs. L7 Load Balancing:</strong>
+              <strong>L4 (Transport):</strong> Routes based on IP + TCP/UDP port (ultra-low latency, no TLS decryption).
+              <strong>L7 (Application):</strong> Inspects HTTP URL paths (<code>/api/loans</code> vs. <code>/static</code>), headers, cookies; performs <mark>TLS termination, sticky sessions, and WAF filtering</mark>.</li>
+            <li><strong>Forward Proxy vs. Reverse Proxy:</strong>
+              <strong>Forward Proxy</strong> sits in front of <em>Clients</em> (enforces corporate web filtering, caches outbound traffic, hides client IP).
+              <strong>Reverse Proxy</strong> (Nginx, HAProxy, F5) sits in front of <em>Backend Servers</em> (hides origin IPs, balances load, offloads TLS, mitigates DDoS).</li>
+            <li><strong>CDN &amp; BGP Anycast:</strong> Caches static/edge assets at globally distributed PoPs; <mark>Anycast</mark> advertises the same IP prefix from multiple PoPs so BGP routes users to the topologically closest edge node.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 10.7 ==================== -->
+        <section id="sec-10-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">10.7 Worked Exam Numericals (7 Step-by-Step Architecture Problems)</h2>
+            <span class="badge badge-warn">2-Mark Scoring Zone</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 1: Pipeline Speedup with Latch Overhead</span>
+            <strong>Given:</strong> Non-pipelined CPU latency = <code>50 ns</code>. Converted to <code>k = 5</code> stages with stage delays <code>8, 10, 9, 12, 11 ns</code> + latch delay <code>2 ns</code>. Find pipeline clock cycle &amp; steady-state speedup.<br>
+            <strong>Pipeline Cycle:</strong> <code>t_p = max(stage) + latch = 12 + 2 =</code> <mark><code>14 ns</code></mark>.<br>
+            <strong>Steady-State Speedup (<code>n &rarr; &infin;</code>):</strong> <code>50 / 14 =</code> <mark><code>3.57&times;</code></mark>. (For <code>n = 100</code> instructions: <code>(5 + 100 - 1) &times; 14 = 1456 ns</code> vs. <code>5000 ns</code>).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 2: Effective CPI with Branch Hazards</span>
+            <strong>Given:</strong> Ideal <code>CPI = 1</code>; <code>20%</code> instructions are branches; branch predictor accuracy = <code>75%</code>; misprediction penalty = <code>3</code> stall cycles.<br>
+            <strong>Misprediction rate:</strong> <code>25%</code> of <code>20%</code> = <code>0.05</code>.<br>
+            <strong>Effective CPI:</strong> <code>1 + (0.20 &times; 0.25 &times; 3) = 1 + 0.15 =</code> <mark><code>1.15</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 3: 4-Way Set-Associative Cache Address Split</span>
+            <strong>Given:</strong> 32-bit address, <code>64 KB</code> 4-way set-associative cache, <code>64 B</code> block size.<br>
+            &bull; <code>Block Offset = log2(64) =</code> <mark><code>6 bits</code></mark>.<br>
+            &bull; Total lines = <code>64 KB / 64 B = 1024</code>. Sets = <code>1024 / 4 = 256 = 2^8</code> &rarr; <code>Set Index =</code> <mark><code>8 bits</code></mark>.<br>
+            &bull; <code>Tag = 32 - (8 + 6) =</code> <mark><code>18 bits</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 4: Big-Endian vs. Little-Endian Byte Storage</span>
+            <strong>Value:</strong> 32-bit hex word <code>0x12345678</code> stored at addresses <code>0x100..0x103</code>.<br>
+            &bull; <strong>Big-Endian (Network):</strong> <code>0x100: 12 | 0x101: 34 | 0x102: 56 | 0x103: 78</code>.<br>
+            &bull; <strong>Little-Endian (x86):</strong> <code>0x100: 78 | 0x101: 56 | 0x102: 34 | 0x103: 12</code>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 5: Instruction Word Bit Allocation</span>
+            <strong>Given:</strong> 16-bit instruction supporting <code>32</code> distinct opcodes and <code>1</code> register operand + <code>1</code> memory address. Machine has <code>16</code> registers. Find max addressable memory words.<br>
+            <strong>Bits used:</strong> Opcode = <code>log2(32) = 5 bits</code>; Register = <code>log2(16) = 4 bits</code>.<br>
+            Remaining address bits = <code>16 - (5 + 4) = 7 bits</code> &rarr; Max memory = <code>2^7 =</code> <mark><code>128 words</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 6: Leaf-Spine Clos Fabric Links</span>
+            A banking DC builds a full-mesh Leaf-Spine fabric with <code>4</code> Spine switches and <code>12</code> Leaf switches (1 uplink per Leaf-Spine pair).<br>
+            Total inter-switch links = <code>4 &times; 12 =</code> <mark><code>48 active ECMP links</code></mark> (0 blocked by STP!).
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Numerical 7: Parallel High-Availability System Reliability</span>
+            Two redundant L7 Load Balancers each have <code>99%</code> (<code>0.99</code>) availability deployed in Active-Active parallel mode.<br>
+            <strong>Combined Availability:</strong> <code>1 - (1 - 0.99)(1 - 0.99) = 1 - 0.0001 =</code> <mark><code>99.99% ("Four Nines")</code></mark>!
+          </div>
+        </section>
+
+        <!-- ==================== 10.8 ==================== -->
+        <section id="sec-10-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">10.8 Banking &amp; SIDBI Data Centre Context + 10-Mark Blueprint</h2>
+            <span class="badge badge-live">Descriptive Edge</span>
+          </div>
+          <p>
+            Enterprise financial data centres hosting <a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">SIDBI's digital platforms</a>
+            combine <strong>Leaf-Spine SDN fabrics</strong> (for zero-trust East-West micro-segmentation), <strong>Active-Active L7 load balancers</strong>,
+            and <strong>SAN Synchronous Replication</strong> (RPO &approx; 0) between Primary DC (PDC) and Near-DR plus Asynchronous Replication to distant DR—aligned with
+            <a href="https://m.rbi.org.in/scripts/BS_ViewMasDirections.aspx?id=13597" target="_blank" rel="noopener noreferrer">RBI AIFI Cybersecurity, Technology: Risk, Resilience and Assurance Framework Directions, 2026</a>.
+          </p>
+          <div class="callout callout-info">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"Compare Software-Defined Networking (SDN) and Network Functions Virtualization (NFV), and explain how Leaf-Spine topologies and L7 Load Balancers improve resilience in modern banking data centres." (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (25w):</strong> Legacy 3-tier hardware-bound networks suffer STP bottlenecks, slow manual VLAN provisioning, and lateral-movement risk.<br>
+            &bull; <strong>SDN vs. NFV (75w):</strong> SDN separates Control Plane (central OpenFlow controller) from Data Plane for dynamic zero-trust micro-segmentation; NFV virtualizes firewalls/WAFs/IDS as elastic VNFs on commodity servers.<br>
+            &bull; <strong>Leaf-Spine &amp; L7 HA (80w):</strong> Clos Leaf-Spine uses L3 ECMP for deterministic 2-hop East-West latency with zero blocked links; Active-Active L7 load balancers add TLS termination, health-checked failover, and DDoS absorption.<br>
+            &bull; <strong>Conclusion (20w):</strong> Together they deliver agile, RBI-resilient PDC–DR architecture for high-volume MSME digital lending.
+          </div>
+        </section>
+
+        <!-- ==================== 10.9 ==================== -->
+        <section id="sec-10-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">10.9 5-Minute Rapid Revision Sheet &amp; 15 Exam-Level Practice MCQs</h2>
+            <span class="badge badge-warn">Last-Day Cram + Drill</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li><mark>Indexed addressing</mark> = arrays; <mark>PC-Relative</mark> = relocatable branches / PIC; <mark>Indirect</mark> = pointers (2 RAM refs).</li>
+            <li><mark>Big-Endian</mark> = MSB at lowest address (Network Byte Order); <mark>Little-Endian</mark> = LSB at lowest address (x86).</li>
+            <li>Classic 5-Stage RISC Pipeline: <mark><code>IF &rarr; ID &rarr; EX &rarr; MEM &rarr; WB</code></mark>; Total cycles = <code>k + n - 1</code>.</li>
+            <li>Pipeline clock period = <mark><code>max(stage delay) + latch delay</code></mark>.</li>
+            <li><mark>Structural Hazard</mark> = hardware conflict (fixed by split L1i/L1d Harvard cache).</li>
+            <li><mark>RAW</mark> = True Data Dependency (fixed by Operand Forwarding/Stalls); <mark>WAR &amp; WAW</mark> = False Dependencies (eliminated by <mark>Register Renaming</mark>!).</li>
+            <li><mark>Control Hazard</mark> = branches (mitigated via 2-bit Dynamic Branch Prediction &amp; BTB).</li>
+            <li>Cache 3 Cs: <mark>Compulsory (Cold), Capacity, Conflict</mark> (Conflict eliminated by Fully Associative cache).</li>
+            <li>Flynn's Taxonomy: <mark>SIMD</mark> = GPUs/vector AI units; <mark>MIMD</mark> = multi-core servers &amp; clusters.</li>
+            <li><mark>MESI</mark> Cache Coherence states: Modified, Exclusive, Shared, Invalid.</li>
+            <li><mark>NUMA</mark> = faster access to local socket RAM than remote socket RAM.</li>
+            <li>Legacy 3-Tier DC uses STP (blocks links); modern <mark>Leaf-Spine (Clos)</mark> uses <mark>L3 ECMP</mark> (all links active, fixed 2-hop East-West).</li>
+            <li><mark>SAN</mark> = Block-level (Fibre Channel, iSCSI — CBS RDBMS); <mark>NAS</mark> = File-level (NFS, SMB).</li>
+            <li><mark>SDN</mark> decouples Control Plane from Data Plane; Southbound API = <mark>OpenFlow</mark>; Northbound = REST.</li>
+            <li><mark>NFV</mark> virtualizes network appliances (firewalls, IDS, LB) as software VNFs on commodity x86 servers.</li>
+            <li><mark>VXLAN</mark> encapsulates L2 frames in UDP 4789 with 24-bit VNI (<mark>16.7 million</mark> segments vs. 4,094 VLANs).</li>
+            <li><mark>L4 Load Balancer</mark> routes by IP/Port (fast); <mark>L7 Load Balancer</mark> inspects HTTP URL/Headers + TLS termination.</li>
+            <li><mark>Forward Proxy</mark> acts for Clients; <mark>Reverse Proxy</mark> protects/accelerates Backend Servers.</li>
+            <li><mark>BGP Anycast</mark> routes users to the nearest CDN edge PoP using the same IP prefix.</li>
+            <li>Parallel Availability: <code>A_total = 1 - (1 - A1)(1 - A2)</code>; Series Availability: <code>A1 &times; A2</code>.</li>
+            <li>Synchronous SAN replication gives <mark>RPO &approx; 0</mark> (short distance); Asynchronous spans distant seismic DR zones.</li>
+            <li>Tomasulo's Algorithm enables <mark>Out-of-Order Execution</mark> + dynamic register renaming.</li>
+            <li>Superscalar CPUs issue <mark>multiple instructions per clock cycle</mark> (CPI &lt; 1).</li>
+            <li>0-Address ISA uses an implicit Stack; 3-Address ISA (RISC) keeps source operands unmodified.</li>
+            <li>SD-WAN dynamically steers banking branch traffic across MPLS/Internet/5G based on live SLA telemetry.</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 10 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (22 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch10-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster2-ch09-networking.html">&larr; Prev: Chapter 9 — Networking</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-10', '[data-chapter-complete="it-10"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch10-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch10-q1',
+              marks: 1,
+              section: 'Addressing Modes',
+              prompt: 'Which addressing mode is specifically used to support Position-Independent Code (PIC) and conditional branch instructions without hardcoding absolute RAM addresses?',
+              options: [
+                'Immediate Addressing',
+                'Direct Addressing',
+                'PC-Relative Addressing',
+                'Memory Indirect Addressing',
+                'Implied Addressing'
+              ],
+              correctIndex: 2,
+              explanation: 'PC-Relative Addressing computes Effective Address = PC + signed offset, allowing branch targets to remain valid regardless of where the program is loaded in memory.'
+            },
+            {
+              id: 'ch10-q2',
+              marks: 1,
+              section: 'Endianness',
+              prompt: 'If the 32-bit hexadecimal integer 0xAABBCCDD is stored in a LITTLE-ENDIAN (x86) system starting at memory address 0x2000, which byte is stored at address 0x2000?',
+              options: [
+                '0xAA',
+                '0xBB',
+                '0xCC',
+                '0xDD',
+                '0x00'
+              ],
+              correctIndex: 3,
+              explanation: 'Little-Endian stores the Least Significant Byte (LSB = 0xDD) at the lowest memory address (0x2000).'
+            },
+            {
+              id: 'ch10-q3',
+              marks: 2,
+              section: 'Pipelining Numerical',
+              prompt: 'A non-pipelined processor executes an instruction in 40 ns. It is redesigned as a 4-stage pipeline with stage delays of 9 ns, 11 ns, 8 ns, and 12 ns, plus a 1 ns inter-stage latch delay. What is the steady-state speedup for a large number of instructions?',
+              options: [
+                '2.50×',
+                '3.08×',
+                '3.33×',
+                '3.64×',
+                '4.00×'
+              ],
+              correctIndex: 1,
+              explanation: 'Pipeline clock cycle tp = max(stage delays) + latch = 12 + 1 = 13 ns. Steady-state speedup = T_nonpipe / tp = 40 / 13 = 3.077 ≈ 3.08×.'
+            },
+            {
+              id: 'ch10-q4',
+              marks: 1,
+              section: 'Pipeline Hazards',
+              prompt: 'Which hardware technique specifically eliminates WAR (Anti-Dependency) and WAW (Output Dependency) false data hazards in out-of-order superscalar processors?',
+              options: [
+                'Split L1 Instruction/Data Cache',
+                'Register Renaming (e.g., Tomasulo\'s Algorithm)',
+                'Spanning Tree Protocol',
+                'Delayed Branching',
+                'Write-Through Caching'
+              ],
+              correctIndex: 1,
+              explanation: 'WAR and WAW are false (name) dependencies caused by reusing architectural register names; Register Renaming maps them to distinct physical registers, eliminating both hazards.'
+            },
+            {
+              id: 'ch10-q5',
+              marks: 1,
+              section: 'Cache 3Cs',
+              prompt: 'Which category of cache miss is completely ELIMINATED when transitioning from a Direct-Mapped cache to a Fully Associative cache of the exact same total capacity and block size?',
+              options: [
+                'Compulsory (Cold) Misses',
+                'Capacity Misses',
+                'Conflict (Collision) Misses',
+                'TLB Shootdown Misses',
+                'Page Fault Misses'
+              ],
+              correctIndex: 2,
+              explanation: 'Conflict misses occur when multiple blocks compete for the same cache line/set; a Fully Associative cache lets any block occupy any line, reducing Conflict Misses to zero.'
+            },
+            {
+              id: 'ch10-q6',
+              marks: 2,
+              section: 'Set-Associative Cache',
+              prompt: 'A 32-bit byte-addressable CPU has a 128 KB 8-way set-associative cache with 64-byte blocks. How many bits are required for the Set Index and Tag fields respectively?',
+              options: [
+                'Index: 8 bits, Tag: 18 bits',
+                'Index: 9 bits, Tag: 17 bits',
+                'Index: 10 bits, Tag: 16 bits',
+                'Index: 11 bits, Tag: 15 bits',
+                'Index: 6 bits, Tag: 20 bits'
+              ],
+              correctIndex: 0,
+              explanation: 'Block Offset = log2(64) = 6 bits. Total lines = 128 KB / 64 B = 2048. Sets = 2048 / 8 = 256 = 2^8 → Index = 8 bits. Tag = 32 - (8 + 6) = 18 bits.'
+            },
+            {
+              id: 'ch10-q7',
+              marks: 1,
+              section: 'Flynn\'s Taxonomy',
+              prompt: 'Under Flynn\'s Taxonomy, modern GPUs and CPU vector extensions (such as AVX-512) executing a single matrix operation simultaneously across thousands of data elements belong to which class?',
+              options: [
+                'SISD',
+                'SIMD',
+                'MISD',
+                'MIMD',
+                'NUMA'
+              ],
+              correctIndex: 1,
+              explanation: 'SIMD (Single Instruction, Multiple Data) executes one instruction stream concurrently over multiple data lanes, powering GPUs and AI vector engines.'
+            },
+            {
+              id: 'ch10-q8',
+              marks: 1,
+              section: 'Cache Coherence',
+              prompt: 'In the MESI multiprocessor cache coherence protocol, what do the four letters M, E, S, and I stand for?',
+              options: [
+                'Mapped, Executed, Swapped, Indexed',
+                'Modified, Exclusive, Shared, Invalid',
+                'Memory, Ethernet, Storage, Interface',
+                'Multicore, Embedded, Synchronous, Isolated',
+                'Master, External, Serial, Internal'
+              ],
+              correctIndex: 1,
+              explanation: 'MESI tracks each cache line in one of four coherence states: Modified (dirty/exclusive), Exclusive (clean/only copy), Shared (clean/multiple copies), or Invalid.'
+            },
+            {
+              id: 'ch10-q9',
+              marks: 1,
+              section: 'Data Centre Topologies',
+              prompt: 'Why have modern cloud and banking data centres largely replaced legacy 3-tier STP networks with Leaf-Spine (Clos) architectures?',
+              options: [
+                'Leaf-Spine requires only a single switch for the entire data centre',
+                'Leaf-Spine uses L3 ECMP so all links stay active with predictable 2-hop East-West latency and no STP-blocked links',
+                'Leaf-Spine eliminates the need for IP addresses on servers',
+                'Leaf-Spine runs exclusively over coaxial cables',
+                'Leaf-Spine disables redundant paths to reduce power draw'
+              ],
+              correctIndex: 1,
+              explanation: 'Leaf-Spine (Clos) uses Layer-3 Equal-Cost Multi-Path (ECMP) routing, keeping all uplinks active and guaranteeing deterministic 2-hop East-West latency.'
+            },
+            {
+              id: 'ch10-q10',
+              marks: 1,
+              section: 'Storage Architecture',
+              prompt: 'How does a SAN (Storage Area Network) fundamentally differ from a NAS (Network Attached Storage)?',
+              options: [
+                'SAN provides block-level storage (FC/iSCSI) appearing as local disks; NAS provides file-level shared folders (NFS/SMB)',
+                'SAN provides file-level HTTP shares; NAS provides raw block LUNs',
+                'SAN works only over Wi-Fi; NAS works only over Fibre Channel',
+                'SAN cannot be used for relational databases; NAS is mandatory for Oracle CBS',
+                'There is no technical difference; both terms refer to magnetic tape'
+              ],
+              correctIndex: 0,
+              explanation: 'SAN delivers low-latency block-level storage (Fibre Channel / iSCSI) ideal for RDBMS/VMs, whereas NAS delivers file-level access over NFS/SMB.'
+            },
+            {
+              id: 'ch10-q11',
+              marks: 2,
+              section: 'SDN Architecture',
+              prompt: 'In Software-Defined Networking (SDN), what is the primary architectural separation, and which protocol is the classic Southbound API connecting the controller to switches?',
+              options: [
+                'Separates Physical and Session layers; Southbound API is SMTP',
+                'Separates the centralized Control Plane from the Data/Forwarding Plane; Southbound API is OpenFlow',
+                'Separates Application and Presentation layers; Southbound API is SNMP',
+                'Separates RAM from CPU cache; Southbound API is PCIe',
+                'Separates DNS from DHCP; Southbound API is HTTP/3'
+              ],
+              correctIndex: 1,
+              explanation: 'SDN decouples the programmable centralized Control Plane from the hardware Data/Forwarding Plane using Southbound protocols like OpenFlow.'
+            },
+            {
+              id: 'ch10-q12',
+              marks: 1,
+              section: 'Overlay Networks',
+              prompt: 'How does VXLAN overcome the 4,094-segment scalability ceiling of traditional IEEE 802.1Q VLANs in large cloud data centres?',
+              options: [
+                'By replacing Ethernet MAC addresses with 8-bit IDs',
+                'By encapsulating Layer-2 frames inside UDP (Port 4789) with a 24-bit VNI supporting ~16.7 million logical networks',
+                'By running Spanning Tree Protocol across the public Internet',
+                'By limiting each data centre to 16 physical switches',
+                'By disabling IPv4 subnetting'
+              ],
+              correctIndex: 1,
+              explanation: 'VXLAN uses a 24-bit VXLAN Network Identifier (VNI) encapsulated in UDP 4789, scaling from 2^12 (4,094 VLANs) to 2^24 (~16.7 million) isolated L2 overlays.'
+            },
+            {
+              id: 'ch10-q13',
+              marks: 1,
+              section: 'Load Balancing',
+              prompt: 'Which capability requires a Layer-7 (Application) Load Balancer rather than a Layer-4 (Transport) Load Balancer?',
+              options: [
+                'Forwarding packets based solely on destination IP and TCP port',
+                'Routing requests to different backend microservice pools based on HTTP URL paths (/api/loans vs /api/kyc) and cookies',
+                'Operating strictly at the physical Ethernet cable layer',
+                'Replacing BGP routers at ISP peering exchanges',
+                'Eliminating TCP 3-way handshakes from clients'
+              ],
+              correctIndex: 1,
+              explanation: 'L7 Load Balancers terminate TLS and parse HTTP headers, URL paths, and cookies for content-aware routing; L4 operates only on IP/Port tuples.'
+            },
+            {
+              id: 'ch10-q14',
+              marks: 2,
+              section: 'High Availability Math',
+              prompt: 'A banking API gateway deploys two independent Reverse Proxy servers in Active-Active parallel redundancy, each rated at 99.5% availability. What is the combined availability of the parallel pair?',
+              options: [
+                '99.0025%',
+                '99.5000%',
+                '99.7500%',
+                '99.9975%',
+                '99.9999%'
+              ],
+              correctIndex: 3,
+              explanation: 'Parallel availability = 1 - (1 - 0.995) × (1 - 0.995) = 1 - (0.005 × 0.005) = 1 - 0.000025 = 0.999975 = 99.9975%.'
+            },
+            {
+              id: 'ch10-q15',
+              marks: 1,
+              section: 'Proxy Architecture',
+              prompt: 'Which proxy type sits in front of a bank\'s internal web/API servers to hide origin IP addresses, offload TLS encryption, cache responses, and filter malicious traffic?',
+              options: [
+                'Forward Proxy',
+                'Reverse Proxy',
+                'ARP Proxy',
+                'DHCP Relay',
+                'Stub Resolver'
+              ],
+              correctIndex: 1,
+              explanation: 'A Reverse Proxy acts on behalf of backend servers (shielding origin infrastructure, terminating TLS, and balancing load), whereas a Forward Proxy acts on behalf of clients.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

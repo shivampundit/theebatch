@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 12: Systems Analysis &amp; Design (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 3 &bull; Chapter 12 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-12-1" class="active">12.1 Systems Theory &amp; Analyst Role</a></li>
+          <li><a href="#sec-12-2">12.2 Feasibility (TELOS, PIECES, NPV)</a></li>
+          <li><a href="#sec-12-3">12.3 Requirements Elicitation &amp; JAD</a></li>
+          <li><a href="#sec-12-4">12.4 DFDs (SVG), Data Dict &amp; Decision Tables</a></li>
+          <li><a href="#sec-12-5">12.5 Structured Design: Cohesion &amp; Coupling</a></li>
+          <li><a href="#sec-12-6">12.6 Input Validation &amp; Cutover Strategies</a></li>
+          <li><a href="#sec-12-7">12.7 Worked Numericals &amp; SAD Cases (6)</a></li>
+          <li><a href="#sec-12-8">12.8 Banking SAD Context + Blueprint</a></li>
+          <li><a href="#sec-12-9">12.9 Rapid Revision + 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-12">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster2-ch11-cyber-security.html">&larr; Prev: Ch 11 Cyber Security</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 3: SE &amp; Enterprise Systems</span>
+            <span class="badge badge-warn">Topic 12 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">High Descriptive &amp; MCQ Yield</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 12: Systems Analysis &amp; Design (SAD)</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Complete exam-depth treatise on Systems Theory, TELOS Feasibility &amp; NPV/ROI/Payback math, JAD/RAD/Requirements elicitation,
+            DFD rules &amp; Context Diagram (SVG), Data Dictionary &amp; Decision Tables, Cohesion &amp; Coupling spectra, System Conversion strategies
+            (Direct/Parallel/Pilot/Phased), 6 worked SAD problems, SIDBI/RBI banking implementation context, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 12.1 ==================== -->
+        <section id="sec-12-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">12.1 Systems Concepts, Classifications &amp; Role of Systems Analyst</h2>
+            <span class="badge badge-info">Core Foundation</span>
+          </div>
+          <ul>
+            <li><strong>Five Characteristics of a System:</strong> Organization, Interaction, Interdependence, Integration, and <mark>Central Objective</mark>.</li>
+            <li><strong>System Classifications:</strong>
+              &bull; <strong>Open vs. Closed System:</strong> An <mark>Open System</mark> exchanges inputs, outputs, and feedback with its external environment (e.g., Core Banking interacting with RBI/NPCI/MSMEs); a <strong>Closed System</strong> is isolated from its environment (theoretical in business IT).<br>
+              &bull; <strong>Feedback Control:</strong> <mark>Negative Feedback</mark> corrects deviations to maintain stability/equilibrium (e.g., auto-scaling servers when CPU &gt; 80%); <strong>Positive Feedback</strong> amplifies change.<br>
+              &bull; <strong>Deterministic vs. Probabilistic:</strong> Deterministic produces exact predictable output for given input (EMI formula); Probabilistic has statistical uncertainty (NPA credit-default forecast).</li>
+            <li><strong>Role of a Systems Analyst:</strong> Acts as a change agent bridging business stakeholders and software engineers—produces <mark>BRD</mark> (Business Requirements Document — "Why &amp; What"), <mark>FRD / SRS</mark> (Functional / Software Requirements Spec), and vendor <mark>RFP</mark> (Request for Proposal).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 12.2 ==================== -->
+        <section id="sec-12-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">12.2 Feasibility Study (TELOS), PIECES &amp; Economic Cost-Benefit Math</h2>
+            <span class="badge badge-warn">High MCQ &amp; Descriptive Yield</span>
+          </div>
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>TELOS Dimension</th>
+                  <th>Core Question Answered</th>
+                  <th>Banking / SIDBI Check</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>T — Technical</strong></td><td>Can we build/integrate it with existing/acquirable tech &amp; skills?</td><td>API compatibility with legacy CBS, HSM &amp; OCEN load capacity</td></tr>
+                <tr><td><strong>E — Economic</strong></td><td>Do tangible + intangible benefits outweigh Total Cost of Ownership (TCO)?</td><td>Payback Period, ROI, and <mark>Net Present Value (NPV &gt; 0)</mark></td></tr>
+                <tr><td><strong>L — Legal / Regulatory</strong></td><td>Does it comply with statutes, data privacy &amp; contracts?</td><td>DPDP Rules 2025, CERT-In 180-day logs, RBI AIFI Outsourcing</td></tr>
+                <tr><td><strong>O — Operational</strong></td><td>Will staff/borrowers actually adopt and run it smoothly?</td><td>Evaluated via <mark><strong>PIECES</strong></mark> (Performance, Information, Economics, Control, Efficiency, Service)</td></tr>
+                <tr><td><strong>S — Schedule</strong></td><td>Can the system be delivered within the mandatory deadline?</td><td>Alignment with RBI/Government scheme launch dates</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>Economic Feasibility Formulas:</strong>
+              &bull; <strong>Payback Period:</strong> Time required for cumulative net cash inflows to recover initial investment.<br>
+              &bull; <strong>ROI (%):</strong> <mark><code>[(Total Benefits - Total Costs) / Total Costs] &times; 100</code></mark>.<br>
+              &bull; <strong>Net Present Value (NPV):</strong> <mark><code>NPV = &Sigma; [CF_t / (1 + r)^t] - Initial_Cost</code></mark> (accounts for Time Value of Money; accept project iff <code>NPV &gt; 0</code>!).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 12.3 ==================== -->
+        <section id="sec-12-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">12.3 Requirements Elicitation Techniques, JAD &amp; Functional vs. NFRs</h2>
+          </div>
+          <div class="table-wrap" style="margin-bottom:0.85rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Technique</th>
+                  <th>Best Used When</th>
+                  <th>Limitation / Exam Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Interviews</strong></td><td>Deep qualitative discovery with domain leaders / credit heads</td><td>Time-consuming; subject to individual bias</td></tr>
+                <tr><td><strong>Questionnaires / Surveys</strong></td><td>Collecting quantitative feedback from hundreds of distributed branch staff</td><td>Low response depth; ambiguous wording risk</td></tr>
+                <tr><td><strong>JAD (Joint Application Design)</strong></td><td><mark>Structured multi-day facilitated workshop</mark> bringing users, managers &amp; analysts together to resolve conflicting requirements fast</td><td>Requires skilled neutral facilitator &amp; executive sponsor</td></tr>
+                <tr><td><strong>Prototyping</strong></td><td>Requirements are unclear or UI/UX heavy (Throwaway vs. Evolutionary)</td><td>Risk of users mistaking throwaway mockups for production code</td></tr>
+                <tr><td><strong>Observation / Ethnography</strong></td><td>Uncovering tacit workflows users forget to mention in interviews</td><td><mark>Hawthorne Effect</mark> (staff behave differently while watched)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin:0;font-size:0.92rem;">
+            <strong>Functional vs. Non-Functional Requirements (NFRs):</strong> Functional requirements specify <em>WHAT</em> the system must do (e.g., "Calculate GST-linked credit limit");
+            NFRs specify <em>HOW WELL</em> it must perform (e.g., "99.95% uptime, &lt;300 ms API p95 latency, AES-256 encryption, RBAC audit logs").
+          </p>
+        </section>
+
+        <!-- ==================== 12.4 ==================== -->
+        <section id="sec-12-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">12.4 Structured Analysis: DFDs (SVG), Data Dictionary &amp; Decision Tables</h2>
+            <span class="badge badge-danger">Top SAD Objective Trap Zone</span>
+          </div>
+
+          <!-- Inline SVG: Level-0 Context DFD -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 165" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="Level-0 Context Data Flow Diagram for SIDBI MSME Loan System">
+              <rect x="10" y="6" width="740" height="152" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="380" y="26" text-anchor="middle" fill="#0f2942" font-size="11.5" font-weight="800">Level-0 Context DFD (Single Process "0" — NO Data Stores Shown at Context Level!)</text>
+              <!-- Entity 1 -->
+              <rect x="30" y="55" width="135" height="54" rx="4" fill="#1d4ed8"/>
+              <text x="97" y="79" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">MSME Borrower</text>
+              <text x="97" y="95" text-anchor="middle" fill="#dbeafe" font-size="9.5">(External Entity)</text>
+              <!-- Process 0 -->
+              <rect x="285" y="46" width="190" height="72" rx="22" fill="#0d9488"/>
+              <text x="380" y="72" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">0. SIDBI Digital</text>
+              <text x="380" y="88" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">Lending System</text>
+              <text x="380" y="105" text-anchor="middle" fill="#ccfbf1" font-size="9.5">(Single Central Process)</text>
+              <!-- Entity 2 -->
+              <rect x="595" y="55" width="135" height="54" rx="4" fill="#0f2942"/>
+              <text x="662" y="79" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">GSTN / CIBIL</text>
+              <text x="662" y="95" text-anchor="middle" fill="#cbd5e1" font-size="9.5">(External Entity)</text>
+              <!-- Arrows -->
+              <line x1="165" y1="70" x2="285" y2="70" stroke="#0f2942" stroke-width="2"/>
+              <text x="225" y="64" text-anchor="middle" fill="#0f2942" font-size="9.5" font-weight="600">Loan App &rarr;</text>
+              <line x1="285" y1="96" x2="165" y2="96" stroke="#0f766e" stroke-width="2"/>
+              <text x="225" y="110" text-anchor="middle" fill="#0f766e" font-size="9.5" font-weight="600">&larr; Sanction Letter</text>
+              <line x1="475" y1="70" x2="595" y2="70" stroke="#0f2942" stroke-width="2"/>
+              <text x="535" y="64" text-anchor="middle" fill="#0f2942" font-size="9.5" font-weight="600">KYC/GST Query &rarr;</text>
+              <line x1="595" y1="96" x2="475" y2="96" stroke="#0f766e" stroke-width="2"/>
+              <text x="535" y="110" text-anchor="middle" fill="#0f766e" font-size="9.5" font-weight="600">&larr; Credit Score</text>
+              <text x="380" y="144" text-anchor="middle" fill="#b91c1c" font-size="10" font-weight="700">Illegal DFD Flows: Entity &rarr; Entity | Entity &rarr; Data Store | Data Store &rarr; Data Store | Black Hole | Miracle</text>
+            </svg>
+          </div>
+
+          <ul>
+            <li><strong>4 DFD Symbols:</strong> External Entity (Rectangle), Process (Circle / Rounded Rectangle), Data Store (Open-ended Rectangle / Parallel Lines), Data Flow (Labeled Arrow). <em>Trap:</em> DFDs show <mark>logical data movement, NOT control flow or loops</mark> (unlike Flowcharts!).</li>
+            <li><strong>DFD Validation Traps:</strong>
+              &bull; <strong>Context Diagram (Level 0):</strong> Always has <mark>exactly ONE Process ("0")</mark> and <mark>NO Data Stores</mark>.<br>
+              &bull; <strong>Balancing:</strong> External inputs/outputs entering Level-0 MUST exactly match Level-1.<br>
+              &bull; <strong>Black Hole:</strong> Process with inputs only, ZERO outputs (error!). <strong>Miracle:</strong> Process with outputs only, ZERO inputs (error!). <strong>Gray Hole:</strong> Inputs insufficient to produce outputs.</li>
+            <li><strong>Data Dictionary Notation:</strong> <code>=</code> (is composed of), <code>+</code> (AND), <code>[A | B]</code> (either A or B), <code>{X}</code> (iteration / 0 or more), <code>(Y)</code> (optional).</li>
+            <li><strong>Decision Tables vs. Decision Trees:</strong> A <strong>Decision Table</strong> has 4 quadrants (<em>Condition Stub, Condition Entry, Action Stub, Action Entry</em>) and handles complex multi-condition business rules exhaustively (<mark><code>2^n</code> rules for <code>n</code> binary conditions</mark>); a <strong>Decision Tree</strong> is better for sequential branching rules.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 12.5 ==================== -->
+        <section id="sec-12-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">12.5 Structured Design: Structure Charts, Cohesion &amp; Coupling Spectra</h2>
+            <span class="badge badge-danger">Guaranteed 1–2 Mark MCQ</span>
+          </div>
+          <p style="margin-top:0;">
+            Good modular design maximizes <mark>Cohesion</mark> (intra-module unity) and minimizes <mark>Coupling</mark> (inter-module dependency).
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Cohesion (BEST &rarr; WORST: <code>F-S-C-P-T-L-C</code>)</th>
+                  <th>Coupling (BEST &rarr; WORST: <code>D-S-C-E-C-C</code>)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>1 (BEST)</strong></td><td><mark><strong>Functional:</strong></mark> All elements perform ONE single well-defined task</td><td><mark><strong>Data:</strong></mark> Modules pass only needed primitive/atomic data parameters</td></tr>
+                <tr><td><strong>2</strong></td><td><strong>Sequential:</strong> Output of one element is input to the next (pipeline)</td><td><strong>Stamp:</strong> Modules pass an entire composite struct/object when only 1 field is needed</td></tr>
+                <tr><td><strong>3</strong></td><td><strong>Communicational:</strong> Elements operate on the same input/output data set</td><td><strong>Control:</strong> One module passes a control flag telling another WHAT branch to run</td></tr>
+                <tr><td><strong>4</strong></td><td><strong>Procedural:</strong> Elements grouped because they follow a sequence of steps</td><td><strong>External:</strong> Modules share an external data format, protocol, or device interface</td></tr>
+                <tr><td><strong>5</strong></td><td><strong>Temporal:</strong> Elements grouped only because they run at the same time (e.g., startup/init)</td><td><strong>Common:</strong> Modules read/write the same <mark>global shared data area</mark></td></tr>
+                <tr><td><strong>6</strong></td><td><strong>Logical:</strong> Loosely related tasks selected via a control flag (e.g., all I/O routines)</td><td><mark><strong>Content (WORST):</strong></mark> One module directly modifies internal code/local data of another!</td></tr>
+                <tr><td><strong>7 (WORST)</strong></td><td><mark><strong>Coincidental:</strong></mark> Unrelated tasks dumped arbitrarily into one module</td><td>&mdash;</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 12.6 ==================== -->
+        <section id="sec-12-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">12.6 Input Validation Controls &amp; System Conversion (Cutover) Strategies</h2>
+            <span class="badge badge-purple">Banking Implementation Core</span>
+          </div>
+          <ul>
+            <li><strong>Input Validation Controls:</strong> Presence check (mandatory field), Format/Mask check (PAN <code>[A-Z]{5}[0-9]{4}[A-Z]</code>), Range check, <mark>Check-Digit</mark> (Luhn algorithm for credit cards; Verhoeff algorithm for Aadhaar), and Batch Control Totals (Record Count + Hash Total).</li>
+          </ul>
+          <div class="table-wrap" style="margin-top:0.75rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Conversion Strategy</th>
+                  <th>Mechanism</th>
+                  <th>Risk</th>
+                  <th>Cost</th>
+                  <th>Banking Suitability</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. Direct Cutover (Plunge)</strong></td>
+                  <td>Old system shut down; new system goes live immediately</td>
+                  <td><mark>HIGHEST</mark></td>
+                  <td>Lowest</td>
+                  <td>Non-critical internal tools ONLY (too risky for CBS!)</td>
+                </tr>
+                <tr>
+                  <td><strong>2. Parallel Operation</strong></td>
+                  <td>Both old &amp; new run simultaneously on live data; outputs reconciled</td>
+                  <td><mark>LOWEST (Safest)</mark></td>
+                  <td>Highest (2&times; ops)</td>
+                  <td><mark>Gold standard for Core Banking / Loan Ledger migrations</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>3. Pilot Conversion</strong></td>
+                  <td>Deploy full new system at 1–2 test branches first, then roll out nationally</td>
+                  <td>Low–Moderate</td>
+                  <td>Moderate</td>
+                  <td>Ideal for multi-branch Regional Office portal rollouts</td>
+                </tr>
+                <tr>
+                  <td><strong>4. Phased (Staged)</strong></td>
+                  <td>Roll out module-by-module over time (e.g., Origination &rarr; Disbursal &rarr; NPA)</td>
+                  <td>Low–Moderate</td>
+                  <td>Moderate</td>
+                  <td>Large enterprise modernization (Strangler Fig pattern)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 12.7 ==================== -->
+        <section id="sec-12-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">12.7 Worked Exam Numericals &amp; SAD Modeling Problems (6 Cases)</h2>
+            <span class="badge badge-warn">Step-by-Step Solutions</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 1: Economic Feasibility — Payback Period, ROI &amp; NPV</span>
+            <strong>Given:</strong> An MSME automation portal costs <code>&#8377;40 Lakh</code> upfront and generates net annual savings of <code>&#8377;20 Lakh</code> for 3 years. Discount rate <code>r = 10%</code>.<br>
+            &bull; <strong>Payback Period:</strong> <code>40 / 20 =</code> <mark><code>2.0 years</code></mark>.<br>
+            &bull; <strong>Simple ROI:</strong> <code>[(60 - 40) / 40] &times; 100 =</code> <mark><code>50%</code></mark>.<br>
+            &bull; <strong>NPV:</strong> <code>20/1.1 + 20/1.21 + 20/1.331 - 40 = 18.18 + 16.53 + 15.03 - 40 =</code> <mark><code>+&#8377;9.74 Lakh (&gt; 0 &rArr; Economically Feasible!)</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 2: Decision Table Exhaustive Rule Count</span>
+            <strong>Problem:</strong> A loan auto-approval engine checks 4 binary (Y/N) conditions: <em>Udyam Valid?</em>, <em>CIBIL &ge; 700?</em>, <em>GST Active?</em>, <em>Not on Watchlist?</em> How many rules are in a complete Limited-Entry Decision Table?<br>
+            <strong>Formula:</strong> <code>2^n = 2^4 =</code> <mark><code>16 rules</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 3: Spot the Illegal DFD Errors</span>
+            Diagram shows: (a) <code>Customer &rarr; Loan_DB</code> directly; (b) Process <code>2.1 Validate KYC</code> receives 2 inputs and produces 0 outputs; (c) Process <code>2.2 Generate OTP</code> has 0 inputs and outputs <code>OTP</code>.<br>
+            <strong>Errors:</strong> (a) Illegal Entity-to-Data-Store direct flow; (b) <mark>Black Hole</mark>; (c) <mark>Miracle</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 4: Identifying Coupling Type</span>
+            Module <code>CalculateEMI()</code> receives the entire 40-field <code>CustomerProfile</code> struct even though it only reads <code>credit_score</code>. What coupling is this?<br>
+            <strong>Answer:</strong> <mark>Stamp Coupling</mark> (passing an entire composite record when only a subset is needed; refactor to Data Coupling by passing only <code>credit_score</code>!).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 5: Data Dictionary Notation Parsing</span>
+            <code>MSME_Loan = Loan_ID + PAN + (CoApplicant_PAN) + [Term_Loan | Working_Cap] + {EMI_Row}</code><br>
+            <strong>Meaning:</strong> Mandatory <code>Loan_ID</code> &amp; <code>PAN</code>, <mark>optional</mark> <code>CoApplicant_PAN</code>, <mark>either</mark> Term Loan OR Working Capital, and <mark>zero or more repeating</mark> <code>EMI_Row</code> entries.
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Problem 6: Choosing Cutover Strategy for Core Banking vs. Regional Portal</span>
+            &bull; Replacing a live Core Banking interest ledger where zero balance error is mandatory &rarr; <mark>Parallel Operation</mark>.<br>
+            &bull; Rolling out a new branch-level MSME onboarding UI across 100 offices &rarr; <mark>Pilot Conversion</mark> (2 branches first).
+          </div>
+        </section>
+
+        <!-- ==================== 12.8 ==================== -->
+        <section id="sec-12-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">12.8 Banking &amp; SIDBI Systems Analysis Context + 10-Mark Blueprint</h2>
+            <span class="badge badge-live">Descriptive Edge</span>
+          </div>
+          <p>
+            When AIFIs like SIDBI procure or modernize platforms such as the <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2303447&reg=3&lang=1" target="_blank" rel="noopener noreferrer">SIDBI–RRB Co-Lending Origination Platform</a>
+            or <a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">Udyamimitra</a>, structured SAD discipline—TELOS feasibility, JAD workshops with partner banks, formal BRD/SRS sign-off, UAT, Parallel Runs, and Post-Implementation Reviews—is mandated under
+            <a href="https://www.rbi.org.in/Scripts/BS_ViewMasterDirections.aspx?id=12562" target="_blank" rel="noopener noreferrer">RBI's Master Direction on IT Governance</a>.
+          </p>
+          <div class="callout callout-info">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"Compare Direct, Parallel, Pilot, and Phased system conversion strategies. Recommend an optimal migration plan for modernizing a legacy MSME Loan Management System at SIDBI." (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (25w):</strong> Cutover is the highest-risk phase of enterprise IT modernization where financial continuity is on the line.<br>
+            &bull; <strong>4-Strategy Comparison (85w):</strong> Contrast Direct (cheapest, catastrophic rollback risk), Parallel (safest reconciliation, 2&times; operational load), Pilot (branch-scoped validation), and Phased (modular incremental rollout).<br>
+            &bull; <strong>Recommended Hybrid Plan (70w):</strong> Adopt a <mark>Phased + Pilot + Parallel</mark> strategy—migrate read-only reporting and origination modules first via a 2-branch Pilot, and run a strict 30-day Parallel reconciliation for disbursement/interest posting before legacy decommissioning.<br>
+            &bull; <strong>Conclusion (20w):</strong> Pair with automated data-migration checksums and Board IT committee sign-off.
+          </div>
+        </section>
+
+        <!-- ==================== 12.9 ==================== -->
+        <section id="sec-12-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">12.9 5-Minute Rapid Revision Sheet &amp; 15 Exam-Level Practice MCQs</h2>
+            <span class="badge badge-warn">Last-Day Cram + Drill</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li><mark>Open System</mark> interacts with its environment via feedback; <mark>Negative Feedback</mark> maintains stability.</li>
+            <li><mark>TELOS</mark> Feasibility: Technical, Economic, Legal, Operational, Schedule.</li>
+            <li><mark>PIECES</mark> Framework: Performance, Information, Economics, Control, Efficiency, Service.</li>
+            <li><mark>NPV &gt; 0</mark> means project is economically viable after accounting for Time Value of Money.</li>
+            <li><mark>JAD (Joint Application Design)</mark> uses facilitated group workshops to align users &amp; analysts rapidly.</li>
+            <li><mark>Hawthorne Effect:</mark> Users alter normal behavior when they know they are being observed.</li>
+            <li>DFDs model <mark>logical data flow</mark>, NOT control logic or loops.</li>
+            <li><mark>Level-0 Context DFD</mark> has exactly ONE process ("0") and <mark>ZERO Data Stores</mark>.</li>
+            <li>Illegal DFD flows: Entity&rarr;Entity, Entity&rarr;Store, Store&rarr;Store (a Process MUST mediate!).</li>
+            <li><mark>Black Hole</mark> = process with inputs only; <mark>Miracle</mark> = process with outputs only.</li>
+            <li><mark>DFD Balancing:</mark> Level-0 inputs/outputs must strictly match Level-1 child DFD.</li>
+            <li>Data Dictionary: <code>+</code> AND, <code>()</code> Optional, <code>{}</code> Repeating, <code>[|]</code> Either/Or.</li>
+            <li>Complete Limited-Entry Decision Table with <code>n</code> binary conditions has <mark><code>2^n</code> rules</mark>.</li>
+            <li>Best Cohesion = <mark>Functional</mark>; Worst Cohesion = <mark>Coincidental</mark> (<code>F-S-C-P-T-L-C</code>).</li>
+            <li>Best Coupling = <mark>Data</mark>; Worst Coupling = <mark>Content</mark> (<code>D-S-C-E-C-C</code>).</li>
+            <li><mark>Stamp Coupling</mark> passes an entire composite struct when only 1 field is needed.</li>
+            <li><mark>Common Coupling</mark> shares global mutable state across modules.</li>
+            <li><mark>High Fan-In</mark> = good module reuse; <mark>Low/Moderate Fan-Out</mark> = clean span of control.</li>
+            <li>Structure Chart open-circle arrow = <mark>Data Couple</mark>; filled-circle arrow = <mark>Control Flag</mark>.</li>
+            <li><mark>Luhn algorithm</mark> validates card check digits; <mark>Verhoeff algorithm</mark> validates Aadhaar check digits.</li>
+            <li><mark>Direct Cutover</mark> = lowest cost, HIGHEST risk (avoid for CBS!).</li>
+            <li><mark>Parallel Operation</mark> = SAFEST (reconciles old vs. new), highest operational cost.</li>
+            <li><mark>Pilot Conversion</mark> tests the entire system at 1–2 branches before wide rollout.</li>
+            <li><mark>Phased Conversion</mark> deploys one functional module at a time.</li>
+            <li><mark>BRD</mark> captures business goals ("Why/What"); <mark>SRS/FRD</mark> defines verifiable technical &amp; functional specs.</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 12 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (20 Marks Total) &bull; -0.25 Negative Marking &bull; 18-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch12-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster2-ch11-cyber-security.html">&larr; Prev: Chapter 11 — Cyber Security</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-12', '[data-chapter-complete="it-12"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch12-mcq-root',
+          durationMinutes: 18,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch12-q1',
+              marks: 1,
+              section: 'Feasibility (TELOS)',
+              prompt: 'In the TELOS Feasibility framework, which dimension evaluates whether a proposed MSME digital lending system complies with DPDP Rules 2025, CERT-In logging mandates, and RBI outsourcing guidelines?',
+              options: [
+                'Technical Feasibility',
+                'Economic Feasibility',
+                'Legal Feasibility',
+                'Operational Feasibility',
+                'Schedule Feasibility'
+              ],
+              correctIndex: 2,
+              explanation: 'Legal (Regulatory) Feasibility assesses statutory, contractual, privacy, and regulatory compliance requirements.'
+            },
+            {
+              id: 'ch12-q2',
+              marks: 2,
+              section: 'Economic Feasibility',
+              prompt: 'An IT automation project requires an upfront investment of ₹60 Lakh and yields net savings of ₹20 Lakh per year for 4 years (ignoring discounting). What are its Payback Period and simple ROI?',
+              options: [
+                'Payback: 2.0 years | ROI: 50%',
+                'Payback: 3.0 years | ROI: 33.33%',
+                'Payback: 3.0 years | ROI: 25%',
+                'Payback: 4.0 years | ROI: 33.33%',
+                'Payback: 2.5 years | ROI: 60%'
+              ],
+              correctIndex: 1,
+              explanation: 'Payback = 60 / 20 = 3.0 years. Total benefits = 20 × 4 = ₹80 Lakh. ROI = (80 - 60) / 60 × 100 = 33.33%.'
+            },
+            {
+              id: 'ch12-q3',
+              marks: 1,
+              section: 'DFD Rules',
+              prompt: 'Which of the following data flows is STRICTLY ILLEGAL in a valid Data Flow Diagram (DFD)?',
+              options: [
+                'External Entity -> Process',
+                'Process -> Data Store',
+                'Data Store -> Process',
+                'External Entity -> Data Store directly without a Process',
+                'Process -> External Entity'
+              ],
+              correctIndex: 3,
+              explanation: 'External Entities cannot read from or write directly to a Data Store (nor talk directly to another External Entity); a Process must always mediate data flows.'
+            },
+            {
+              id: 'ch12-q4',
+              marks: 1,
+              section: 'DFD Anomalies',
+              prompt: 'In DFD syntax checking, a Process that receives one or more incoming data flows but produces ZERO outgoing data flows is called a:',
+              options: [
+                'Miracle',
+                'Black Hole',
+                'Balanced Context',
+                'Stamp Couple',
+                'Decision Stub'
+              ],
+              correctIndex: 1,
+              explanation: 'A Black Hole consumes inputs without producing any output; conversely, a Miracle produces outputs without receiving any inputs.'
+            },
+            {
+              id: 'ch12-q5',
+              marks: 1,
+              section: 'Context Diagram',
+              prompt: 'Which structural rule ALWAYS applies to a Level-0 (Context) Data Flow Diagram?',
+              options: [
+                'It must display all internal database tables as Data Stores',
+                'It contains exactly ONE process representing the entire system and NO Data Stores',
+                'It depicts detailed if-else branching logic and loops',
+                'It omits all External Entities',
+                'It must contain at least 5 sub-processes numbered 1.1 to 1.5'
+              ],
+              correctIndex: 1,
+              explanation: 'A Context Diagram (Level-0 DFD) shows system boundaries using a single Process "0" interacting with External Entities, with zero internal Data Stores.'
+            },
+            {
+              id: 'ch12-q6',
+              marks: 2,
+              section: 'Decision Tables',
+              prompt: 'A credit-eligibility rule engine evaluates 5 independent binary (Yes/No) conditions. How many distinct rule columns must an exhaustive Limited-Entry Decision Table contain?',
+              options: [
+                '10 rules',
+                '16 rules',
+                '25 rules',
+                '32 rules',
+                '64 rules'
+              ],
+              correctIndex: 3,
+              explanation: 'An exhaustive Limited-Entry Decision Table with n binary conditions contains 2^n = 2^5 = 32 rules.'
+            },
+            {
+              id: 'ch12-q7',
+              marks: 1,
+              section: 'Cohesion Spectrum',
+              prompt: 'Which level of module Cohesion is the STRONGEST (most desirable) in Structured Design?',
+              options: [
+                'Coincidental Cohesion',
+                'Logical Cohesion',
+                'Temporal Cohesion',
+                'Procedural Cohesion',
+                'Functional Cohesion'
+              ],
+              correctIndex: 4,
+              explanation: 'Functional Cohesion (every part of the module contributes to a single well-defined task) is the highest/best form of cohesion; Coincidental is the worst.'
+            },
+            {
+              id: 'ch12-q8',
+              marks: 2,
+              section: 'Coupling Spectrum',
+              prompt: 'Module A directly jumps into the middle of Module B\'s code and alters Module B\'s internal local variables. Which type of Coupling (the worst possible) does this represent?',
+              options: [
+                'Data Coupling',
+                'Stamp Coupling',
+                'Control Coupling',
+                'Common Coupling',
+                'Content Coupling'
+              ],
+              correctIndex: 4,
+              explanation: 'Content Coupling (modifying another module\'s internal code or private data directly) is the tightest and worst form of coupling.'
+            },
+            {
+              id: 'ch12-q9',
+              marks: 1,
+              section: 'Coupling Spectrum',
+              prompt: 'Passing an entire 30-field BorrowerRecord structure to a function that only needs the borrower\'s annual_turnover field is an example of:',
+              options: [
+                'Data Coupling',
+                'Stamp Coupling',
+                'Control Coupling',
+                'External Coupling',
+                'Content Coupling'
+              ],
+              correctIndex: 1,
+              explanation: 'Stamp Coupling occurs when a composite data structure is passed between modules even though the callee uses only a subset of its fields.'
+            },
+            {
+              id: 'ch12-q10',
+              marks: 1,
+              section: 'Elicitation Techniques',
+              prompt: 'Which requirements-gathering technique uses a structured, facilitated group workshop uniting business executives, end-users, and IT analysts to rapidly achieve consensus?',
+              options: [
+                'Passive Observation',
+                'Joint Application Design (JAD)',
+                'Direct Cutover',
+                'Black-Box Fuzzing',
+                'Batch Control Totaling'
+              ],
+              correctIndex: 1,
+              explanation: 'Joint Application Design (JAD) brings cross-functional stakeholders together in a facilitated workshop to resolve requirement conflicts quickly.'
+            },
+            {
+              id: 'ch12-q11',
+              marks: 1,
+              section: 'System Conversion',
+              prompt: 'Which system conversion strategy carries the LOWEST business risk for migrating a critical Core Banking accounting ledger because both legacy and new systems run concurrently and outputs are reconciled?',
+              options: [
+                'Direct Cutover (Plunge)',
+                'Parallel Operation',
+                'Ad-hoc Unplanned Switchover',
+                'Single-Day Big-Bang Retirement',
+                'Throwaway Prototyping'
+              ],
+              correctIndex: 1,
+              explanation: 'Parallel Operation runs old and new systems side-by-side on live transactions, verifying accuracy before turning off the legacy system.'
+            },
+            {
+              id: 'ch12-q12',
+              marks: 1,
+              section: 'Data Dictionary',
+              prompt: 'In standard Structured Analysis Data Dictionary notation, what do curly braces { } surrounding an element signify?',
+              options: [
+                'Optional element',
+                'Comment / annotation',
+                'Iteration (zero or more repeating occurrences)',
+                'Mutually exclusive choice',
+                'Primary key constraint'
+              ],
+              correctIndex: 2,
+              explanation: 'In Data Dictionary syntax: () = optional, [ | ] = either/or choice, + = sequence/AND, and {} = repeating iteration.'
+            },
+            {
+              id: 'ch12-q13',
+              marks: 1,
+              section: 'Systems Theory',
+              prompt: 'In Systems Theory, what role does NEGATIVE FEEDBACK play in an automated cloud server cluster?',
+              options: [
+                'It amplifies load spikes until the server crashes',
+                'It detects deviations from target performance and triggers corrective action to restore stability',
+                'It disconnects the system from all external users',
+                'It deletes historical audit logs permanently',
+                'It converts an open system into a closed system'
+              ],
+              correctIndex: 1,
+              explanation: 'Negative feedback measures output against a target threshold and applies corrective adjustments (e.g., auto-scaling) to keep the system stable.'
+            },
+            {
+              id: 'ch12-q14',
+              marks: 2,
+              section: 'Structure Charts',
+              prompt: 'In a Structured Design Structure Chart, what do HIGH Fan-In and LOW-to-MODERATE Fan-Out indicate about a software architecture?',
+              options: [
+                'Poor modularity and excessive global variable sharing',
+                'Strong reuse of utility modules (High Fan-In) and manageable span of control per parent module (Low Fan-Out)',
+                'Presence of Black Holes and Miracles',
+                'Mandatory use of Direct Cutover',
+                'Violation of 1NF database normalization'
+              ],
+              correctIndex: 1,
+              explanation: 'High Fan-In means a clean utility module is reused by many callers; low-to-moderate Fan-Out means a parent module doesn\'t orchestrate too many direct subordinates.'
+            },
+            {
+              id: 'ch12-q15',
+              marks: 1,
+              section: 'Input Validation',
+              prompt: 'Which check-digit algorithm is used to mathematically detect single-digit typing and transposition errors in 12-digit Indian Aadhaar numbers?',
+              options: [
+                'SHA-256 Hash',
+                'Verhoeff Algorithm',
+                'Dijkstra\'s Algorithm',
+                'Banker\'s Algorithm',
+                'Floyd-Warshall Algorithm'
+              ],
+              correctIndex: 1,
+              explanation: 'Aadhaar uses the Verhoeff check-digit algorithm (while credit/debit cards use the Luhn Mod-10 algorithm) to catch single-digit and adjacent transposition typos.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 14: Management Information Systems (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 3 &bull; Chapter 14 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-14-1" class="active">14.1 DIKW &amp; Information Quality</a></li>
+          <li><a href="#sec-14-2">14.2 IS Pyramid: TPS, MIS, DSS, EIS</a></li>
+          <li><a href="#sec-14-3">14.3 Simon's Model &amp; Decision Types</a></li>
+          <li><a href="#sec-14-4">14.4 ERP, CRM, SCM &amp; KMS (SECI)</a></li>
+          <li><a href="#sec-14-5">14.5 Porter's 5 Forces &amp; Balanced Scorecard</a></li>
+          <li><a href="#sec-14-6">14.6 COBIT 2019, ITIL 4 &amp; BPR</a></li>
+          <li><a href="#sec-14-7">14.7 Worked MIS Cases &amp; EMV (5)</a></li>
+          <li><a href="#sec-14-8">14.8 RBI CIMS / ADF + 10M Blueprint</a></li>
+          <li><a href="#sec-14-9">14.9 Rapid Revision + 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-14">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster3-ch13-software-engineering.html">&larr; Prev: Ch 13 Software Engg</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 3: SE &amp; Enterprise Systems</span>
+            <span class="badge badge-warn">Topic 14 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">High Banking Governance &amp; Descriptive Yield</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 14: Management Information Systems (MIS)</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Complete exam-depth treatise on DIKW hierarchy, Organizational IS Pyramid (TPS/MIS/DSS/EIS/Expert Systems SVG),
+            Herbert Simon's decision model, ERP/CRM/SCM (Bullwhip Effect) &amp; KMS (SECI), Porter's Five Forces &amp; Value Chain,
+            COBIT 2019 &amp; ITIL 4 (Incident vs. Problem, SLA/OLA/UC), BPR, RBI CIMS &amp; ADF regulatory reporting, 5 worked cases, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 14.1 ==================== -->
+        <section id="sec-14-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">14.1 DIKW Hierarchy &amp; Dimensions of Information Quality</h2>
+            <span class="badge badge-info">Core Foundation</span>
+          </div>
+          <ul>
+            <li><strong>DIKW Hierarchy:</strong>
+              <strong>Data</strong> (raw unorganized facts: <code>"500000", "2026-11-26"</code>) &rarr;
+              <strong>Information</strong> (processed, contextualized data: <em>"Branch A disbursed &#8377;5L today"</em>) &rarr;
+              <strong>Knowledge</strong> (actionable patterns/rules: <em>"Textile MSMEs in Cluster X show 1.2% lower default with GST Sahay"</em>) &rarr;
+              <strong>Wisdom</strong> (strategic long-term judgment: <em>"Reallocate 20% refinance budget to cash-flow green lending"</em>).</li>
+            <li><strong>Information Quality Attributes:</strong> Accuracy, Completeness, Consistency, Timeliness (available before decision deadline), Relevance, Verifiability, and Accessibility.</li>
+            <li><strong>Value of Information:</strong> <code>VoI = Expected Profit WITH Information - Expected Profit WITHOUT Information</code> (never pay more for an MIS system than the incremental decision value it creates!).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 14.2 ==================== -->
+        <section id="sec-14-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">14.2 Organizational Information Systems Pyramid (TPS, MIS, DSS, EIS)</h2>
+            <span class="badge badge-danger">Guaranteed MCQ Zone</span>
+          </div>
+
+          <!-- Inline SVG: 4-Tier MIS Pyramid -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 215" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="4-Tier Organizational Information Systems Pyramid">
+              <rect x="8" y="6" width="744" height="202" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <!-- Tier 4: EIS -->
+              <polygon points="380,18 465,58 295,58" fill="#6d28d9"/>
+              <text x="380" y="48" text-anchor="middle" fill="#fff" font-size="11" font-weight="800">EIS / ESS</text>
+              <text x="515" y="42" fill="#4c1d95" font-size="10.5" font-weight="700">Senior Execs &bull; Unstructured &bull; Long-term KPIs</text>
+
+              <!-- Tier 3: DSS -->
+              <polygon points="290,64 470,64 525,104 235,104" fill="#1d4ed8"/>
+              <text x="380" y="88" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800">DSS (Decision Support Systems)</text>
+              <text x="540" y="88" fill="#1e3a8a" font-size="10.5" font-weight="700">Analysts &bull; Semi-Structured &bull; What-If Models</text>
+
+              <!-- Tier 2: MIS -->
+              <polygon points="230,110 530,110 585,150 175,150" fill="#0d9488"/>
+              <text x="380" y="134" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800">MIS (Management Information Systems)</text>
+              <text x="598" y="134" fill="#0f766e" font-size="10.5" font-weight="700">Middle Mgmt &bull; Exception/Summary</text>
+
+              <!-- Tier 1: TPS -->
+              <polygon points="170,156 590,156 645,196 115,196" fill="#0f2942"/>
+              <text x="380" y="180" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800">TPS (Transaction Processing Systems — CBS / UPI / POS)</text>
+              <text x="30" y="180" fill="#0f2942" font-size="10" font-weight="700">Operational</text>
+            </svg>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>System Type</th>
+                  <th>Primary Users</th>
+                  <th>Decision Type</th>
+                  <th>Core Outputs &amp; Banking Examples</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>TPS</strong></td>
+                  <td>Operational staff / tellers</td>
+                  <td><mark>Structured</mark></td>
+                  <td>High-volume ACID recording (CBS deposits, UPI/NEFT, loan EMI receipts). Feeds data into MIS!</td>
+                </tr>
+                <tr>
+                  <td><strong>MIS</strong></td>
+                  <td>Middle management</td>
+                  <td>Structured / Semi-structured</td>
+                  <td><mark>Scheduled, Exception, Summary &amp; Demand reports</mark> (weekly branch NPA exception report).</td>
+                </tr>
+                <tr>
+                  <td><strong>DSS</strong></td>
+                  <td>Middle/Senior analysts</td>
+                  <td><mark>Semi-Structured</mark></td>
+                  <td>Interactive <mark>What-If, Sensitivity &amp; Goal-Seeking</mark> models (Database + Model Base + UI) — e.g., stress-testing NPA impact of a +50 bps repo hike.</td>
+                </tr>
+                <tr>
+                  <td><strong>EIS / ESS</strong></td>
+                  <td>CXOs / Board of Directors</td>
+                  <td><mark>Unstructured</mark></td>
+                  <td>Executive KPI dashboards, drill-down visuals, external macro/RBI feeds.</td>
+                </tr>
+                <tr>
+                  <td><strong>Expert System</strong></td>
+                  <td>Specialists / Credit officers</td>
+                  <td>Rule-based advisory</td>
+                  <td><mark>Knowledge Base (IF-THEN rules) + Inference Engine</mark> (Forward Chaining = data-driven; Backward Chaining = goal-driven).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 14.3 ==================== -->
+        <section id="sec-14-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">14.3 Herbert Simon's Decision-Making Model &amp; Bounded Rationality</h2>
+          </div>
+          <ul>
+            <li><strong>Herbert Simon's 4 Phases of Decision Making (Exact Order!):</strong>
+              1. <mark><strong>Intelligence:</strong></mark> Scan environment, detect and define the problem/opportunity.<br>
+              2. <mark><strong>Design:</strong></mark> Formulate models and generate feasible alternative courses of action.<br>
+              3. <mark><strong>Choice:</strong></mark> Evaluate alternatives and select the optimal/satisficing option.<br>
+              4. <mark><strong>Implementation</strong></mark> (plus post-decision review/feedback).</li>
+            <li><strong>Bounded Rationality &amp; Satisficing (Herbert Simon):</strong> Human managers lack complete information and infinite compute, so they pick the first <em>"good enough"</em> (<mark>satisficing</mark>) solution rather than searching exhaustively for a theoretical global optimum.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 14.4 ==================== -->
+        <section id="sec-14-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">14.4 Enterprise Systems: ERP, CRM, SCM &amp; KMS (SECI Model)</h2>
+            <span class="badge badge-warn">High Objective &amp; Case Yield</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Enterprise System</th>
+                  <th>Core Scope &amp; Mechanism</th>
+                  <th>Exam Traps &amp; Key Terms</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>ERP</strong></td>
+                  <td>Integrates Finance, HR, Procurement, Treasury &amp; Operations onto a <mark>single unified central database</mark> (SAP S/4HANA, Oracle Fusion).</td>
+                  <td>Eliminates departmental silos &amp; duplicate entry; top failure cause = poor change management &amp; excessive customization.</td>
+                </tr>
+                <tr>
+                  <td><strong>CRM</strong></td>
+                  <td>360&deg; customer lifecycle management:<br>
+                    &bull; <strong>Operational:</strong> Sales/service automation<br>
+                    &bull; <strong>Analytical:</strong> Churn, Cross-sell, CLV<br>
+                    &bull; <strong>Collaborative:</strong> Multi-channel partner sync</td>
+                  <td>Analytical CRM relies on Data Warehouse / ML scoring to retain high-value MSME borrowers.</td>
+                </tr>
+                <tr>
+                  <td><strong>SCM</strong></td>
+                  <td>Coordinates end-to-end supplier &rarr; manufacturer &rarr; customer flows (EDI, JIT, Pull vs. Push).</td>
+                  <td><mark><strong>Bullwhip Effect:</strong></mark> Small retail demand shifts get wildly amplified upstream across supply-chain tiers; fixed via real-time POS/inventory sharing!</td>
+                </tr>
+                <tr>
+                  <td><strong>KMS (SECI Model)</strong></td>
+                  <td>Captures <mark>Tacit</mark> (experience/intuition) &amp; <mark>Explicit</mark> (SOPs/docs) knowledge via <strong>Nonaka–Takeuchi SECI</strong>:</td>
+                  <td>
+                    &bull; <strong>S</strong>ocialization (Tacit &rarr; Tacit: mentoring)<br>
+                    &bull; <mark><strong>E</strong>xternalization (Tacit &rarr; Explicit: writing SOP)</mark><br>
+                    &bull; <strong>C</strong>ombination (Explicit &rarr; Explicit: merging reports)<br>
+                    &bull; <strong>I</strong>nternalization (Explicit &rarr; Tacit: learning by doing)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 14.5 ==================== -->
+        <section id="sec-14-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">14.5 Strategic MIS Frameworks: Porter's 5 Forces, Value Chain &amp; Balanced Scorecard</h2>
+          </div>
+          <ul>
+            <li><strong>Michael Porter's Five Competitive Forces:</strong> (1) Threat of New Entrants, (2) Bargaining Power of Buyers, (3) Bargaining Power of Suppliers, (4) Threat of Substitutes (e.g., FinTech P2P lenders vs. traditional banks), (5) Competitive Rivalry.</li>
+            <li><strong>Porter's Value Chain:</strong>
+              &bull; <strong>5 Primary Activities:</strong> Inbound Logistics, Operations, Outbound Logistics, Marketing &amp; Sales, Service.<br>
+              &bull; <strong>4 Support Activities:</strong> Firm Infrastructure, HR Management, <mark>Technology Development</mark>, Procurement.</li>
+            <li><strong>Balanced Scorecard (Kaplan &amp; Norton):</strong> Evaluates enterprise IT/business performance across <mark>4 balanced perspectives</mark>—<strong>Financial</strong>, <strong>Customer</strong>, <strong>Internal Business Processes</strong>, and <strong>Learning &amp; Growth</strong> (prevents short-term financial myopia!).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 14.6 ==================== -->
+        <section id="sec-14-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">14.6 IT Governance &amp; ITSM: COBIT 2019, ITIL 4 &amp; BPR</h2>
+            <span class="badge badge-purple">High Regulatory IT Yield</span>
+          </div>
+          <ul>
+            <li><strong>COBIT 2019 (ISACA):</strong> Premier framework for Enterprise Governance of IT. Strictly separates:
+              &bull; <mark><strong>Governance (Board — 1 Domain):</strong></mark> <code>EDM</code> (Evaluate, Direct, Monitor).<br>
+              &bull; <mark><strong>Management (Executive — 4 Domains):</strong></mark> <code>APO</code> (Align, Plan, Organize), <code>BAI</code> (Build, Acquire, Implement), <code>DSS</code> (Deliver, Service, Support), <code>MEA</code> (Monitor, Evaluate, Assess).</li>
+            <li><strong>ITIL 4 (IT Service Management):</strong>
+              &bull; <mark><strong>Incident Management:</strong></mark> Restore normal IT service as quickly as possible (even via temporary workaround) to minimize business disruption.<br>
+              &bull; <mark><strong>Problem Management:</strong></mark> Investigate and eliminate the underlying <strong>Root Cause</strong> of recurring incidents (maintains Known Error Database — KEDB).<br>
+              &bull; <strong>Agreements:</strong> <strong>SLA</strong> (Service Level Agreement — IT &harr; Customer), <strong>OLA</strong> (Operational Level Agreement — internal IT teams), <strong>UC</strong> (Underpinning Contract — IT &harr; External Vendor).</li>
+            <li><strong>BPR (Business Process Reengineering — Hammer &amp; Champy):</strong> <mark>Radical, clean-slate redesign</mark> of business processes enabled by IT for order-of-magnitude gains (e.g., replacing 15-day physical MSME loan files with 59-minute API-driven contactless sanction)—contrasted with TQM/Kaizen (continuous incremental tweaks).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 14.7 ==================== -->
+        <section id="sec-14-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">14.7 Worked MIS Case Scenarios &amp; Decision Math (5 Problems)</h2>
+            <span class="badge badge-warn">Applied Practice</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Case 1: Classifying 4 Banking Systems into the IS Pyramid</span>
+            (a) ATM cash-dispensing ledger &rarr; <mark>TPS</mark>. (b) Monthly branch-wise NPA overdue exception report &rarr; <mark>MIS</mark>. (c) Interactive tool simulating MSME default rates under +100 bps rate shock &rarr; <mark>DSS (What-If)</mark>. (d) Chairman's real-time mobile scorecard of national refinance targets &rarr; <mark>EIS</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Case 2: ITIL Incident vs. Problem vs. Change</span>
+            A branch CBS terminal crashes every Monday at 10 AM. Restarting the service in 5 minutes is <mark>Incident Management</mark>; tracing the memory leak in the scheduled report batch job is <mark>Problem Management</mark>; deploying the patched code after CAB approval is <mark>Change Enablement</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Case 3: SECI Knowledge Conversion Identification</span>
+            A veteran SIDBI credit officer documents their 20 years of MSME underwriting intuition into a formal digital SOP manual &rarr; <mark>Externalization (Tacit &rarr; Explicit)</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Case 4: Value of Information (EMV Calculation)</span>
+            Launching a scheme yields <code>+&#8377;100L</code> if demand is High (prob <code>0.6</code>) and <code>-&#8377;40L</code> if Low (prob <code>0.4</code>).<br>
+            &bull; Without perfect info: <code>EMV = 0.6(100) + 0.4(-40) = 60 - 16 =</code> <mark><code>&#8377;44L</code></mark>.<br>
+            &bull; With perfect forecast (launch only if High, else 0): <code>EMV_PI = 0.6(100) + 0.4(0) = &#8377;60L</code>.<br>
+            &bull; <strong>Expected Value of Perfect Information (EVPI):</strong> <code>60 - 44 =</code> <mark><code>&#8377;16 Lakh</code></mark> (max rational spend on market analytics!).
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Case 5: COBIT 2019 Governance vs. Management</span>
+            Board IT Strategy Committee evaluating whether cloud spend aligns with enterprise risk appetite belongs to COBIT <mark>EDM (Governance)</mark>, whereas IT Ops running daily backups belongs to <mark>DSS (Management)</mark>.
+          </div>
+        </section>
+
+        <!-- ==================== 14.8 ==================== -->
+        <section id="sec-14-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">14.8 Banking Regulatory MIS: Automated Data Flow (ADF) &amp; RBI CIMS</h2>
+            <span class="badge badge-live">2025–2026 Verified</span>
+          </div>
+          <p>
+            Modern Indian banking MIS has transitioned from manual spreadsheet compilation to <strong>Automated Data Flow (ADF)</strong>—straight-through extraction from CBS/ERP directly into regulatory submissions—and RBI's next-generation cloud-ready data warehouse, the
+            <a href="https://rbi.org.in/Scripts/NotificationUser.aspx/NotificationUser.aspx?Id=13247&Mode=0" target="_blank" rel="noopener noreferrer">Centralised Information Management System (CIMS)</a>
+            (which replaced legacy XBRL return portals per <a href="https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12661&Mode=0" target="_blank" rel="noopener noreferrer">RBI Notification ID 12661</a> and now also collects standardized Digital Lending App [DLA] disclosures).
+          </p>
+          <div class="callout callout-info">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"How do Automated Data Flow (ADF) and RBI's Centralised Information Management System (CIMS) transform regulatory MIS and decision support in Indian financial institutions like SIDBI?" (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (25w):</strong> Legacy manual Excel-based regulatory reporting suffered reconciliation errors, latency, and audit gaps.<br>
+            &bull; <strong>ADF Architecture (65w):</strong> Connects TPS/CBS directly to an enterprise data warehouse via automated ETL validation rules, guaranteeing zero manual intervention, data lineage, and single-source-of-truth accuracy.<br>
+            &bull; <strong>RBI CIMS Impact (85w):</strong> Unifies statutory returns and DLA reporting onto RBI's next-gen warehouse, enabling real-time supervisory analytics, text/data mining, automated quality scoring, and faster early-warning stress detection.<br>
+            &bull; <strong>Conclusion (25w):</strong> Integrating internal MIS/DSS with ADF and CIMS aligns SIDBI with COBIT 2019 governance and RBI's data-driven supervision.
+          </div>
+        </section>
+
+        <!-- ==================== 14.9 ==================== -->
+        <section id="sec-14-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">14.9 5-Minute Rapid Revision Sheet &amp; 15 Exam-Level Practice MCQs</h2>
+            <span class="badge badge-warn">Last-Day Cram + Drill</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li>DIKW progression: <mark>Data &rarr; Information &rarr; Knowledge &rarr; Wisdom</mark>.</li>
+            <li><mark>TPS</mark> handles high-volume operational ACID transactions and feeds data upward into MIS.</li>
+            <li><mark>MIS</mark> serves middle management with Scheduled, Exception, Summary &amp; Demand reports.</li>
+            <li><mark>DSS</mark> supports <strong>Semi-Structured</strong> decisions via What-If, Sensitivity &amp; Goal-Seeking analysis (DB + Model Base + UI).</li>
+            <li><mark>EIS / ESS</mark> serves senior executives for <strong>Unstructured</strong> strategic decisions with KPI drill-down.</li>
+            <li><mark>Expert System</mark> = Knowledge Base + Inference Engine (Forward = data-driven; Backward = goal-driven).</li>
+            <li>Herbert Simon's 4 Decision Phases: <mark>Intelligence &rarr; Design &rarr; Choice &rarr; Implementation</mark>.</li>
+            <li><mark>Bounded Rationality &amp; Satisficing</mark> (Simon): choosing the first "good enough" feasible option.</li>
+            <li><mark>ERP</mark> unifies enterprise functions onto ONE central database, eliminating departmental silos.</li>
+            <li>CRM types: Operational (service/SFA), <mark>Analytical</mark> (churn/CLV/cross-sell), Collaborative (partner channels).</li>
+            <li><mark>Bullwhip Effect (SCM):</mark> Minor consumer demand shifts amplify upstream; solved via real-time data sharing.</li>
+            <li>Nonaka–Takeuchi <mark>SECI</mark>: Socialization (T&rarr;T), Externalization (T&rarr;E), Combination (E&rarr;E), Internalization (E&rarr;T).</li>
+            <li>Porter's 5 Forces: New Entrants, Buyers, Suppliers, Substitutes, Competitive Rivalry.</li>
+            <li>Porter's Value Chain: 5 Primary + 4 Support activities (Technology Development is a Support activity!).</li>
+            <li><mark>Balanced Scorecard</mark> (Kaplan &amp; Norton): Financial, Customer, Internal Process, Learning &amp; Growth.</li>
+            <li><mark>COBIT 2019</mark> separates Board Governance (<code>EDM</code>) from Executive Management (<code>APO, BAI, DSS, MEA</code>).</li>
+            <li>ITIL 4 <mark>Incident Management</mark> restores service fast; <mark>Problem Management</mark> eliminates root cause (KEDB).</li>
+            <li><mark>SLA</mark> = IT &harr; Customer; <mark>OLA</mark> = internal IT teams; <mark>UC</mark> = IT &harr; External Vendor.</li>
+            <li><mark>BPR</mark> (Hammer &amp; Champy) = radical clean-slate redesign; TQM/Kaizen = incremental improvement.</li>
+            <li><mark>EVPI</mark> = <code>EMV(with perfect info) - EMV(without info)</code>.</li>
+            <li><mark>Exception Report</mark> flags only records breaching defined thresholds (e.g., loans overdue &gt; 90 days).</li>
+            <li><mark>Automated Data Flow (ADF)</mark> eliminates manual Excel intervention between CBS and regulatory returns.</li>
+            <li><mark>RBI CIMS</mark> (Centralised Information Management System) is RBI's next-gen data warehouse replacing XBRL portals.</li>
+            <li>CIMS also serves as the central reporting portal for Regulated Entities' <mark>Digital Lending Apps (DLAs)</mark>.</li>
+            <li><mark>Goal-Seeking Analysis</mark> in DSS works backward from a desired target output to find the required input parameter.</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 14 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (20 Marks Total) &bull; -0.25 Negative Marking &bull; 18-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch14-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster3-ch13-software-engineering.html">&larr; Prev: Chapter 13 — Software Engg</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-14', '[data-chapter-complete="it-14"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch14-mcq-root',
+          durationMinutes: 18,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch14-q1',
+              marks: 1,
+              section: 'IS Pyramid',
+              prompt: 'Which type of organizational information system specifically supports SEMI-STRUCTURED decision-making using interactive What-If, Sensitivity, and Goal-Seeking models?',
+              options: [
+                'Transaction Processing System (TPS)',
+                'Decision Support System (DSS)',
+                'Office Automation System (OAS)',
+                'Batch Payroll System',
+                'Hardware Firmware Monitor'
+              ],
+              correctIndex: 1,
+              explanation: 'Decision Support Systems (DSS) combine a Database, Model Base, and interactive UI to assist analysts with semi-structured What-If and Goal-Seeking decisions.'
+            },
+            {
+              id: 'ch14-q2',
+              marks: 1,
+              section: 'MIS Reports',
+              prompt: 'An automated MIS report sent every Monday to SIDBI Regional Heads listing ONLY those MSME accounts whose EMI payments are overdue by more than 60 days is an example of a(n):',
+              options: [
+                'Exception Report',
+                'Raw Transaction Dump',
+                'Unstructured Executive Memo',
+                'Entity-Relationship Diagram',
+                'Static Compiler Listing'
+              ],
+              correctIndex: 0,
+              explanation: 'An Exception Report filters out normal records and highlights only items deviating outside pre-defined management thresholds.'
+            },
+            {
+              id: 'ch14-q3',
+              marks: 1,
+              section: 'Simon\'s Decision Model',
+              prompt: 'What is the correct chronological order of Herbert Simon\'s four-phase decision-making model?',
+              options: [
+                'Design -> Intelligence -> Implementation -> Choice',
+                'Intelligence -> Design -> Choice -> Implementation',
+                'Choice -> Intelligence -> Design -> Implementation',
+                'Implementation -> Design -> Choice -> Intelligence',
+                'Intelligence -> Choice -> Design -> Implementation'
+              ],
+              correctIndex: 1,
+              explanation: 'Herbert Simon\'s model flows strictly: Intelligence (problem discovery) → Design (develop alternatives) → Choice (select option) → Implementation.'
+            },
+            {
+              id: 'ch14-q4',
+              marks: 1,
+              section: 'Expert Systems',
+              prompt: 'An Expert System that starts from a target hypothesis (e.g., "Is this borrower high-risk?") and works backward through IF-THEN rules to verify supporting evidence uses which reasoning strategy?',
+              options: [
+                'Forward Chaining',
+                'Backward Chaining',
+                'Bullwhip Chaining',
+                'Round-Robin Polling',
+                'Linear Probing'
+              ],
+              correctIndex: 1,
+              explanation: 'Backward Chaining is goal-driven reasoning starting from a hypothesis and working backward to check facts; Forward Chaining is data-driven.'
+            },
+            {
+              id: 'ch14-q5',
+              marks: 1,
+              section: 'CRM Categories',
+              prompt: 'Using a bank\'s Data Warehouse and machine learning to calculate Customer Lifetime Value (CLV) and predict which MSME borrowers are likely to close their accounts belongs to:',
+              options: [
+                'Operational CRM',
+                'Analytical CRM',
+                'Collaborative CRM',
+                'Transaction Processing CRM',
+                'Hardware CRM'
+              ],
+              correctIndex: 1,
+              explanation: 'Analytical CRM mines customer data to compute CLV, predict churn, and identify cross-sell/up-sell opportunities.'
+            },
+            {
+              id: 'ch14-q6',
+              marks: 1,
+              section: 'Supply Chain (SCM)',
+              prompt: 'In Supply Chain Management (SCM), what phenomenon describes small fluctuations in retail consumer demand becoming progressively magnified into huge inventory swings upstream at factories and raw-material suppliers?',
+              options: [
+                'Convoy Effect',
+                'Bullwhip Effect',
+                'Hawthorne Effect',
+                'Belady\'s Anomaly',
+                'Avalanche Effect'
+              ],
+              correctIndex: 1,
+              explanation: 'The Bullwhip Effect is demand-forecast amplification upstream in a supply chain, mitigated by sharing real-time POS and inventory data across partners.'
+            },
+            {
+              id: 'ch14-q7',
+              marks: 2,
+              section: 'Knowledge Management (SECI)',
+              prompt: 'In the Nonaka–Takeuchi SECI Knowledge Management model, converting an experienced credit manager\'s personal TACIT underwriting judgment into a written, shareable EXPLICIT policy manual is called:',
+              options: [
+                'Socialization',
+                'Externalization',
+                'Combination',
+                'Internalization',
+                'Virtualization'
+              ],
+              correctIndex: 1,
+              explanation: 'Externalization converts Tacit knowledge into Explicit documented knowledge (Socialization = T→T, Combination = E→E, Internalization = E→T).'
+            },
+            {
+              id: 'ch14-q8',
+              marks: 1,
+              section: 'Porter\'s Value Chain',
+              prompt: 'In Michael Porter\'s Value Chain model, how is "Technology Development" (including IT systems & R&D) classified?',
+              options: [
+                'Primary Activity',
+                'Support Activity',
+                'External Competitive Force',
+                'Unstructured Threat',
+                'Exception Report'
+              ],
+              correctIndex: 1,
+              explanation: 'Porter\'s 4 Support Activities are Firm Infrastructure, HR Management, Technology Development, and Procurement.'
+            },
+            {
+              id: 'ch14-q9',
+              marks: 1,
+              section: 'Balanced Scorecard',
+              prompt: 'Which four perspectives form Kaplan and Norton\'s Balanced Scorecard framework for strategic performance measurement?',
+              options: [
+                'Hardware, Software, Network, Security',
+                'Financial, Customer, Internal Business Processes, Learning & Growth',
+                'Technical, Economic, Legal, Operational',
+                'Plan, Do, Check, Act',
+                'Confidentiality, Integrity, Availability, Non-Repudiation'
+              ],
+              correctIndex: 1,
+              explanation: 'The Balanced Scorecard balances Financial metrics with Customer, Internal Business Processes, and Learning & Growth perspectives.'
+            },
+            {
+              id: 'ch14-q10',
+              marks: 2,
+              section: 'COBIT 2019',
+              prompt: 'In ISACA\'s COBIT 2019 IT Governance framework, which domain strictly represents Board-level GOVERNANCE (as distinct from Executive Management domains APO, BAI, DSS, MEA)?',
+              options: [
+                'APO (Align, Plan, Organize)',
+                'BAI (Build, Acquire, Implement)',
+                'DSS (Deliver, Service, Support)',
+                'EDM (Evaluate, Direct, Monitor)',
+                'MEA (Monitor, Evaluate, Assess)'
+              ],
+              correctIndex: 3,
+              explanation: 'COBIT 2019 cleanly separates Governance (EDM: Evaluate, Direct, Monitor) from Management (APO, BAI, DSS, MEA).'
+            },
+            {
+              id: 'ch14-q11',
+              marks: 2,
+              section: 'ITIL 4 ITSM',
+              prompt: 'Under ITIL 4, what is the fundamental distinction between Incident Management and Problem Management?',
+              options: [
+                'Incident Management restores normal service as quickly as possible; Problem Management investigates and eliminates the underlying root cause of recurring incidents',
+                'Incident Management handles hardware only; Problem Management handles software only',
+                'Incident Management is performed by external vendors; Problem Management is performed by customers',
+                'Incident Management replaces Change Management completely',
+                'There is no distinction; both terms mean restarting failed servers'
+              ],
+              correctIndex: 0,
+              explanation: 'Incident Management prioritizes rapid service restoration (even via a workaround), while Problem Management performs Root Cause Analysis (RCA) and maintains the KEDB to prevent recurrence.'
+            },
+            {
+              id: 'ch14-q12',
+              marks: 1,
+              section: 'ITSM Agreements',
+              prompt: 'In ITIL Service Level Management, an internal agreement between a bank\'s Network Operations team and its Database Administration team supporting an external SLA is called an:',
+              options: [
+                'SLA (Service Level Agreement)',
+                'OLA (Operational Level Agreement)',
+                'UC (Underpinning Contract)',
+                'NDA (Non-Disclosure Agreement)',
+                'EULA (End-User License Agreement)'
+              ],
+              correctIndex: 1,
+              explanation: 'SLA is between IT and the Customer; OLA is between internal IT support groups; UC is between IT and an external third-party vendor.'
+            },
+            {
+              id: 'ch14-q13',
+              marks: 1,
+              section: 'BPR vs TQM',
+              prompt: 'Business Process Reengineering (BPR), popularized by Hammer and Champy, differs from Total Quality Management (TQM) primarily because BPR advocates:',
+              options: [
+                'Slow, minor incremental tweaks to legacy paper forms',
+                'Radical, clean-slate redesign of core business processes using IT for dramatic performance leaps',
+                'Eliminating all automation in favor of manual branch approvals',
+                'Restricting IT investment strictly to payroll accounting',
+                'Avoiding any changes to organizational workflows'
+              ],
+              correctIndex: 1,
+              explanation: 'BPR starts from a clean slate ("don\'t automate, obliterate") for radical leaps in cost/speed, whereas TQM/Kaizen focuses on continuous incremental improvement.'
+            },
+            {
+              id: 'ch14-q14',
+              marks: 2,
+              section: 'EVPI Decision Math',
+              prompt: 'A project yields +₹80 Lakh if market demand is High (probability 0.5) and -₹20 Lakh if Low (probability 0.5). What is the Expected Value of Perfect Information (EVPI) for forecasting demand before deciding?',
+              options: [
+                '₹10 Lakh',
+                '₹20 Lakh',
+                '₹30 Lakh',
+                '₹40 Lakh',
+                '₹50 Lakh'
+              ],
+              correctIndex: 0,
+              explanation: 'Without info: EMV = 0.5(80) + 0.5(-20) = 40 - 10 = ₹30L. With perfect info (invest only if High): EMV_PI = 0.5(80) + 0.5(0) = ₹40L. EVPI = 40 - 30 = ₹10 Lakh.'
+            },
+            {
+              id: 'ch14-q15',
+              marks: 2,
+              section: 'RBI Regulatory MIS (CIMS)',
+              prompt: 'What is RBI\'s Centralised Information Management System (CIMS) that replaced legacy XBRL return portals for Regulated Entities in India?',
+              options: [
+                'A physical cheque-clearing house for rural branches',
+                'RBI\'s next-generation cloud-ready data warehouse for unified regulatory reporting, DLA disclosures, and advanced supervisory analytics',
+                'A retail UPI consumer wallet app',
+                'An open-source C++ compiler maintained by IDRBT',
+                'A hardware ATM switch replacing INFINET'
+              ],
+              correctIndex: 1,
+              explanation: 'CIMS is RBI\'s next-generation data warehouse unifying statutory regulatory returns and Digital Lending App (DLA) reporting with big-data mining, text mining, and visual analytics.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

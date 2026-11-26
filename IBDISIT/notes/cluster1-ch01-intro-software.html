@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 1: Introduction to Software (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 1 &bull; Chapter 1 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-1-1" class="active">1.1 Fundamentals, Curves &amp; Domains</a></li>
+          <li><a href="#sec-1-2">1.2 System Software, Boot &amp; Middleware</a></li>
+          <li><a href="#sec-1-3">1.3 Translators, Compilers, Linkers &amp; Loaders</a></li>
+          <li><a href="#sec-1-4">1.4 Virtualization, Containers &amp; Cloud</a></li>
+          <li><a href="#sec-1-5">1.5 Licensing, FOSS &amp; Supply Chain (SBOM)</a></li>
+          <li><a href="#sec-1-6">1.6 Quality Models, Crisis &amp; Laws</a></li>
+          <li><a href="#sec-1-7">1.7 Banking &amp; SIDBI Enterprise Context</a></li>
+          <li><a href="#sec-1-8">1.8 5-Minute Rapid Revision Sheet</a></li>
+          <li><a href="#sec-1-9">1.9 Chapter Drill: 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-01">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster1-ch02-computer-fundamentals.html">Next: Ch 2 Fundamentals &rarr;</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 1: Core CS &amp; Programming</span>
+            <span class="badge badge-warn">Topic 1 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">Paper III Part A (MCQs) + Part B (Descriptive)</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 1: Introduction to Software</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Exhaustive exam-ready treatise covering software taxonomy, IEEE definitions, hardware vs. software failure curves,
+            Lehman's Laws, BIOS/UEFI boot pipeline, middleware, 6-phase compilers, linkers &amp; loaders, Type-1/Type-2 virtualization &amp; containers,
+            FOSS licensing &amp; SBOM, ISO/IEC 25010 &amp; McCall quality frameworks, SIDBI/RBI regulatory compliance, a 10-mark descriptive blueprint, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 1.1 ==================== -->
+        <section id="sec-1-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">1.1 Software Fundamentals, Failure Curves, Domains &amp; Lehman's Laws</h2>
+            <span class="badge badge-info">Conceptual Core</span>
+          </div>
+          <p>
+            According to the <strong>IEEE Standard Glossary of Software Engineering Terminology</strong>, software is NOT merely executable code—it comprises three inseparable components:
+            (1) <mark>Instructions (Computer Programs)</mark> that provide desired features, function, and performance when executed;
+            (2) <mark>Data Structures</mark> that enable programs to manipulate information; and
+            (3) <mark>Descriptive Information (Documentation &amp; Configuration)</mark> in both hard-copy and virtual forms describing operation and use.
+          </p>
+
+          <h3 style="margin:1rem 0 0.45rem;font-size:1.05rem;">A. Hardware Bathtub Curve vs. Software Deterioration Curve</h3>
+          <p>
+            A classic regulatory IT exam distinction: physical hardware wears out due to dust, vibration, thermal stress, and component fatigue, following the
+            <mark>Bathtub Curve</mark> (high infant mortality &rarr; flat useful life &rarr; steep wear-out phase).
+            Software is immune to physical wear-out; theoretically its failure curve should flatten after initial debugging (Idealized Curve).
+            In reality, continuous feature additions and patches introduce <mark>side effects / regression defects</mark>, causing failure-rate spikes after every release—a phenomenon called <mark>Software Deterioration (Software Rot)</mark>.
+          </p>
+
+          <!-- Inline SVG: Hardware vs Software Failure Curve -->
+          <div style="margin:1rem 0;overflow-x:auto;">
+            <svg viewBox="0 0 760 220" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="Hardware Bathtub Curve vs Software Deterioration Curve">
+              <!-- Left Panel: Hardware -->
+              <rect x="10" y="10" width="355" height="200" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="187" y="32" text-anchor="middle" fill="#0f2942" font-size="12.5" font-weight="700">Hardware: Bathtub Failure Curve</text>
+              <line x1="45" y1="175" x2="340" y2="175" stroke="#475569" stroke-width="1.5"/>
+              <line x1="45" y1="50" x2="45" y2="175" stroke="#475569" stroke-width="1.5"/>
+              <text x="190" y="196" text-anchor="middle" fill="#475569" font-size="10.5">Time &rarr;</text>
+              <text x="24" y="115" text-anchor="middle" fill="#475569" font-size="10.5" transform="rotate(-90 24 115)">Failure Rate</text>
+              <path d="M 50 65 Q 75 150 115 150 L 255 150 Q 295 150 330 62" fill="none" stroke="#b91c1c" stroke-width="3"/>
+              <text x="78" y="88" fill="#b91c1c" font-size="9.5" font-weight="700">Infant Mortality</text>
+              <text x="185" y="140" text-anchor="middle" fill="#15803d" font-size="9.5" font-weight="700">Useful Life (Flat)</text>
+              <text x="295" y="95" text-anchor="middle" fill="#b91c1c" font-size="9.5" font-weight="700">Wear-Out</text>
+
+              <!-- Right Panel: Software -->
+              <rect x="395" y="10" width="355" height="200" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="572" y="32" text-anchor="middle" fill="#0f2942" font-size="12.5" font-weight="700">Software: Idealized vs. Actual Deterioration</text>
+              <line x1="430" y1="175" x2="725" y2="175" stroke="#475569" stroke-width="1.5"/>
+              <line x1="430" y1="50" x2="430" y2="175" stroke="#475569" stroke-width="1.5"/>
+              <text x="575" y="196" text-anchor="middle" fill="#475569" font-size="10.5">Time / Releases &rarr;</text>
+              <text x="410" y="115" text-anchor="middle" fill="#475569" font-size="10.5" transform="rotate(-90 410 115)">Failure Rate</text>
+              <!-- Idealized dashed -->
+              <path d="M 435 65 Q 465 152 510 152 L 720 152" fill="none" stroke="#0d9488" stroke-width="2.2" stroke-dasharray="5,4"/>
+              <text x="660" y="166" text-anchor="middle" fill="#0d9488" font-size="9.5" font-weight="700">Idealized</text>
+              <!-- Actual spikes -->
+              <path d="M 435 65 Q 465 148 505 148 L 520 112 L 545 138 L 575 138 L 590 98 L 620 126 L 650 126 L 665 86 L 700 114 L 720 110" fill="none" stroke="#1d4ed8" stroke-width="2.8"/>
+              <text x="630" y="76" text-anchor="middle" fill="#1d4ed8" font-size="9.5" font-weight="700">Actual (Change Spikes / Deterioration)</text>
+            </svg>
+          </div>
+
+          <h3 style="margin:1rem 0 0.45rem;font-size:1.05rem;">B. Pressman's 7 Software Application Domains</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Domain</th>
+                  <th>Defining Characteristics</th>
+                  <th>Real-World &amp; Banking Examples</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. System Software</strong></td>
+                  <td>Services other programs; heavy hardware interaction, concurrency, resource scheduling.</td>
+                  <td>Linux Kernel, z/OS, Device Drivers, Compilers, File Systems.</td>
+                </tr>
+                <tr>
+                  <td><strong>2. Application Software</strong></td>
+                  <td>Standalone programs solving a specific business need (real-time or batch).</td>
+                  <td>Core Banking (Finacle/Flexcube), Tally, Point-of-Sale (POS), Payroll.</td>
+                </tr>
+                <tr>
+                  <td><strong>3. Engineering / Scientific</strong></td>
+                  <td>"Number-crunching" algorithms, CAD, simulation, matrix/Monte Carlo models.</td>
+                  <td>Quantitative risk Monte Carlo engines, MATLAB, weather modeling.</td>
+                </tr>
+                <tr>
+                  <td><strong>4. Embedded Software</strong></td>
+                  <td>Resides in ROM/Flash inside hardware products; strict real-time &amp; memory limits.</td>
+                  <td>ATM controller firmware, POS EMV card reader chip OS, HSM microcode, IoT sensors.</td>
+                </tr>
+                <tr>
+                  <td><strong>5. Product-Line Software</strong></td>
+                  <td>Mass-market tools targeting diverse consumers with shared core capabilities.</td>
+                  <td>MS Office, Adobe Suite, database management tools, inventory packages.</td>
+                </tr>
+                <tr>
+                  <td><strong>6. Web &amp; Mobile Apps (WebApps)</strong></td>
+                  <td>Network-centric, continuous evolution, multi-tenant browser/mobile delivery.</td>
+                  <td>SIDBI Udyamimitra, GST Sahay mobile app, UPI/NetBanking portals.</td>
+                </tr>
+                <tr>
+                  <td><strong>7. AI Software</strong></td>
+                  <td>Non-numerical algorithms solving complex heuristic/pattern problems.</td>
+                  <td>Credit-default ML classifiers, AML transaction-monitoring AI, LLM chatbots.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1rem 0 0.45rem;font-size:1.05rem;">C. Legacy Software &amp; Lehman's Laws of Software Evolution</h3>
+          <p>
+            <strong>Legacy Software</strong> refers to mission-critical older systems (often written decades ago in COBOL, RPG, or early Java) that remain vital to business operations
+            but exhibit brittle architectures, poor documentation, and high maintenance cost. Meir Lehman formulated <mark>8 Laws of Software Evolution</mark> for E-type (real-world embedded) systems—4 are most tested:
+          </p>
+          <ul>
+            <li><strong>Law 1 — Continuing Change:</strong> An E-type system must be continually adapted or it becomes progressively less satisfactory.</li>
+            <li><strong>Law 2 — Increasing Complexity:</strong> As a system evolves, its <mark>complexity increases unless explicit work (refactoring)</mark> is done to maintain or reduce it.</li>
+            <li><strong>Law 6 — Continuing Growth:</strong> Functional content must continually increase to maintain user satisfaction over its lifetime.</li>
+            <li><strong>Law 7 — Declining Quality:</strong> Perceived quality will decline unless rigorously maintained and adapted to operational environment changes.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 1.2 ==================== -->
+        <section id="sec-1-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">1.2 System Software, Firmware, Boot Pipeline &amp; Enterprise Middleware</h2>
+            <span class="badge badge-warn">High Objective &amp; Banking Yield</span>
+          </div>
+
+          <!-- Inline SVG: 5-Layer Stack -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 245" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="5-Layer Enterprise Software Architecture Stack">
+              <rect x="10" y="8" width="740" height="42" rx="8" fill="#0d9488"/>
+              <text x="380" y="26" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">Layer 4: Enterprise &amp; End-User Applications</text>
+              <text x="380" y="42" text-anchor="middle" fill="#ccfbf1" font-size="11">CBS, Udyamimitra, GST Sahay, Co-Lending Platform, TReDS/RXIL, BI Dashboards</text>
+
+              <rect x="10" y="58" width="740" height="42" rx="8" fill="#1d4ed8"/>
+              <text x="380" y="76" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">Layer 3: Middleware &amp; Runtime Execution Environments</text>
+              <text x="380" y="92" text-anchor="middle" fill="#dbeafe" font-size="11">MOM (Kafka / IBM MQ), API Gateways, ESB, TP Monitors, ODBC/JDBC, JVM / .NET CLR</text>
+
+              <rect x="10" y="108" width="740" height="42" rx="8" fill="#0f2942"/>
+              <text x="380" y="126" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">Layer 2: System Software</text>
+              <text x="380" y="142" text-anchor="middle" fill="#cbd5e1" font-size="11">OS Kernel, Device Drivers, Compilers, Assemblers, Linkers, Loaders, System Utilities</text>
+
+              <rect x="10" y="158" width="740" height="36" rx="8" fill="#475569"/>
+              <text x="380" y="180" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">Layer 1: Firmware (BIOS / UEFI / BMC / HSM &amp; Controller Microcode in Non-Volatile Flash/ROM)</text>
+
+              <rect x="10" y="202" width="740" height="34" rx="8" fill="#1e293b"/>
+              <text x="380" y="223" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="700">Layer 0: Physical Hardware (Multi-Core CPU, ECC RAM, NVMe/RAID SAN, NIC, HSM)</text>
+            </svg>
+          </div>
+
+          <h3 style="margin:1rem 0 0.45rem;font-size:1.05rem;">A. Complete Cold-Boot Sequence &amp; Legacy BIOS vs. UEFI</h3>
+          <p>
+            <strong>Boot Pipeline:</strong>
+            <code>Power-On &rarr; CPU Reset Vector &rarr; Firmware POST (Power-On Self-Test) &rarr; Boot Device Discovery &rarr; Bootloader (GRUB2 / Windows Boot Manager) &rarr; OS Kernel Load &amp; Init (systemd / PID 1) &rarr; User-Space Services &amp; Login</code>.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Legacy BIOS (Basic Input/Output System)</th>
+                  <th>UEFI (Unified Extensible Firmware Interface)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Processor Mode</strong></td>
+                  <td><mark>16-bit Real Mode</mark> (1 MB addressable space during boot)</td>
+                  <td><mark>32-bit or 64-bit Protected/Long Mode</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Partition Table</strong></td>
+                  <td><mark>MBR (Master Boot Record)</mark> — max 4 primary partitions</td>
+                  <td><mark>GPT (GUID Partition Table)</mark> — up to 128 partitions (Windows default)</td>
+                </tr>
+                <tr>
+                  <td><strong>Max Boot Disk Size</strong></td>
+                  <td><mark>2.2 TB</mark> (32-bit sector addressing)</td>
+                  <td><mark>9.4 Zettabytes (ZB)</mark> (64-bit LBA)</td>
+                </tr>
+                <tr>
+                  <td><strong>Security</strong></td>
+                  <td>No cryptographic verification; vulnerable to MBR bootkits</td>
+                  <td><mark>Secure Boot</mark> verifies digital signatures of bootloader/kernel (PK, KEK, db, dbx)</td>
+                </tr>
+                <tr>
+                  <td><strong>Interface &amp; Speed</strong></td>
+                  <td>Text-only, keyboard-driven, sequential hardware init</td>
+                  <td>GUI + mouse + networking support; parallel driver init (faster boot)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">B. Device Drivers &amp; Utility Software</h3>
+          <ul>
+            <li><strong>Device Drivers:</strong> Hardware-specific translators allowing the OS kernel to communicate with peripherals via standardized I/O interfaces without knowing hardware register internals. Categorized into <mark>Character drivers</mark> (byte streams: keyboard, serial), <mark>Block drivers</mark> (fixed blocks with random access: SSD, HDD), and <mark>Network drivers</mark> (packet frames: NIC).</li>
+            <li><strong>Kernel-Mode vs. User-Mode Drivers:</strong> Kernel-mode drivers run in <mark>Ring 0</mark> (fastest, but a bug causes BSOD / Kernel Panic); User-mode drivers run in <mark>Ring 3</mark> (safer isolation, slight context-switch overhead).</li>
+            <li><strong>Utility Software:</strong> Always classified as a <mark>subset of System Software</mark>—includes antivirus/EDR, backup/snapshot agents, disk defragmenters, compression tools (gzip/tar/7z), and system monitors.</li>
+          </ul>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">C. Enterprise Middleware Taxonomy (Banking Integration Backbone)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Middleware Type</th>
+                  <th>Communication Pattern</th>
+                  <th>Key Examples</th>
+                  <th>Banking / SIDBI Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>MOM (Message-Oriented Middleware)</strong></td>
+                  <td><mark>Asynchronous</mark> queues &amp; pub/sub topics (decoupled, guaranteed delivery)</td>
+                  <td>IBM MQ, Apache Kafka, RabbitMQ</td>
+                  <td>Queuing NEFT/RTGS/UPI alerts, fraud-event streaming, loan status sync.</td>
+                </tr>
+                <tr>
+                  <td><strong>API Gateway</strong></td>
+                  <td>Synchronous REST/gRPC routing, auth, rate-limiting, TLS termination</td>
+                  <td>Kong, Apigee, AWS API Gateway, Nginx</td>
+                  <td>Exposing GST Sahay / OCEN / Account Aggregator endpoints securely to partner NBFCs.</td>
+                </tr>
+                <tr>
+                  <td><strong>ESB (Enterprise Service Bus)</strong></td>
+                  <td>Centralized protocol mediation, XML/JSON transformation, orchestration</td>
+                  <td>MuleSoft, WSO2, IBM App Connect</td>
+                  <td>Bridging legacy ISO 8583 / SOAP banking cores with modern REST apps.</td>
+                </tr>
+                <tr>
+                  <td><strong>TP Monitor (Transaction Processing)</strong></td>
+                  <td>Distributed ACID transaction coordination (<mark>Two-Phase Commit / XA</mark>)</td>
+                  <td>IBM CICS, Oracle Tuxedo</td>
+                  <td>Ensuring debit on one ledger and credit on another succeed atomically.</td>
+                </tr>
+                <tr>
+                  <td><strong>Database Middleware</strong></td>
+                  <td>Standardized SQL connectivity &amp; connection pooling</td>
+                  <td>ODBC (C/C++), JDBC (Java), PgBouncer</td>
+                  <td>Decoupling Java/Python lending apps from underlying Oracle/PostgreSQL engines.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 1.3 ==================== -->
+        <section id="sec-1-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">1.3 Language Generations, Translators, Compilers, Linkers &amp; Loaders</h2>
+            <span class="badge badge-danger">Top Paper III Objective Zone</span>
+          </div>
+
+          <h3 style="margin:0.4rem 0 0.45rem;font-size:1.05rem;">A. Five Generations of Programming Languages (1GL &ndash; 5GL)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Gen</th>
+                  <th>Category</th>
+                  <th>Abstraction &amp; Portability</th>
+                  <th>Examples</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1GL</strong></td>
+                  <td>Machine Language</td>
+                  <td>Pure binary (0s &amp; 1s); <mark>hardware-dependent</mark>; no translator needed; fastest execution.</td>
+                  <td>x86 / ARM binary opcodes</td>
+                </tr>
+                <tr>
+                  <td><strong>2GL</strong></td>
+                  <td>Assembly Language</td>
+                  <td>Mnemonics (<code>MOV, ADD, JMP</code>); hardware-dependent; requires an <mark>Assembler</mark>.</td>
+                  <td>x86-64 NASM, ARM Assembly</td>
+                </tr>
+                <tr>
+                  <td><strong>3GL</strong></td>
+                  <td>High-Level Procedural / OOP</td>
+                  <td>Machine-independent; English-like syntax; requires <mark>Compiler or Interpreter</mark>.</td>
+                  <td>C, C++, Java, Python, COBOL, Go</td>
+                </tr>
+                <tr>
+                  <td><strong>4GL</strong></td>
+                  <td>Declarative / Non-Procedural</td>
+                  <td>Specifies <mark>"WHAT" to compute, not "HOW"</mark>; built for databases, reporting &amp; analytics.</td>
+                  <td>SQL, SAS, MATLAB, ABAP, R</td>
+                </tr>
+                <tr>
+                  <td><strong>5GL</strong></td>
+                  <td>Logic / Constraint / AI</td>
+                  <td>Solver-driven: define constraints/facts/rules; system deduces solution.</td>
+                  <td>Prolog, OPS5, Mercury</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">B. End-to-End C Compilation Toolchain (Exact File Extensions)</h3>
+          <pre><code>/* Step-by-step GCC build pipeline (frequently asked in Paper III MCQs) */
+main.c  --[Preprocessor: #include, #define, strip comments]-->  main.i (Expanded C source)
+main.i  --[Compiler: 6 phases, optimization]----------------->  main.s (Assembly code)
+main.s  --[Assembler: mnemonics to binary opcodes]----------->  main.o (Relocatable Object file)
+main.o + libc.a/libc.so --[Linker: symbol resolution]-------->  a.out  (Executable ELF/PE binary)
+a.out   --[OS Loader: map segments into RAM, set PC]--------->  Running Process in Memory</code></pre>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">C. Compiler vs. Interpreter vs. Hybrid JIT (JVM / CPython / V8)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>Compiler (AOT)</th>
+                  <th>Pure Interpreter</th>
+                  <th>Hybrid + JIT (Java, C#, JS V8)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Translation Unit</strong></td>
+                  <td>Translates entire source file into target machine code beforehand.</td>
+                  <td>Reads, parses, and executes one statement/line at a time.</td>
+                  <td>Compiles source &rarr; <mark>platform-independent Bytecode</mark>; VM interprets + JIT-compiles hot loops.</td>
+                </tr>
+                <tr>
+                  <td><strong>Runtime Speed</strong></td>
+                  <td><mark>Fastest</mark> (direct native CPU execution).</td>
+                  <td>Slowest (re-translates every iteration of a loop).</td>
+                  <td>Near-native after warm-up via profile-guided JIT optimization.</td>
+                </tr>
+                <tr>
+                  <td><strong>Portability</strong></td>
+                  <td>Low binary portability (must recompile per OS/CPU ISA).</td>
+                  <td>High (runs anywhere interpreter exists).</td>
+                  <td><mark>Write Once, Run Anywhere (WORA)</mark> via JVM/CLR abstraction.</td>
+                </tr>
+                <tr>
+                  <td><strong>Error Detection</strong></td>
+                  <td>Reports all compile-time syntax &amp; type errors together.</td>
+                  <td>Halts immediately at the first offending statement at runtime.</td>
+                  <td>Syntax/static-type errors caught at bytecode compile time; runtime exceptions in VM.</td>
+                </tr>
+                <tr>
+                  <td><strong>Special Variants</strong></td>
+                  <td colspan="3">
+                    &bull; <mark>Cross-Compiler:</mark> Runs on Host architecture (e.g., x86 PC) to emit machine code for a different Target (e.g., ARM IoT chip).<br>
+                    &bull; <mark>Transpiler (Source-to-Source):</mark> Translates one HLL to another HLL (e.g., TypeScript &rarr; JavaScript via <code>tsc</code>/Babel).<br>
+                    &bull; <mark>Bootstrapping:</mark> Writing a compiler for language L in language L itself (represented via <mark>T-Diagrams</mark>).
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">D. Six Phases of a Compiler (Analysis Front-End vs. Synthesis Back-End)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Phase</th>
+                  <th>Stage</th>
+                  <th>Input &rarr; Output</th>
+                  <th>Formal Theory / Core Task (Exam Gold)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. Lexical Analysis (Scanner)</strong></td>
+                  <td>Front-End (Analysis)</td>
+                  <td>Char stream &rarr; <mark>Tokens</mark></td>
+                  <td>Uses <mark>Regular Expressions &amp; Finite Automata (DFA/NFA)</mark>. Removes whitespace/comments; inserts identifiers into Symbol Table.</td>
+                </tr>
+                <tr>
+                  <td><strong>2. Syntax Analysis (Parser)</strong></td>
+                  <td>Front-End (Analysis)</td>
+                  <td>Tokens &rarr; <mark>Parse Tree / AST</mark></td>
+                  <td>Uses <mark>Context-Free Grammar (CFG) &amp; Pushdown Automata (PDA)</mark>. Top-Down (LL(1), Recursive Descent) &amp; Bottom-Up (LR, LALR, SLR).</td>
+                </tr>
+                <tr>
+                  <td><strong>3. Semantic Analysis</strong></td>
+                  <td>Front-End (Analysis)</td>
+                  <td>AST &rarr; Annotated AST</td>
+                  <td><mark>Type checking, implicit type coercion, scope resolution, array-bound/undeclared variable checks</mark> using Attribute Grammars.</td>
+                </tr>
+                <tr>
+                  <td><strong>4. Intermediate Code Gen</strong></td>
+                  <td>Middle (IR)</td>
+                  <td>Annotated AST &rarr; IR</td>
+                  <td>Produces machine-independent <mark>Three-Address Code (TAC)</mark>, Quadruples, Triples, or SSA (Static Single Assignment, used in LLVM).</td>
+                </tr>
+                <tr>
+                  <td><strong>5. Code Optimization</strong></td>
+                  <td>Middle</td>
+                  <td>IR &rarr; Optimized IR</td>
+                  <td>Constant folding (<code>2+3 &rarr; 5</code>), dead-code elimination, common subexpression elimination, loop-invariant code motion, strength reduction (<code>x*2 &rarr; x&lt;&lt;1</code>).</td>
+                </tr>
+                <tr>
+                  <td><strong>6. Target Code Generation</strong></td>
+                  <td>Back-End (Synthesis)</td>
+                  <td>Optimized IR &rarr; Machine Code</td>
+                  <td><mark>Register allocation (NP-complete, solved via Graph Coloring)</mark>, instruction selection, instruction scheduling, peephole optimization.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">E. Linkers &amp; Loaders — Complete Comparison</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Component / Scheme</th>
+                  <th>Core Mechanism</th>
+                  <th>Pros &amp; Exam Traps</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Static Linker</strong></td>
+                  <td>Copies library object code (<code>.a</code> / <code>.lib</code>) directly into executable before run time.</td>
+                  <td>Self-contained binary, no "DLL Hell", slightly faster call speed; <mark>larger disk/RAM footprint; must recompile to patch library CVEs</mark>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Dynamic Linker</strong></td>
+                  <td>Stores only stub references; links shared libraries (<code>.so</code> on Linux, <code>.dll</code> on Windows) at load-time or run-time (<code>dlopen</code>).</td>
+                  <td><mark>One copy of library shared in RAM across all processes</mark>; instant security patching; requires <mark>Position-Independent Code (PIC)</mark> &amp; GOT/PLT tables.</td>
+                </tr>
+                <tr>
+                  <td><strong>Absolute Loader</strong></td>
+                  <td>Loads machine code into fixed hardcoded memory addresses specified by assembler.</td>
+                  <td>Simplest &amp; fastest loader, but <mark>no relocation or multiprogramming flexibility</mark>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Relocating Loader</strong></td>
+                  <td>Adjusts address-sensitive instructions at load time using a <mark>Relocation Table / Bitmask</mark> so program can load at any free RAM address.</td>
+                  <td>Essential for multiprogramming OS where load address is unknown at compile time.</td>
+                </tr>
+                <tr>
+                  <td><strong>Bootstrap Loader</strong></td>
+                  <td>Tiny ROM/UEFI loader that loads the OS kernel from disk into RAM at startup.</td>
+                  <td>First software component to transfer control from firmware to OS.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 1.4 ==================== -->
+        <section id="sec-1-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">1.4 Virtualization, Containers &amp; Cloud Software Delivery Models</h2>
+            <span class="badge badge-info">Modern Enterprise IT</span>
+          </div>
+          <p>
+            Modern banking and SIDBI IT infrastructure rarely deploys one application per physical server. Software runs on layered abstraction platforms:
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>Type-1 Hypervisor (Bare-Metal)</th>
+                  <th>Type-2 Hypervisor (Hosted)</th>
+                  <th>Containers (Docker / OCI / K8s)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Runs Directly On</strong></td>
+                  <td><mark>Physical Hardware</mark> (no host OS)</td>
+                  <td>Host Operating System (Windows/Linux)</td>
+                  <td>Host OS Kernel via <mark>Linux Namespaces &amp; cgroups</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Guest OS</strong></td>
+                  <td>Full Guest OS per VM (heavy: GBs)</td>
+                  <td>Full Guest OS per VM</td>
+                  <td><mark>Shares Host OS Kernel</mark> (lightweight: MBs)</td>
+                </tr>
+                <tr>
+                  <td><strong>Startup &amp; Density</strong></td>
+                  <td>Minutes; tens of VMs per server</td>
+                  <td>Minutes; lower performance (host OS overhead)</td>
+                  <td><mark>Milliseconds–seconds</mark>; hundreds per server</td>
+                </tr>
+                <tr>
+                  <td><strong>Isolation Strength</strong></td>
+                  <td><mark>Hardware-level strong isolation</mark> (best for multi-tenant banking cores)</td>
+                  <td>Good (used for dev/test laptops)</td>
+                  <td>Process-level isolation (kernel CVE affects all containers on host)</td>
+                </tr>
+                <tr>
+                  <td><strong>Examples</strong></td>
+                  <td>VMware ESXi, Linux KVM, Microsoft Hyper-V, Xen</td>
+                  <td>Oracle VirtualBox, VMware Workstation</td>
+                  <td>Docker, containerd, Podman, Kubernetes</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">Cloud Service Models (Shared Responsibility Boundary)</h3>
+          <ul>
+            <li><strong>IaaS (Infrastructure as a Service):</strong> Provider manages physical DC, networking, storage, servers &amp; virtualization; <mark>Customer manages OS, middleware, runtime, app &amp; data</mark> (e.g., AWS EC2, Azure VMs).</li>
+            <li><strong>PaaS (Platform as a Service):</strong> Provider also manages OS, patching &amp; runtime; <mark>Customer manages only Application Code &amp; Data</mark> (e.g., Azure App Service, Google App Engine, RDS).</li>
+            <li><strong>SaaS (Software as a Service):</strong> Provider manages full stack; <mark>Customer manages only user access, configuration &amp; data governance</mark> (e.g., Microsoft 365, Salesforce, Zoho).</li>
+            <li><strong>FaaS (Function as a Service / Serverless):</strong> Event-driven, auto-scaling stateless functions billed per millisecond of execution (e.g., AWS Lambda).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 1.5 ==================== -->
+        <section id="sec-1-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">1.5 Software Licensing, FOSS Governance &amp; Supply-Chain Security (SBOM)</h2>
+            <span class="badge badge-purple">High Exam Trap Zone</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>License Category</th>
+                  <th>Source Access</th>
+                  <th>Commercial Use &amp; Closed Derivatives?</th>
+                  <th>Key Legal Clauses &amp; Examples</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Proprietary / Commercial</strong></td>
+                  <td>Closed</td>
+                  <td>Restricted by EULA (per-seat / per-core / enterprise)</td>
+                  <td>Oracle DB, MS Windows Server, Finacle CBS. Vendor holds all IP.</td>
+                </tr>
+                <tr>
+                  <td><strong>Freeware</strong></td>
+                  <td><mark>Closed</mark></td>
+                  <td>Free of cost (<em>gratis</em>), but <mark>no right to inspect/modify source</mark></td>
+                  <td>Adobe Acrobat Reader, Skype. <strong>Trap:</strong> Freeware &ne; Free Software (FOSS).</td>
+                </tr>
+                <tr>
+                  <td><strong>Shareware</strong></td>
+                  <td>Closed</td>
+                  <td>Time-limited or feature-limited trial ("try before buy")</td>
+                  <td>WinRAR, trial security utilities.</td>
+                </tr>
+                <tr>
+                  <td><strong>Permissive FOSS</strong></td>
+                  <td>Open</td>
+                  <td><mark>YES — closed-source commercial derivatives allowed</mark></td>
+                  <td><mark>MIT, BSD (2/3-Clause), Apache 2.0</mark> (Apache 2.0 adds explicit <mark>patent grant &amp; retaliation clause</mark>).</td>
+                </tr>
+                <tr>
+                  <td><strong>Weak Copyleft FOSS</strong></td>
+                  <td>Open</td>
+                  <td>Closed apps may dynamically link; edits to library stay open</td>
+                  <td><mark>GNU LGPL</mark> (library-level), <mark>MPL 2.0</mark> (file-level copyleft).</td>
+                </tr>
+                <tr>
+                  <td><strong>Strong Copyleft FOSS</strong></td>
+                  <td>Open</td>
+                  <td><mark>NO — "Viral" clause forces entire derivative under same license</mark></td>
+                  <td><mark>GPLv2</mark> (Linux kernel), <mark>GPLv3</mark> (adds anti-Tivoization + patent grant), <mark>AGPLv3</mark> (triggers even over SaaS/network use without binary distribution).</td>
+                </tr>
+                <tr>
+                  <td><strong>Public Domain / CC0</strong></td>
+                  <td>Open</td>
+                  <td>Unrestricted; copyright waived or expired</td>
+                  <td>SQLite, CC0 works.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout callout-info" style="margin-top:0.9rem;">
+            <span class="callout-title">2025–2026 Enterprise Software Supply-Chain Essentials</span>
+            &bull; <strong>SBOM (Software Bill of Materials):</strong> A formal machine-readable inventory (in <mark>SPDX</mark> or <mark>CycloneDX</mark> format) listing every open-source &amp; third-party dependency inside a software build—critical for rapid incident response during zero-day supply-chain flaws (like Log4Shell).<br>
+            &bull; <strong>Software Escrow:</strong> A tripartite agreement where a vendor deposits critical source code and build scripts with a neutral escrow agent, released to the bank/AIFI if the vendor goes bankrupt or breaches SLA.
+          </div>
+        </section>
+
+        <!-- ==================== 1.6 ==================== -->
+        <section id="sec-1-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">1.6 Software Quality Models (ISO/IEC 25010 &amp; McCall), Software Crisis &amp; Laws</h2>
+          </div>
+
+          <h3 style="margin:0.4rem 0 0.45rem;font-size:1.05rem;">A. ISO/IEC 25010 Product Quality Model (8 Characteristics — Mnemonic: <code>F-P-C-U-R-S-M-P</code>)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Characteristic</th>
+                  <th>Key Sub-Characteristics</th>
+                  <th>Banking IT Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. Functional Suitability</strong></td>
+                  <td>Completeness, Correctness, Appropriateness</td>
+                  <td>Accurate EMI/interest &amp; NPA classification calculations.</td>
+                </tr>
+                <tr>
+                  <td><strong>2. Performance Efficiency</strong></td>
+                  <td>Time behavior, Resource utilization, Capacity</td>
+                  <td>Sub-second UPI/GST Sahay API latency under peak load.</td>
+                </tr>
+                <tr>
+                  <td><strong>3. Compatibility</strong></td>
+                  <td>Co-existence, <mark>Interoperability</mark></td>
+                  <td>Seamless ISO 20022 / OCEN / Account Aggregator integration.</td>
+                </tr>
+                <tr>
+                  <td><strong>4. Usability</strong></td>
+                  <td>Learnability, Operability, Accessibility, Error protection</td>
+                  <td>Multilingual MSME borrower onboarding on Udyamimitra.</td>
+                </tr>
+                <tr>
+                  <td><strong>5. Reliability</strong></td>
+                  <td>Maturity, <mark>Availability, Fault Tolerance, Recoverability</mark></td>
+                  <td>99.95%+ uptime; strict RPO/RTO during DC-DR switchover.</td>
+                </tr>
+                <tr>
+                  <td><strong>6. Security</strong></td>
+                  <td>Confidentiality, Integrity, <mark>Non-repudiation, Accountability, Authenticity</mark></td>
+                  <td>Digital signatures, audit trails, zero-trust RBAC, DPDP compliance.</td>
+                </tr>
+                <tr>
+                  <td><strong>7. Maintainability</strong></td>
+                  <td>Modularity, Reusability, Analyzability, Modifiability, Testability</td>
+                  <td>Rapidly updating MSME scheme rules without breaking core modules.</td>
+                </tr>
+                <tr>
+                  <td><strong>8. Portability</strong></td>
+                  <td>Adaptability, Installability, Replaceability</td>
+                  <td>Containerized workloads movable across private/public clouds (exit readiness).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">B. McCall's Quality Model (3 Perspectives — Classic MCQ)</h3>
+          <ul>
+            <li><strong>Product Operation</strong> (using it): Correctness, Reliability, Efficiency, Integrity, Usability.</li>
+            <li><strong>Product Revision</strong> (changing it): Maintainability, Flexibility, Testability.</li>
+            <li><strong>Product Transition</strong> (moving it): Portability, Reusability, Interoperability.</li>
+          </ul>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">C. Software Crisis, Brooks' Law &amp; Conway's Law (With Worked Numerical)</h3>
+          <ul>
+            <li><strong>Software Crisis (coined at 1968 NATO Software Engineering Conference):</strong> Chronic schedule overruns, budget overruns, low quality, and unmaintainable code as hardware power outpaced ad-hoc coding practices.</li>
+            <li><strong>Brooks' Law (<em>The Mythical Man-Month</em>):</strong> <mark>"Adding manpower to a late software project makes it later"</mark> due to ramp-up time and quadratic communication channels: <code>C = n(n - 1) / 2</code>.</li>
+            <li><strong>Conway's Law:</strong> Organizations design software architectures that mirror their own internal communication structures (e.g., 4 siloed departments produce a 4-pass compiler or 4 tightly coupled monoliths).</li>
+          </ul>
+          <div class="callout callout-warn" style="margin-top:0.75rem;">
+            <span class="callout-title">Worked Numerical — Brooks' Law Communication Overhead</span>
+            <strong>Question:</strong> A banking software team of <code>6</code> engineers is expanded to <code>12</code> engineers to recover a delayed release. Calculate the percentage increase in pairwise communication channels.<br>
+            <strong>Step 1:</strong> Initial channels (<code>n = 6</code>): <code>6 &times; 5 / 2 = 15 channels</code>.<br>
+            <strong>Step 2:</strong> Expanded channels (<code>n = 12</code>): <code>12 &times; 11 / 2 = 66 channels</code>.<br>
+            <strong>Step 3:</strong> Increase = <code>66 - 15 = 51 channels</code> &rarr; Percentage increase = <code>(51 / 15) &times; 100 =</code> <mark>340% increase</mark> (doubling headcount more than quadruples coordination channels!).
+          </div>
+        </section>
+
+        <!-- ==================== 1.7 ==================== -->
+        <section id="sec-1-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">1.7 Banking &amp; SIDBI Enterprise Software Context + Descriptive Blueprint</h2>
+            <span class="badge badge-live">2025–2026 Verified</span>
+          </div>
+          <div class="callout">
+            <span class="callout-title">Real-World SIDBI &amp; RBI Regulatory Hooks for Paper III (Part B)</span>
+            <ul style="margin:0.45rem 0 0;padding-left:1.2rem;">
+              <li><strong>4-Tier Core Banking Solution (CBS) Architecture:</strong> Separates (1) <em>Data Layer</em> (centralized RDBMS), (2) <em>Business Logic Layer</em> (credit, interest, accounting rules), (3) <em>Application Layer</em> (branch/web/mobile front-ends), and (4) <em>Integration Layer</em> (middleware/APIs connecting ATMs, payment gateways, and credit bureaus) (<a href="https://www.enkash.com/resources/blog/core-banking-solutions" target="_blank" rel="noopener noreferrer">EnKash CBS Architecture</a>).</li>
+              <li><strong>SIDBI Digital Software Ecosystem (<a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">SIDBI Digital Initiatives</a>):</strong>
+                (a) <strong>Udyamimitra &amp; Stand Up Mitra:</strong> Plug-and-play shared backend onboarding multiple ministerial MSME schemes with separate branded front-ends;
+                (b) <strong>GST Sahay (<a href="https://www.sidbi.in/gst-sahay" target="_blank" rel="noopener noreferrer">SIDBI GST Sahay</a>):</strong> Built with iSPIRT &amp; OPL on OCEN, tested in RBI Regulatory Sandbox Cohort 3 for paperless invoice-based MSME lending;
+                (c) <strong>Co-Lending Origination Platform (<a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2303447&reg=3&lang=1" target="_blank" rel="noopener noreferrer">PIB, Aug 2026</a>):</strong> End-to-end paperless SIDBI–RRB digital credit platform;
+                (d) <strong>TReDS (RXIL):</strong> Digital invoice-discounting exchange co-promoted by SIDBI &amp; NSE;
+                (e) <strong>Blockchain Security Information (SI) Exchange:</strong> Immutable tracking of wholesale NBFC/MFI loan assets pledged as security.</li>
+              <li><strong>RBI IT Outsourcing Directions for AIFIs (<a href="https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12967&Mode=0" target="_blank" rel="noopener noreferrer">RBI ID 12967</a> &amp; <a href="https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12486" target="_blank" rel="noopener noreferrer">RBI ID 12486</a>):</strong> Existing AIFI IT outsourcing agreements had to comply by <mark>April 10, 2026</mark>. Application development, maintenance, cloud services, and firmware support qualify as <em>Material Outsourcing of IT Services</em>—mandating Board-approved policy, vendor due diligence, <mark>documented exit strategy</mark>, non-tampering of data during transition, and secure data destruction.</li>
+              <li><strong>RBI IT Governance Focus Areas (<a href="https://www.rbi.org.in/Scripts/BS_ViewMasterDirections.aspx?id=12562" target="_blank" rel="noopener noreferrer">RBI ID 12562</a>):</strong> Strategic Alignment, Risk Management, Resource Management, Performance Management, and BCP/DR Management.</li>
+            </ul>
+          </div>
+
+          <div class="callout callout-info" style="margin-top:0.9rem;">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"Compare Open-Source (FOSS) and Proprietary software adoption in All India Financial Institutions (AIFIs). What governance and licensing risks must SIDBI mitigate under RBI guidelines?" (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (30w):</strong> Define hybrid banking software stacks (proprietary CBS cores + open-source middleware/cloud-native APIs).<br>
+            &bull; <strong>Comparative Core (80w):</strong> Contrast TCO, vendor lock-in, auditability, and enterprise SLA accountability.<br>
+            &bull; <strong>Risk Mitigation (70w):</strong> License compliance (avoiding AGPLv3/GPLv3 viral contamination of proprietary modules), SBOM (SPDX/CycloneDX) CVE tracking, Software Escrow for proprietary vendors, and RBI AIFI IT Outsourcing exit strategy compliance.<br>
+            &bull; <strong>Conclusion (20w):</strong> Recommend a governed Open-Source Program Office (OSPO) aligned with RBI IT Governance pillars.
+          </div>
+        </section>
+
+        <!-- ==================== 1.8 ==================== -->
+        <section id="sec-1-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">1.8 5-Minute Rapid Revision Sheet (20 High-Yield One-Liners)</h2>
+            <span class="badge badge-warn">Last-Day Cram</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0;">
+            <li>Software = <mark>Programs + Data Structures + Documentation</mark> (IEEE); engineered, not manufactured.</li>
+            <li>Hardware follows the <mark>Bathtub Curve</mark>; Software suffers <mark>deterioration spikes</mark> after changes (no physical wear-out).</li>
+            <li><mark>Lehman's Law 2:</mark> System complexity increases over time unless explicit refactoring is performed.</li>
+            <li><mark>UEFI</mark> replaces 16-bit BIOS with 32/64-bit mode, <mark>GPT (&gt;2.2 TB, up to 9.4 ZB)</mark>, and cryptographic <mark>Secure Boot</mark>.</li>
+            <li><mark>Utility Software</mark> (AV, backup, compression) is a subset of <strong>System Software</strong>, not Application Software.</li>
+            <li><mark>Kernel-mode drivers</mark> run in Ring 0 (fast, crash = Kernel Panic/BSOD); <mark>User-mode drivers</mark> run in Ring 3.</li>
+            <li><mark>MOM (Kafka/IBM MQ)</mark> = asynchronous decoupled messaging; <mark>TP Monitor (CICS)</mark> = distributed ACID (2PC).</li>
+            <li><mark>4GL (SQL, SAS)</mark> = declarative ("what", not "how"); <mark>5GL (Prolog)</mark> = logic/constraint-based AI.</li>
+            <li>C Build Pipeline: <code>.c &rarr; .i (Preprocessor) &rarr; .s (Compiler) &rarr; .o (Assembler) &rarr; Executable (Linker) &rarr; RAM (Loader)</code>.</li>
+            <li>Compiler Front-End = Lexical (<mark>Regex/DFA</mark>) + Syntax (<mark>CFG/PDA</mark>) + Semantic (Type/Scope).</li>
+            <li><mark>Register Allocation</mark> in Back-End Code Generation is solved via <mark>Graph Coloring</mark>.</li>
+            <li><mark>Cross-Compiler</mark> compiles on Host ISA for a different Target ISA; <mark>Transpiler</mark> translates HLL &rarr; HLL.</li>
+            <li><mark>Dynamic Linking (.so/.dll)</mark> shares one library in RAM across processes and enables patching without recompiling.</li>
+            <li><mark>Relocating Loader</mark> adjusts addresses at load time for multiprogramming; <mark>Absolute Loader</mark> uses fixed addresses.</li>
+            <li><mark>Type-1 Hypervisor (ESXi/KVM)</mark> runs on bare metal; <mark>Containers</mark> share host OS kernel via namespaces &amp; cgroups.</li>
+            <li><mark>Freeware</mark> = gratis but closed-source (NOT FOSS); <mark>Apache 2.0</mark> = permissive + explicit patent grant.</li>
+            <li><mark>AGPLv3</mark> closes the SaaS loophole—triggers copyleft disclosure even over network interaction.</li>
+            <li><mark>SBOM</mark> standard formats: <mark>SPDX</mark> and <mark>CycloneDX</mark>.</li>
+            <li><mark>ISO/IEC 25010</mark> = 8 characteristics (<code>F-P-C-U-R-S-M-P</code>); <mark>Brooks' Law</mark> channels = <code>n(n-1)/2</code>.</li>
+            <li><mark>RBI AIFI IT Outsourcing Directions:</mark> Compliance deadline <mark>April 10, 2026</mark>; mandatory exit plan &amp; data sanitization.</li>
+          </ol>
+        </section>
+
+        <!-- ==================== 1.9 ==================== -->
+        <section id="sec-1-9" class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">1.9 Chapter 1 Exam-Level Practice Drill (15 Unbiased 5-Option MCQs)</h2>
+              <p class="card-subtitle">1 &amp; 2 Mark Mix (20 Marks Total) &bull; -0.25 Negative Marking &bull; 18-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+            </div>
+          </div>
+          <div id="ch1-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="../index.html">&larr; Back to Dashboard</a>
+          <a class="btn btn-primary" href="cluster1-ch02-computer-fundamentals.html">Next: Chapter 2 — Computer Fundamentals &rarr;</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-01', '[data-chapter-complete="it-01"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch1-mcq-root',
+          durationMinutes: 18,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch1-q1',
+              marks: 1,
+              section: 'Software Characteristics',
+              prompt: 'Unlike physical hardware that follows the Bathtub failure curve, why does the actual failure rate of long-lived software systems rise over time?',
+              options: [
+                'Magnetic decay of compiled instructions in RAM',
+                'Cumulative side effects and defects introduced during continuous changes',
+                'Gradual slowdown of the CPU instruction set architecture',
+                'Expiration of compiler optimization flags over calendar years',
+                'Exhaustion of available virtual memory address space'
+              ],
+              correctIndex: 1,
+              explanation: 'Software does not physically wear out; instead, each feature addition or patch can introduce regression defects (side effects), causing failure-rate spikes known as software deterioration.'
+            },
+            {
+              id: 'ch1-q2',
+              marks: 1,
+              section: 'Firmware & Boot',
+              prompt: 'Which combination of capabilities distinguishes UEFI firmware from legacy 16-bit BIOS?',
+              options: [
+                'MBR partitioning, 2.2 TB disk limit, and Real Mode execution',
+                'GPT partitioning, >2.2 TB boot disk support, and cryptographic Secure Boot',
+                'Removal of the OS kernel loader and direct execution of user apps',
+                'Mandatory storage on magnetic hard drives instead of SPI flash',
+                'Support for at most four primary partitions per physical disk'
+              ],
+              correctIndex: 1,
+              explanation: 'UEFI operates in 32/64-bit mode, uses GPT (supporting up to 9.4 ZB disks and 128 partitions), and provides Secure Boot to verify bootloader/kernel signatures.'
+            },
+            {
+              id: 'ch1-q3',
+              marks: 1,
+              section: 'Language Generations',
+              prompt: 'SQL and SAS are categorized as Fourth-Generation Languages (4GL) primarily because they:',
+              options: [
+                'Compile directly into CPU microcode without an assembler',
+                'Require manual register allocation by the programmer',
+                'Allow developers to specify WHAT result is needed rather than step-by-step HOW',
+                'Execute exclusively inside bare-metal Type-1 hypervisors',
+                'Use binary opcodes to maximize hardware portability'
+              ],
+              correctIndex: 2,
+              explanation: '4GLs are declarative/non-procedural languages where the user specifies the desired output (WHAT) rather than explicit control-flow steps (HOW).'
+            },
+            {
+              id: 'ch1-q4',
+              marks: 1,
+              section: 'Compiler Phases',
+              prompt: 'Which compiler phase applies Context-Free Grammar (CFG) and Pushdown Automata to construct an Abstract Syntax Tree (AST)?',
+              options: [
+                'Lexical Analysis',
+                'Syntax Analysis',
+                'Semantic Analysis',
+                'Intermediate Code Generation',
+                'Peephole Optimization'
+              ],
+              correctIndex: 1,
+              explanation: 'Syntax Analysis (Parsing) validates token structure against CFG rules using Pushdown Automata to build the Parse Tree / AST.'
+            },
+            {
+              id: 'ch1-q5',
+              marks: 2,
+              section: 'Compiler Theory',
+              prompt: 'In the back-end target code generation phase of an optimizing compiler, the problem of Register Allocation is classically modeled and solved as which graph-theoretic problem?',
+              options: [
+                'Minimum Spanning Tree (Kruskal)',
+                'Shortest Path (Dijkstra)',
+                'Graph Coloring on an Interference Graph',
+                'Maximum Bipartite Matching',
+                'Topological Sorting on a Cyclic Graph'
+              ],
+              correctIndex: 2,
+              explanation: 'Chaitin\'s algorithm models live variable ranges as vertices in an interference graph; assigning k CPU registers corresponds to k-coloring the graph so interfering variables never share a register.'
+            },
+            {
+              id: 'ch1-q6',
+              marks: 1,
+              section: 'C Toolchain',
+              prompt: 'In the standard GCC compilation pipeline for a C program, which stage expands #include headers and #define macros before actual compilation begins?',
+              options: [
+                'Assembler',
+                'Preprocessor',
+                'Relocating Loader',
+                'Dynamic Linker',
+                'Semantic Analyzer'
+              ],
+              correctIndex: 1,
+              explanation: 'The Preprocessor transforms .c source into .i expanded source by substituting #define macros, inserting #include headers, and stripping comments.'
+            },
+            {
+              id: 'ch1-q7',
+              marks: 2,
+              section: 'Linking & Loading',
+              prompt: 'Why is Position-Independent Code (PIC) required when building shared dynamic libraries (.so) on modern operating systems?',
+              options: [
+                'To eliminate the need for virtual memory page tables',
+                'To allow the same library code pages to be mapped at different virtual addresses across processes',
+                'To convert interpreted Python scripts into static machine binaries',
+                'To restrict shared libraries to legacy 16-bit Real Mode memory',
+                'To force static copying of library routines into every executable'
+              ],
+              correctIndex: 1,
+              explanation: 'PIC uses relative addressing and Global Offset Tables (GOT) so a single physical RAM copy of a shared library can be mapped at arbitrary virtual addresses in multiple processes simultaneously.'
+            },
+            {
+              id: 'ch1-q8',
+              marks: 1,
+              section: 'Loaders',
+              prompt: 'Which type of loader adjusts address-sensitive instructions at load time using a relocation table so a program can execute from any available memory region?',
+              options: [
+                'Absolute Loader',
+                'Relocating Loader',
+                'Bootstrap Loader',
+                'Static Preprocessor',
+                'Cross-Assembler'
+              ],
+              correctIndex: 1,
+              explanation: 'A Relocating Loader modifies relocatable addresses based on the assigned load origin, enabling multiprogramming OS memory management.'
+            },
+            {
+              id: 'ch1-q9',
+              marks: 2,
+              section: 'Virtualization & Containers',
+              prompt: 'How do Linux containers (such as Docker) achieve lightweight process isolation and resource limits without running a separate Guest OS per container?',
+              options: [
+                'By running a Type-1 hypervisor inside each container image',
+                'By sharing the Host OS kernel while isolating views via Namespaces and enforcing limits via cgroups',
+                'By compiling every container application into UEFI firmware',
+                'By assigning a dedicated physical motherboard to each microservice',
+                'By disabling virtual memory paging for all host processes'
+              ],
+              correctIndex: 1,
+              explanation: 'Containers share the host Linux kernel; Namespaces isolate PID, network, mount, and user views, while Control Groups (cgroups) cap CPU, memory, and I/O consumption.'
+            },
+            {
+              id: 'ch1-q10',
+              marks: 1,
+              section: 'Cloud Models',
+              prompt: 'Under a Platform as a Service (PaaS) cloud model, which layer remains primarily the customer\'s responsibility?',
+              options: [
+                'Physical data center cooling and power',
+                'Hypervisor and physical server patching',
+                'Host operating system kernel upgrades',
+                'Application source code and business data',
+                'Underlying storage area network hardware'
+              ],
+              correctIndex: 3,
+              explanation: 'In PaaS, the cloud provider manages infrastructure, hypervisors, OS, and runtime; the customer is responsible for application code and data.'
+            },
+            {
+              id: 'ch1-q11',
+              marks: 2,
+              section: 'Software Licensing',
+              prompt: 'An organization modifies an open-source library and exposes it solely via a cloud web API without distributing executable binaries. Which license STILL requires disclosing the modified source code to remote network users?',
+              options: [
+                'MIT License',
+                'Apache License 2.0',
+                'BSD 3-Clause License',
+                'GNU Affero GPLv3 (AGPLv3)',
+                'GNU Lesser GPL (LGPL)'
+              ],
+              correctIndex: 3,
+              explanation: 'AGPLv3 explicitly closes the SaaS/network-use loophole by treating remote network interaction as triggering source-code disclosure obligations.'
+            },
+            {
+              id: 'ch1-q12',
+              marks: 1,
+              section: 'Supply-Chain Security',
+              prompt: 'Which two machine-readable standards are widely used to generate a Software Bill of Materials (SBOM) for tracking third-party dependencies and CVEs?',
+              options: [
+                'ODBC and JDBC',
+                'SPDX and CycloneDX',
+                'BIOS and UEFI',
+                'CORBA and SOAP',
+                'MBR and GPT'
+              ],
+              correctIndex: 1,
+              explanation: 'SPDX (Linux Foundation / ISO/IEC 5962) and CycloneDX (OWASP) are the two standard SBOM formats used in enterprise DevSecOps.'
+            },
+            {
+              id: 'ch1-q13',
+              marks: 1,
+              section: 'Quality Models',
+              prompt: 'In McCall\'s Software Quality Model, Maintainability, Flexibility, and Testability are grouped under which quality perspective?',
+              options: [
+                'Product Operation',
+                'Product Revision',
+                'Product Transition',
+                'Product Deployment',
+                'Product Virtualization'
+              ],
+              correctIndex: 1,
+              explanation: 'McCall groups quality into Product Operation (use), Product Revision (change: Maintainability, Flexibility, Testability), and Product Transition (move: Portability, Reusability, Interoperability).'
+            },
+            {
+              id: 'ch1-q14',
+              marks: 2,
+              section: 'Brooks\' Law Numerical',
+              prompt: 'A software project team expands from 4 developers to 8 developers to meet a tight deadline. By how many pairwise communication channels does coordination overhead increase?',
+              options: [
+                '14 channels',
+                '18 channels',
+                '22 channels',
+                '26 channels',
+                '28 channels'
+              ],
+              correctIndex: 2,
+              explanation: 'Channels = n(n - 1) / 2. For n = 4: 4×3/2 = 6. For n = 8: 8×7/2 = 28. Increase = 28 - 6 = 22 channels.'
+            },
+            {
+              id: 'ch1-q15',
+              marks: 1,
+              section: 'Banking Middleware',
+              prompt: 'Which middleware category is specifically designed to coordinate distributed ACID transactions across multiple banking databases using Two-Phase Commit (2PC)?',
+              options: [
+                'Transaction Processing (TP) Monitor',
+                'Static Linker',
+                'Lexical Analyzer',
+                'Disk Defragmenter Utility',
+                'Character Device Driver'
+              ],
+              correctIndex: 0,
+              explanation: 'Transaction Processing (TP) Monitors such as IBM CICS and Oracle Tuxedo coordinate distributed ACID transactions across heterogeneous databases via protocols like XA / Two-Phase Commit.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

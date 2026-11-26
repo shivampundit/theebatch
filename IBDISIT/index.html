@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIDBI Grade A/B (IT Stream) 2026 — Exam Preparation Portal</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html" class="active">Dashboard</a></li>
+          <li><a href="#syllabus-tracker">25 IT Topics</a></li>
+          <li><a href="descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="#mocks-hub">Mock Engine</a></li>
+          <li><a href="#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Page Table of Contents">
+        <p class="sidebar-title">Dashboard Navigation</p>
+        <ul class="toc-list">
+          <li><a href="#overview" class="active">Exam Countdown &amp; KPIs</a></li>
+          <li><a href="#exam-blueprint">2026 Exam Blueprint</a></li>
+          <li><a href="#syllabus-tracker">4-Cluster IT Syllabus Tracker</a></li>
+          <li><a href="#core-modules">Four Core Modules</a></li>
+          <li><a href="#mocks-hub">Objective Mock Suite</a></li>
+          <li><a href="#revision-hub">Master Revision &amp; Formula Hub</a></li>
+        </ul>
+        <div style="margin-top:1.15rem;padding-top:0.9rem;border-top:1px solid var(--border);font-size:0.8rem;color:var(--text-subtle);">
+          <strong style="color:var(--text);display:block;margin-bottom:0.25rem;">Study Strategy Tip</strong>
+          Phase I &amp; Phase II happen on the <mark>same day (27 Dec 2026)</mark>. Prioritize Paper III (125/200 merit marks) daily alongside typing drills.
+        </div>
+      </aside>
+
+      <!-- Main Dashboard Content -->
+      <main class="main-content">
+        <!-- Hero & Countdown -->
+        <section id="overview" class="hero-card">
+          <div>
+            <span class="hero-eyebrow">Target Exam: 27 December 2026 &bull; Single-Day Phase I &amp; II</span>
+            <h1>SIDBI Grade A/B (IT Stream) 2026 Preparation Portal</h1>
+            <p>
+              Modular, zero-build GitHub Pages study portal covering all 25 official IT syllabus topics across 4 clusters,
+              5-option CBT objective mocks (-0.25 negative marking), and a real-time Descriptive Typing &amp; AI-Evaluation Lab.
+            </p>
+            <div class="hero-cta-row">
+              <a class="btn btn-hero-light" href="descriptive/practice-lab.html">Launch Descriptive Lab</a>
+              <a class="btn btn-hero-ghost" href="#syllabus-tracker">Track 25 IT Topics</a>
+            </div>
+          </div>
+          <div class="countdown-panel" aria-label="Countdown to 27 December 2026">
+            <div class="countdown-label">
+              <span>Countdown to Exam Day</span>
+              <span id="cd-status">27 Dec 2026</span>
+            </div>
+            <div class="countdown-grid">
+              <div class="countdown-box"><span class="countdown-val" id="cd-days">--</span><span class="countdown-unit">Days</span></div>
+              <div class="countdown-box"><span class="countdown-val" id="cd-hours">--</span><span class="countdown-unit">Hours</span></div>
+              <div class="countdown-box"><span class="countdown-val" id="cd-mins">--</span><span class="countdown-unit">Mins</span></div>
+              <div class="countdown-box"><span class="countdown-val" id="cd-secs">--</span><span class="countdown-unit">Secs</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- KPI Strip -->
+        <section class="kpi-grid" aria-label="Preparation Metrics">
+          <div class="kpi-card">
+            <div class="kpi-label">Syllabus Progress</div>
+            <div class="kpi-value" id="overall-pct">0%</div>
+            <div class="kpi-meta" id="overall-count">0 / 25 IT Topics</div>
+            <div class="progress-track" style="margin-top:0.55rem;"><div class="progress-fill" id="overall-progress-fill" style="width:0%"></div></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Phase I (Screening)</div>
+            <div class="kpi-value">60 Qs</div>
+            <div class="kpi-meta">60 Marks &bull; 60 Min (15m/sec) &bull; -0.25</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Phase II (Merit)</div>
+            <div class="kpi-value">200 M</div>
+            <div class="kpi-meta">Paper II (75M) + Paper III (75M + 50M)</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Descriptive Lab</div>
+            <div class="kpi-value">10 Qs</div>
+            <div class="kpi-meta">5 Paper II + 5 Paper III Live &bull; AI Rubric</div>
+          </div>
+        </section>
+
+        <!-- Official 2026 Exam Blueprint -->
+        <section id="exam-blueprint" class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Official 2026 Exam Pattern &amp; Merit Weightage</h2>
+              <p class="card-subtitle">Phase I is strictly screening; final written merit is determined by Phase II (Paper II + Paper III).</p>
+            </div>
+            <span class="badge badge-info">27 Dec 2026 Pattern</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Phase &amp; Paper</th>
+                  <th>Scope &amp; Structure</th>
+                  <th>Questions</th>
+                  <th>Marks</th>
+                  <th>Time</th>
+                  <th>Marking Rule</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Phase I — Paper I</strong><br><span style="font-size:0.8rem;color:var(--text-subtle);">Screening</span></td>
+                  <td>Reasoning (15), English (15), Quant (15), GA (Banking/Economy/SIDBI-MSME) &amp; Computer Knowledge (15)</td>
+                  <td>60 MCQs</td>
+                  <td>60</td>
+                  <td>60 Min<br><mark>15 Min/Section</mark></td>
+                  <td>-0.25 negative marking; qualifying only</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase II — Paper II</strong><br><span style="font-size:0.8rem;color:var(--text-subtle);">Merit (English)</span></td>
+                  <td>Descriptive English: Essay Writing, Pr&eacute;cis Writing, Reading Comprehension, Business/Office Correspondence</td>
+                  <td>3 Qs</td>
+                  <td>75</td>
+                  <td>60 Min</td>
+                  <td>Typed on computer; strict word-limit adherence</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase II — Paper III (Part A)</strong><br><span style="font-size:0.8rem;color:var(--text-subtle);">Merit (IT Objective)</span></td>
+                  <td>25 Official IT Topics across 4 Clusters (Core CS, DB/Networks/Security, SE/Enterprise, Data/AI/Emerging)</td>
+                  <td>50 MCQs<br><mark>5 Options</mark></td>
+                  <td>75</td>
+                  <td>60 Min</td>
+                  <td>1 &amp; 2 mark mix; <mark>-0.25 negative</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Phase II — Paper III (Part B)</strong><br><span style="font-size:0.8rem;color:var(--text-subtle);">Merit (IT Descriptive)</span></td>
+                  <td>Attempt <mark>4 out of 10</mark> questions (2 &times; 15M + 2 &times; 10M) testing depth + banking/SIDBI architecture context</td>
+                  <td>4 / 10 Qs</td>
+                  <td>50</td>
+                  <td>60 Min</td>
+                  <td>No negative marking; typed on keyboard</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Interactive 4-Cluster Syllabus Tracker -->
+        <section id="syllabus-tracker" class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">4-Cluster Interactive IT Syllabus Tracker (25 Official Topics)</h2>
+              <p class="card-subtitle">Check off chapters as you finish them. Progress saves automatically in your browser's localStorage.</p>
+            </div>
+            <button type="button" class="btn btn-danger-outline btn-sm" id="reset-progress-btn">Reset Progress</button>
+          </div>
+
+          <div class="tracker-toolbar">
+            <div class="filter-pills" role="group" aria-label="Filter syllabus topics">
+              <button type="button" class="pill-btn active" data-tracker-filter="all">All (25)</button>
+              <button type="button" class="pill-btn" data-tracker-filter="pending">Pending</button>
+              <button type="button" class="pill-btn" data-tracker-filter="completed">Completed</button>
+            </div>
+            <input type="search" id="topic-search" class="search-input" placeholder="Search IT topic (e.g., DBMS, OS, NLP)..." aria-label="Search IT topics">
+          </div>
+
+          <div class="cluster-grid" id="cluster-tracker-grid">
+            <!-- Populated dynamically by assets/app.js -->
+          </div>
+        </section>
+
+        <!-- Four Core Portal Modules -->
+        <section id="core-modules" class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Portal Core Modules</h2>
+              <p class="card-subtitle">Built incrementally in zero-truncation batches for GitHub Pages deployment.</p>
+            </div>
+          </div>
+          <div class="module-grid">
+            <div class="module-card">
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                  <h3>1. Ultra-Detailed Chapter Notes</h3>
+                  <span class="badge badge-warn">Next Batch</span>
+                </div>
+                <p>Exam-depth notes for all 25 IT topics with <mark>yellow exam highlights</mark>, worked numericals (Subnetting, OS Scheduling, Paging, SQL, Complexity), SIDBI/banking context, and a 5-Minute Rapid Revision Sheet.</p>
+              </div>
+              <div><a class="btn btn-secondary btn-sm" href="#syllabus-tracker">View 25-Topic Queue</a></div>
+            </div>
+
+            <div class="module-card">
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                  <h3>2. Interactive Objective Mock Engine</h3>
+                  <span class="badge badge-live">Engine Ready</span>
+                </div>
+                <p>Reusable 5-option CBT engine in <code>assets/app.js</code> featuring 1 &amp; 2 mark mix, -0.25 negative marking, dynamic option shuffling, countdown timer, question palette, and step-by-step solutions.</p>
+              </div>
+              <div><a class="btn btn-secondary btn-sm" href="#mocks-hub">View Planned Mocks</a></div>
+            </div>
+
+            <div class="module-card">
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                  <h3>3. Descriptive Practice &amp; AI-Evaluation Lab</h3>
+                  <span class="badge badge-live">Live Now</span>
+                </div>
+                <p>Real exam typing simulator with 60-min timer, live word/character counter, Disable Spellcheck mode, 10 pre-loaded Paper II &amp; Paper III prompts, and 1-click <strong>Copy for AI Evaluation</strong>.</p>
+              </div>
+              <div><a class="btn btn-primary btn-sm" href="descriptive/practice-lab.html">Open Descriptive Lab</a></div>
+            </div>
+
+            <div class="module-card">
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                  <h3>4. Master Revision &amp; Formula Hub</h3>
+                  <span class="badge badge-planned">Queued</span>
+                </div>
+                <p>High-yield quick-reference pages for SQL, Networking Ports/Subnetting, OS Formulas, RBI AIFI 2026 / CERT-In / DPDP Rules 2025 guidelines, and SIDBI/MSME schemes.</p>
+              </div>
+              <div><a class="btn btn-secondary btn-sm" href="#revision-hub">View Revision Map</a></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Planned Mocks Hub -->
+        <section id="mocks-hub" class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Objective Mock Test Suite (<code>mocks/</code>)</h2>
+              <p class="card-subtitle">Powered by <code>SIDBIPortal.initMCQEngine()</code> with unbiased 5-option shuffling and -0.25 negative marking.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mock Test</th>
+                  <th>Target File</th>
+                  <th>Pattern</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Phase I — Full Screening Mock 01</td>
+                  <td><code>mocks/phase1-full-mock-01.html</code></td>
+                  <td>60 Qs &bull; 60 Marks &bull; 60 Min</td>
+                  <td><span class="badge badge-planned">Queued</span></td>
+                </tr>
+                <tr>
+                  <td>Paper III (Part A) — Cluster 1–4 Sectional Mocks</td>
+                  <td><code>mocks/paper3-cluster[1-4]-mock.html</code></td>
+                  <td>25–30 Qs each &bull; 5 Options &bull; -0.25</td>
+                  <td><span class="badge badge-planned">Queued</span></td>
+                </tr>
+                <tr>
+                  <td>Paper III (Part A) — Full-Length IT Mock 01</td>
+                  <td><code>mocks/paper3-full-mock-01.html</code></td>
+                  <td>50 Qs (1 &amp; 2M mix) &bull; 75 Marks &bull; 60 Min</td>
+                  <td><span class="badge badge-planned">Queued</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Master Revision & Formula Hub -->
+        <section id="revision-hub" class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Master Revision &amp; Formula Hub (<code>revision/</code>)</h2>
+              <p class="card-subtitle">Dedicated last-7-days rapid sheets for high-frequency exam facts and 2025–2026 regulatory updates.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Quick-Reference Sheet</th>
+                  <th>Target File</th>
+                  <th>Core Coverage</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>SQL &amp; RDBMS Rapid Sheet</td>
+                  <td><code>revision/sql-cheatsheet.html</code></td>
+                  <td>Joins, Window Functions, Normalization (1NF–BCNF), ACID, Isolation Levels</td>
+                  <td><span class="badge badge-planned">Queued</span></td>
+                </tr>
+                <tr>
+                  <td>Networking Ports, RFCs &amp; Subnetting</td>
+                  <td><code>revision/networking-ports-subnetting.html</code></td>
+                  <td>Well-known ports, CIDR masks, IPv4/IPv6 headers, OSI/TCP-IP traps</td>
+                  <td><span class="badge badge-planned">Queued</span></td>
+                </tr>
+                <tr>
+                  <td>OS &amp; Architecture Formula Sheet</td>
+                  <td><code>revision/os-formulas-scheduling.html</code></td>
+                  <td>CPU Scheduling, Page Replacement, EAT, Cache Mapping, Disk Scheduling</td>
+                  <td><span class="badge badge-planned">Queued</span></td>
+                </tr>
+                <tr>
+                  <td>Cyber / RBI AIFI / CERT-In / DPDP Hub</td>
+                  <td><code>revision/cyber-rbi-certin-dpdp.html</code></td>
+                  <td>RBI IT Governance &amp; AIFI 2026 Directions, CERT-In 6-hr reporting, DPDP Rules 2025</td>
+                  <td><span class="badge badge-planned">Queued</span></td>
+                </tr>
+                <tr>
+                  <td>SIDBI &amp; MSME Digital Schemes</td>
+                  <td><code>revision/sidbi-msme-schemes.html</code></td>
+                  <td>Udyam Assist Platform, GST Sahay (OCEN), Stand Up Mitra, MSE-GIFT, TReDS</td>
+                  <td><span class="badge badge-planned">Queued</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <footer class="site-footer">
+          <span>SIDBI Grade A/B (IT Stream) 2026 Portal &bull; Static HTML5 / CSS3 / Vanilla JS (GitHub Pages Ready)</span>
+          <span>Sources verified: <a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">SIDBI</a> &bull; <a href="https://m.rbi.org.in/scripts/BS_ViewMasDirections.aspx?id=13597" target="_blank" rel="noopener noreferrer">RBI AIFI 2026</a> &bull; <a href="https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa" target="_blank" rel="noopener noreferrer">MeitY DPDP 2025</a></span>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <!-- Sandbox-Safe Reset Confirmation Modal -->
+  <div class="modal-backdrop" id="reset-modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
+    <div class="modal-box">
+      <h3 id="reset-modal-title" style="margin:0 0 0.5rem;">Reset Syllabus Progress?</h3>
+      <p style="margin:0;font-size:0.9rem;color:var(--text-muted);">This will uncheck all 25 IT syllabus topics saved in your browser. Your descriptive drafts will not be affected.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary btn-sm" id="cancel-reset-btn">Cancel</button>
+        <button type="button" class="btn btn-danger-outline btn-sm" id="confirm-reset-btn">Yes, Reset All</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

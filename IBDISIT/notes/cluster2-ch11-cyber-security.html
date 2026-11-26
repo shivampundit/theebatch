@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 11: Cyber / IT Security (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 2 &bull; Chapter 11 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-11-1" class="active">11.1 CIA, Access Control &amp; Zero Trust</a></li>
+          <li><a href="#sec-11-2">11.2 Cryptography, PKI &amp; Signatures</a></li>
+          <li><a href="#sec-11-3">11.3 TLS 1.3, IPsec, Firewalls &amp; Kerberos</a></li>
+          <li><a href="#sec-11-4">11.4 OWASP Top 10:2025 &amp; Defenses</a></li>
+          <li><a href="#sec-11-5">11.5 SOC, SIEM/SOAR &amp; MITRE ATT&amp;CK</a></li>
+          <li><a href="#sec-11-6">11.6 CERT-In, DPDP 2025 &amp; RBI 2026</a></li>
+          <li><a href="#sec-11-7">11.7 Worked Crypto &amp; Risk Numericals (6)</a></li>
+          <li><a href="#sec-11-8">11.8 SIDBI 15-Mark Descriptive Blueprint</a></li>
+          <li><a href="#sec-11-9">11.9 Rapid Revision + 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-11">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster2-ch10-architecture.html">&larr; Prev: Ch 10 Architecture</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 2: Databases, Networks &amp; Security</span>
+            <span class="badge badge-warn">Topic 11 of 25 &bull; Cluster 2 Finale</span>
+            <span class="badge badge-live">2025–2026 Regulatory Goldmine</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 11: Cyber / IT Security</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Exhaustive exam-depth coverage of CIA Triad &amp; Bell-LaPadula/Biba models, Zero Trust, Cryptography (AES/RSA/ECC/DH/SHA/PKI/Digital Signatures SVG),
+            TLS 1.3 / IPsec / Kerberos / Firewalls / IDS-IPS, OWASP Top 10:2025, SOC (SIEM/SOAR/EDR/MITRE ATT&amp;CK), India's regulatory triad
+            (CERT-In 6-Hr Directions, DPDP Rules 2025, RBI AIFI 2026 Directions), 6 worked crypto/risk numericals, 15M descriptive blueprint, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 11.1 ==================== -->
+        <section id="sec-11-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">11.1 Security Foundations: CIA Triad, Access Control Models &amp; Zero Trust</h2>
+            <span class="badge badge-info">Core Foundation</span>
+          </div>
+          <ul>
+            <li><strong>CIA Triad + Extensions:</strong>
+              <strong>Confidentiality</strong> (prevent unauthorized disclosure &rarr; Encryption, RBAC),
+              <strong>Integrity</strong> (prevent unauthorized modification &rarr; Hashing, HMAC, Digital Signatures),
+              <strong>Availability</strong> (timely reliable access &rarr; Redundancy, DDoS protection, DR),
+              <strong>Non-Repudiation</strong> (sender cannot deny sending &rarr; Digital Signatures with sender's private key).</li>
+            <li><strong>AAA &amp; MFA:</strong> <strong>Authentication</strong> (who are you?), <strong>Authorization</strong> (what can you do?), <strong>Accounting</strong> (audit trail). MFA requires &ge;2 distinct factors: <em>Knowledge</em> (password/PIN), <em>Possession</em> (FIDO2/hardware token/OTP), <em>Inherence</em> (biometrics).</li>
+            <li><strong>Access Control Models (High-Yield Exam Traps!):</strong>
+              &bull; <strong>DAC (Discretionary):</strong> Resource owner sets permissions (e.g., Linux <code>chmod</code>).<br>
+              &bull; <strong>MAC (Mandatory):</strong> OS/Admin enforces security labels (SELinux).<br>
+              &bull; <mark><strong>Bell-LaPadula Model (Confidentiality):</strong></mark> <strong>No Read Up (Simple Security)</strong> &amp; <strong>No Write Down (*-Property)</strong>.<br>
+              &bull; <mark><strong>Biba Model (Integrity):</strong></mark> <strong>No Read Down</strong> &amp; <strong>No Write Up</strong> (exact inverse of Bell-LaPadula!).<br>
+              &bull; <strong>RBAC</strong> (role-based) &amp; <strong>ABAC</strong> (attribute/context-based: role + device posture + geo + time).</li>
+            <li><strong>Zero Trust Architecture (NIST SP 800-207):</strong> Replaces implicit perimeter trust ("castle-and-moat") with <mark>"Never Trust, Always Verify"</mark>—continuous identity/device verification, Least Privilege, Assume Breach, and East-West micro-segmentation.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 11.2 ==================== -->
+        <section id="sec-11-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">11.2 Cryptography Mastery: AES, RSA, ECC, Hashing, PKI &amp; Digital Signatures</h2>
+            <span class="badge badge-danger">Top Paper III Objective Zone</span>
+          </div>
+
+          <!-- Inline SVG: Digital Signature Flow -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 155" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="Digital Signature Creation and Verification Flow">
+              <rect x="10" y="6" width="740" height="142" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <!-- Signing -->
+              <text x="32" y="30" fill="#0f2942" font-size="11.5" font-weight="800">SIGNING (Sender Alice):</text>
+              <rect x="32" y="40" width="105" height="32" rx="6" fill="#0f2942"/><text x="84" y="60" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Message M</text>
+              <text x="150" y="60" fill="#475569" font-size="14" font-weight="700">&rarr;</text>
+              <rect x="166" y="40" width="118" height="32" rx="6" fill="#1d4ed8"/><text x="225" y="60" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">SHA-256 &rarr; H(M)</text>
+              <text x="297" y="60" fill="#475569" font-size="14" font-weight="700">&rarr;</text>
+              <rect x="313" y="40" width="215" height="32" rx="6" fill="#b91c1c"/><text x="420" y="60" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Sign with Alice's PRIVATE Key</text>
+              <text x="541" y="60" fill="#475569" font-size="14" font-weight="700">&rarr;</text>
+              <rect x="557" y="40" width="170" height="32" rx="6" fill="#0d9488"/><text x="642" y="60" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">M + Digital Signature S</text>
+
+              <!-- Verification -->
+              <text x="32" y="100" fill="#0f2942" font-size="11.5" font-weight="800">VERIFYING (Receiver Bob):</text>
+              <rect x="32" y="108" width="240" height="30" rx="6" fill="#e6f7f5" stroke="#0d9488"/><text x="152" y="127" text-anchor="middle" fill="#0f2942" font-size="10.5" font-weight="700">Decrypt S with Alice's PUBLIC Key &rarr; H1</text>
+              <text x="285" y="127" fill="#0f766e" font-size="12" font-weight="800">==</text>
+              <rect x="310" y="108" width="185" height="30" rx="6" fill="#dbeafe" stroke="#1d4ed8"/><text x="402" y="127" text-anchor="middle" fill="#1e3a8a" font-size="10.5" font-weight="700">Recompute SHA-256(M) &rarr; H2</text>
+              <text x="508" y="127" fill="#475569" font-size="12" font-weight="700">&rArr;</text>
+              <text x="625" y="127" text-anchor="middle" fill="#15803d" font-size="10.5" font-weight="800">Integrity + Auth + Non-Repudiation!</text>
+            </svg>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Primitive</th>
+                  <th>Algorithms &amp; Key/Output Sizes</th>
+                  <th>Core Properties &amp; Exam Traps</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Symmetric (Secret-Key)</strong></td>
+                  <td><mark><strong>AES</strong> (128/192/256-bit key; 10/12/14 rounds; 128-bit block)</mark>, ChaCha20.<br><em>Broken/Deprecated:</em> DES (56-bit), 3DES, RC4.</td>
+                  <td>Very fast (bulk data encryption). <mark>AES-GCM</mark> provides AEAD (Encryption + Auth). <mark>ECB mode</mark> is insecure (identical plaintext blocks &rarr; identical ciphertext blocks!).</td>
+                </tr>
+                <tr>
+                  <td><strong>Asymmetric (Public-Key)</strong></td>
+                  <td><mark><strong>RSA</strong> (2048/4096-bit)</mark>, <mark><strong>ECC</strong> (256-bit &approx; 3072-bit RSA!)</mark>, <strong>Diffie-Hellman (ECDHE)</strong>.</td>
+                  <td>Solves key distribution (<code>2n</code> keys vs. <code>n(n-1)/2</code> symmetric keys). Slow &rarr; used for handshakes &amp; signatures. Encrypt with Receiver's Public Key (Confidentiality); Sign with Sender's Private Key (Non-Repudiation).</td>
+                </tr>
+                <tr>
+                  <td><strong>Hashing &amp; MAC</strong></td>
+                  <td><mark><strong>SHA-256</strong> (256-bit), <strong>SHA-3</strong> (Keccak)</mark>, <strong>HMAC</strong>.<br><em>Broken:</em> MD5 (128-bit), SHA-1 (160-bit).</td>
+                  <td>One-way, deterministic, Avalanche Effect, Collision-Resistant. Passwords MUST use <mark>salted slow KDFs: Argon2id, bcrypt, or PBKDF2</mark> (NEVER raw SHA-256!).</td>
+                </tr>
+                <tr>
+                  <td><strong>PKI &amp; Post-Quantum</strong></td>
+                  <td>X.509 Certificates, CA, RA, CRL, <mark>OCSP</mark> (real-time revocation), NIST PQC (<mark>ML-KEM / ML-DSA</mark>).</td>
+                  <td>Digital Certificate binds an entity's identity to its Public Key, signed by a trusted Certificate Authority (CA).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 11.3 ==================== -->
+        <section id="sec-11-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">11.3 Network &amp; Transport Security: TLS 1.3, IPsec, Firewalls, IDS/IPS &amp; Kerberos</h2>
+          </div>
+          <ul>
+            <li><strong>TLS 1.3 (RFC 8446):</strong> Cuts handshake latency to <mark>1-RTT</mark> (vs. 2-RTT in TLS 1.2), mandates <mark>Perfect Forward Secrecy (ECDHE)</mark> so past recorded traffic stays safe even if server private key leaks later, and strips legacy weak ciphers (RSA key transport, CBC, SHA-1, RC4).</li>
+            <li><strong>IPsec (Layer-3 VPN Security):</strong>
+              &bull; <strong>AH (Authentication Header):</strong> Integrity + Auth ONLY (<mark>NO encryption</mark>).<br>
+              &bull; <strong>ESP (Encapsulating Security Payload):</strong> Confidentiality (Encryption) + Integrity + Auth.<br>
+              &bull; <strong>Transport Mode</strong> (host-to-host; encrypts payload only) vs. <mark><strong>Tunnel Mode</strong> (site-to-site VPN; encrypts entire original IP packet including original IP header!)</mark>.</li>
+            <li><strong>Firewalls &amp; IDS/IPS:</strong>
+              <strong>Stateless Packet Filter</strong> (L3/L4 ACLs) &rarr; <strong>Stateful Firewall</strong> (tracks TCP session state) &rarr; <strong>WAF</strong> (L7 HTTP/SQLi/XSS protection) &rarr; <strong>NGFW</strong> (DPI + IPS + App-ID).
+              <strong>IDS</strong> = passive monitoring/alerting (out-of-band SPAN/TAP); <strong>IPS</strong> = <mark>inline active blocking</mark>.</li>
+            <li><strong>Kerberos (Active Directory SSO):</strong> Uses a central <strong>KDC</strong> (Authentication Server <code>AS</code> + Ticket Granting Server <code>TGS</code>) issuing time-stamped symmetric tickets (<code>TGT</code> &rarr; Service Ticket) over UDP/TCP port <code>88</code>—never sends plaintext passwords over the network!</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 11.4 ==================== -->
+        <section id="sec-11-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">11.4 Web &amp; Application Security: OWASP Top 10:2025 &amp; Defense Matrix</h2>
+            <span class="badge badge-warn">Updated 2025/2026 Standard</span>
+          </div>
+          <p style="margin-top:0;">
+            The current <a href="https://top10.owasp.org/2025/0x00_2025-Introduction/" target="_blank" rel="noopener noreferrer">OWASP Top 10:2025</a>
+            list (replacing 2021) elevates <strong>Security Misconfiguration</strong> to #2, introduces <strong>Software Supply Chain Failures</strong> at #3, merges SSRF into <strong>A01 Broken Access Control</strong>, and adds <strong>A10 Mishandling of Exceptional Conditions</strong>:
+          </p>
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>2025 Rank</th>
+                  <th>OWASP Top 10:2025 Risk Category</th>
+                  <th>Primary Banking Defense</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><mark>A01:2025</mark></td><td><strong>Broken Access Control</strong> <em>(now includes SSRF!)</em></td><td>Server-side RBAC/ABAC checks on every object ID (prevent IDOR/BOLA); allow-list outbound URLs</td></tr>
+                <tr><td><mark>A02:2025</mark></td><td><strong>Security Misconfiguration</strong> <em>(up from #5)</em></td><td>CIS hardening, disable default creds/directory listing, strict CORS &amp; security headers</td></tr>
+                <tr><td><mark>A03:2025</mark></td><td><strong>Software Supply Chain Failures</strong> <em>(new expanded)</em></td><td>SBOM (SPDX/CycloneDX), signed builds, SCA dependency scanning</td></tr>
+                <tr><td><strong>A04:2025</strong></td><td><strong>Cryptographic Failures</strong></td><td>TLS 1.3 in transit, AES-256 at rest, HSM key storage, Argon2id/bcrypt passwords</td></tr>
+                <tr><td><strong>A05:2025</strong></td><td><strong>Injection</strong> <em>(SQLi, XSS, OS Command)</em></td><td><mark>Parameterized Queries / Prepared Statements</mark> (SQLi); Context-aware Encoding + CSP (XSS)</td></tr>
+                <tr><td><strong>A06:2025</strong></td><td><strong>Insecure Design</strong></td><td>Threat modeling (STRIDE), secure design patterns, rate limiting</td></tr>
+                <tr><td><strong>A07:2025</strong></td><td><strong>Authentication Failures</strong></td><td>MFA (FIDO2/TOTP), account lockout, secure short-lived session/JWT tokens</td></tr>
+                <tr><td><strong>A08:2025</strong></td><td><strong>Software or Data Integrity Failures</strong></td><td>Digital code signing, avoid insecure deserialization, SRI hashes</td></tr>
+                <tr><td><strong>A09:2025</strong></td><td><strong>Security Logging &amp; Alerting Failures</strong></td><td>Centralized tamper-evident SIEM logging (180-day CERT-In retention), real-time alerting</td></tr>
+                <tr><td><mark>A10:2025</mark></td><td><strong>Mishandling of Exceptional Conditions</strong> <em>(new!)</em></td><td>Fail-closed error handling; never leak stack traces or leave half-committed financial state</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>Classic Web &amp; Network Attack Fixes:</strong>
+              <strong>XSS</strong> &rarr; Output Encoding + <code>Content-Security-Policy (CSP)</code> + <code>HttpOnly</code> cookie flag;
+              <strong>CSRF</strong> &rarr; Anti-CSRF Synchronizer Token + <mark><code>SameSite=Strict/Lax</code></mark> cookie;
+              <strong>Clickjacking</strong> &rarr; <code>X-Frame-Options: DENY</code> / CSP <code>frame-ancestors 'none'</code>;
+              <strong>SYN Flood DDoS</strong> &rarr; <mark>SYN Cookies</mark> + Anycast scrubbing;
+              <strong>Ransomware</strong> &rarr; EDR + Least Privilege + <mark>3-2-1-1-0 Immutable Offline Backups</mark>.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 11.5 ==================== -->
+        <section id="sec-11-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">11.5 SOC Operations: SIEM, SOAR, EDR/XDR, MITRE ATT&amp;CK &amp; Incident Response</h2>
+          </div>
+          <ul>
+            <li><strong>Modern SOC Stack:</strong>
+              <strong>SIEM</strong> (collects, normalizes &amp; correlates logs across firewalls/AD/CBS to fire alerts),
+              <strong>SOAR</strong> (automates repetitive enrichment &amp; containment playbooks—cutting MTTR),
+              <strong>EDR / XDR</strong> (deep endpoint/cross-domain behavioral telemetry &amp; host isolation),
+              <strong>UEBA</strong> (ML baseline detecting compromised insider credentials).</li>
+            <li><strong>MITRE ATT&amp;CK Framework:</strong> Global knowledge base of adversary Tactics (<em>Why</em> — 14 tactics: Reconnaissance &rarr; Initial Access &rarr; Execution &rarr; Persistence &rarr; Privilege Escalation &rarr; Defense Evasion &rarr; Credential Access &rarr; Discovery &rarr; Lateral Movement &rarr; Collection &rarr; C2 &rarr; Exfiltration &rarr; Impact) and Techniques (<em>How</em>).</li>
+            <li><strong>NIST Incident Response Lifecycle (4 Phases):</strong> <mark>1. Preparation &rarr; 2. Detection &amp; Analysis &rarr; 3. Containment, Eradication &amp; Recovery &rarr; 4. Post-Incident Activity</mark>.</li>
+            <li><strong>VAPT &amp; Teams:</strong> <strong>VA</strong> (automated broad scanning to list known CVEs) vs. <strong>PT</strong> (active exploitation to prove business impact). <strong>Red Team</strong> (offensive adversary emulation), <strong>Blue Team</strong> (SOC defenders), <strong>Purple Team</strong> (collaborative detection tuning).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 11.6 ==================== -->
+        <section id="sec-11-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">11.6 India's Cyber &amp; Banking Regulatory Triad (2025–2026 Verified)</h2>
+            <span class="badge badge-live">Guaranteed SIDBI Exam Gold</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Regulation / Authority</th>
+                  <th>Mandatory Controls &amp; Timelines (Must-Memorize!)</th>
+                  <th>Official Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>CERT-In Directions (28 Apr 2022)</strong><br><em>Sec 70B(6), IT Act 2000</em></td>
+                  <td>
+                    &bull; Report 20 listed cyber incidents within <mark><strong>6 hours</strong></mark> of noticing.<br>
+                    &bull; Retain ICT system logs securely for rolling <mark><strong>180 days</strong></mark> within Indian jurisdiction.<br>
+                    &bull; Sync all ICT clocks to <mark><strong>NIC or NPL NTP servers</strong></mark> (or traceable NTP).<br>
+                    &bull; Designate an official Point of Contact (PoC).
+                  </td>
+                  <td><a href="https://www.cert-in.org.in/PDF/CERT-In_Directions_70B_28.04.2022.pdf" target="_blank" rel="noopener noreferrer">CERT-In PDF</a></td>
+                </tr>
+                <tr>
+                  <td><strong>DPDP Act 2023 &amp; DPDP Rules 2025</strong><br><em>Notified Nov 2025</em></td>
+                  <td>
+                    &bull; Itemized plain-language consent notices &amp; Data Principal rights (access, correction, erasure, grievance).<br>
+                    &bull; Reasonable security safeguards (encryption/masking/logging) + personal data breach intimation to <mark>Data Protection Board of India</mark> &amp; affected individuals.<br>
+                    &bull; Significant Data Fiduciaries (SDFs): mandatory DPO, DPIA &amp; independent data audit.
+                  </td>
+                  <td><a href="https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa" target="_blank" rel="noopener noreferrer">MeitY DPDP 2025</a></td>
+                </tr>
+                <tr>
+                  <td><strong>RBI AIFI Cybersecurity &amp; Tech Risk Directions, 2026</strong></td>
+                  <td>
+                    &bull; Applies directly to <mark>All India Financial Institutions (SIDBI, NABARD, EXIM, NHB, NaBFID)</mark>.<br>
+                    &bull; Board-approved IT &amp; InfoSec Risk Management Framework, 24&times;7 SOC, periodic VAPT/Red-Teaming, BCP/DR drills, and cyber-resilience assurance.
+                  </td>
+                  <td><a href="https://m.rbi.org.in/scripts/BS_ViewMasDirections.aspx?id=13597" target="_blank" rel="noopener noreferrer">RBI ID 13597</a></td>
+                </tr>
+                <tr>
+                  <td><strong>ISO/IEC 27001:2022 &amp; PCI-DSS v4.0</strong></td>
+                  <td>
+                    &bull; <strong>ISO 27001:2022:</strong> ISMS standard reorganized Annex A into <mark>93 controls across 4 themes</mark> (Organizational, People, Physical, Technological).<br>
+                    &bull; <strong>PCI-DSS v4.0:</strong> Mandatory security standard for payment card data (tokenization, MFA, segmentation).
+                  </td>
+                  <td>Global Standards</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 11.7 ==================== -->
+        <section id="sec-11-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">11.7 Worked Crypto &amp; InfoSec Risk Numericals (6 Problems)</h2>
+            <span class="badge badge-warn">2-Mark Paper III Drills</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 1: Complete RSA Key Generation &amp; Encryption</span>
+            <strong>Given:</strong> Primes <code>p = 5, q = 11</code>, public exponent <code>e = 3</code>, plaintext <code>M = 7</code>.<br>
+            <strong>Step 1:</strong> <code>n = p &times; q = 55</code>; Euler's Totient <code>&phi;(n) = (p-1)(q-1) = 4 &times; 10 = 40</code>.<br>
+            <strong>Step 2 (Private Key <code>d</code>):</strong> Find <code>d</code> such that <code>(e &middot; d) mod 40 = 1</code> &rArr; <code>3 &times; 27 = 81 &equiv; 1 (mod 40)</code> &rarr; <mark><code>d = 27</code></mark>.<br>
+            <strong>Step 3 (Encrypt):</strong> <code>C = M^e mod n = 7^3 mod 55 = 343 mod 55 =</code> <mark><code>13</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 2: Diffie-Hellman Shared Secret Key Exchange</span>
+            <strong>Given:</strong> Prime <code>p = 23</code>, generator <code>g = 5</code>, Alice secret <code>a = 6</code>, Bob secret <code>b = 15</code>.<br>
+            &bull; Alice sends <code>A = 5^6 mod 23 = 15625 mod 23 = 8</code>.<br>
+            &bull; Bob sends <code>B = 5^15 mod 23 = 19</code>.<br>
+            &bull; Shared Key <code>K = B^a mod 23 = 19^6 mod 23 =</code> <mark><code>2</code></mark> (identical to <code>A^b mod 23 = 8^15 mod 23 = 2</code>!).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 3: Symmetric vs. Asymmetric Key Scaling</span>
+            <strong>Problem:</strong> <code>100</code> partner banks/NBFCs need secure pairwise encrypted channels on a lending network.<br>
+            &bull; <strong>Symmetric Keys Needed:</strong> <code>n(n - 1) / 2 = 100 &times; 99 / 2 =</code> <mark><code>4,950 keys</code></mark>.<br>
+            &bull; <strong>Asymmetric Keys Needed:</strong> <code>2n =</code> <mark><code>200 keys</code></mark> (100 public + 100 private).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 4: Quantitative Risk Analysis (SLE &amp; ALE)</span>
+            <strong>Given:</strong> Core Lending Server Asset Value <code>AV = &#8377;2,00,00,000</code> (2 Cr), Exposure Factor <code>EF = 25%</code> (0.25), Annualized Rate of Occurrence <code>ARO = 0.5</code> (once every 2 years).<br>
+            &bull; <strong>Single Loss Expectancy (<code>SLE = AV &times; EF</code>):</strong> <code>2 Cr &times; 0.25 =</code> <mark><code>&#8377;50 Lakh</code></mark>.<br>
+            &bull; <strong>Annualized Loss Expectancy (<code>ALE = SLE &times; ARO</code>):</strong> <code>50 L &times; 0.5 =</code> <mark><code>&#8377;25 Lakh/year</code></mark> (justifies spending up to &#8377;25L/yr on countermeasure!).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 5: Bell-LaPadula vs. Biba Access Check</span>
+            User clearance = <code>Secret</code>; File A = <code>Top-Secret</code>; File B = <code>Unclassified</code>.<br>
+            &bull; <strong>Bell-LaPadula (Confidentiality — No Read Up, No Write Down):</strong> Can Read File B &amp; Write File A; <mark>DENIED Read File A &amp; Write File B</mark>.<br>
+            &bull; <strong>Biba (Integrity — No Read Down, No Write Up):</strong> Can Read File A &amp; Write File B; <mark>DENIED Read File B &amp; Write File A</mark>.
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Numerical 6: Birthday Paradox Hash Collision Bound</span>
+            For a cryptographic hash of <code>n</code> bits, brute-force pre-image takes <code>2^n</code> ops, whereas finding ANY collision via the Birthday Attack takes only <mark><code>2^(n / 2)</code></mark> ops (e.g., SHA-256 collision strength = <code>2^128</code> ops).
+          </div>
+        </section>
+
+        <!-- ==================== 11.8 ==================== -->
+        <section id="sec-11-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">11.8 SIDBI / AIFI 15-Mark Descriptive Model Blueprint</h2>
+            <span class="badge badge-live">Paper III Part B Edge</span>
+          </div>
+          <div class="callout callout-info">
+            <span class="callout-title">High-Probability 15-Mark Question (300–350 Words)</span>
+            <strong>Question:</strong> <em>"How should an All India Financial Institution (AIFI) like SIDBI architect a Zero Trust, 24&times;7 SOC-driven Cyber Resilience Framework complying simultaneously with RBI's 2026 AIFI Cybersecurity Directions, CERT-In 2022 Directions, and DPDP Rules 2025?"</em><br><br>
+            &bull; <strong>1. Introduction (40w):</strong> As SIDBI scales digital MSME credit (Udyamimitra, GST Sahay, Co-Lending), expanding API surfaces demand proactive cyber resilience beyond perimeter firewalls.<br>
+            &bull; <strong>2. Zero Trust &amp; Technical Controls (110w):</strong> Enforce MFA/IAM + RBAC/ABAC, TLS 1.3/mTLS for OCEN APIs, AES-256 + HSM key vaulting, OWASP Top 10:2025 DevSecOps (SAST/DAST/SBOM), and immutable 3-2-1-1-0 backups.<br>
+            &bull; <strong>3. 24&times;7 SOC &amp; CERT-In Readiness (90w):</strong> Centralize firewall/AD/CBS telemetry in SIEM + automated SOAR containment playbooks mapped to MITRE ATT&amp;CK; maintain <mark>NIC/NPL NTP clock sync</mark>, <mark>180-day tamper-evident logs in India</mark>, and rehearsed <mark>6-hour CERT-In incident reporting</mark> workflows.<br>
+            &bull; <strong>4. DPDP Rules 2025 &amp; RBI Governance (75w):</strong> Implement itemized MSME consent, PII tokenization/masking, breach notification to DPB, Board-level IT Strategy Committee oversight, and periodic VAPT/Red-Team + DR drills.<br>
+            &bull; <strong>5. Conclusion (25w):</strong> Unified Zero Trust + automated SOC converts regulatory compliance into institutional trust.
+          </div>
+        </section>
+
+        <!-- ==================== 11.9 ==================== -->
+        <section id="sec-11-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">11.9 5-Minute Rapid Revision Sheet &amp; 15 Exam-Level Practice MCQs</h2>
+            <span class="badge badge-warn">Last-Day Cram + Drill</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li><mark>Bell-LaPadula</mark> = Confidentiality (No Read Up, No Write Down); <mark>Biba</mark> = Integrity (No Read Down, No Write Up).</li>
+            <li><mark>Zero Trust (NIST SP 800-207):</mark> Never trust, always verify; assume breach; least privilege.</li>
+            <li><mark>AES</mark> = 128-bit block; 128/192/256-bit keys (10/12/14 rounds); <mark>AES-GCM</mark> = AEAD; <mark>ECB</mark> leaks patterns.</li>
+            <li><mark>RSA</mark> relies on integer factorization; <mark>ECC-256</mark> equals RSA-3072 security at much smaller key size.</li>
+            <li>Symmetric pairwise keys for <code>n</code> users = <code>n(n-1)/2</code>; Asymmetric = <code>2n</code>.</li>
+            <li><mark>Digital Signature</mark> signs hash with <strong>Sender's Private Key</strong> &rarr; provides Integrity, Auth &amp; Non-Repudiation (NOT confidentiality!).</li>
+            <li><mark>MD5 (128-bit)</mark> &amp; <mark>SHA-1 (160-bit)</mark> are cryptographically broken; use <mark>SHA-256 / SHA-3</mark>.</li>
+            <li>Store passwords using salted slow KDFs: <mark>Argon2id, bcrypt, or PBKDF2</mark>.</li>
+            <li>Birthday collision resistance for an <code>n</code>-bit hash is <mark><code>2^(n/2)</code></mark>.</li>
+            <li><mark>OCSP</mark> checks real-time X.509 certificate revocation (faster than downloading full CRLs).</li>
+            <li><mark>TLS 1.3</mark> = 1-RTT handshake + mandatory Perfect Forward Secrecy (ECDHE).</li>
+            <li><mark>IPsec AH</mark> = Auth/Integrity only (no encryption); <mark>IPsec ESP Tunnel Mode</mark> encrypts entire original IP packet for VPNs.</li>
+            <li><mark>IDS</mark> alerts passively; <mark>IPS</mark> sits inline and actively blocks traffic.</li>
+            <li><mark>Kerberos</mark> (port 88) uses KDC (AS + TGS) with symmetric time-stamped tickets (TGT).</li>
+            <li><mark>OWASP Top 10:2025:</mark> A01 Broken Access Control (absorbs SSRF), A02 Security Misconfiguration, A03 Software Supply Chain Failures, A10 Mishandling of Exceptional Conditions.</li>
+            <li>Fix <mark>SQL Injection</mark> with Parameterized Queries / Prepared Statements.</li>
+            <li>Fix <mark>XSS</mark> with Output Encoding + CSP + <code>HttpOnly</code>; fix <mark>CSRF</mark> with Anti-CSRF token + <code>SameSite</code> cookie.</li>
+            <li>Mitigate <mark>SYN Flood DDoS</mark> using SYN Cookies.</li>
+            <li><mark>SIEM</mark> = log correlation &amp; alerts; <mark>SOAR</mark> = automated orchestration &amp; response playbooks.</li>
+            <li>NIST IR Lifecycle: <mark>Preparation &rarr; Detection &amp; Analysis &rarr; Containment/Eradication/Recovery &rarr; Post-Incident</mark>.</li>
+            <li>Risk math: <mark><code>SLE = AV &times; EF</code></mark>; <mark><code>ALE = SLE &times; ARO</code></mark>.</li>
+            <li><mark>CERT-In Directions (Sec 70B(6)):</mark> <strong>6-hour</strong> reporting, <strong>180-day</strong> rolling logs in India, <strong>NIC/NPL NTP</strong> sync.</li>
+            <li><mark>DPDP Rules 2025</mark> (Nov 2025) operationalize DPDP Act 2023 (Data Principal rights, itemized consent, DPB breach notice).</li>
+            <li><mark>RBI AIFI Cybersecurity &amp; Tech Risk Directions 2026</mark> directly govern SIDBI, NABARD, EXIM, NHB &amp; NaBFID.</li>
+            <li><mark>ISO/IEC 27001:2022</mark> organizes Annex A into <strong>93 controls across 4 themes</strong>.</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 11 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (22 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch11-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster2-ch10-architecture.html">&larr; Prev: Chapter 10 — Architecture</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard (Cluster 2 Complete!)</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-11', '[data-chapter-complete="it-11"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch11-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch11-q1',
+              marks: 1,
+              section: 'Access Control Models',
+              prompt: 'Which two mandatory rules define the Bell-LaPadula security model focused strictly on Confidentiality?',
+              options: [
+                'No Read Down and No Write Up',
+                'No Read Up and No Write Down',
+                'No Read Up and No Write Up',
+                'Read Anything and Write Only Down',
+                'Discretionary Read and Discretionary Write'
+              ],
+              correctIndex: 1,
+              explanation: 'Bell-LaPadula protects Confidentiality via "No Read Up" (Simple Security) and "No Write Down" (*-Property); Biba protects Integrity via the inverse (No Read Down, No Write Up).'
+            },
+            {
+              id: 'ch11-q2',
+              marks: 1,
+              section: 'Digital Signatures',
+              prompt: 'When Alice digitally signs an electronic loan sanction order using RSA + SHA-256, which key does she use to create the signature, and which security properties are achieved?',
+              options: [
+                'Bob\'s Public Key — Confidentiality only',
+                'Alice\'s Private Key — Integrity, Authentication, and Non-Repudiation',
+                'Alice\'s Public Key — Confidentiality and Availability',
+                'Shared Symmetric AES Key — Non-Repudiation only',
+                'CA Root Private Key — Confidentiality only'
+              ],
+              correctIndex: 1,
+              explanation: 'Signing the message hash with the sender\'s Private Key ensures anyone with Alice\'s Public Key can verify Integrity, Authentication, and Non-Repudiation (it does NOT encrypt the message for confidentiality).'
+            },
+            {
+              id: 'ch11-q3',
+              marks: 1,
+              section: 'Symmetric Ciphers',
+              prompt: 'Why is Electronic Codebook (ECB) mode considered insecure for encrypting structured financial files with AES?',
+              options: [
+                'ECB uses 56-bit DES keys internally',
+                'Identical plaintext blocks always produce identical ciphertext blocks, leaking data patterns',
+                'ECB requires an asymmetric Diffie-Hellman handshake for every 16 bytes',
+                'ECB cannot encrypt files larger than 64 KB',
+                'ECB strips TLS certificates during transmission'
+              ],
+              correctIndex: 1,
+              explanation: 'ECB encrypts each 128-bit block independently without an IV/nonce, so repeated plaintext patterns remain visible in the ciphertext; use AES-GCM instead.'
+            },
+            {
+              id: 'ch11-q4',
+              marks: 2,
+              section: 'RSA Numerical',
+              prompt: 'In an RSA cryptosystem with primes p = 3 and q = 11, if the public exponent is e = 7, what is the corresponding private decryption exponent d?',
+              options: [
+                'd = 3',
+                'd = 7',
+                'd = 11',
+                'd = 13',
+                'd = 17'
+              ],
+              correctIndex: 0,
+              explanation: 'φ(n) = (3 - 1)(11 - 1) = 20. We need (7 × d) mod 20 = 1 → 7 × 3 = 21 ≡ 1 (mod 20), so d = 3.'
+            },
+            {
+              id: 'ch11-q5',
+              marks: 1,
+              section: 'Password Storage',
+              prompt: 'Which algorithm is considered industry best practice for hashing user passwords in a banking authentication database?',
+              options: [
+                'Unsalted MD5',
+                'Unsalted SHA-1',
+                'Fast raw SHA-256 without salt',
+                'Argon2id (or bcrypt) with a unique per-user cryptographic salt',
+                'Base64 encoding'
+              ],
+              correctIndex: 3,
+              explanation: 'Passwords require unique per-user salts (stopping rainbow tables) and memory-hard, intentionally slow KDFs like Argon2id or bcrypt to defeat GPU brute-force attacks.'
+            },
+            {
+              id: 'ch11-q6',
+              marks: 1,
+              section: 'TLS 1.3',
+              prompt: 'Which security property is MANDATED in TLS 1.3 (via ephemeral ECDHE key exchange) so that compromising a server\'s long-term private key in the future CANNOT decrypt previously recorded sessions?',
+              options: [
+                'Security through Obscurity',
+                'Perfect Forward Secrecy (PFS)',
+                'Electronic Codebook Isolation',
+                'Static Key Reuse',
+                'Split Horizon'
+              ],
+              correctIndex: 1,
+              explanation: 'Perfect Forward Secrecy (PFS) generates unique ephemeral session keys per connection via ECDHE, protecting historical traffic even if the long-term server private key is compromised later.'
+            },
+            {
+              id: 'ch11-q7',
+              marks: 1,
+              section: 'IPsec VPNs',
+              prompt: 'In an IPsec Site-to-Site VPN connecting a SIDBI Regional Office to the Primary Data Centre, which protocol and mode encrypts the ENTIRE original IP packet (including the original IP header)?',
+              options: [
+                'AH in Transport Mode',
+                'AH in Tunnel Mode',
+                'ESP in Transport Mode',
+                'ESP in Tunnel Mode',
+                'ICMP in Echo Mode'
+              ],
+              correctIndex: 3,
+              explanation: 'ESP (Encapsulating Security Payload) provides encryption, and Tunnel Mode encapsulates and encrypts the entire original IP packet inside a new outer IP header.'
+            },
+            {
+              id: 'ch11-q8',
+              marks: 2,
+              section: 'OWASP Top 10:2025',
+              prompt: 'In the updated OWASP Top 10:2025 Web Application Security Risks list, which brand-new category was introduced at A10:2025, and where was 2021\'s Server-Side Request Forgery (SSRF) folded?',
+              options: [
+                'A10:2025 is Buffer Overflow; SSRF moved to A05 Injection',
+                'A10:2025 is Mishandling of Exceptional Conditions; SSRF was absorbed into A01 Broken Access Control',
+                'A10:2025 is Quantum Decryption; SSRF moved to A04 Cryptographic Failures',
+                'A10:2025 is XML External Entities; SSRF remained at A10',
+                'A10:2025 is DNS Spoofing; SSRF was removed from OWASP'
+              ],
+              correctIndex: 1,
+              explanation: 'OWASP Top 10:2025 introduced A10:2025 Mishandling of Exceptional Conditions, expanded A03 into Software Supply Chain Failures, and folded SSRF into A01 Broken Access Control.'
+            },
+            {
+              id: 'ch11-q9',
+              marks: 1,
+              section: 'Web Defenses',
+              prompt: 'What is the single most effective primary defense against SQL Injection vulnerabilities in banking web applications?',
+              options: [
+                'Hiding database table names in HTML comments',
+                'Using Parameterized Queries (Prepared Statements) that strictly separate SQL code from user data',
+                'Encrypting HTTP cookies with Base64',
+                'Blocking POST requests at the router',
+                'Disabling HTTPS on internal APIs'
+              ],
+              correctIndex: 1,
+              explanation: 'Parameterized Queries / Prepared Statements bind user input strictly as data parameters rather than executable SQL syntax, neutralizing SQL injection.'
+            },
+            {
+              id: 'ch11-q10',
+              marks: 1,
+              section: 'Web Defenses (CSRF)',
+              prompt: 'Which HTTP cookie attribute instructs browsers NOT to send session cookies on cross-site requests, acting as a strong defense-in-depth mitigation against CSRF attacks?',
+              options: [
+                'Expires',
+                'SameSite=Strict (or Lax)',
+                'Content-Encoding',
+                'X-Powered-By',
+                'Cache-Control'
+              ],
+              correctIndex: 1,
+              explanation: 'The SameSite cookie attribute (paired with anti-CSRF synchronizer tokens) stops browsers from attaching session cookies to forged cross-origin requests.'
+            },
+            {
+              id: 'ch11-q11',
+              marks: 2,
+              section: 'CERT-In Directions',
+              prompt: 'Under CERT-In\'s Directions dated 28 April 2022 (issued under Section 70B(6) of the IT Act, 2000), what are the mandatory timelines for (a) reporting listed cyber incidents and (b) retaining ICT system logs in India?',
+              options: [
+                '(a) 24 hours | (b) 90 days',
+                '(a) 6 hours | (b) 180 days (rolling)',
+                '(a) 72 hours | (b) 365 days',
+                '(a) 12 hours | (b) 60 days',
+                '(a) 48 hours | (b) 180 days'
+              ],
+              correctIndex: 1,
+              explanation: 'CERT-In mandates reporting 20 listed cyber incident categories within 6 hours of noticing and securely maintaining ICT system logs for a rolling 180 days within Indian jurisdiction, synced to NIC/NPL NTP.'
+            },
+            {
+              id: 'ch11-q12',
+              marks: 1,
+              section: 'DPDP Rules 2025',
+              prompt: 'Under India\'s Digital Personal Data Protection (DPDP) Act, 2023 and DPDP Rules, 2025 (notified by MeitY in November 2025), which statutory body adjudicates personal data breaches and enforces compliance?',
+              options: [
+                'Telecom Regulatory Authority of India (TRAI)',
+                'Data Protection Board of India (DPB)',
+                'Competition Commission of India (CCI)',
+                'Securities Appellate Tribunal (SAT)',
+                'National Payments Corporation of India (NPCI)'
+              ],
+              correctIndex: 1,
+              explanation: 'The Data Protection Board of India (DPB) is the digital-first adjudicatory body established under the DPDP Act 2023 and operationalized via the DPDP Rules 2025.'
+            },
+            {
+              id: 'ch11-q13',
+              marks: 2,
+              section: 'Risk Math (ALE)',
+              prompt: 'A digital lending portal valued at ₹4 Crore has an Exposure Factor (EF) of 30% for a DDoS outage that occurs once every 4 years (ARO = 0.25). What is the Annualized Loss Expectancy (ALE)?',
+              options: [
+                '₹15 Lakh',
+                '₹30 Lakh',
+                '₹60 Lakh',
+                '₹1.20 Crore',
+                '₹4.00 Crore'
+              ],
+              correctIndex: 1,
+              explanation: 'SLE = AV × EF = ₹4 Cr × 0.30 = ₹1.20 Cr. ALE = SLE × ARO = ₹1.20 Cr × 0.25 = ₹30 Lakh.'
+            },
+            {
+              id: 'ch11-q14',
+              marks: 1,
+              section: 'SOC & Automation',
+              prompt: 'In a modern 24×7 banking Security Operations Center (SOC), what is the primary distinction between SIEM and SOAR?',
+              options: [
+                'SIEM aggregates and correlates logs to generate alerts; SOAR automates incident enrichment and containment playbooks',
+                'SIEM replaces physical firewalls; SOAR replaces SQL databases',
+                'SIEM operates only on Windows endpoints; SOAR operates only on Linux routers',
+                'SIEM performs penetration testing; SOAR performs asymmetric encryption',
+                'There is no difference; both acronyms refer to antivirus scanners'
+              ],
+              correctIndex: 0,
+              explanation: 'SIEM focuses on log ingestion, correlation, and detection alerting; SOAR connects to SIEM/EDR/Firewalls to orchestrate and automate response playbooks, slashing MTTR.'
+            },
+            {
+              id: 'ch11-q15',
+              marks: 1,
+              section: 'ISO/IEC 27001:2022',
+              prompt: 'How are the Annex A security controls organized in the latest ISO/IEC 27001:2022 Information Security Management System (ISMS) standard?',
+              options: [
+                '114 controls across 14 domains',
+                '93 controls grouped into 4 themes (Organizational, People, Physical, Technological)',
+                '50 controls grouped into 2 themes (Hardware and Software)',
+                '200 controls grouped into 10 OWASP categories',
+                '12 controls grouped into 3 CIA pillars'
+              ],
+              correctIndex: 1,
+              explanation: 'ISO/IEC 27001:2022 streamlined the 2013 edition\'s 114 controls (14 domains) into 93 controls across 4 themes: Organizational, People, Physical, and Technological.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

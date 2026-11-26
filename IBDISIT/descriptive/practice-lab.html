@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Descriptive Practice &amp; AI-Evaluation Lab — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker">25 IT Topics</a></li>
+          <li><a href="practice-lab.html" class="active">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card" style="margin-bottom:1.25rem;padding:1.15rem 1.4rem;">
+      <div class="card-header" style="margin-bottom:0.35rem;">
+        <div>
+          <h1 class="card-title" style="font-size:1.35rem;">Descriptive Practice &amp; AI-Evaluation Lab</h1>
+          <p class="card-subtitle">Real exam typing simulator for <strong>Paper II (Descriptive English — 75M)</strong> &amp; <strong>Paper III Part B (IT Descriptive — 50M)</strong>. Drafts auto-save locally.</p>
+        </div>
+        <a class="btn btn-secondary btn-sm" href="../index.html">&larr; Back to Dashboard</a>
+      </div>
+    </div>
+
+    <div class="lab-layout">
+      <!-- Left: Question Bank Selector -->
+      <aside class="question-bank" aria-label="Descriptive Question Bank">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem;">
+          <strong style="font-size:0.92rem;">Question Bank (10 Sample Qs)</strong>
+        </div>
+        <div class="filter-pills" role="group" aria-label="Filter questions by paper">
+          <button type="button" class="pill-btn active" data-paper-filter="all">All (10)</button>
+          <button type="button" class="pill-btn" data-paper-filter="paper2">Paper II (5)</button>
+          <button type="button" class="pill-btn" data-paper-filter="paper3">Paper III (5)</button>
+        </div>
+        <div class="q-list" id="desc-question-list">
+          <!-- Populated dynamically -->
+        </div>
+      </aside>
+
+      <!-- Right: Typing Simulator Workspace -->
+      <main class="card">
+        <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.65rem;" id="active-q-meta"></div>
+        <h2 id="active-q-title" style="margin:0 0 0.6rem;font-size:1.2rem;"></h2>
+        <div id="active-q-prompt" class="callout callout-info" style="margin-bottom:1rem;"></div>
+
+        <!-- Simulator Controls -->
+        <div class="sim-toolbar">
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+            <span class="timer-display" id="desc-timer">60:00</span>
+            <select id="desc-duration" class="search-input" style="min-width:115px;padding:0.35rem 0.55rem;" aria-label="Timer duration">
+              <option value="60" selected>60 Min (Full)</option>
+              <option value="30">30 Min</option>
+              <option value="20">20 Min (15M Q)</option>
+              <option value="15">15 Min (10M Q)</option>
+            </select>
+            <button type="button" class="btn btn-primary btn-sm" id="timer-start-pause">Start 60-Min Timer</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="timer-reset">Reset</button>
+          </div>
+          <label class="toggle-switch" title="Simulates real exam keyboard environment without red underlines">
+            <input type="checkbox" id="spellcheck-toggle">
+            <span>Disable Spellcheck (Exam Mode)</span>
+          </label>
+        </div>
+
+        <!-- Typing Box -->
+        <label for="desc-textarea" style="position:absolute;width:1px;height:1px;overflow:hidden;">Type your descriptive answer here</label>
+        <textarea
+          id="desc-textarea"
+          class="answer-textarea"
+          placeholder="Start typing your structured response here (Introduction -> Body with headings/points -> Conclusion)..."
+          spellcheck="true"
+        ></textarea>
+
+        <!-- Live Word & Character Counter + AI Eval Action -->
+        <div class="stats-bar">
+          <div class="stats-group">
+            <span class="stat-item">Words: <strong id="stat-words">0</strong></span>
+            <span class="stat-item">Characters: <strong id="stat-chars">0</strong></span>
+            <span id="stat-limit-badge" class="badge badge-planned">Target</span>
+          </div>
+          <div style="display:flex;gap:0.55rem;flex-wrap:wrap;">
+            <button type="button" class="btn btn-secondary btn-sm" id="clear-draft-btn">Clear Draft</button>
+            <button type="button" class="btn btn-primary" id="copy-ai-eval-btn">Copy for AI Evaluation</button>
+          </div>
+        </div>
+
+        <!-- Collapsible Ideal Structure Hints -->
+        <details class="hints-box">
+          <summary>View Ideal Structure &amp; High-Yield Regulatory Hints</summary>
+          <div class="hints-content" id="active-q-hints"></div>
+        </details>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <span>SIDBI Grade A/B (IT Stream) 2026 — Descriptive Practice &amp; AI-Evaluation Lab</span>
+      <span>Click <strong>Copy for AI Evaluation</strong> after finishing and paste directly into Gemini for strict examiner grading.</span>
+    </footer>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    (function () {
+      const SAMPLE_QUESTIONS = [
+        // ================= PAPER II — DESCRIPTIVE ENGLISH (5 Qs) =================
+        {
+          id: 'p2-q1',
+          paper: 'paper2',
+          paperLabel: 'Paper II — Descriptive English',
+          category: 'Essay Writing',
+          marks: 25,
+          minWords: 300,
+          maxWords: 400,
+          wordLimitLabel: '300–400 words',
+          title: 'Essay: Digital Public Infrastructure & Formalisation of India\'s MSME Sector',
+          plainPrompt: 'Write an essay in 300–400 words on: "Role of Digital Public Infrastructure (DPI) and Cash-Flow Lending in Bridging India\'s MSME Credit Gap."',
+          promptHtml: '<strong>Essay Prompt:</strong> Role of Digital Public Infrastructure (DPI) and Cash-Flow Lending in Bridging India\'s MSME Credit Gap. Discuss how platforms like <mark>Udyam Assist Platform (UAP)</mark> and <mark>GST Sahay</mark> transform informal micro-enterprises.',
+          hints: [
+            '<strong>Introduction (50–60 words):</strong> Define MSMEs as the backbone of India\'s GDP and employment, and frame the structural shift from collateral-based lending to cash-flow-based digital credit.',
+            '<strong>Body Para 1 — Formalisation via DPI:</strong> Cite SIDBI\'s <mark>Udyam Assist Platform (UAP)</mark> bringing Informal Micro Enterprises (IMEs) into the formal fold for priority sector lending.',
+            '<strong>Body Para 2 — Invoice &amp; Flow-Based Lending:</strong> Explain <mark>GST Sahay</mark> (developed by SIDBI with OPL and iSPIRT on OCEN) and Account Aggregator/TReDS reducing turnaround times and collateral friction.',
+            '<strong>Challenges &amp; Conclusion (60–70 words):</strong> Address digital literacy, cyber hygiene, and data privacy; conclude with an inclusive FinTech-AIFI roadmap.'
+          ],
+          sources: [
+            { label: 'SIDBI Digital Initiatives', url: 'https://www.sidbi.in/en/digital-initiatives' },
+            { label: 'SIDBI Udyam Assist Platform', url: 'https://www.sidbi.in/en/udyam-assist-platform' },
+            { label: 'SIDBI GST Sahay', url: 'https://www.sidbi.in/gst-sahay' }
+          ]
+        },
+        {
+          id: 'p2-q2',
+          paper: 'paper2',
+          paperLabel: 'Paper II — Descriptive English',
+          category: 'Essay Writing',
+          marks: 25,
+          minWords: 300,
+          maxWords: 400,
+          wordLimitLabel: '300–400 words',
+          title: 'Essay: Responsible AI Governance vs. Innovation in Indian Banking',
+          plainPrompt: 'Write an essay in 300–400 words on: "Balancing Generative AI Innovation with Data Privacy and Operational Resilience in Financial Institutions."',
+          promptHtml: '<strong>Essay Prompt:</strong> Balancing Generative AI Innovation with Data Privacy and Operational Resilience in Financial Institutions. Reference India\'s <mark>DPDP Rules, 2025</mark> and banking risk controls.',
+          hints: [
+            '<strong>Introduction:</strong> Contrast high-impact AI use cases (MSME credit underwriting, real-time fraud detection, multilingual customer support) with model risks (hallucinations, bias, data leakage).',
+            '<strong>Privacy &amp; Legal Guardrails:</strong> Highlight MeitY\'s <mark>Digital Personal Data Protection (DPDP) Rules, 2025</mark> (notified Nov 2025) requiring itemized consent notices, Data Principal rights, and breach reporting.',
+            '<strong>Operational Resilience:</strong> Emphasize human-in-the-loop governance, third-party vendor risk oversight, and explainable AI (XAI) for credit decisions.',
+            '<strong>Conclusion:</strong> Frame governance not as a brake on innovation, but as the trust foundation for sustainable financial AI.'
+          ],
+          sources: [
+            { label: 'MeitY DPDP Rules 2025', url: 'https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa' },
+            { label: 'PIB DPDP Rules Release', url: 'https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/nov/doc20251117695301.pdf' }
+          ]
+        },
+        {
+          id: 'p2-q3',
+          paper: 'paper2',
+          paperLabel: 'Paper II — Descriptive English',
+          category: 'Précis Writing',
+          marks: 25,
+          minWords: 80,
+          maxWords: 115,
+          wordLimitLabel: '90–110 words (~1/3rd)',
+          title: 'Précis: Green Financing & Sustainable MSME Transitions',
+          plainPrompt: 'Write a précis (with a suitable title) in 90–110 words summarizing the passage on green financing for MSMEs: "Micro, Small, and Medium Enterprises form a vital pillar of India\'s manufacturing and export ecosystem, yet many units rely on legacy, energy-intensive machinery that elevates both operating costs and carbon footprints. Transitioning to clean technologies—such as solar rooftops, energy-efficient boilers, and waste-recycling equipment—requires affordable, long-tenor capital that small borrowers often struggle to access through conventional commercial banks. Development financial institutions like SIDBI bridge this market failure through blended finance, interest subvention, and dedicated green schemes such as MSE-GIFT. Beyond direct lending, technical advisory on energy audits and green certification enables MSMEs to meet international ESG compliance standards, particularly for export markets facing carbon border adjustments. Ultimately, aligning MSME modernization with climate resilience lowers unit production costs while strengthening India\'s broader net-zero commitments."',
+          promptHtml: '<strong>Pr&eacute;cis Passage (~155 words &rarr; condense to ~90–110 words with a crisp title):</strong><br><br><em>"Micro, Small, and Medium Enterprises form a vital pillar of India\'s manufacturing and export ecosystem, yet many units rely on legacy, energy-intensive machinery that elevates both operating costs and carbon footprints. Transitioning to clean technologies—such as solar rooftops, energy-efficient boilers, and waste-recycling equipment—requires affordable, long-tenor capital that small borrowers often struggle to access through conventional commercial banks. Development financial institutions like SIDBI bridge this market failure through blended finance, interest subvention, and dedicated green schemes such as MSE-GIFT. Beyond direct lending, technical advisory on energy audits and green certification enables MSMEs to meet international ESG compliance standards, particularly for export markets facing carbon border adjustments. Ultimately, aligning MSME modernization with climate resilience lowers unit production costs while strengthening India\'s broader net-zero commitments."</em>',
+          hints: [
+            '<strong>Title:</strong> Mandatory! Keep it crisp (4–7 words), e.g., <em>"Green Financing for Sustainable MSME Growth"</em>.',
+            '<strong>Rule of 1/3rd &amp; Own Words:</strong> Preserve core ideas (energy-intensive legacy MSMEs, high clean-tech capital barrier, SIDBI\'s blended finance/MSE-GIFT &amp; advisory, export ESG competitiveness &amp; net-zero alignment) without copying full sentences verbatim.',
+            '<strong>Single Paragraph:</strong> Write in third-person, indirect speech, no personal opinions or outside facts.'
+          ],
+          sources: [
+            { label: 'SIDBI MSME Financing & MSE-GIFT', url: 'https://www.sidbi.in/blog/sidbi-financing-msme' }
+          ]
+        },
+        {
+          id: 'p2-q4',
+          paper: 'paper2',
+          paperLabel: 'Paper II — Descriptive English',
+          category: 'Business / Office Correspondence',
+          marks: 25,
+          minWords: 150,
+          maxWords: 220,
+          wordLimitLabel: '160–210 words',
+          title: 'Office Memo: Mandatory Phishing Drill & Endpoint Patching Compliance',
+          plainPrompt: 'Draft a formal internal Office Memorandum (160–210 words) as Assistant Manager (IT Security), SIDBI Head Office, to all Regional Office Heads announcing a mandatory quarterly phishing simulation exercise and 7-day critical endpoint patching compliance window.',
+          promptHtml: '<strong>Correspondence Task:</strong> Draft an internal <mark>Office Memorandum</mark> as Assistant Manager (IT Security), SIDBI Head Office, to all Regional Office Heads announcing a mandatory quarterly phishing simulation exercise and a 7-day critical endpoint patching compliance window.',
+          hints: [
+            '<strong>Standard Memo Header:</strong> Include <code>TO:</code>, <code>FROM:</code>, <code>DATE:</code>, <code>REF NO:</code>, and a crisp <code>SUBJECT:</code> line.',
+            '<strong>Body Structure:</strong> (1) Context/Objective (rising credential-harvesting threats &amp; regulatory cyber resilience); (2) Actionable timelines (simulation window + 7-day critical CVE patching SLA); (3) Escalation/reporting contact (SOC helpdesk).',
+            '<strong>Tone:</strong> Formal, directive, concise, and free of informal greetings ("Dear Sir" is omitted in office memos).'
+          ],
+          sources: [
+            { label: 'RBI AIFI Cybersecurity & Tech Framework 2026', url: 'https://m.rbi.org.in/scripts/BS_ViewMasDirections.aspx?id=13597' }
+          ]
+        },
+        {
+          id: 'p2-q5',
+          paper: 'paper2',
+          paperLabel: 'Paper II — Descriptive English',
+          category: 'Reading Comprehension / Analytical Note',
+          marks: 25,
+          minWords: 180,
+          maxWords: 250,
+          wordLimitLabel: '180–250 words',
+          title: 'Formal Letter: Proposal to Upgrade Legacy Core Lending APIs',
+          plainPrompt: 'Write a formal business letter (180–250 words) from an IT Project Manager to the Chief General Manager (IT), SIDBI, proposing a phased migration of a legacy monolithic MSME loan-origination module to a microservices-based API gateway architecture.',
+          promptHtml: '<strong>Formal Letter Task:</strong> Write a formal proposal letter to the Chief General Manager (IT), SIDBI, advocating a phased migration of a legacy monolithic MSME loan-origination module to a <mark>microservices &amp; API gateway</mark> architecture.',
+          hints: [
+            '<strong>Format:</strong> Sender details, Date, Receiver designation &amp; address, Subject line, Salutation, 3 concise paragraphs, and formal sign-off.',
+            '<strong>Business Justification:</strong> Tie technical upgrades to SIDBI outcomes—faster onboarding of partner NBFCs/banks, peak-load scalability during scheme launches, and zero-downtime releases.',
+            '<strong>Risk Mitigation:</strong> Propose a <mark>Strangler Fig phased rollout</mark> with parallel UAT and rollback checkpoints rather than a risky big-bang cutover.'
+          ],
+          sources: [
+            { label: 'SIDBI Digital Initiatives', url: 'https://www.sidbi.in/en/digital-initiatives' }
+          ]
+        },
+
+        // ================= PAPER III (PART B) — IT DESCRIPTIVE (5 Qs) =================
+        {
+          id: 'p3-q1',
+          paper: 'paper3',
+          paperLabel: 'Paper III (Part B) — IT Descriptive',
+          category: 'Cluster 2: Cyber Security & Governance',
+          marks: 15,
+          minWords: 260,
+          maxWords: 360,
+          wordLimitLabel: '260–350 words',
+          title: '15M: Designing a Zero Trust & RBI-Compliant IT Governance Architecture for an AIFI',
+          plainPrompt: 'Explain the core pillars of Zero Trust Architecture (ZTA) and discuss how an All India Financial Institution (AIFI) like SIDBI should align its IT Governance, Risk Management, and BCP/DR controls with RBI\'s IT Governance and Cybersecurity Frameworks. (15 Marks)',
+          promptHtml: '<strong>15-Mark IT Descriptive:</strong> Explain the core pillars of <mark>Zero Trust Architecture (ZTA)</mark> and discuss how an All India Financial Institution (AIFI) like SIDBI should align its IT Governance, Risk Management, and BCP/DR controls with RBI\'s IT Governance and Cybersecurity Frameworks.',
+          hints: [
+            '<strong>Core ZTA Principles:</strong> "Never trust, always verify" — explicit identity verification (MFA/IAM), least-privilege access (RBAC/ABAC), micro-segmentation, and continuous telemetry/SOC monitoring.',
+            '<strong>RBI IT Governance Pillars:</strong> Cite the 5 focus areas from RBI Master Directions — <mark>Strategic Alignment, Risk Management, Resource Management, Performance Management, and BCP/DR Management</mark>, plus Board-level IT Strategy Committee oversight.',
+            '<strong>AIFI / SIDBI Practical Controls:</strong> Periodic VA/PT, immutable offline backups for ransomware resilience, RPO/RTO drills, and third-party FinTech API risk reviews.'
+          ],
+          sources: [
+            { label: 'RBI IT Governance Master Direction (ID 12562)', url: 'https://www.rbi.org.in/Scripts/BS_ViewMasterDirections.aspx?id=12562' },
+            { label: 'RBI AIFI Tech Risk & Assurance Directions 2026 (ID 13597)', url: 'https://m.rbi.org.in/scripts/BS_ViewMasDirections.aspx?id=13597' }
+          ]
+        },
+        {
+          id: 'p3-q2',
+          paper: 'paper3',
+          paperLabel: 'Paper III (Part B) — IT Descriptive',
+          category: 'Cluster 2: DBMS & RDBMS',
+          marks: 15,
+          minWords: 260,
+          maxWords: 360,
+          wordLimitLabel: '260–350 words',
+          title: '15M: ACID Properties, Concurrency Anomalies & Isolation Levels in Core Banking Databases',
+          plainPrompt: 'Discuss ACID properties in RDBMS and explain how Dirty Read, Non-Repeatable Read, and Phantom Read anomalies occur during concurrent financial transactions. Compare SQL isolation levels and recommend the optimal concurrency strategy for high-volume MSME loan disbursement systems. (15 Marks)',
+          promptHtml: '<strong>15-Mark IT Descriptive:</strong> Discuss <mark>ACID properties</mark> in RDBMS and explain how Dirty Read, Non-Repeatable Read, and Phantom Read anomalies occur during concurrent financial transactions. Compare SQL isolation levels and recommend a concurrency strategy for MSME loan disbursement systems.',
+          hints: [
+            '<strong>ACID Breakdown:</strong> Atomicity (WAL/Undo logs), Consistency (integrity constraints), Isolation (locking/MVCC), Durability (Redo logs/checkpoints).',
+            '<strong>Anomalies vs. Isolation Matrix:</strong> Clearly map Read Uncommitted, Read Committed, Repeatable Read, and Serializable against Dirty Read, Non-Repeatable Read, and Phantom Read.',
+            '<strong>Banking Implementation:</strong> Discuss <mark>Strict 2PL</mark> vs. <mark>MVCC</mark>, idempotency keys for disbursement APIs, and deadlock detection (wait-for graph) to avoid double-disbursal.'
+          ],
+          sources: []
+        },
+        {
+          id: 'p3-q3',
+          paper: 'paper3',
+          paperLabel: 'Paper III (Part B) — IT Descriptive',
+          category: 'Cluster 3: API Usage & Application Dev',
+          marks: 10,
+          minWords: 170,
+          maxWords: 240,
+          wordLimitLabel: '180–230 words',
+          title: '10M: Securing RESTful APIs for Open Credit & Partner Lending (OCEN / GST Sahay)',
+          plainPrompt: 'What are the primary security vulnerabilities in enterprise RESTful APIs (OWASP API Top 10)? Outline a defense-in-depth API security checklist for a public-facing MSME digital lending gateway like GST Sahay. (10 Marks)',
+          promptHtml: '<strong>10-Mark IT Descriptive:</strong> What are the primary security vulnerabilities in enterprise RESTful APIs? Outline a defense-in-depth API security checklist for a public-facing MSME digital lending gateway like <mark>GST Sahay (OCEN)</mark>.',
+          hints: [
+            '<strong>Key Threats:</strong> Broken Object Level Authorization (BOLA), Broken Authentication, Excessive Data Exposure, Lack of Rate Limiting / DoS, and Injection.',
+            '<strong>Defense-in-Depth Checklist:</strong> <mark>OAuth 2.0 + OIDC / mTLS</mark> between partner institutions, short-lived signed JWTs, strict schema validation, API Gateway rate limiting/throttling, WAF, and audit logging without leaking PII.',
+            '<strong>SIDBI Context:</strong> Mention protecting GST/Udyam consent artifacts and partner NBFC endpoints.'
+          ],
+          sources: [
+            { label: 'SIDBI GST Sahay', url: 'https://www.sidbi.in/gst-sahay' }
+          ]
+        },
+        {
+          id: 'p3-q4',
+          paper: 'paper3',
+          paperLabel: 'Paper III (Part B) — IT Descriptive',
+          category: 'Cluster 4: AI/ML & Data Warehousing',
+          marks: 15,
+          minWords: 260,
+          maxWords: 360,
+          wordLimitLabel: '260–350 words',
+          title: '15M: End-to-End ML Pipeline & Data Lakehouse for MSME Credit Risk Scoring',
+          plainPrompt: 'Design an end-to-end Data Warehousing and Machine Learning pipeline for automated MSME credit risk scoring and early-warning NPA detection. Cover ETL/ELT ingestion, feature engineering, class-imbalance handling, model explainability, and drift monitoring. (15 Marks)',
+          promptHtml: '<strong>15-Mark IT Descriptive:</strong> Design an end-to-end <mark>Data Warehousing &amp; ML pipeline</mark> for automated MSME credit risk scoring and early-warning NPA detection. Cover ETL/ELT, class-imbalance handling, explainability, and drift monitoring.',
+          hints: [
+            '<strong>Data Layer:</strong> Combine structured CBS/repayment tables with GST/cash-flow feeds via Medallion (Bronze-Silver-Gold) Lakehouse or Star Schema warehouse.',
+            '<strong>Modeling &amp; Imbalance:</strong> Address rare NPA defaults using <mark>SMOTE / class weights</mark> and evaluate via <mark>PR-AUC, Recall, F1-score</mark> (not accuracy alone!).',
+            '<strong>Explainability &amp; MLOps:</strong> Use <mark>SHAP / LIME</mark> so credit officers can justify rejections, plus PSI (Population Stability Index) for data/concept drift monitoring and DPDP data minimization.'
+          ],
+          sources: [
+            { label: 'MeitY DPDP Rules 2025', url: 'https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa' }
+          ]
+        },
+        {
+          id: 'p3-q5',
+          paper: 'paper3',
+          paperLabel: 'Paper III (Part B) — IT Descriptive',
+          category: 'Cluster 1: Operating Systems & DAA',
+          marks: 10,
+          minWords: 170,
+          maxWords: 240,
+          wordLimitLabel: '180–230 words',
+          title: '10M: Virtual Memory, Thrashing & Page Replacement Trade-Offs in High-Throughput Servers',
+          plainPrompt: 'Explain demand paging and the causes of thrashing in modern operating systems. Compare LRU, Optimal, and Clock (Second-Chance) page replacement algorithms, and describe how Working-Set models prevent performance collapse on banking transaction servers. (10 Marks)',
+          promptHtml: '<strong>10-Mark IT Descriptive:</strong> Explain <mark>demand paging</mark> and the causes of <mark>thrashing</mark> in modern operating systems. Compare LRU, Optimal, and Clock page replacement algorithms, and describe how Working-Set models prevent collapse on high-throughput transaction servers.',
+          hints: [
+            '<strong>Demand Paging &amp; EAT:</strong> Briefly state Effective Access Time formula: <code>EAT = (1 - p) * ma + p * page_fault_time</code>.',
+            '<strong>Thrashing:</strong> Occurs when degree of multiprogramming is too high, causing processes to spend more time paging than executing (CPU utilization plunges).',
+            '<strong>Algorithms &amp; Mitigation:</strong> Compare Optimal (theoretical benchmark, no Belady anomaly), LRU (high hardware overhead), and Clock/Second-Chance (practical OS approximation); explain <mark>Working-Set model</mark> and Page Fault Frequency (PFF) control.'
+          ],
+          sources: []
+        }
+      ];
+
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.SIDBIPortal && window.SIDBIPortal.initDescriptiveLab) {
+          window.SIDBIPortal.initDescriptiveLab(SAMPLE_QUESTIONS);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

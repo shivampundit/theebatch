@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 8: DBMS &amp; RDBMS (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 2 &bull; Chapter 8 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-8-1" class="active">8.1 3-Schema, Independence &amp; ER</a></li>
+          <li><a href="#sec-8-2">8.2 Keys &amp; Relational Algebra</a></li>
+          <li><a href="#sec-8-3">8.3 FDs, Normalization (1NF–5NF)</a></li>
+          <li><a href="#sec-8-4">8.4 SQL Mastery, Joins &amp; Window Fns</a></li>
+          <li><a href="#sec-8-5">8.5 ACID, Schedules &amp; Serializability</a></li>
+          <li><a href="#sec-8-6">8.6 2PL, MVCC &amp; Isolation Levels</a></li>
+          <li><a href="#sec-8-7">8.7 Recovery (WAL/ARIES) &amp; NoSQL/CAP</a></li>
+          <li><a href="#sec-8-8">8.8 Worked Numericals &amp; SQL Lab (7)</a></li>
+          <li><a href="#sec-8-9">8.9 Banking Context, Revision &amp; 15 MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-08">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster1-ch07-operating-systems.html">&larr; Prev: Ch 7 OS</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 2: Databases, Networks &amp; Security</span>
+            <span class="badge badge-warn">Topic 8 of 25 &bull; Highest Paper III Weight</span>
+            <span class="badge badge-live">Paper III Part A + Part B Core</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 8: DBMS &amp; RDBMS</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Exhaustive exam-depth guide covering ANSI/SPARC 3-Schema architecture (SVG), ER-to-Relational mapping, Keys &amp; Relational Algebra,
+            Functional Dependencies &amp; Normalization (1NF–5NF), SQL execution order / NULL traps / Window Functions, ACID &amp; Conflict Serializability,
+            SQL Isolation Levels / Strict 2PL / MVCC, WAL/ARIES Recovery &amp; CAP/NoSQL, 7 worked numericals &amp; SQL labs, banking CBS context, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 8.1 ==================== -->
+        <section id="sec-8-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">8.1 ANSI/SPARC 3-Schema Architecture, Data Independence &amp; ER Modeling</h2>
+            <span class="badge badge-info">Core Foundation</span>
+          </div>
+
+          <!-- Inline SVG: 3-Schema Architecture -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 190" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="ANSI/SPARC 3-Schema DBMS Architecture">
+              <rect x="10" y="8" width="740" height="174" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <!-- External -->
+              <rect x="30" y="20" width="210" height="36" rx="6" fill="#0d9488"/>
+              <text x="135" y="42" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">External View 1 (Branch Teller)</text>
+              <rect x="275" y="20" width="210" height="36" rx="6" fill="#0d9488"/>
+              <text x="380" y="42" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">External View 2 (MSME Portal)</text>
+              <rect x="520" y="20" width="210" height="36" rx="6" fill="#0d9488"/>
+              <text x="625" y="42" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">External View 3 (RBI Auditor)</text>
+
+              <!-- Conceptual -->
+              <rect x="30" y="76" width="700" height="38" rx="6" fill="#1d4ed8"/>
+              <text x="380" y="99" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">Conceptual (Logical) Schema — Tables, Keys, Constraints, Relationships (Logical Data Independence &uarr;)</text>
+
+              <!-- Internal -->
+              <rect x="30" y="132" width="700" height="38" rx="6" fill="#0f2942"/>
+              <text x="380" y="155" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">Internal (Physical) Schema — B+ Tree Indexes, Disk Blocks, Partitioning, Compression (Physical Data Independence &uarr;)</text>
+            </svg>
+          </div>
+
+          <ul>
+            <li><strong>Physical Data Independence:</strong> Ability to change the <mark>Internal (Physical) Schema</mark> (e.g., adding a B+ Tree index, moving to NVMe SSD, compressing pages) WITHOUT modifying the Conceptual Schema or applications.</li>
+            <li><strong>Logical Data Independence:</strong> Ability to change the <mark>Conceptual Schema</mark> (e.g., adding a new column or splitting a table) WITHOUT modifying External Views/user apps (harder to achieve!).</li>
+            <li><strong>ER-to-Relational Table Conversion Rules (High-Yield MCQ!):</strong>
+              &bull; <strong>Weak Entity</strong> (lacks own primary key; double rectangle + double diamond identifying relationship) &rarr; table includes owner's PK as FK + partial key (discriminator).<br>
+              &bull; <strong>1:N Relationship</strong> &rarr; place PK of the <code>1</code>-side as FK in the <code>N</code>-side table (NO extra table needed!).<br>
+              &bull; <strong>M:N Relationship</strong> &rarr; MUST create a <mark>separate junction table</mark> containing PKs of both entities as composite PK.<br>
+              &bull; <strong>Multivalued Attribute</strong> (double oval, e.g., multiple phone numbers) &rarr; MUST create a <mark>separate table</mark>.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 8.2 ==================== -->
+        <section id="sec-8-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">8.2 Relational Model, Keys, Referential Integrity &amp; Relational Algebra</h2>
+          </div>
+          <ul>
+            <li><strong>Key Hierarchy:</strong>
+              <strong>Super Key (SK)</strong> = any attribute set uniquely identifying a tuple &rarr;
+              <strong>Candidate Key (CK)</strong> = <mark>minimal Super Key</mark> (no proper subset is a SK) &rarr;
+              <strong>Primary Key (PK)</strong> = chosen CK (<mark><code>NOT NULL</code> &amp; <code>UNIQUE</code></mark>) &rarr;
+              <strong>Alternate Keys</strong> = remaining CKs &rarr;
+              <strong>Foreign Key (FK)</strong> = references PK/Unique key of another (or same) table to enforce <mark>Referential Integrity</mark> (can be <code>NULL</code> unless constrained!).</li>
+            <li><strong>Relational Algebra Core Operators (Procedural Query Language):</strong>
+              &bull; <strong>Selection (<code>&sigma;_cond(R)</code>):</strong> Filters <strong>rows</strong> (commutative).<br>
+              &bull; <strong>Projection (<code>&pi;_cols(R)</code>):</strong> Picks <strong>columns</strong> and <mark>automatically eliminates duplicate rows</mark> (unlike SQL <code>SELECT</code> which keeps duplicates unless <code>DISTINCT</code> is used!).<br>
+              &bull; <strong>Natural Join (<code>R &#x22C8; S</code>):</strong> Equi-join on all identically named attributes, removing duplicate join columns.<br>
+              &bull; <strong>Division (<code>R &divide; S</code>):</strong> Answers <mark>"for ALL"</mark> universal quantifier queries (e.g., <em>"Find borrowers who availed ALL green schemes"</em>). Implemented in SQL via double <code>NOT EXISTS</code>.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 8.3 ==================== -->
+        <section id="sec-8-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">8.3 Functional Dependencies, Normalization (1NF–5NF) &amp; Decomposition</h2>
+            <span class="badge badge-danger">Guaranteed 2-Mark Topic</span>
+          </div>
+          <p style="margin-top:0;">
+            <strong>Armstrong's Axioms (Sound &amp; Complete):</strong> Reflexivity (<code>Y &sube; X &rArr; X &rarr; Y</code>), Augmentation (<code>X &rarr; Y &rArr; XZ &rarr; YZ</code>), Transitivity (<code>X &rarr; Y, Y &rarr; Z &rArr; X &rarr; Z</code>).
+            <strong>Prime Attribute:</strong> Any attribute belonging to at least one Candidate Key.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Normal Form</th>
+                  <th>Strict Condition (for every non-trivial FD <code>X &rarr; A</code>)</th>
+                  <th>Eliminates</th>
+                  <th>Lossless &amp; Dep-Preserving?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1NF</strong></td>
+                  <td>Every cell holds <mark>atomic (indivisible)</mark> single values</td>
+                  <td>Multivalued / repeating groups</td>
+                  <td>Base relational requirement</td>
+                </tr>
+                <tr>
+                  <td><strong>2NF</strong></td>
+                  <td>1NF + No <mark>Partial Dependency</mark> (proper subset of CK &rarr; non-prime)</td>
+                  <td>Partial dependencies (auto-holds if every CK is single-column!)</td>
+                  <td>Lossless + Dep-Preserving</td>
+                </tr>
+                <tr>
+                  <td><strong>3NF</strong></td>
+                  <td>2NF + Either <mark><code>X</code> is Superkey OR <code>A</code> is Prime</mark></td>
+                  <td>Transitive dependencies (non-prime &rarr; non-prime)</td>
+                  <td><mark>ALWAYS Lossless AND Dependency-Preserving</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>BCNF</strong></td>
+                  <td>For EVERY non-trivial <code>X &rarr; A</code>, <mark><code>X</code> MUST be a Superkey</mark></td>
+                  <td>All FD-based redundancy (even prime-on-RHS traps!)</td>
+                  <td>Always Lossless, <mark>may NOT preserve all FDs!</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>4NF</strong></td>
+                  <td>BCNF + No non-trivial <mark>Multivalued Dependency (<code>X &twoheadrightarrow; Y</code>)</mark> unless <code>X</code> is SK</td>
+                  <td>Independent multi-valued attribute cross-products</td>
+                  <td>Lossless</td>
+                </tr>
+                <tr>
+                  <td><strong>5NF (PJNF)</strong></td>
+                  <td>4NF + No non-trivial <mark>Join Dependency</mark> not implied by CKs</td>
+                  <td>3-way / n-way lossless join anomalies</td>
+                  <td>Lossless</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout callout-warn" style="margin-top:0.85rem;">
+            <span class="callout-title">Lossless-Join Decomposition Check (Binary Split <code>R &rarr; R1, R2</code>)</span>
+            A decomposition of <code>R</code> into <code>R1</code> and <code>R2</code> is <strong>Lossless</strong> if and only if their common attributes <code>(R1 &cap; R2)</code> form a superkey of AT LEAST ONE of them:<br>
+            <mark><code>(R1 &cap; R2) &rarr; R1</code> &nbsp;OR&nbsp; <code>(R1 &cap; R2) &rarr; R2</code></mark>.
+          </div>
+        </section>
+
+        <!-- ==================== 8.4 ==================== -->
+        <section id="sec-8-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">8.4 SQL Mastery: Execution Order, DELETE vs. TRUNCATE, NULL Traps &amp; Window Functions</h2>
+            <span class="badge badge-warn">High Practical &amp; MCQ Yield</span>
+          </div>
+          <p style="margin-top:0;">
+            <strong>Logical SQL Query Execution Order:</strong>
+            <mark><code>1. FROM / JOIN &rarr; 2. WHERE &rarr; 3. GROUP BY &rarr; 4. HAVING &rarr; 5. SELECT &rarr; 6. DISTINCT &rarr; 7. ORDER BY &rarr; 8. LIMIT / OFFSET</code></mark>.
+            <em>(Because <code>WHERE</code> runs before <code>GROUP BY</code>, it filters individual rows and CANNOT use <code>SUM/COUNT</code>; <code>HAVING</code> filters aggregated groups!)</em>
+          </p>
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Command</th>
+                  <th>Category</th>
+                  <th><code>WHERE</code> Filter?</th>
+                  <th>Rollbackable?</th>
+                  <th>Fires Triggers &amp; Resets Identity?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>DELETE</code></td>
+                  <td><mark>DML</mark></td>
+                  <td>Yes</td>
+                  <td><mark>Yes</mark> (row-by-row logged)</td>
+                  <td>Fires row triggers; keeps auto-increment counter</td>
+                </tr>
+                <tr>
+                  <td><code>TRUNCATE</code></td>
+                  <td><mark>DDL</mark></td>
+                  <td>No (all rows)</td>
+                  <td>No (auto-commit in Oracle/MySQL; TX-safe in Postgres)</td>
+                  <td>Deallocates pages fast; resets identity; no row triggers</td>
+                </tr>
+                <tr>
+                  <td><code>DROP</code></td>
+                  <td><mark>DDL</mark></td>
+                  <td>No</td>
+                  <td>No (auto-commit)</td>
+                  <td>Deletes data + table schema + indexes + permissions completely</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>SQL 3-Valued Logic (<code>TRUE, FALSE, UNKNOWN</code>) Traps:</strong>
+              &bull; <code>col = NULL</code> is ALWAYS <code>UNKNOWN</code> &rarr; always write <mark><code>col IS NULL</code></mark>.<br>
+              &bull; <mark><code>COUNT(*)</code></mark> counts ALL rows including NULLs; <mark><code>COUNT(col)</code></mark>, <code>SUM</code>, <code>AVG</code> IGNORE NULLs.<br>
+              &bull; <code>WHERE id NOT IN (10, 20, NULL)</code> evaluates to <mark>EMPTY SET (0 rows!)</mark> because <code>x != NULL</code> is <code>UNKNOWN</code>.</li>
+            <li><strong>Window Functions (Modern SQL Favorite):</strong> Compute aggregates WITHOUT collapsing rows!
+              <code>ROW_NUMBER()</code> (1,2,3,4 — unique),
+              <code>RANK()</code> (1,2,2,4 — skips rank on tie),
+              <mark><code>DENSE_RANK()</code> (1,2,2,3 — NO gap on tie, best for N-th highest salary/loan!)</mark>,
+              <code>LAG() / LEAD()</code> (access previous/next row for YoY NPA delta).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 8.5 ==================== -->
+        <section id="sec-8-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">8.5 Transactions, ACID Properties, Conflict Serializability &amp; Recoverability</h2>
+            <span class="badge badge-danger">Core Banking Theory</span>
+          </div>
+          <ul>
+            <li><strong>ACID Guarantees &amp; Responsible Subsystems:</strong>
+              <strong>Atomicity</strong> (all-or-nothing &rarr; Recovery Manager / Undo Log),
+              <strong>Consistency</strong> (preserves DB invariants &rarr; Constraints + App logic),
+              <strong>Isolation</strong> (concurrent TXs appear serial &rarr; Concurrency Control),
+              <strong>Durability</strong> (committed writes survive crash &rarr; WAL Redo Log + Checkpoints).</li>
+            <li><strong>Conflict Serializability:</strong> Two operations from <em>different transactions</em> on the <em>same data item</em> conflict iff <mark>at least one is a WRITE</mark> (<code>R-W</code>, <code>W-R</code>, <code>W-W</code>). Draw directed edge <code>T_i &rarr; T_j</code> whenever <code>T_i</code>'s op precedes a conflicting op of <code>T_j</code>.
+              <mark>Schedule is Conflict Serializable iff its Precedence Graph has NO CYCLE (is a DAG)!</mark></li>
+            <li><strong>View Serializability:</strong> Strictly broader than Conflict Serializability (every Conflict Serializable schedule is View Serializable, NOT vice versa—difference arises only when <mark>Blind Writes</mark> exist).</li>
+            <li><strong>Recoverability Hierarchy (Innermost = Strongest):</strong>
+              <mark><code>Strict &sub; Cascadeless (ACA) &sub; Recoverable</code></mark>.
+              In a <strong>Strict</strong> schedule, a transaction cannot read OR write a data item modified by an uncommitted transaction (prevents both cascading aborts and dirty overwrites!).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 8.6 ==================== -->
+        <section id="sec-8-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">8.6 SQL Isolation Levels, 2PL Locking &amp; MVCC</h2>
+            <span class="badge badge-purple">High Descriptive &amp; MCQ Yield</span>
+          </div>
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>SQL Isolation Level</th>
+                  <th>Dirty Read (WR)</th>
+                  <th>Non-Repeatable Read (RW)</th>
+                  <th>Phantom Read (Range Insert)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Read Uncommitted</strong></td>
+                  <td>Possible</td>
+                  <td>Possible</td>
+                  <td>Possible</td>
+                </tr>
+                <tr>
+                  <td><strong>Read Committed</strong> <em>(Oracle / Postgres default)</em></td>
+                  <td><mark>Prevented</mark></td>
+                  <td>Possible</td>
+                  <td>Possible</td>
+                </tr>
+                <tr>
+                  <td><strong>Repeatable Read</strong> <em>(MySQL InnoDB default)</em></td>
+                  <td><mark>Prevented</mark></td>
+                  <td><mark>Prevented</mark></td>
+                  <td>Possible (InnoDB prevents via Gap Locks!)</td>
+                </tr>
+                <tr>
+                  <td><strong>Serializable</strong></td>
+                  <td><mark>Prevented</mark></td>
+                  <td><mark>Prevented</mark></td>
+                  <td><mark>Prevented</mark></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>Two-Phase Locking (2PL):</strong> Every transaction has a <strong>Growing Phase</strong> (acquire locks only, no releases) followed by a <strong>Shrinking Phase</strong> (release locks only, no acquisitions).
+              &bull; <strong>Basic 2PL:</strong> Guarantees Conflict Serializability, but <mark>NOT free from Deadlock or Cascading Rollbacks</mark>!<br>
+              &bull; <mark><strong>Strict 2PL:</strong></mark> Holds all Exclusive (<code>X</code>) locks until Commit/Abort &rarr; guarantees <strong>Strict + Cascadeless</strong> schedules (still can deadlock).<br>
+              &bull; <strong>Rigorous 2PL:</strong> Holds ALL Shared (<code>S</code>) and Exclusive (<code>X</code>) locks until Commit/Abort.</li>
+            <li><strong>Deadlock Prevention (Timestamp-based):</strong>
+              <strong>Wait-Die (Non-Preemptive):</strong> Older TX waits for younger; younger requesting older's lock <mark>dies (aborts)</mark>.<br>
+              <strong>Wound-Wait (Preemptive):</strong> Older TX <mark>wounds (aborts)</mark> younger; younger waits for older.</li>
+            <li><strong>MVCC (Multi-Version Concurrency Control):</strong> Keeps timestamped row snapshots so <mark>Readers never block Writers and Writers never block Readers</mark> (used by PostgreSQL, Oracle, MySQL InnoDB).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 8.7 ==================== -->
+        <section id="sec-8-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">8.7 Crash Recovery (WAL / ARIES) &amp; Distributed NoSQL / CAP Theorem</h2>
+          </div>
+          <ul>
+            <li><strong>Write-Ahead Logging (WAL):</strong> Golden rule of durability—log records describing a change MUST be flushed to non-volatile disk <mark>BEFORE</mark> the modified data page is written to disk.</li>
+            <li><strong>Deferred vs. Immediate Update:</strong>
+              <strong>Deferred Update</strong> writes to DB only after commit (<mark>NO-UNDO / REDO</mark>);
+              <strong>Immediate Update</strong> may write dirty pages before commit (<mark>UNDO / REDO</mark>).</li>
+            <li><strong>ARIES Recovery Algorithm (3 Phases):</strong> (1) <mark>Analysis</mark> (scans forward from last checkpoint to find active TXs &amp; Dirty Page Table), (2) <mark>Redo</mark> ("repeating history" forward from earliest RecLSN), (3) <mark>Undo</mark> (rolls back uncommitted loser TXs backward, writing Compensation Log Records — CLRs).</li>
+            <li><strong>CAP Theorem (Eric Brewer):</strong> A distributed data store can simultaneously guarantee at most TWO of: <strong>Consistency (C)</strong>, <strong>Availability (A)</strong>, and <strong>Partition Tolerance (P)</strong>. Since network partitions (<code>P</code>) are unavoidable, systems choose <mark>CP</mark> (strong consistency—banking ledgers, MongoDB, HBase, Spanner) or <mark>AP</mark> (eventual consistency / <strong>BASE</strong>—Cassandra, DynamoDB).</li>
+            <li><strong>4 NoSQL Families:</strong> Key-Value (Redis — session/OTP cache), Document (MongoDB — JSON MSME KYC payloads), Column-Family (Cassandra/HBase — massive time-series logs), Graph (Neo4j — AML/fraud ring traversal).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 8.8 ==================== -->
+        <section id="sec-8-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">8.8 Worked Exam Numericals &amp; SQL Query Lab (7 Problems)</h2>
+            <span class="badge badge-warn">Step-by-Step Solutions</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 1: Finding Candidate Keys &amp; Highest Normal Form</span>
+            <strong>Relation:</strong> <code>R(A, B, C, D)</code> with FDs <code>{A &rarr; B, B &rarr; C, C &rarr; D}</code>.<br>
+            <strong>Step 1 (Closure):</strong> <code>A</code> never appears on RHS &rarr; must be in every CK. <code>A+ = {A, B, C, D}</code> &rarr; Only CK = <mark><code>{A}</code></mark> (Prime: <code>A</code>; Non-prime: <code>B, C, D</code>).<br>
+            <strong>Step 2 (NF Check):</strong> Single-attribute CK &rArr; automatically in <strong>2NF</strong>. Check <code>B &rarr; C</code>: <code>B</code> is NOT a superkey and <code>C</code> is NOT prime (transitive dependency!) &rarr; fails 3NF. Highest NF = <mark><code>2NF</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 2: Lossless-Join Decomposition Test</span>
+            <strong>Relation:</strong> <code>R(A, B, C, D)</code> with <code>{A &rarr; B, B &rarr; C, C &rarr; D}</code> split into <code>R1(A, B)</code> and <code>R2(B, C, D)</code>.<br>
+            <strong>Check:</strong> Common attribute <code>R1 &cap; R2 = {B}</code>. Closure <code>B+ = {B, C, D} = R2</code>! Since <code>(R1 &cap; R2) &rarr; R2</code>, the decomposition is <mark>LOSSLESS</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 3: SQL — 2nd Highest MSME Loan Amount per Branch</span>
+            <pre><code>WITH RankedLoans AS (
+  SELECT branch_id, borrower_id, loan_amt,
+         DENSE_RANK() OVER (PARTITION BY branch_id ORDER BY loan_amt DESC) AS rnk
+  FROM msme_loans
+)
+SELECT branch_id, borrower_id, loan_amt FROM RankedLoans WHERE rnk = 2;</code></pre>
+            <em>Why <code>DENSE_RANK()</code>?</em> If two loans tie for 1st highest, <code>RANK()</code> skips to 3 (returning 0 rows for <code>rnk = 2</code>), while <code>DENSE_RANK()</code> cleanly assigns <code>2</code>!
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 4: Precedence Graph Conflict Serializability Check</span>
+            <strong>Schedule <code>S</code>:</strong> <code>R1(A), R2(A), W1(A), W2(A)</code>.<br>
+            <strong>Conflicts:</strong> <code>R1(A) &rarr; W2(A)</code> gives edge <code>T1 &rarr; T2</code>; <code>R2(A) &rarr; W1(A)</code> gives edge <code>T2 &rarr; T1</code>.<br>
+            <strong>Verdict:</strong> Cycle <code>T1 &harr; T2</code> exists &rarr; <mark>NOT Conflict Serializable</mark>!
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 5: Wait-Die vs. Wound-Wait Decision</span>
+            Suppose <code>T1</code> (older, TS=5) holds a lock on Account X and <code>T2</code> (younger, TS=12) requests it.<br>
+            &bull; <strong>Wait-Die:</strong> Younger requests older's lock &rarr; <code>T2</code> <mark>DIES (aborts &amp; restarts with TS=12)</mark>.<br>
+            &bull; <strong>Wound-Wait:</strong> Younger requests older's lock &rarr; <code>T2</code> <mark>WAITS</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Problem 6: SQL <code>COUNT(*)</code> vs. <code>COUNT(col)</code> &amp; <code>LEFT JOIN</code></span>
+            Table <code>Loans</code> has 5 rows where column <code>subsidy_amt</code> is <code>NULL</code> in 2 rows.
+            <code>SELECT COUNT(*), COUNT(subsidy_amt) FROM Loans;</code> outputs <mark><code>5, 3</code></mark>.
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Problem 7: Checkpoint Log Recovery (REDO vs. UNDO)</span>
+            Log shows: <code>T1</code> committed BEFORE checkpoint; <code>T2</code> active at checkpoint &amp; committed BEFORE crash; <code>T3</code> started after checkpoint &amp; NOT committed before crash.<br>
+            <strong>Recovery Action:</strong> Ignore <code>T1</code> (already flushed at checkpoint); <mark>REDO <code>T2</code></mark>; <mark>UNDO <code>T3</code></mark>.
+          </div>
+        </section>
+
+        <!-- ==================== 8.9 ==================== -->
+        <section id="sec-8-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">8.9 Banking RDBMS Context, 25 One-Liners &amp; 15 Exam MCQs</h2>
+            <span class="badge badge-live">Descriptive + Cram + Drill</span>
+          </div>
+
+          <div class="callout" style="margin-bottom:1rem;">
+            <span class="callout-title">Banking &amp; SIDBI Database Governance Hooks (10-Mark Descriptive Blueprint)</span>
+            <ul style="margin:0.4rem 0 0;padding-left:1.2rem;">
+              <li><strong>Double-Disbursal Prevention:</strong> Core banking &amp; <a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">SIDBI Digital Lending</a> databases pair <mark>Strict 2PL / MVCC Serializable transactions</mark> with unique <strong>Idempotency Keys</strong> (Unique Constraint on <code>disbursal_req_id</code>) so retried API calls never disburse twice.</li>
+              <li><strong>DPDP Rules 2025 Compliance (<a href="https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa" target="_blank" rel="noopener noreferrer">MeitY</a>):</strong> Requires Transparent Data Encryption (TDE) at rest, column-level masking/tokenization of Aadhaar/PAN PII, immutable audit logs, and automated data-retention erasure workflows.</li>
+              <li><strong>Polyglot Persistence:</strong> Relational RDBMS (CP/ACID) for financial ledgers + Redis (Key-Value) for OTP/rate-limiting + MongoDB (Document) for flexible GST/ITR JSON payloads + Neo4j (Graph) for AML fraud-ring queries.</li>
+            </ul>
+          </div>
+
+          <h3 style="margin:0 0 0.45rem;font-size:1.05rem;">5-Minute Rapid Revision Sheet (25 High-Yield One-Liners)</h3>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li>3-Schema levels: <mark>External (View) &rarr; Conceptual (Logical) &rarr; Internal (Physical)</mark>.</li>
+            <li><mark>Physical Data Independence</mark> shields Conceptual schema from storage/index changes.</li>
+            <li><code>M:N</code> ER relationships &amp; multivalued attributes ALWAYS require a <mark>separate table</mark>.</li>
+            <li>Candidate Key = <mark>minimal Super Key</mark>; Primary Key is strictly <code>NOT NULL</code> &amp; <code>UNIQUE</code>.</li>
+            <li>Relational Algebra Projection (<code>&pi;</code>) eliminates duplicates; SQL <code>SELECT</code> keeps them unless <code>DISTINCT</code> is used.</li>
+            <li>Relational Algebra <mark>Division (<code>&divide;</code>)</mark> solves "for ALL" universal queries.</li>
+            <li><mark>2NF</mark> removes Partial Dependency; <mark>3NF</mark> removes Transitive Dependency; <mark>BCNF</mark> requires every determinant <code>X</code> to be a Superkey.</li>
+            <li><mark>3NF</mark> is ALWAYS Lossless AND Dependency-Preserving; <mark>BCNF</mark> is Lossless but may lose dependency preservation.</li>
+            <li><mark>4NF</mark> eliminates Multivalued Dependencies (MVD); <mark>5NF</mark> eliminates Join Dependencies.</li>
+            <li>Binary decomposition <code>(R1, R2)</code> is lossless iff <code>(R1 &cap; R2) &rarr; R1</code> OR <code>(R1 &cap; R2) &rarr; R2</code>.</li>
+            <li>SQL Execution Order: <mark><code>FROM/JOIN &rarr; WHERE &rarr; GROUP BY &rarr; HAVING &rarr; SELECT &rarr; DISTINCT &rarr; ORDER BY &rarr; LIMIT</code></mark>.</li>
+            <li><code>DELETE</code> is DML (row-logged, rollbackable); <code>TRUNCATE</code> &amp; <code>DROP</code> are DDL (fast, auto-commit).</li>
+            <li><code>COUNT(*)</code> includes NULLs; <code>COUNT(col)</code> ignores NULLs; <code>NOT IN (..., NULL)</code> returns 0 rows!</li>
+            <li><mark><code>DENSE_RANK()</code></mark> leaves no gaps on ties (best for N-th highest queries).</li>
+            <li>Conflict operations: different TXs, same item, <mark>at least one WRITE</mark>.</li>
+            <li>Schedule is <mark>Conflict Serializable</mark> iff its Precedence Graph is <mark>ACYCLIC</mark>.</li>
+            <li>Recoverability hierarchy: <mark><code>Strict &sub; Cascadeless &sub; Recoverable</code></mark>.</li>
+            <li>Read Committed prevents Dirty Reads; Repeatable Read prevents Dirty + Non-Repeatable; <mark>Serializable</mark> prevents Phantoms too.</li>
+            <li><mark>Basic 2PL</mark> guarantees conflict serializability, NOT deadlock freedom; <mark>Strict 2PL</mark> holds all X-locks until commit (cascadeless).</li>
+            <li><mark>Wait-Die</mark> = non-preemptive (younger dies); <mark>Wound-Wait</mark> = preemptive (older wounds younger).</li>
+            <li><mark>MVCC</mark> lets readers and writers run concurrently without blocking each other via row snapshots.</li>
+            <li><mark>WAL (Write-Ahead Logging)</mark> flushes log to disk BEFORE dirty data pages.</li>
+            <li><mark>ARIES</mark> 3 recovery phases: <mark>Analysis &rarr; Redo &rarr; Undo</mark>.</li>
+            <li><mark>CAP Theorem:</mark> Under Partition (<code>P</code>), choose <strong>CP</strong> (Banking/ACID) or <strong>AP</strong> (Eventual/BASE).</li>
+            <li>4 NoSQL types: Key-Value (Redis), Document (MongoDB), Column-Family (Cassandra), Graph (Neo4j).</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 8 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (22 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch8-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster1-ch07-operating-systems.html">&larr; Prev: Chapter 7 — Operating Systems</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-08', '[data-chapter-complete="it-08"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch8-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch8-q1',
+              marks: 1,
+              section: '3-Schema Architecture',
+              prompt: 'A DBA adds a B+ Tree index and partitions a 500-million-row banking transaction table onto NVMe drives without altering the logical table definitions or application SQL queries. Which property does this demonstrate?',
+              options: [
+                'Logical Data Independence',
+                'Physical Data Independence',
+                'Referential Integrity',
+                'View Serializability',
+                'Entity Integrity'
+              ],
+              correctIndex: 1,
+              explanation: 'Physical Data Independence allows changing internal storage structures, indexes, or hardware placement without changing the conceptual schema or application queries.'
+            },
+            {
+              id: 'ch8-q2',
+              marks: 1,
+              section: 'ER Modeling',
+              prompt: 'When converting an ER diagram into relational tables, which construct ALWAYS requires creating a separate new relational table?',
+              options: [
+                'A 1:N binary relationship with partial participation',
+                'A composite attribute on a strong entity',
+                'An M:N (Many-to-Many) relationship',
+                'A derived attribute like Age computed from DOB',
+                'A single-valued primary key attribute'
+              ],
+              correctIndex: 2,
+              explanation: 'M:N relationships (and multivalued attributes) cannot be represented in either parent table without violating 1NF atomicity, so they always require a separate junction table.'
+            },
+            {
+              id: 'ch8-q3',
+              marks: 2,
+              section: 'Normalization',
+              prompt: 'Consider relation R(A, B, C, D) with functional dependencies {A -> B, B -> C, C -> A, B -> D}. What is the HIGHEST normal form satisfied by R?',
+              options: [
+                '1NF only',
+                '2NF only',
+                '3NF only',
+                'BCNF',
+                '4NF'
+              ],
+              correctIndex: 3,
+              explanation: 'Check closures: A+ = {A,B,C,D}, B+ = {B,C,A,D}, C+ = {C,A,B,D}. So A, B, and C are ALL Candidate Keys! Every determinant on the LHS (A, B, C) is a superkey → R is in BCNF!'
+            },
+            {
+              id: 'ch8-q4',
+              marks: 1,
+              section: 'Normal Forms',
+              prompt: 'Which normal form is GUARANTEED to always admit a decomposition that is BOTH Lossless-Join AND Dependency-Preserving for any set of functional dependencies?',
+              options: [
+                '1NF only',
+                '3NF',
+                'BCNF',
+                '4NF',
+                '5NF'
+              ],
+              correctIndex: 1,
+              explanation: '3NF decomposition (via Bernsteins synthesis) is always guaranteed to be both Lossless-Join and Dependency-Preserving; BCNF guarantees lossless-join but may sacrifice dependency preservation.'
+            },
+            {
+              id: 'ch8-q5',
+              marks: 1,
+              section: 'Normal Forms (4NF)',
+              prompt: 'Fourth Normal Form (4NF) is specifically designed to eliminate redundancy caused by non-trivial:',
+              options: [
+                'Partial Dependencies',
+                'Transitive Dependencies',
+                'Multivalued Dependencies (MVDs)',
+                'Foreign Key Cycles',
+                'Dirty Reads'
+              ],
+              correctIndex: 2,
+              explanation: '4NF removes non-trivial Multivalued Dependencies (X ->> Y where X is not a superkey), preventing Cartesian-product row explosion.'
+            },
+            {
+              id: 'ch8-q6',
+              marks: 2,
+              section: 'SQL Execution & NULLs',
+              prompt: 'Table Accounts has 4 rows with branch_id values {10, 20, 30, 40}. What does SELECT * FROM Accounts WHERE branch_id NOT IN (10, NULL); return?',
+              options: [
+                '3 rows (20, 30, 40)',
+                '4 rows (all rows)',
+                '1 row (10)',
+                '0 rows (empty result set)',
+                'SQL Syntax Error'
+              ],
+              correctIndex: 3,
+              explanation: 'NOT IN (10, NULL) expands to (branch_id != 10 AND branch_id != NULL). Because any comparison with NULL evaluates to UNKNOWN, the AND expression is never TRUE, returning 0 rows!'
+            },
+            {
+              id: 'ch8-q7',
+              marks: 1,
+              section: 'SQL Commands',
+              prompt: 'Which SQL clause filters AGGREGATED groups AFTER GROUP BY has executed (allowing conditions like SUM(loan_amt) > 5000000)?',
+              options: [
+                'WHERE',
+                'HAVING',
+                'ORDER BY',
+                'DISTINCT',
+                'FROM'
+              ],
+              correctIndex: 1,
+              explanation: 'WHERE filters individual rows before grouping and forbids aggregate functions; HAVING filters grouped rows after GROUP BY.'
+            },
+            {
+              id: 'ch8-q8',
+              marks: 1,
+              section: 'SQL Window Functions',
+              prompt: 'If top loan amounts in a branch are {50L, 50L, 40L, 30L}, what ranks will DENSE_RANK() assign to these four rows in descending order?',
+              options: [
+                '1, 2, 3, 4',
+                '1, 1, 3, 4',
+                '1, 1, 2, 3',
+                '1, 2, 2, 3',
+                '0, 0, 1, 2'
+              ],
+              correctIndex: 2,
+              explanation: 'DENSE_RANK() assigns equal ranks to ties without leaving gaps: 50L→1, 50L→1, 40L→2, 30L→3 (whereas RANK() gives 1, 1, 3, 4).'
+            },
+            {
+              id: 'ch8-q9',
+              marks: 2,
+              section: 'Conflict Serializability',
+              prompt: 'A concurrent schedule S executes: R1(X), W2(X), W1(X). Is schedule S Conflict Serializable?',
+              options: [
+                'Yes, equivalent to serial order T1 -> T2',
+                'Yes, equivalent to serial order T2 -> T1',
+                'No, because the precedence graph contains a cycle T1 <-> T2',
+                'Yes, because read operations never conflict with write operations',
+                'Cannot be determined without knowing the initial value of X'
+              ],
+              correctIndex: 2,
+              explanation: 'R1(X) before W2(X) creates edge T1 -> T2; W2(X) before W1(X) creates edge T2 -> T1. The cycle T1 <-> T2 proves S is NOT conflict serializable.'
+            },
+            {
+              id: 'ch8-q10',
+              marks: 1,
+              section: 'SQL Isolation Levels',
+              prompt: 'Which concurrency anomaly occurs when Transaction T1 executes a range query twice, and between the two reads Transaction T2 INSERTS and commits a new qualifying row that appears in T1\'s second read?',
+              options: [
+                'Dirty Read',
+                'Phantom Read',
+                'Lost Update',
+                'Cascading Abort',
+                'Deadlock Starvation'
+              ],
+              correctIndex: 1,
+              explanation: 'A Phantom Read occurs when newly inserted (or deleted) rows by a concurrent committed transaction change the row set returned by a repeated range query.'
+            },
+            {
+              id: 'ch8-q11',
+              marks: 1,
+              section: 'Two-Phase Locking',
+              prompt: 'What guarantee does Strict Two-Phase Locking (Strict 2PL — holding all Exclusive locks until commit/abort) add over Basic 2PL?',
+              options: [
+                'Completely eliminates the possibility of Deadlocks',
+                'Prevents Cascading Rollbacks and Dirty Reads (guarantees Strict schedules)',
+                'Allows transactions to acquire new locks during the shrinking phase',
+                'Eliminates the need for Write-Ahead Logging',
+                'Converts every RDBMS into an AP NoSQL cluster'
+              ],
+              correctIndex: 1,
+              explanation: 'Holding all X-locks until commit/abort prevents any other transaction from reading or overwriting uncommitted data, guaranteeing Strict & Cascadeless schedules (deadlocks remain possible).'
+            },
+            {
+              id: 'ch8-q12',
+              marks: 2,
+              section: 'Deadlock Prevention',
+              prompt: 'Under the non-preemptive WAIT-DIE timestamp deadlock-prevention protocol, what happens when a YOUNGER transaction T2 (timestamp 25) requests a lock currently held by an OLDER transaction T1 (timestamp 10)?',
+              options: [
+                'T2 waits for T1 to release the lock',
+                'T1 is aborted and restarted by T2',
+                'T2 dies (aborts and restarts with its original timestamp 25)',
+                'Both T1 and T2 are rolled back simultaneously',
+                'The lock is downgraded to a shared lock automatically'
+              ],
+              correctIndex: 2,
+              explanation: 'In Wait-Die, older waits for younger, while younger requesting an older transaction\'s lock dies (aborts and retries with its original timestamp to prevent starvation).'
+            },
+            {
+              id: 'ch8-q13',
+              marks: 1,
+              section: 'Crash Recovery (ARIES)',
+              prompt: 'What are the three sequential recovery phases executed by the ARIES database crash-recovery algorithm?',
+              options: [
+                'Fetch, Decode, Execute',
+                'Analysis, Redo, Undo',
+                'Lock, Commit, Flush',
+                'Checkpoint, Compact, Reindex',
+                'Undo, Analysis, Redo'
+              ],
+              correctIndex: 1,
+              explanation: 'ARIES runs strictly in three phases: (1) Analysis (identify dirty pages & active TXs), (2) Redo (repeat history forward), and (3) Undo (roll back uncommitted loser TXs backward).'
+            },
+            {
+              id: 'ch8-q14',
+              marks: 1,
+              section: 'CAP Theorem & NoSQL',
+              prompt: 'According to Brewer\'s CAP Theorem, when a network partition (P) occurs in a distributed Core Banking ledger where preventing double-spending is mandatory, which trade-off must the system prioritize?',
+              options: [
+                'Availability over Consistency (AP)',
+                'Consistency over Availability (CP)',
+                'Eventual Consistency with zero locking (BASE)',
+                'Partition elimination via single-threaded polling',
+                'Disabling ACID Atomicity'
+              ],
+              correctIndex: 1,
+              explanation: 'Financial ledgers must reject/delay transactions on an isolated partition rather than serve stale balances and risk double-spending—making them CP (Consistency + Partition Tolerance).'
+            },
+            {
+              id: 'ch8-q15',
+              marks: 2,
+              section: 'Relational Algebra',
+              prompt: 'Which Relational Algebra operator is specifically designed to answer universal ("for ALL") queries such as "Find all MSME borrowers who have received loans under EVERY SIDBI green scheme"?',
+              options: [
+                'Cartesian Product (×)',
+                'Natural Join (⋈)',
+                'Division (÷)',
+                'Set Difference (−)',
+                'Left Outer Join'
+              ],
+              correctIndex: 2,
+              explanation: 'The Division operator (R ÷ S) returns all tuples in R whose values match EVERY tuple in S, directly expressing universal quantification ("for ALL").'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

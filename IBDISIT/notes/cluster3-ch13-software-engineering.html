@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 13: Software Engineering (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 3 &bull; Chapter 13 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-13-1" class="active">13.1 SDLC Process Models</a></li>
+          <li><a href="#sec-13-2">13.2 Agile, Scrum &amp; DevSecOps (SVG)</a></li>
+          <li><a href="#sec-13-3">13.3 COCOMO, Function Points &amp; PERT</a></li>
+          <li><a href="#sec-13-4">13.4 Testing, BVA &amp; Cyclomatic Complexity</a></li>
+          <li><a href="#sec-13-5">13.5 Maintenance, SCM, CMMI &amp; MTBF</a></li>
+          <li><a href="#sec-13-6">13.6 Worked Exam Numericals (7)</a></li>
+          <li><a href="#sec-13-7">13.7 Banking DevSecOps + Blueprint</a></li>
+          <li><a href="#sec-13-8">13.8 5-Minute Rapid Revision Sheet</a></li>
+          <li><a href="#sec-13-9">13.9 Chapter Drill: 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-13">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster3-ch12-sad.html">&larr; Prev: Ch 12 SAD</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 3: SE &amp; Enterprise Systems</span>
+            <span class="badge badge-warn">Topic 13 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">High Numerical &amp; Testing MCQ Yield</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 13: Software Engineering</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Exhaustive exam-depth coverage of SDLC models (Waterfall, V-Model, Spiral, RAD), Agile/Scrum/Kanban/XP &amp; DevSecOps CI/CD (SVG),
+            COCOMO &amp; Function Point estimation, PERT/CPM, Verification vs. Validation, McCabe Cyclomatic Complexity, BVA/Equivalence/Integration Testing (Stubs vs. Drivers),
+            Maintenance taxonomy, CMMI 5 levels &amp; Availability/MTBF math, 7 worked numericals, banking change governance, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 13.1 ==================== -->
+        <section id="sec-13-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">13.1 Classical &amp; Evolutionary SDLC Process Models</h2>
+            <span class="badge badge-info">Core Foundation</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>SDLC Model</th>
+                  <th>Core Principle</th>
+                  <th>Best Suited For</th>
+                  <th>Key Limitation / Exam Trap</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Waterfall</strong></td>
+                  <td>Linear sequential phases (Req &rarr; Design &rarr; Code &rarr; Test &rarr; Maintain)</td>
+                  <td>Stable, crystal-clear, frozen requirements</td>
+                  <td>Working software appears only at the very end; costly late requirement changes</td>
+                </tr>
+                <tr>
+                  <td><strong>V-Model</strong></td>
+                  <td><mark>Verification (left) paired with Validation (right)</mark> at every level</td>
+                  <td>Safety-critical &amp; regulated banking/medical software</td>
+                  <td>Req &harr; UAT; HLD &harr; Integration/System; LLD &harr; Unit Testing</td>
+                </tr>
+                <tr>
+                  <td><strong>Spiral (Barry Boehm)</strong></td>
+                  <td>Iterative + <mark>Explicit Risk Analysis</mark> in every loop (4 quadrants)</td>
+                  <td>Large, expensive, high-risk mission-critical projects</td>
+                  <td>Requires specialized risk-assessment expertise; high management overhead</td>
+                </tr>
+                <tr>
+                  <td><strong>Incremental</strong></td>
+                  <td>Delivers functional core first, adds increments iteratively</td>
+                  <td>Early ROI delivery when core requirements are known</td>
+                  <td>Needs clean modular architecture upfront</td>
+                </tr>
+                <tr>
+                  <td><strong>RAD</strong></td>
+                  <td>Component-based rapid assembly in <mark>60–90 day</mark> timeboxes</td>
+                  <td>Modular business/UI apps with tight deadlines</td>
+                  <td>Unsuitable for high-technical-risk or non-modular systems</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 13.2 ==================== -->
+        <section id="sec-13-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">13.2 Agile, Scrum, Kanban, XP &amp; Modern DevSecOps CI/CD</h2>
+            <span class="badge badge-warn">High Descriptive &amp; Modern IT Yield</span>
+          </div>
+
+          <!-- Inline SVG: DevSecOps CI/CD Pipeline -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 110" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="DevSecOps Automated CI/CD Pipeline">
+              <rect x="8" y="8" width="744" height="94" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="380" y="27" text-anchor="middle" fill="#0f2942" font-size="11.5" font-weight="800">DevSecOps "Shift-Left" Automated CI/CD Pipeline</text>
+              <rect x="20" y="42" width="108" height="44" rx="6" fill="#0f2942"/><text x="74" y="61" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">1. Code &amp; Git</text><text x="74" y="76" text-anchor="middle" fill="#cbd5e1" font-size="9">Secret Scan</text>
+              <rect x="142" y="42" width="108" height="44" rx="6" fill="#1d4ed8"/><text x="196" y="61" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">2. CI Build</text><text x="196" y="76" text-anchor="middle" fill="#dbeafe" font-size="9">SAST + SCA/SBOM</text>
+              <rect x="264" y="42" width="108" height="44" rx="6" fill="#6d28d9"/><text x="318" y="61" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">3. Auto Test</text><text x="318" y="76" text-anchor="middle" fill="#ede9fe" font-size="9">Unit + API + DAST</text>
+              <rect x="386" y="42" width="108" height="44" rx="6" fill="#0d9488"/><text x="440" y="61" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">4. UAT / Gate</text><text x="440" y="76" text-anchor="middle" fill="#ccfbf1" font-size="9">CAB Sign-Off</text>
+              <rect x="508" y="42" width="108" height="44" rx="6" fill="#b45309"/><text x="562" y="61" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">5. CD Deploy</text><text x="562" y="76" text-anchor="middle" fill="#fef3c7" font-size="9">Blue-Green/Canary</text>
+              <rect x="630" y="42" width="108" height="44" rx="6" fill="#15803d"/><text x="684" y="61" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">6. Observe</text><text x="684" y="76" text-anchor="middle" fill="#dcfce7" font-size="9">SIEM / APM</text>
+            </svg>
+          </div>
+
+          <ul>
+            <li><strong>Scrum Framework (3-3-5 Rule):</strong>
+              <strong>3 Roles:</strong> Product Owner (owns Product Backlog/ROI), Scrum Master (servant-leader removing impediments), Developers.
+              <strong>3 Artifacts:</strong> Product Backlog, Sprint Backlog, Increment.
+              <strong>5 Events:</strong> Sprint (1–4 weeks), Sprint Planning, Daily Scrum (<mark>15 min</mark>), Sprint Review (demo to stakeholders), Sprint Retrospective (team process improvement).</li>
+            <li><strong>Kanban vs. XP:</strong> <strong>Kanban</strong> uses visual boards + strict <mark>WIP (Work-In-Progress) limits</mark> for continuous pull flow (no fixed sprints). <strong>XP (Extreme Programming)</strong> emphasizes <mark>Test-Driven Development (TDD: Red &rarr; Green &rarr; Refactor)</mark>, Pair Programming, and Continuous Integration.</li>
+            <li><strong>Zero-Downtime Deployment Strategies:</strong>
+              &bull; <strong>Blue-Green:</strong> Two identical prod environments; instant router flip &amp; instant rollback.<br>
+              &bull; <strong>Canary Release:</strong> Route small % (e.g., 5%) of live traffic to new version before full rollout.<br>
+              &bull; <strong>SAST vs. DAST:</strong> <mark>SAST</mark> = White-box static source-code analysis (early in CI); <mark>DAST</mark> = Black-box dynamic testing against running app.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 13.3 ==================== -->
+        <section id="sec-13-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">13.3 Project Estimation: COCOMO, Function Points (FP) &amp; PERT/CPM</h2>
+            <span class="badge badge-danger">Guaranteed 2-Mark Formulas</span>
+          </div>
+
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Basic COCOMO Mode</th>
+                  <th><code>a</code></th>
+                  <th><code>b</code></th>
+                  <th><code>c</code></th>
+                  <th><code>d</code></th>
+                  <th>Project Profile</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Organic</strong></td><td>2.4</td><td>1.05</td><td>2.5</td><td>0.38</td><td>Small, experienced team; simple business apps</td></tr>
+                <tr><td><strong>Semi-Detached</strong></td><td>3.0</td><td>1.12</td><td>2.5</td><td>0.35</td><td>Medium complexity; mixed team experience</td></tr>
+                <tr><td><strong>Embedded</strong></td><td>3.6</td><td>1.20</td><td>2.5</td><td>0.32</td><td>Tight hardware, real-time, or strict regulatory constraints</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>Basic COCOMO Formulas:</strong> <mark><code>Effort (E) = a &middot; (KLOC)^b</code></mark> (Person-Months) &bull; <mark><code>Dev Time (D) = c &middot; (E)^d</code></mark> (Months) &bull; <code>Avg Staff = E / D</code>.</li>
+            <li><strong>Function Point Analysis (Albrecht):</strong> <mark>Programming-language independent</mark> sizing! Counts 5 parameters: External Inputs (<code>EI</code>), External Outputs (<code>EO</code>), External Inquiries (<code>EQ</code>), Internal Logical Files (<code>ILF</code>), External Interface Files (<code>EIF</code>) &rarr; weighted sum = <code>UFP</code>.
+              <mark><code>FP = UFP &times; [0.65 + 0.01 &times; &Sigma;F_i]</code></mark> (where 14 complexity factors <code>F_i &isin; [0..5]</code>, so <code>VAF &isin; [0.65, 1.35]</code>).</li>
+            <li><strong>PERT / CPM Scheduling:</strong> <mark><code>Expected Time T_e = (O + 4M + P) / 6</code></mark> &bull; <mark><code>Std Dev &sigma; = (P - O) / 6</code></mark>.
+              <strong>Critical Path</strong> = <mark>LONGEST duration path</mark> through the network with <mark>Zero Float/Slack</mark>—any delay on it delays the entire project!</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 13.4 ==================== -->
+        <section id="sec-13-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">13.4 Software Testing: Verification vs. Validation, White-Box &amp; Black-Box</h2>
+            <span class="badge badge-danger">Top Paper III Objective Zone</span>
+          </div>
+          <ul>
+            <li><strong>Verification vs. Validation (Boehm):</strong>
+              <mark><strong>Verification</strong></mark> = <em>"Are we building the product RIGHT?"</em> (Static checks without running code: Reviews, Walkthroughs, Inspections).
+              <mark><strong>Validation</strong></mark> = <em>"Are we building the RIGHT product?"</em> (Dynamic code execution against user needs).</li>
+            <li><strong>White-Box (Structural) Testing &amp; Cyclomatic Complexity:</strong>
+              Coverage hierarchy: <code>Statement &lt; Branch/Decision &lt; Condition &lt; Path Coverage</code>.
+              <strong>McCabe's Cyclomatic Complexity <code>V(G)</code></strong> = <mark>minimum number of linearly independent basis paths</mark>:
+              <mark><code>V(G) = E - N + 2 = P + 1 = R</code></mark> (Edges <code>E</code>, Nodes <code>N</code>, Predicate/decision nodes <code>P</code>, Planar Regions <code>R</code>).</li>
+            <li><strong>Black-Box (Functional) Testing:</strong>
+              &bull; <strong>Equivalence Partitioning:</strong> Divide input domain into valid/invalid equivalence classes; test 1 representative per class.<br>
+              &bull; <strong>Boundary Value Analysis (BVA):</strong> Defects cluster at boundaries (<code>min, min+, nom, max-, max</code>) &rarr; <mark><code>4n + 1</code></mark> normal test cases (or <mark><code>6n + 1</code></mark> robust BVA including <code>min-, max+</code>) for <code>n</code> inputs.</li>
+            <li><strong>Integration &amp; System Testing Traps:</strong>
+              &bull; <strong>Top-Down Integration</strong> requires <mark>Stubs</mark> (dummy lower modules); <strong>Bottom-Up Integration</strong> requires <mark>Drivers</mark> (dummy callers).<br>
+              &bull; <strong>Alpha Testing:</strong> Done by users at the <em>developer's</em> controlled site. <strong>Beta Testing:</strong> Done by real end-users at the <em>customer's</em> live environment.<br>
+              &bull; <strong>Regression Testing:</strong> Re-running test suites after a fix/change to confirm existing features didn't break.<br>
+              &bull; <strong>Smoke Testing</strong> (wide &amp; shallow build-health check) vs. <strong>Sanity Testing</strong> (narrow &amp; deep check on one patched feature).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 13.5 ==================== -->
+        <section id="sec-13-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">13.5 Maintenance Taxonomy, SCM, CMMI &amp; Reliability (MTBF / Availability)</h2>
+          </div>
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Maintenance Type</th>
+                  <th>Purpose</th>
+                  <th>Typical Cost Share</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>1. Corrective</strong></td><td>Fixing residual production bugs/defects</td><td>~20%</td></tr>
+                <tr><td><strong>2. Adaptive</strong></td><td>Adapting to OS upgrades, hardware, or new RBI/tax regulations</td><td>~25%</td></tr>
+                <tr><td><strong>3. Perfective</strong></td><td><mark>Adding new features, UI enhancements &amp; performance optimization</mark></td><td><mark>~50%+ (LARGEST!)</mark></td></tr>
+                <tr><td><strong>4. Preventive</strong></td><td>Code refactoring &amp; reverse engineering to curb technical debt</td><td>~5%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>CMMI 5 Maturity Levels (Staged):</strong> <mark><code>1. Initial (Ad-hoc) &rarr; 2. Managed &rarr; 3. Defined &rarr; 4. Quantitatively Managed &rarr; 5. Optimizing</code></mark>.</li>
+            <li><strong>Reliability &amp; Availability Formulas:</strong>
+              <mark><code>MTBF = MTTF + MTTR</code></mark> (Mean Time Between Failures = Mean Time To Failure + Mean Time To Repair).<br>
+              <mark><code>Availability = MTTF / (MTTF + MTTR) = MTTF / MTBF</code></mark>.</li>
+            <li><strong>Software Configuration Management (SCM):</strong> Controls change via Baselines, Version Control (Git), and Change Control Board (CCB) approvals.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 13.6 ==================== -->
+        <section id="sec-13-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">13.6 Worked Exam Numericals (7 Step-by-Step SE Problems)</h2>
+            <span class="badge badge-warn">2-Mark Scoring Zone</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 1: McCabe's Cyclomatic Complexity <code>V(G)</code></span>
+            <strong>Problem:</strong> A loan-sanction function's Control Flow Graph has <code>N = 10</code> nodes and <code>E = 13</code> edges (single connected component). Find <code>V(G)</code>.<br>
+            <strong>Formula:</strong> <code>V(G) = E - N + 2 = 13 - 10 + 2 =</code> <mark><code>5 independent basis paths</code></mark> (equivalent to 4 binary predicate nodes + 1).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 2: Function Point (FP) Calculation</span>
+            <strong>Given:</strong> Unadjusted Function Points <code>UFP = 250</code>; sum of 14 complexity factors <code>&Sigma;F_i = 45</code>.<br>
+            <strong>VAF:</strong> <code>0.65 + 0.01(45) = 1.10</code>. <strong>Adjusted FP:</strong> <code>250 &times; 1.10 =</code> <mark><code>275 FP</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 3: Basic COCOMO Estimation (Organic Mode)</span>
+            <strong>Given:</strong> <code>KLOC = 10</code> (Organic: <code>a = 2.4, b = 1.05</code>; assume <code>10^1.05 &approx; 11.22</code>).<br>
+            <strong>Effort:</strong> <code>E = 2.4 &times; 11.22 =</code> <mark><code>26.93 Person-Months</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 4: Boundary Value Analysis (BVA) Test Cases</span>
+            <strong>Problem:</strong> An EMI calculator takes <code>n = 3</code> independent inputs (Principal, Rate, Tenure). Find normal BVA and robust BVA test counts.<br>
+            <strong>Normal BVA:</strong> <code>4(3) + 1 =</code> <mark><code>13 cases</code></mark>. <strong>Robust BVA:</strong> <code>6(3) + 1 =</code> <mark><code>19 cases</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 5: PERT Expected Duration &amp; Standard Deviation</span>
+            <strong>Given:</strong> Optimistic <code>O = 4 days</code>, Most Likely <code>M = 7 days</code>, Pessimistic <code>P = 16 days</code>.<br>
+            <code>T_e = (4 + 4(7) + 16) / 6 = 48 / 6 =</code> <mark><code>8 days</code></mark>. <code>&sigma; = (16 - 4) / 6 =</code> <mark><code>2 days</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 6: Availability &amp; MTBF</span>
+            <strong>Given:</strong> Banking API Gateway has <code>MTTF = 1980 hours</code> and <code>MTTR = 20 hours</code>.<br>
+            <code>MTBF = 1980 + 20 = 2000 hrs</code>. <code>Availability = 1980 / 2000 =</code> <mark><code>99.0%</code></mark>.
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Numerical 7: Integration Testing Direction</span>
+            Testing the bottom-level <code>EncryptionUtil</code> and <code>DBConnector</code> before the main <code>LoanService</code> exists uses <strong>Bottom-Up Integration</strong> and requires writing <mark>Drivers</mark>.
+          </div>
+        </section>
+
+        <!-- ==================== 13.7 ==================== -->
+        <section id="sec-13-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">13.7 Banking &amp; SIDBI DevSecOps Context + 10-Mark Blueprint</h2>
+            <span class="badge badge-live">Descriptive Edge</span>
+          </div>
+          <p>
+            Under <a href="https://www.rbi.org.in/Scripts/BS_ViewMasterDirections.aspx?id=12562" target="_blank" rel="noopener noreferrer">RBI's IT Governance Master Direction</a>,
+            financial institutions must enforce strict <strong>Segregation of Duties (SoD)</strong> across Development, QA/UAT, and Production environments—developers NEVER push directly to production without automated SAST/DAST/SBOM security gates, peer code review, UAT sign-off, and Change Advisory Board (CAB) approval for portals like
+            <a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">SIDBI Udyamimitra &amp; GST Sahay</a>.
+          </p>
+          <div class="callout callout-info">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"How does adopting a DevSecOps CI/CD pipeline with Shift-Left security testing improve release velocity without compromising RBI change-management controls in a banking IT environment?" (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (25w):</strong> Traditional siloed Waterfall releases cause months-long delays and late security defect discovery.<br>
+            &bull; <strong>Shift-Left DevSecOps Controls (85w):</strong> Embed secret scanning, SAST, SCA/SBOM generation, automated unit/regression tests, and DAST directly inside CI pipelines—catching OWASP flaws before UAT.<br>
+            &bull; <strong>RBI Change Governance (70w):</strong> Enforce Git branch protection, Segregation of Duties (automated CD service accounts, no developer prod access), mandatory CAB/UAT approval gates, and Blue-Green/Canary rollbacks with immutable audit logs.<br>
+            &bull; <strong>Conclusion (20w):</strong> DevSecOps turns compliance from a manual bottleneck into repeatable, auditable automation.
+          </div>
+        </section>
+
+        <!-- ==================== 13.8 ==================== -->
+        <section id="sec-13-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">13.8 5-Minute Rapid Revision Sheet (25 High-Yield One-Liners)</h2>
+            <span class="badge badge-warn">Last-Day Cram</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0;">
+            <li><mark>Spiral Model (Barry Boehm)</mark> is explicitly <strong>Risk-Driven</strong> (4 quadrants per loop).</li>
+            <li><mark>V-Model</mark> pairs every dev phase with a test phase (Req&harr;UAT, HLD&harr;Integration, LLD&harr;Unit).</li>
+            <li><mark>Scrum</mark> = 3 Roles (PO, SM, Devs), 3 Artifacts, 5 Events (Daily Scrum = 15 min).</li>
+            <li><mark>Kanban</mark> limits Work-In-Progress (WIP) in a continuous pull flow without fixed sprints.</li>
+            <li><mark>TDD (XP)</mark> cycle: Write failing test (Red) &rarr; Pass (Green) &rarr; Refactor.</li>
+            <li><mark>Blue-Green</mark> = 2 identical prod environments (instant flip/rollback); <mark>Canary</mark> = gradual % traffic shift.</li>
+            <li><mark>SAST</mark> = static white-box code scan; <mark>DAST</mark> = dynamic black-box runtime scan.</li>
+            <li>Basic COCOMO: <code>E = a(KLOC)^b</code>; modes = Organic (2.4, 1.05), Semi-Detached (3.0, 1.12), Embedded (3.6, 1.20).</li>
+            <li><mark>Function Point (FP)</mark> estimation is <strong>programming-language independent</strong> (<code>VAF = 0.65 + 0.01&Sigma;F_i</code>).</li>
+            <li><mark>PERT</mark>: <code>T_e = (O + 4M + P)/6</code>; <code>&sigma; = (P - O)/6</code>.</li>
+            <li><mark>Critical Path (CPM)</mark> = LONGEST path through project network with <strong>Zero Slack/Float</strong>.</li>
+            <li><mark>Verification</mark> = "Building product RIGHT?" (static); <mark>Validation</mark> = "Building RIGHT product?" (dynamic).</li>
+            <li><mark>McCabe Cyclomatic Complexity:</mark> <code>V(G) = E - N + 2 = P + 1 = R</code> (min basis paths).</li>
+            <li>White-box coverage strength: <code>Statement &lt; Branch &lt; Condition &lt; Path</code>.</li>
+            <li><mark>BVA</mark> test cases for <code>n</code> inputs: <code>4n + 1</code> (normal), <code>6n + 1</code> (robust).</li>
+            <li><mark>Top-Down Integration</mark> uses <strong>Stubs</strong>; <mark>Bottom-Up Integration</mark> uses <strong>Drivers</strong>.</li>
+            <li><mark>Alpha Testing</mark> = developer's site; <mark>Beta Testing</mark> = customer's live environment.</li>
+            <li><mark>Regression Testing</mark> verifies code changes didn't break existing working features.</li>
+            <li><mark>Smoke Test</mark> = wide shallow build verification; <mark>Sanity Test</mark> = narrow deep post-bugfix check.</li>
+            <li><mark>Perfective Maintenance</mark> (new features/enhancements) accounts for the LARGEST (~50%+) maintenance cost!</li>
+            <li><mark>Adaptive Maintenance</mark> updates software for new OS, hardware, or regulatory changes.</li>
+            <li><mark>Preventive Maintenance</mark> = refactoring/re-engineering to reduce future defects.</li>
+            <li><mark>CMMI 5 Levels:</mark> Initial &rarr; Managed &rarr; Defined &rarr; Quantitatively Managed &rarr; Optimizing.</li>
+            <li><mark>Availability</mark> = <code>MTTF / (MTTF + MTTR)</code>; <code>MTBF = MTTF + MTTR</code>.</li>
+            <li>Banking SDLC enforces <mark>Segregation of Duties (SoD)</mark> + CAB sign-off before production deployment.</li>
+          </ol>
+        </section>
+
+        <!-- ==================== 13.9 ==================== -->
+        <section id="sec-13-9" class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">13.9 Chapter 13 Exam-Level Practice Drill (15 Unbiased 5-Option MCQs)</h2>
+              <p class="card-subtitle">1 &amp; 2 Mark Mix (22 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+            </div>
+          </div>
+          <div id="ch13-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster3-ch12-sad.html">&larr; Prev: Chapter 12 — SAD</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-13', '[data-chapter-complete="it-13"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch13-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch13-q1',
+              marks: 1,
+              section: 'SDLC Models',
+              prompt: 'Which SDLC process model proposed by Barry Boehm explicitly incorporates a dedicated Risk Analysis quadrant in every iterative cycle?',
+              options: [
+                'Classical Waterfall Model',
+                'Spiral Model',
+                'Big-Bang Model',
+                'Code-and-Fix Model',
+                'Throwaway Linear Model'
+              ],
+              correctIndex: 1,
+              explanation: 'Boehm\'s Spiral Model combines iterative prototyping with explicit Risk Analysis in every loop, making it ideal for large high-risk projects.'
+            },
+            {
+              id: 'ch13-q2',
+              marks: 2,
+              section: 'Cyclomatic Complexity',
+              prompt: 'A payment-validation module has a Control Flow Graph (single connected component) with 12 nodes and 16 edges. What is its McCabe Cyclomatic Complexity V(G)?',
+              options: [
+                '4',
+                '5',
+                '6',
+                '7',
+                '8'
+              ],
+              correctIndex: 2,
+              explanation: 'V(G) = E - N + 2 = 16 - 12 + 2 = 6 linearly independent basis paths.'
+            },
+            {
+              id: 'ch13-q3',
+              marks: 1,
+              section: 'Verification vs Validation',
+              prompt: 'Static peer code reviews, formal walkthroughs, and SRS inspections—performed WITHOUT executing the code—are examples of:',
+              options: [
+                'Dynamic Validation',
+                'Verification',
+                'Beta Testing',
+                'Load Stress Testing',
+                'Canary Deployment'
+              ],
+              correctIndex: 1,
+              explanation: 'Verification ("Are we building the product right?") relies on static activities like inspections and reviews without executing code; Validation requires dynamic execution.'
+            },
+            {
+              id: 'ch13-q4',
+              marks: 1,
+              section: 'Integration Testing',
+              prompt: 'During TOP-DOWN Integration Testing, when higher-level control modules are tested before lower-level utility modules have been coded, what temporary dummy components are required?',
+              options: [
+                'Drivers',
+                'Stubs',
+                'Monitors',
+                'Semaphores',
+                'Proxies'
+              ],
+              correctIndex: 1,
+              explanation: 'Top-Down integration uses Stubs (dummy called subroutines), whereas Bottom-Up integration uses Drivers (dummy calling test harnesses).'
+            },
+            {
+              id: 'ch13-q5',
+              marks: 2,
+              section: 'Boundary Value Analysis',
+              prompt: 'A loan-eligibility form accepts 5 independent numeric input fields. How many test cases are generated under standard (normal) Boundary Value Analysis (BVA)?',
+              options: [
+                '11 test cases',
+                '16 test cases',
+                '21 test cases',
+                '26 test cases',
+                '31 test cases'
+              ],
+              correctIndex: 2,
+              explanation: 'Standard BVA generates 4n + 1 test cases for n inputs: 4(5) + 1 = 21 test cases (Robust BVA would generate 6n + 1 = 31).'
+            },
+            {
+              id: 'ch13-q6',
+              marks: 1,
+              section: 'Software Estimation',
+              prompt: 'Why is Albrecht\'s Function Point (FP) metric often preferred over Lines of Code (LOC) during early project estimation?',
+              options: [
+                'FP can only be calculated after final deployment',
+                'FP is programming-language independent and measures delivered user functionality from requirements',
+                'FP ignores external inputs and outputs completely',
+                'FP always produces a smaller cost estimate than COCOMO',
+                'FP applies exclusively to Assembly language programs'
+              ],
+              correctIndex: 1,
+              explanation: 'Function Points measure functional size (EI, EO, EQ, ILF, EIF) directly from requirements independent of whether the team codes in Java, Python, or C++.'
+            },
+            {
+              id: 'ch13-q7',
+              marks: 2,
+              section: 'Function Points Numerical',
+              prompt: 'A software project has Unadjusted Function Points (UFP) = 300 and the sum of its 14 complexity adjustment factors (ΣFi) = 55. What is its Adjusted Function Point count?',
+              options: [
+                '300 FP',
+                '330 FP',
+                '360 FP',
+                '390 FP',
+                '405 FP'
+              ],
+              correctIndex: 2,
+              explanation: 'VAF = 0.65 + 0.01 × 55 = 0.65 + 0.55 = 1.20. Adjusted FP = UFP × VAF = 300 × 1.20 = 360 FP.'
+            },
+            {
+              id: 'ch13-q8',
+              marks: 2,
+              section: 'PERT Estimation',
+              prompt: 'An API migration task has Optimistic time O = 5 days, Most Likely time M = 8 days, and Pessimistic time P = 17 days. What is its PERT Expected Time (Te)?',
+              options: [
+                '8.0 days',
+                '9.0 days',
+                '10.0 days',
+                '11.0 days',
+                '12.5 days'
+              ],
+              correctIndex: 1,
+              explanation: 'PERT Te = (O + 4M + P) / 6 = (5 + 32 + 17) / 6 = 54 / 6 = 9.0 days.'
+            },
+            {
+              id: 'ch13-q9',
+              marks: 1,
+              section: 'Software Maintenance',
+              prompt: 'Modifying an existing SIDBI loan-origination application solely to comply with a newly notified RBI regulatory reporting format is classified as which type of maintenance?',
+              options: [
+                'Corrective Maintenance',
+                'Adaptive Maintenance',
+                'Preventive Maintenance',
+                'Emergency Debugging',
+                'Smoke Maintenance'
+              ],
+              correctIndex: 1,
+              explanation: 'Adaptive Maintenance modifies software to keep it compliant and operational in a changing external environment (new OS, hardware, or regulatory rules).'
+            },
+            {
+              id: 'ch13-q10',
+              marks: 1,
+              section: 'Maintenance Cost',
+              prompt: 'Across the lifecycle of enterprise software systems, which maintenance category typically consumes the LARGEST share (~50% or more) of total maintenance effort?',
+              options: [
+                'Corrective Maintenance',
+                'Adaptive Maintenance',
+                'Perfective Maintenance',
+                'Preventive Maintenance',
+                'Installation Maintenance'
+              ],
+              correctIndex: 2,
+              explanation: 'Perfective Maintenance (adding new user-requested features, enhancements, and performance tuning) historically consumes the majority (~50%+) of maintenance budgets.'
+            },
+            {
+              id: 'ch13-q11',
+              marks: 1,
+              section: 'CMMI Levels',
+              prompt: 'In the CMMI 5-level maturity framework, at which level does an organization use statistical and quantitative metrics to manage process performance before reaching Level 5 (Optimizing)?',
+              options: [
+                'Level 1 — Initial',
+                'Level 2 — Managed',
+                'Level 3 — Defined',
+                'Level 4 — Quantitatively Managed',
+                'Level 5 — Ad-Hoc'
+              ],
+              correctIndex: 3,
+              explanation: 'CMMI levels progress: 1 Initial → 2 Managed → 3 Defined → 4 Quantitatively Managed (statistical process control) → 5 Optimizing.'
+            },
+            {
+              id: 'ch13-q12',
+              marks: 2,
+              section: 'Reliability Math',
+              prompt: 'A Core Banking microservice exhibits a Mean Time To Failure (MTTF) of 495 hours and a Mean Time To Repair (MTTR) of 5 hours. What is its steady-state Availability?',
+              options: [
+                '98.0%',
+                '98.5%',
+                '99.0%',
+                '99.5%',
+                '99.9%'
+              ],
+              correctIndex: 2,
+              explanation: 'Availability = MTTF / (MTTF + MTTR) = 495 / (495 + 5) = 495 / 500 = 0.99 = 99.0%.'
+            },
+            {
+              id: 'ch13-q13',
+              marks: 1,
+              section: 'Agile & Scrum',
+              prompt: 'In Scrum, which event is held at the end of a Sprint strictly for the Scrum Team to inspect its own internal engineering workflow and identify process improvements for the next Sprint?',
+              options: [
+                'Daily Scrum',
+                'Sprint Planning',
+                'Sprint Review',
+                'Sprint Retrospective',
+                'Backlog Grooming'
+              ],
+              correctIndex: 3,
+              explanation: 'Sprint Review inspects the Product Increment with stakeholders; Sprint Retrospective inspects the team\'s internal processes and collaboration.'
+            },
+            {
+              id: 'ch13-q14',
+              marks: 1,
+              section: 'DevSecOps',
+              prompt: 'In a DevSecOps CI/CD pipeline, what is the core difference between SAST and DAST?',
+              options: [
+                'SAST analyzes source code statically (white-box) before execution; DAST tests the running application externally (black-box)',
+                'SAST runs only in production; DAST runs only inside IDEs',
+                'SAST checks hardware cooling; DAST checks RAM refresh',
+                'SAST is manual penetration testing; DAST is peer code review',
+                'SAST replaces unit testing; DAST replaces database backups'
+              ],
+              correctIndex: 0,
+              explanation: 'SAST (Static Application Security Testing) inspects source/bytecode early in CI without executing it, whereas DAST (Dynamic AST) probes a live running staging application.'
+            },
+            {
+              id: 'ch13-q15',
+              marks: 1,
+              section: 'Testing Types',
+              prompt: 'After a developer fixes a single interest-rounding bug in a production build, the QA team runs a targeted, narrow test specifically verifying that fix before committing to a full regression cycle. What is this called?',
+              options: [
+                'Sanity Testing',
+                'Beta Testing',
+                'Soak Testing',
+                'Chaos Testing',
+                'Fuzz Testing'
+              ],
+              correctIndex: 0,
+              explanation: 'Sanity Testing is a narrow, focused check verifying a specific bug fix or minor change, whereas Smoke Testing is a broad shallow check of overall build stability.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

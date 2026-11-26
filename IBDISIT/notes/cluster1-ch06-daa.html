@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 6: Design &amp; Analysis of Algorithms (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 1 &bull; Chapter 6 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-6-1" class="active">6.1 Asymptotics &amp; Master Theorem</a></li>
+          <li><a href="#sec-6-2">6.2 Divide &amp; Conquer + Sorting Matrix</a></li>
+          <li><a href="#sec-6-3">6.3 Greedy Algorithms &amp; MST</a></li>
+          <li><a href="#sec-6-4">6.4 Dynamic Programming (DP)</a></li>
+          <li><a href="#sec-6-5">6.5 Shortest Paths &amp; Max Flow</a></li>
+          <li><a href="#sec-6-6">6.6 String Matching &amp; Backtracking</a></li>
+          <li><a href="#sec-6-7">6.7 P, NP, NP-Complete &amp; NP-Hard</a></li>
+          <li><a href="#sec-6-8">6.8 Worked Exam Numericals (7)</a></li>
+          <li><a href="#sec-6-9">6.9 Banking Context, Revision &amp; 15 MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-06">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster1-ch05-oops.html">&larr; Prev: Ch 5 OOP Systems</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 1: Core CS &amp; Programming</span>
+            <span class="badge badge-warn">Topic 6 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">High 2-Mark Numerical &amp; Complexity Yield</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 6: Design &amp; Analysis of Algorithms (DAA)</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Exhaustive exam-depth coverage of Asymptotic Notations, Master Theorem, Sorting &amp; Searching Stability/Complexity Matrix,
+            Greedy vs. Dynamic Programming, MST (Kruskal/Prim), Shortest Paths (Dijkstra/Bellman-Ford/Floyd-Warshall), String Matching (KMP/Rabin-Karp),
+            Backtracking vs. Branch-and-Bound, P/NP/NP-Complete/NP-Hard (with SVG diagram), 7 worked numericals, banking algorithmic applications, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 6.1 ==================== -->
+        <section id="sec-6-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">6.1 Asymptotic Analysis, Growth Hierarchy &amp; Master Theorem</h2>
+            <span class="badge badge-danger">Guaranteed MCQ Zone</span>
+          </div>
+          <ul>
+            <li><strong>Asymptotic Bounds:</strong>
+              <mark><code>O(g(n))</code> (Big-O)</mark> = asymptotic upper bound (&le;);
+              <mark><code>&Omega;(g(n))</code> (Big-Omega)</mark> = asymptotic lower bound (&ge;);
+              <mark><code>&Theta;(g(n))</code> (Big-Theta)</mark> = tight bound (both <code>O</code> and <code>&Omega;</code>);
+              <code>o(g(n))</code> / <code>&omega;(g(n))</code> = strictly smaller / strictly larger (non-tight).</li>
+            <li><strong>Strict Growth Rate Order (Fastest &rarr; Slowest):</strong>
+              <mark><code>O(1) &lt; O(log log n) &lt; O(log n) &lt; O(&radic;n) &lt; O(n) &lt; O(n log n) &lt; O(n^2) &lt; O(n^3) &lt; O(2^n) &lt; O(n!) &lt; O(n^n)</code></mark>.</li>
+          </ul>
+
+          <h3 style="margin:1rem 0 0.45rem;font-size:1.05rem;">Master Theorem: <code>T(n) = a &middot; T(n / b) + f(n)</code> (where <code>a &ge; 1, b &gt; 1</code>)</h3>
+          <p style="margin-top:0;">Compute critical polynomial <code>n^c</code> where <mark><code>c = log_b(a)</code></mark>, and compare with <code>f(n)</code>:</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Case</th>
+                  <th>Condition Comparing <code>f(n)</code> vs. <code>n^(log_b a)</code></th>
+                  <th>Asymptotic Solution <code>T(n)</code></th>
+                  <th>Classic Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Case 1</strong><br><em>(Leaves dominate)</em></td>
+                  <td><code>f(n) = O(n^(c - &epsilon;))</code> for some <code>&epsilon; &gt; 0</code></td>
+                  <td><mark><code>&Theta;(n^(log_b a))</code></mark></td>
+                  <td><code>T(n)=4T(n/2)+n</code> &rarr; <code>c=2 &gt; 1</code> &rarr; <code>&Theta;(n^2)</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Case 2</strong><br><em>(Balanced)</em></td>
+                  <td><code>f(n) = &Theta;(n^c &middot; log^k n)</code> for <code>k &ge; 0</code></td>
+                  <td><mark><code>&Theta;(n^c &middot; log^(k+1) n)</code></mark></td>
+                  <td>Merge Sort: <code>2T(n/2)+n</code> (<code>k=0</code>) &rarr; <code>&Theta;(n log n)</code><br><code>2T(n/2)+n log n</code> (<code>k=1</code>) &rarr; <code>&Theta;(n log^2 n)</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Case 3</strong><br><em>(Root dominates)</em></td>
+                  <td><code>f(n) = &Omega;(n^(c + &epsilon;))</code> AND regularity <code>a&middot;f(n/b) &le; d&middot;f(n)</code> (<code>d&lt;1</code>)</td>
+                  <td><mark><code>&Theta;(f(n))</code></mark></td>
+                  <td><code>T(n)=2T(n/2)+n^2</code> &rarr; <code>c=1 &lt; 2</code> &rarr; <code>&Theta;(n^2)</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin:0.75rem 0 0;font-size:0.9rem;">
+            <strong>Decrease-and-Conquer Recurrences (Master Theorem does NOT apply!):</strong>
+            <code>T(n)=T(n-1)+1 &rarr; &Theta;(n)</code> &bull;
+            <code>T(n)=T(n-1)+n &rarr; &Theta;(n^2)</code> &bull;
+            <code>T(n)=2T(n-1)+1 &rarr; &Theta;(2^n)</code> (Tower of Hanoi) &bull;
+            <code>T(n)=T(n-1)+T(n-2)+1 &rarr; O(2^n)</code> (Naive Fibonacci).
+          </p>
+        </section>
+
+        <!-- ==================== 6.2 ==================== -->
+        <section id="sec-6-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">6.2 Divide &amp; Conquer + Complete Sorting &amp; Searching Matrix</h2>
+            <span class="badge badge-warn">Top Objective Yield</span>
+          </div>
+          <p>
+            <strong>Comparison-Sort Lower Bound:</strong> Any deterministic comparison-based sorting algorithm requires at least
+            <mark><code>&Omega;(n log n)</code></mark> comparisons in the worst case (decision tree has <code>n!</code> leaves &rarr; height <code>&ge; log2(n!) = &Theta;(n log n)</code>).
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Algorithm</th>
+                  <th>Best</th>
+                  <th>Average</th>
+                  <th>Worst</th>
+                  <th>Aux Space</th>
+                  <th>Stable?</th>
+                  <th>In-Place?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Bubble Sort (opt)</strong></td>
+                  <td><code>O(n)</code></td>
+                  <td><code>O(n^2)</code></td>
+                  <td><code>O(n^2)</code></td>
+                  <td><code>O(1)</code></td>
+                  <td><mark>Yes</mark></td>
+                  <td>Yes</td>
+                </tr>
+                <tr>
+                  <td><strong>Insertion Sort</strong></td>
+                  <td><mark><code>O(n)</code></mark> (nearly sorted!)</td>
+                  <td><code>O(n^2)</code></td>
+                  <td><code>O(n^2)</code></td>
+                  <td><code>O(1)</code></td>
+                  <td><mark>Yes</mark></td>
+                  <td>Yes</td>
+                </tr>
+                <tr>
+                  <td><strong>Selection Sort</strong></td>
+                  <td><code>O(n^2)</code></td>
+                  <td><code>O(n^2)</code></td>
+                  <td><code>O(n^2)</code></td>
+                  <td><code>O(1)</code></td>
+                  <td><mark>No</mark></td>
+                  <td>Yes (min <code>O(n)</code> swaps!)</td>
+                </tr>
+                <tr>
+                  <td><strong>Merge Sort</strong></td>
+                  <td><code>O(n log n)</code></td>
+                  <td><code>O(n log n)</code></td>
+                  <td><mark><code>O(n log n)</code></mark></td>
+                  <td><mark><code>O(n)</code></mark></td>
+                  <td><mark>Yes</mark></td>
+                  <td><mark>No</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Quick Sort</strong></td>
+                  <td><code>O(n log n)</code></td>
+                  <td><code>O(n log n)</code></td>
+                  <td><mark><code>O(n^2)</code></mark> (sorted + bad pivot)</td>
+                  <td><code>O(log n)</code> stack</td>
+                  <td><mark>No</mark></td>
+                  <td>Yes</td>
+                </tr>
+                <tr>
+                  <td><strong>Heap Sort</strong></td>
+                  <td><code>O(n log n)</code></td>
+                  <td><code>O(n log n)</code></td>
+                  <td><mark><code>O(n log n)</code></mark></td>
+                  <td><mark><code>O(1)</code></mark></td>
+                  <td><mark>No</mark></td>
+                  <td>Yes</td>
+                </tr>
+                <tr>
+                  <td><strong>Counting Sort</strong></td>
+                  <td><code>O(n + k)</code></td>
+                  <td><code>O(n + k)</code></td>
+                  <td><code>O(n + k)</code></td>
+                  <td><code>O(n + k)</code></td>
+                  <td><mark>Yes</mark></td>
+                  <td>No (Non-comparison)</td>
+                </tr>
+                <tr>
+                  <td><strong>Radix Sort</strong></td>
+                  <td><code>O(d(n+k))</code></td>
+                  <td><code>O(d(n+k))</code></td>
+                  <td><code>O(d(n+k))</code></td>
+                  <td><code>O(n + k)</code></td>
+                  <td><mark>Yes</mark></td>
+                  <td>No (needs stable sub-sort!)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul style="margin-top:0.8rem;">
+            <li><strong>Key Divide &amp; Conquer Milestones:</strong>
+              <strong>Strassen's Matrix Multiplication</strong> reduces 8 sub-multiplications to <mark>7</mark> &rarr; <code>T(n) = 7T(n/2) + O(n^2) =</code> <mark><code>O(n^2.81)</code></mark>;
+              <strong>Karatsuba Multiplication</strong> = <code>O(n^1.585)</code>;
+              <strong>QuickSelect</strong> finds k-th smallest in <mark><code>O(n)</code> expected time</mark>;
+              <strong>TimSort</strong> (Python &amp; Java <code>Arrays.sort</code> for objects) = Hybrid Merge + Insertion Sort (stable, <code>O(n log n)</code>).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 6.3 ==================== -->
+        <section id="sec-6-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">6.3 Greedy Algorithms &amp; Minimum Spanning Trees (MST)</h2>
+          </div>
+          <p>
+            A problem admits a <strong>Greedy</strong> solution iff it satisfies two properties:
+            (1) <mark>Optimal Substructure</mark> and (2) <mark>Greedy Choice Property</mark> (a locally optimal choice leads to a globally optimal solution without reconsidering past choices).
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Greedy Problem</th>
+                  <th>Greedy Criterion</th>
+                  <th>Time Complexity</th>
+                  <th>Exam Traps</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Activity Selection</strong></td>
+                  <td>Sort by <mark>Earliest Finish Time</mark></td>
+                  <td><code>O(n log n)</code></td>
+                  <td>Sorting by start time or shortest duration FAILS!</td>
+                </tr>
+                <tr>
+                  <td><strong>Fractional Knapsack</strong></td>
+                  <td>Sort by <mark>Value / Weight ratio</mark> desc</td>
+                  <td><code>O(n log n)</code></td>
+                  <td>Works ONLY when items can be split; <mark>FAILS for 0/1 Knapsack</mark>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Huffman Coding</strong></td>
+                  <td>Repeatedly merge two <mark>lowest-frequency</mark> nodes (Min-Heap)</td>
+                  <td><code>O(n log n)</code></td>
+                  <td>Produces optimal <mark>prefix-free</mark> variable-length binary code.</td>
+                </tr>
+                <tr>
+                  <td><strong>Kruskal's MST</strong></td>
+                  <td>Sort ALL edges by weight; add if no cycle (<mark>Disjoint Set Union</mark>)</td>
+                  <td><mark><code>O(E log E)</code></mark></td>
+                  <td>Best for <strong>Sparse</strong> graphs; works on disconnected graphs (produces MSF).</td>
+                </tr>
+                <tr>
+                  <td><strong>Prim's MST</strong></td>
+                  <td>Grow single tree from vertex by adding min-weight cut edge (<mark>Min-Heap</mark>)</td>
+                  <td><code>O((V+E) log V)</code> (Heap)<br><code>O(V^2)</code> (Matrix)</td>
+                  <td>Best for <strong>Dense</strong> graphs. <strong>Rule:</strong> If all edge weights are distinct, MST is <mark>UNIQUE</mark>!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 6.4 ==================== -->
+        <section id="sec-6-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">6.4 Dynamic Programming (DP) — Top-Down vs. Bottom-Up &amp; Classic Matrix</h2>
+            <span class="badge badge-purple">High Paper III Yield</span>
+          </div>
+          <p>
+            <strong>Dynamic Programming</strong> applies when a problem exhibits <mark>Optimal Substructure</mark> AND <mark>Overlapping Subproblems</mark>
+            (unlike Divide &amp; Conquer where subproblems are independent/disjoint). Implemented via <strong>Top-Down Memoization</strong> (recursion + cache) or <strong>Bottom-Up Tabulation</strong> (iterative table).
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Classic DP Problem</th>
+                  <th>Core Recurrence / State</th>
+                  <th>Time Complexity</th>
+                  <th>Key Exam Nuance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>0/1 Knapsack</strong></td>
+                  <td><code>dp[i][w] = max(dp[i-1][w], v_i + dp[i-1][w-w_i])</code></td>
+                  <td><mark><code>O(n &middot; W)</code></mark></td>
+                  <td><mark>Pseudo-polynomial</mark> (exponential in bit-length of <code>W</code>); decision version is NP-Complete.</td>
+                </tr>
+                <tr>
+                  <td><strong>Matrix Chain Mult. (MCM)</strong></td>
+                  <td><code>m[i][j] = min_k(m[i][k] + m[k+1][j] + p_{i-1}p_k p_j)</code></td>
+                  <td><mark><code>O(n^3)</code></mark> (Space <code>O(n^2)</code>)</td>
+                  <td>Number of parenthesizations for <code>n</code> matrices = Catalan <code>C_(n-1)</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>LCS (Longest Common Subseq)</strong></td>
+                  <td>Match: <code>1 + dp[i-1][j-1]</code>; else <code>max(up, left)</code></td>
+                  <td><code>O(m &middot; n)</code></td>
+                  <td>Subsequence need NOT be contiguous (unlike Substring).</td>
+                </tr>
+                <tr>
+                  <td><strong>LIS (Longest Increasing Subseq)</strong></td>
+                  <td><code>dp[i] = 1 + max(dp[j])</code> for <code>a[j] &lt; a[i]</code></td>
+                  <td><code>O(n^2)</code> DP / <mark><code>O(n log n)</code></mark> Binary Search</td>
+                  <td>Patience sorting maintains smallest tail of each length.</td>
+                </tr>
+                <tr>
+                  <td><strong>Edit Distance (Levenshtein)</strong></td>
+                  <td>Min Insert / Delete / Replace cost</td>
+                  <td><code>O(m &middot; n)</code></td>
+                  <td>Core algorithm for fuzzy KYC/AML sanction-list name matching!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 6.5 ==================== -->
+        <section id="sec-6-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">6.5 Graph Shortest Paths &amp; Network Max-Flow</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Algorithm</th>
+                  <th>Scope</th>
+                  <th>Paradigm</th>
+                  <th>Handles Negative Edges?</th>
+                  <th>Time Complexity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>BFS</strong></td>
+                  <td>Single-Source (Unweighted)</td>
+                  <td>Queue traversal</td>
+                  <td>N/A (all weights = 1)</td>
+                  <td><code>O(V + E)</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Dijkstra</strong></td>
+                  <td>Single-Source</td>
+                  <td><mark>Greedy</mark> (Min-Heap)</td>
+                  <td><mark>NO (can fail!)</mark></td>
+                  <td><code>O((V + E) log V)</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Bellman-Ford</strong></td>
+                  <td>Single-Source</td>
+                  <td><mark>DP</mark> (<code>V-1</code> relaxations)</td>
+                  <td><mark>YES + detects negative cycles</mark> (on <code>V</code>-th pass)</td>
+                  <td><mark><code>O(V &middot; E)</code></mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Floyd-Warshall</strong></td>
+                  <td><mark>All-Pairs</mark></td>
+                  <td><mark>DP</mark></td>
+                  <td><mark>YES</mark> (neg cycle iff <code>dist[i][i] &lt; 0</code>)</td>
+                  <td><mark><code>O(V^3)</code></mark></td>
+                </tr>
+                <tr>
+                  <td><strong>DAG Shortest Path</strong></td>
+                  <td>Single-Source (DAG)</td>
+                  <td>Topological Sort</td>
+                  <td>YES (no cycles exist!)</td>
+                  <td><code>O(V + E)</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin:0.75rem 0 0;font-size:0.92rem;">
+            <strong>Network Flow:</strong> By the <mark>Max-Flow Min-Cut Theorem</mark>, maximum flow from Source <code>S</code> to Sink <code>T</code> equals minimum capacity of an <code>S-T</code> cut.
+            <strong>Ford-Fulkerson</strong> takes <code>O(E &middot; f*)</code>; <strong>Edmonds-Karp</strong> (BFS shortest augmenting path) guarantees polynomial <mark><code>O(V &middot; E^2)</code></mark>.
+          </p>
+        </section>
+
+        <!-- ==================== 6.6 ==================== -->
+        <section id="sec-6-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">6.6 String Matching, Backtracking &amp; Branch-and-Bound</h2>
+          </div>
+          <div class="table-wrap" style="margin-bottom:0.85rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>String Algorithm</th>
+                  <th>Preprocessing</th>
+                  <th>Matching Time</th>
+                  <th>Core Mechanism (Text <code>n</code>, Pattern <code>m</code>)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Naive</strong></td>
+                  <td><code>O(1)</code></td>
+                  <td><code>O((n - m + 1) &middot; m)</code></td>
+                  <td>Shifts pattern by 1 on every mismatch.</td>
+                </tr>
+                <tr>
+                  <td><strong>KMP (Knuth-Morris-Pratt)</strong></td>
+                  <td><code>O(m)</code> (LPS / <code>&pi;</code> table)</td>
+                  <td><mark><code>O(n + m)</code> worst-case</mark></td>
+                  <td>Never moves text pointer backward; uses longest proper prefix = suffix.</td>
+                </tr>
+                <tr>
+                  <td><strong>Rabin-Karp</strong></td>
+                  <td><code>O(m)</code></td>
+                  <td>Avg: <code>O(n + m)</code>; Worst: <code>O(nm)</code></td>
+                  <td><mark>Rolling Hash</mark> (great for multi-pattern / plagiarism detection; spurious hits verified char-by-char).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>Backtracking vs. Branch-and-Bound:</strong> Both explore a state-space tree with pruning.
+              <strong>Backtracking</strong> uses <mark>DFS</mark> for feasibility/decision problems (N-Queens, Sudoku, Graph Coloring, Subset Sum).
+              <strong>Branch-and-Bound</strong> uses <mark>BFS / Least-Cost (Best-First) Search</mark> with a numeric cost bound for optimization problems (TSP, 0/1 Knapsack).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 6.7 ==================== -->
+        <section id="sec-6-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">6.7 Complexity Classes: P, NP, NP-Complete &amp; NP-Hard</h2>
+            <span class="badge badge-danger">High-Yield Theory Trap</span>
+          </div>
+
+          <!-- Inline SVG: P, NP, NPC, NP-Hard Venn Diagram -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 190" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="P, NP, NP-Complete and NP-Hard Complexity Classes Diagram">
+              <rect x="10" y="8" width="740" height="174" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <!-- NP Ellipse -->
+              <ellipse cx="265" cy="98" rx="220" ry="72" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.2"/>
+              <text x="165" y="48" text-anchor="middle" fill="#1d4ed8" font-size="13" font-weight="700">NP (Poly-Time Verifiable)</text>
+              <!-- P Circle inside NP -->
+              <ellipse cx="165" cy="112" rx="95" ry="44" fill="#dcfce7" stroke="#15803d" stroke-width="2.2"/>
+              <text x="165" y="108" text-anchor="middle" fill="#15803d" font-size="13" font-weight="700">P</text>
+              <text x="165" y="125" text-anchor="middle" fill="#166534" font-size="10">Sort, MST, Dijkstra, LP</text>
+
+              <!-- NP-Hard Ellipse overlapping NP -->
+              <ellipse cx="520" cy="98" rx="205" ry="72" fill="rgba(239, 68, 68, 0.14)" stroke="#b91c1c" stroke-width="2.2"/>
+              <text x="580" y="48" text-anchor="middle" fill="#b91c1c" font-size="13" font-weight="700">NP-Hard</text>
+              <text x="615" y="102" text-anchor="middle" fill="#991b1b" font-size="10.5" font-weight="600">Halting Problem</text>
+              <text x="615" y="118" text-anchor="middle" fill="#991b1b" font-size="10">(Undecidable &notin; NP!)</text>
+
+              <!-- Intersection label: NP-Complete -->
+              <text x="400" y="88" text-anchor="middle" fill="#6d28d9" font-size="12.5" font-weight="800">NP-Complete</text>
+              <text x="400" y="106" text-anchor="middle" fill="#4c1d95" font-size="9.5">(NP &cap; NP-Hard)</text>
+              <text x="400" y="122" text-anchor="middle" fill="#4c1d95" font-size="9.5">SAT, 3-SAT, TSP-Dec,</text>
+              <text x="400" y="135" text-anchor="middle" fill="#4c1d95" font-size="9.5">Clique, Vertex Cover</text>
+            </svg>
+          </div>
+
+          <ul>
+            <li><strong>P:</strong> Decision problems solvable in deterministic polynomial time (<code>O(n^k)</code>).</li>
+            <li><strong>NP:</strong> Decision problems whose "YES" certificate can be <mark>verified in polynomial time</mark> (equivalently, solvable by a Non-Deterministic Turing Machine in poly time). <em>Trap:</em> NP means <mark>Non-Deterministic Polynomial</mark>, NOT "Non-Polynomial"!</li>
+            <li><strong>NP-Hard:</strong> Problem <code>H</code> such that every problem <code>L &isin; NP</code> reduces to <code>H</code> in polynomial time (<code>L &le;_p H</code>). An NP-Hard problem <mark>does NOT have to be in NP</mark> (e.g., Halting Problem, TSP Optimization).</li>
+            <li><strong>NP-Complete (NPC):</strong> Hardest problems in NP (<mark><code>NP &cap; NP-Hard</code></mark>). By the <mark>Cook–Levin Theorem</mark>, <strong>Boolean Satisfiability (SAT)</strong> was the first proven NP-Complete problem. If ANY single NPC problem is solved in polynomial time, then <mark><code>P = NP</code></mark>!</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 6.8 ==================== -->
+        <section id="sec-6-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">6.8 Worked Exam Numericals (7 Step-by-Step Problems)</h2>
+            <span class="badge badge-warn">2-Mark Scoring Zone</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 1: Master Theorem 3-Case Drill</span>
+            (a) <code>T(n) = 4T(n/2) + n</code> &rarr; <code>n^(log_2 4) = n^2 &gt; n</code> (Case 1) &rarr; <mark><code>&Theta;(n^2)</code></mark>.<br>
+            (b) <code>T(n) = 2T(n/2) + n log n</code> &rarr; <code>n^(log_2 2) = n</code>, <code>k = 1</code> (Case 2) &rarr; <mark><code>&Theta;(n log^2 n)</code></mark>.<br>
+            (c) <code>T(n) = 2T(n/2) + n^2</code> &rarr; <code>n^2 &gt; n^1</code> (Case 3) &rarr; <mark><code>&Theta;(n^2)</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 2: Why Greedy Fails on 0/1 Knapsack</span>
+            <strong>Capacity <code>W = 50</code>.</strong> Items: <code>A(w=10, v=60, ratio=6)</code>, <code>B(w=20, v=100, ratio=5)</code>, <code>C(w=30, v=120, ratio=4)</code>.<br>
+            &bull; <strong>Greedy (by ratio):</strong> Picks <code>A + B</code> (weight 30, value <code>160</code>; <code>C</code> doesn't fit!) &rarr; <mark>160 (Suboptimal!)</mark>.<br>
+            &bull; <strong>DP (Optimal 0/1):</strong> Picks <code>B + C</code> (weight 50) &rarr; <mark>220</mark>. (Fractional Knapsack picks <code>A + B + 2/3 C = 240</code>).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 3: Huffman Coding Average Bits per Symbol</span>
+            <strong>Frequencies:</strong> <code>A: 0.45, B: 0.25, C: 0.20, D: 0.10</code>.<br>
+            Merge <code>D(0.10)+C(0.20)=0.30</code> &rarr; merge <code>B(0.25)+0.30=0.55</code> &rarr; merge <code>A(0.45)+0.55=1.00</code>.<br>
+            Code lengths: <code>A=1 bit, B=2 bits, C=3 bits, D=3 bits</code>.<br>
+            <strong>Avg Length:</strong> <code>0.45(1) + 0.25(2) + 0.20(3) + 0.10(3) = 0.45 + 0.50 + 0.60 + 0.30 =</code> <mark><code>1.85 bits/symbol</code></mark> (vs. 2.00 fixed-length).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 4: Matrix Chain Multiplication (MCM)</span>
+            <strong>Matrices:</strong> <code>A(10&times;30), B(30&times;5), C(5&times;60)</code>.<br>
+            &bull; <code>(AB)C</code>: <code>(10&times;30&times;5) + (10&times;5&times;60) = 1500 + 3000 =</code> <mark><code>4,500 multiplications</code></mark>.<br>
+            &bull; <code>A(BC)</code>: <code>(30&times;5&times;60) + (10&times;30&times;60) = 9000 + 18000 = 27,000</code> (6&times; slower!).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 5: Dijkstra's Negative-Edge Failure Counterexample</span>
+            Graph: <code>S &rarr; A (weight 5)</code>, <code>S &rarr; B (weight 2)</code>, <code>A &rarr; B (weight -10)</code>.<br>
+            Dijkstra greedily locks <code>B</code> first with distance <code>2</code>, missing the shorter path <code>S &rarr; A &rarr; B = 5 + (-10) = -5</code>! Use <mark>Bellman-Ford</mark> instead.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 6: KMP Prefix Function (LPS Table)</span>
+            <strong>Pattern:</strong> <code>P = "A B A B A C A"</code> (0-indexed).<br>
+            <code>LPS = [0, 0, 1, 2, 3, 0, 1]</code> (at index 4, <code>"ABABA"</code> has longest proper prefix = suffix <code>"ABA"</code> of length <mark><code>3</code></mark>).
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Numerical 7: Maximum Edges &amp; MST Weight Check</span>
+            A connected undirected graph has <code>V = 12</code> vertices and <code>E = 30</code> edges. Any Minimum Spanning Tree (MST) MUST contain exactly <code>V - 1 =</code> <mark><code>11 edges</code></mark>, and removing any single edge disconnects the MST into 2 components.
+          </div>
+        </section>
+
+        <!-- ==================== 6.9 ==================== -->
+        <section id="sec-6-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">6.9 Banking Algorithmic Context, 25 One-Liners &amp; 15 Exam MCQs</h2>
+            <span class="badge badge-live">Descriptive + Cram + Drill</span>
+          </div>
+
+          <div class="callout" style="margin-bottom:1rem;">
+            <span class="callout-title">Banking &amp; SIDBI Real-World Algorithm Applications (10-Mark Descriptive Hooks)</span>
+            <ul style="margin:0.4rem 0 0;padding-left:1.2rem;">
+              <li><strong>AML / KYC Fuzzy Name Screening:</strong> Uses <mark>Levenshtein Edit Distance (DP)</mark> and phonetic algorithms to catch spelling variations against UN/OFAC/RBI sanction lists.</li>
+              <li><strong>RTGS / Interbank Liquidity Netting:</strong> Models queued interbank payment obligations as directed graphs to detect multilateral netting cycles and resolve liquidity gridlocks via <mark>Max-Flow / Cycle-Canceling algorithms</mark>.</li>
+              <li><strong>MSME Capital &amp; Refinance Allocation:</strong> Optimizing limited subsidy or green-finance corpus across competing MSME proposals maps to <mark>0/1 Knapsack / Linear Programming</mark>.</li>
+              <li><strong>TLS &amp; Digital Signatures Security:</strong> Modern banking encryption (RSA/ECC protecting <a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">SIDBI Digital Portals</a>) relies on the computational intractability of integer factorization / discrete logarithm problems (believed outside <code>P</code>).</li>
+            </ul>
+          </div>
+
+          <h3 style="margin:0 0 0.45rem;font-size:1.05rem;">5-Minute Rapid Revision Sheet (25 High-Yield One-Liners)</h3>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li>Growth order: <code>1 &lt; log log n &lt; log n &lt; &radic;n &lt; n &lt; n log n &lt; n^2 &lt; 2^n &lt; n! &lt; n^n</code>.</li>
+            <li>Master Theorem compares <code>f(n)</code> against <mark><code>n^(log_b a)</code></mark>; Case 2 multiplies by an extra <code>log n</code>.</li>
+            <li><code>T(n) = 2T(n-1) + 1</code> (Tower of Hanoi) solves to <mark><code>&Theta;(2^n)</code></mark> (Master Theorem does NOT apply!).</li>
+            <li>Comparison-based sorting lower bound = <mark><code>&Omega;(n log n)</code></mark> via decision tree of <code>n!</code> leaves.</li>
+            <li><mark>Insertion Sort</mark> runs in <code>O(n)</code> on nearly sorted inputs; <mark>Selection Sort</mark> minimizes total swaps (<code>O(n)</code>).</li>
+            <li><mark>Merge Sort</mark> = <code>O(n log n)</code> worst, Stable, NOT in-place (<code>O(n)</code> space).</li>
+            <li><mark>Quick Sort</mark> = <code>O(n log n)</code> avg, <code>O(n^2)</code> worst, In-place (<code>O(log n)</code> stack), NOT stable.</li>
+            <li><mark>Heap Sort</mark> = <code>O(n log n)</code> worst, In-place (<code>O(1)</code>), NOT stable.</li>
+            <li><mark>Radix Sort</mark> requires a <mark>stable</mark> digit-by-digit sub-sort (usually Counting Sort) to preserve prior digit order.</li>
+            <li><mark>Strassen's Matrix Multiplication</mark> uses 7 multiplications &rarr; <code>O(n^2.81)</code>.</li>
+            <li><mark>Activity Selection</mark> sorts greedily by <strong>earliest finish time</strong>.</li>
+            <li><mark>Fractional Knapsack</mark> is Greedy (<code>O(n log n)</code>); <mark>0/1 Knapsack</mark> is DP (<code>O(nW)</code> pseudo-polynomial).</li>
+            <li><mark>Huffman Coding</mark> builds an optimal prefix-free binary tree in <code>O(n log n)</code> via Min-Heap.</li>
+            <li><mark>Kruskal's MST</mark> uses Disjoint Set Union (<code>O(E log E)</code>, sparse graphs); <mark>Prim's MST</mark> grows one tree (dense graphs).</li>
+            <li>An MST of a connected graph with <code>V</code> vertices ALWAYS has <mark><code>V - 1</code> edges</mark>; distinct edge weights &rArr; unique MST.</li>
+            <li>DP requires <mark>Optimal Substructure + Overlapping Subproblems</mark>.</li>
+            <li><mark>Matrix Chain Multiplication</mark> = <code>O(n^3)</code> time; <mark>LCS &amp; Edit Distance</mark> = <code>O(mn)</code>.</li>
+            <li><mark>Dijkstra</mark> (Greedy, <code>O((V+E) log V)</code>) FAILS on negative edge weights.</li>
+            <li><mark>Bellman-Ford</mark> (DP, <code>O(VE)</code>) handles negative edges and detects negative cycles on the <code>V</code>-th relaxation pass.</li>
+            <li><mark>Floyd-Warshall</mark> (All-Pairs DP, <code>O(V^3)</code>) detects negative cycles via <code>dist[i][i] &lt; 0</code>.</li>
+            <li><mark>KMP String Matching</mark> runs in worst-case <code>O(n + m)</code> with zero text backtracking via the LPS array.</li>
+            <li><mark>Rabin-Karp</mark> uses a rolling hash (avg <code>O(n + m)</code>, worst <code>O(nm)</code> due to hash collisions).</li>
+            <li><mark>Backtracking</mark> = DFS + pruning (feasibility); <mark>Branch-and-Bound</mark> = BFS/Best-First + cost bound (optimization).</li>
+            <li><mark>NP</mark> = verifiable in polynomial time (NOT "non-polynomial"); <mark>NP-Complete = NP &cap; NP-Hard</mark>.</li>
+            <li><mark>Cook–Levin Theorem:</mark> SAT is the first NP-Complete problem; <mark>Halting Problem</mark> is NP-Hard but NOT in NP!</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 6 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (22 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch6-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster1-ch05-oops.html">&larr; Prev: Chapter 5 — Object-Oriented Systems</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-06', '[data-chapter-complete="it-06"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch6-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch6-q1',
+              marks: 2,
+              section: 'Master Theorem',
+              prompt: 'What is the tight asymptotic solution to the recurrence relation T(n) = 2T(n/2) + n log n?',
+              options: [
+                'Θ(n)',
+                'Θ(n log n)',
+                'Θ(n log^2 n)',
+                'Θ(n^2)',
+                'Θ(n^2 log n)'
+              ],
+              correctIndex: 2,
+              explanation: 'Here a=2, b=2 → n^(log_2 2) = n. Since f(n) = n log^1 n matches Case 2 of the extended Master Theorem with k = 1, T(n) = Θ(n log^(k+1) n) = Θ(n log^2 n).'
+            },
+            {
+              id: 'ch6-q2',
+              marks: 2,
+              section: 'Master Theorem',
+              prompt: 'What is the tight asymptotic complexity of T(n) = 8T(n/2) + n^2?',
+              options: [
+                'Θ(n^2)',
+                'Θ(n^2 log n)',
+                'Θ(n^2.81)',
+                'Θ(n^3)',
+                'Θ(2^n)'
+              ],
+              correctIndex: 3,
+              explanation: 'a=8, b=2 → n^(log_2 8) = n^3. Since f(n) = n^2 = O(n^(3 - 1)), Case 1 applies: T(n) = Θ(n^3).'
+            },
+            {
+              id: 'ch6-q3',
+              marks: 1,
+              section: 'Sorting Properties',
+              prompt: 'Which sorting algorithm guarantees O(n log n) worst-case time complexity AND O(1) auxiliary space (in-place), though it is NOT stable?',
+              options: [
+                'Merge Sort',
+                'Quick Sort',
+                'Heap Sort',
+                'Insertion Sort',
+                'Radix Sort'
+              ],
+              correctIndex: 2,
+              explanation: 'Heap Sort guarantees O(n log n) worst-case time with O(1) auxiliary space (in-place), unlike Merge Sort (O(n) space) and Quick Sort (O(n^2) worst case).'
+            },
+            {
+              id: 'ch6-q4',
+              marks: 1,
+              section: 'Sorting Properties',
+              prompt: 'Why MUST the digit-by-digit sorting subroutine used inside LSD Radix Sort be a STABLE sorting algorithm?',
+              options: [
+                'To guarantee O(1) auxiliary memory usage',
+                'To preserve the relative ordering established by previously sorted less-significant digits',
+                'To prevent integer overflow during hash calculation',
+                'To convert Radix Sort into a comparison-based sort',
+                'To eliminate the need for Counting Sort buckets'
+              ],
+              correctIndex: 1,
+              explanation: 'When LSD Radix Sort moves from the units digit to the tens digit, ties in the tens digit must retain their already-sorted order from the units digit—requiring stability.'
+            },
+            {
+              id: 'ch6-q5',
+              marks: 1,
+              section: 'Divide & Conquer',
+              prompt: 'Strassen\'s Matrix Multiplication reduces the number of recursive sub-matrix multiplications from 8 to 7, improving complexity from O(n^3) to approximately:',
+              options: [
+                'O(n^2)',
+                'O(n^2 log n)',
+                'O(n^2.37)',
+                'O(n^2.81)',
+                'O(n^2.95)'
+              ],
+              correctIndex: 3,
+              explanation: 'T(n) = 7T(n/2) + O(n^2) gives Θ(n^(log_2 7)) ≈ Θ(n^2.8074) ≈ O(n^2.81).'
+            },
+            {
+              id: 'ch6-q6',
+              marks: 1,
+              section: 'Greedy Algorithms',
+              prompt: 'In the Activity Selection problem (selecting the maximum number of non-overlapping intervals), which greedy sorting rule guarantees an optimal solution?',
+              options: [
+                'Sort by earliest start time',
+                'Sort by shortest interval duration',
+                'Sort by earliest finish time',
+                'Sort by latest start time',
+                'Sort by fewest overlapping conflicts'
+              ],
+              correctIndex: 2,
+              explanation: 'Always picking the compatible activity with the earliest finish time leaves maximum remaining time for subsequent activities, provably yielding an optimal schedule.'
+            },
+            {
+              id: 'ch6-q7',
+              marks: 2,
+              section: 'Huffman Coding',
+              prompt: 'Four symbols have probabilities {0.50, 0.25, 0.15, 0.10}. What is the average code length (bits per symbol) produced by an optimal Huffman code?',
+              options: [
+                '1.50 bits',
+                '1.65 bits',
+                '1.75 bits',
+                '1.85 bits',
+                '2.00 bits'
+              ],
+              correctIndex: 2,
+              explanation: 'Merge 0.10+0.15=0.25 → merge 0.25+0.25=0.50 → merge 0.50+0.50=1.00. Lengths: 0.50→1, 0.25→2, 0.15→3, 0.10→3. Avg = 0.50(1) + 0.25(2) + 0.15(3) + 0.10(3) = 0.50 + 0.50 + 0.45 + 0.30 = 1.75 bits.'
+            },
+            {
+              id: 'ch6-q8',
+              marks: 1,
+              section: 'Minimum Spanning Tree',
+              prompt: 'Which data structure does Kruskal\'s Minimum Spanning Tree algorithm use to check in near-O(1) amortized time whether adding an edge forms a cycle?',
+              options: [
+                'Binary Search Tree',
+                'Disjoint Set Union (Union-Find) with Path Compression & Union by Rank',
+                'Circular Queue',
+                'Doubly Linked List',
+                'Trie'
+              ],
+              correctIndex: 1,
+              explanation: 'Kruskal\'s algorithm maintains connected components using Disjoint Set Union (Union-Find), achieving O(α(V)) amortized time per find/union.'
+            },
+            {
+              id: 'ch6-q9',
+              marks: 2,
+              section: 'Dynamic Programming',
+              prompt: 'Why is the classic O(n·W) Dynamic Programming algorithm for the 0/1 Knapsack problem classified as PSEUDO-POLYNOMIAL rather than truly polynomial?',
+              options: [
+                'Because n is always an exponential function of W',
+                'Because W is the numeric value of capacity, which is exponential in the number of bits (log2 W) needed to represent W in input',
+                'Because 0/1 Knapsack violates the Optimal Substructure property',
+                'Because the DP table requires O(2^n) memory rows',
+                'Because greedy fractional selection always runs faster than O(n·W)'
+              ],
+              correctIndex: 1,
+              explanation: 'Input size is measured in bits: encoding capacity W takes b = log2(W) bits, so W = 2^b is exponential in the input length—making O(n·W) pseudo-polynomial.'
+            },
+            {
+              id: 'ch6-q10',
+              marks: 2,
+              section: 'Matrix Chain Multiplication',
+              prompt: 'What is the minimum number of scalar multiplications needed to compute the chain product of three matrices A(5×10), B(10×2), and C(2×20)?',
+              options: [
+                '200',
+                '300',
+                '400',
+                '500',
+                '1400'
+              ],
+              correctIndex: 1,
+              explanation: '(AB)C = (5×10×2) + (5×2×20) = 100 + 200 = 300. A(BC) = (10×2×20) + (5×10×20) = 400 + 1000 = 1400. Minimum = 300.'
+            },
+            {
+              id: 'ch6-q11',
+              marks: 1,
+              section: 'Shortest Path Algorithms',
+              prompt: 'How does the Bellman-Ford algorithm detect the presence of a negative-weight cycle reachable from the source vertex?',
+              options: [
+                'If the priority queue becomes empty before visiting all vertices',
+                'If any edge can still be relaxed during an additional V-th pass after V - 1 full relaxation passes',
+                'If any edge weight in the adjacency matrix is less than zero',
+                'If the graph contains more than V - 1 edges',
+                'If BFS discovers a cross edge'
+              ],
+              correctIndex: 1,
+              explanation: 'Any simple shortest path has at most V - 1 edges; if a V-th relaxation pass still reduces any distance estimate, a negative-weight cycle must exist.'
+            },
+            {
+              id: 'ch6-q12',
+              marks: 1,
+              section: 'All-Pairs Shortest Path',
+              prompt: 'In the Floyd-Warshall All-Pairs Shortest Path algorithm (O(V^3)), how is a negative-weight cycle identified in the final distance matrix dist[][]?',
+              options: [
+                'At least one off-diagonal entry is +Infinity',
+                'At least one diagonal entry dist[i][i] is strictly less than 0',
+                'All entries in row 0 are identical',
+                'The sum of all entries exceeds V^2',
+                'Floyd-Warshall cannot detect negative cycles'
+              ],
+              correctIndex: 1,
+              explanation: 'Normally dist[i][i] = 0; if dist[i][i] < 0 after completion, vertex i lies on a negative-weight cycle.'
+            },
+            {
+              id: 'ch6-q13',
+              marks: 1,
+              section: 'String Matching',
+              prompt: 'What is the worst-case time complexity of the Knuth-Morris-Pratt (KMP) string-matching algorithm for a text of length n and pattern of length m?',
+              options: [
+                'O(n · m)',
+                'O(n log m)',
+                'O(n + m)',
+                'O(m^2)',
+                'O(n^2)'
+              ],
+              correctIndex: 2,
+              explanation: 'KMP builds the LPS prefix table in O(m) and scans the text in O(n) without ever moving the text pointer backward, giving guaranteed O(n + m) worst-case time.'
+            },
+            {
+              id: 'ch6-q14',
+              marks: 2,
+              section: 'Complexity Classes',
+              prompt: 'Which statement accurately describes the relationship between NP, NP-Complete, and NP-Hard problems?',
+              options: [
+                'Every NP-Hard problem belongs to the class NP',
+                'NP stands for Non-Polynomial time algorithms',
+                'A problem is NP-Complete if and only if it is in both NP and NP-Hard',
+                'The Halting Problem is NP-Complete because it is verifiable in polynomial time',
+                'If P = NP, then every undecidable problem becomes decidable'
+              ],
+              correctIndex: 2,
+              explanation: 'By definition, NP-Complete = NP ∩ NP-Hard. The Halting Problem is NP-Hard (undecidable) and NOT in NP; NP means Non-Deterministic Polynomial.'
+            },
+            {
+              id: 'ch6-q15',
+              marks: 1,
+              section: 'Cook-Levin Theorem',
+              prompt: 'By the Cook–Levin Theorem (1971), which decision problem was the very first problem proven to be NP-Complete?',
+              options: [
+                'Travelling Salesperson Problem (TSP)',
+                'Boolean Satisfiability Problem (SAT)',
+                'Minimum Spanning Tree (MST)',
+                'Shortest Path with Negative Edges',
+                'Binary Search'
+              ],
+              correctIndex: 1,
+              explanation: 'Stephen Cook and Leonid Levin independently proved that Boolean Satisfiability (SAT) is NP-Complete, establishing the foundation for polynomial-time reductions.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

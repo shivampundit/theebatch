@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 7: Operating Systems (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 1 &bull; Chapter 7 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-7-1" class="active">7.1 Kernel, Processes &amp; Threads</a></li>
+          <li><a href="#sec-7-2">7.2 CPU Scheduling Algorithms</a></li>
+          <li><a href="#sec-7-3">7.3 Synchronization &amp; Semaphores</a></li>
+          <li><a href="#sec-7-4">7.4 Deadlocks &amp; Banker's Algorithm</a></li>
+          <li><a href="#sec-7-5">7.5 Paging, TLB &amp; Virtual Memory</a></li>
+          <li><a href="#sec-7-6">7.6 File Allocation &amp; Disk Scheduling</a></li>
+          <li><a href="#sec-7-7">7.7 Worked Exam Numericals (8)</a></li>
+          <li><a href="#sec-7-8">7.8 Banking OS Context + Blueprint</a></li>
+          <li><a href="#sec-7-9">7.9 Rapid Revision + 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-07">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster1-ch06-daa.html">&larr; Prev: Ch 6 DAA</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 1: Core CS &amp; Programming</span>
+            <span class="badge badge-warn">Topic 7 of 25 &bull; Cluster 1 Finale</span>
+            <span class="badge badge-live">Very High Numerical &amp; Descriptive Yield</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 7: Operating Systems (OS)</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Complete exam-depth master chapter covering Kernel architectures, 7-State Process Lifecycle (SVG), Threads vs. Processes,
+            CPU Scheduling (SRTF/RR/Priority), Synchronization (Semaphores/Monitors), Deadlocks &amp; Banker's Algorithm, Paging/TLB/Belady's Anomaly/Thrashing,
+            Unix Inodes &amp; Disk Scheduling, 8 worked exam numericals, banking server OS hardening, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 7.1 ==================== -->
+        <section id="sec-7-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">7.1 Kernel Architectures, System Calls, Process Lifecycle &amp; Threads</h2>
+            <span class="badge badge-info">Core Foundation</span>
+          </div>
+          <ul>
+            <li><strong>Dual-Mode Protection:</strong> Hardware <strong>Mode Bit</strong> separates <mark>User Mode (Ring 3, bit=1)</mark> from <mark>Kernel Mode (Ring 0, bit=0)</mark>. User apps request privileged I/O or memory ops via a <mark>System Call (Software Interrupt / Trap)</mark>.</li>
+            <li><strong>Kernel Architectures:</strong>
+              <strong>Monolithic</strong> (Linux — all OS services in Ring 0; fastest IPC, single driver bug can crash kernel) vs.
+              <strong>Microkernel</strong> (QNX/Mach — only IPC, scheduling &amp; basic VM in Ring 0; drivers in user space; safer isolation, higher IPC overhead) vs.
+              <strong>Hybrid</strong> (Windows NT, macOS XNU).</li>
+            <li><strong>Schedulers:</strong>
+              <strong>Long-Term (Job)</strong> controls <mark>Degree of Multiprogramming</mark> (New &rarr; Ready);
+              <strong>Short-Term (CPU)</strong> picks next Ready process to Run (ms frequency);
+              <strong>Medium-Term (Swapper)</strong> suspends/swaps processes to disk to relieve RAM pressure.</li>
+            <li><strong>Unix Process Traps:</strong> <code>fork()</code> returns <code>0</code> to child and child's PID to parent (calling <code>fork()</code> <code>n</code> times creates <mark><code>2^n</code> total processes</mark>, i.e. <code>2^n - 1</code> new children!).
+              <strong>Zombie Process:</strong> Terminated child whose exit status has not yet been reaped by parent via <code>wait()</code> (occupies PCB slot).
+              <strong>Orphan Process:</strong> Running child whose parent terminated early (adopted by <code>init</code>/<code>systemd</code> PID 1).</li>
+          </ul>
+
+          <!-- Inline SVG: 7-State Process Lifecycle -->
+          <div style="margin:0.9rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 205" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="7-State Operating System Process Lifecycle Diagram">
+              <rect x="10" y="8" width="740" height="190" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <!-- Main 5 states -->
+              <rect x="28" y="32" width="90" height="36" rx="8" fill="#475569"/>
+              <text x="73" y="54" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">New</text>
+
+              <rect x="168" y="32" width="110" height="36" rx="8" fill="#1d4ed8"/>
+              <text x="223" y="54" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">Ready (RAM)</text>
+
+              <rect x="338" y="32" width="110" height="36" rx="8" fill="#0d9488"/>
+              <text x="393" y="54" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">Running (CPU)</text>
+
+              <rect x="508" y="32" width="110" height="36" rx="8" fill="#b91c1c"/>
+              <text x="563" y="54" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">Terminated</text>
+
+              <rect x="338" y="132" width="110" height="36" rx="8" fill="#b45309"/>
+              <text x="393" y="154" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">Waiting / Blocked</text>
+
+              <!-- Suspended states -->
+              <rect x="168" y="132" width="118" height="36" rx="8" fill="#6d28d9"/>
+              <text x="227" y="154" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="700">Ready-Suspended</text>
+
+              <rect x="508" y="132" width="132" height="36" rx="8" fill="#6d28d9"/>
+              <text x="574" y="154" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="700">Blocked-Suspended</text>
+
+              <!-- Arrows -->
+              <line x1="118" y1="50" x2="168" y2="50" stroke="#0f2942" stroke-width="2"/>
+              <line x1="278" y1="44" x2="338" y2="44" stroke="#0d9488" stroke-width="2"/>
+              <line x1="338" y1="58" x2="278" y2="58" stroke="#1d4ed8" stroke-width="2" stroke-dasharray="4,3"/>
+              <line x1="448" y1="50" x2="508" y2="50" stroke="#b91c1c" stroke-width="2"/>
+              <line x1="393" y1="68" x2="393" y2="132" stroke="#b45309" stroke-width="2"/>
+              <line x1="338" y1="144" x2="250" y2="68" stroke="#0d9488" stroke-width="1.8"/>
+              <!-- Swap arrows -->
+              <line x1="223" y1="68" x2="223" y2="132" stroke="#6d28d9" stroke-width="1.8" stroke-dasharray="4,3"/>
+              <line x1="448" y1="150" x2="508" y2="150" stroke="#6d28d9" stroke-width="1.8" stroke-dasharray="4,3"/>
+
+              <text x="143" y="42" text-anchor="middle" fill="#475569" font-size="9">Admit</text>
+              <text x="308" y="38" text-anchor="middle" fill="#0f766e" font-size="9">Dispatch</text>
+              <text x="308" y="70" text-anchor="middle" fill="#1d4ed8" font-size="9">Preempt</text>
+              <text x="478" y="42" text-anchor="middle" fill="#b91c1c" font-size="9">Exit</text>
+              <text x="424" y="104" text-anchor="middle" fill="#b45309" font-size="9">I/O Wait</text>
+              <text x="692" y="154" text-anchor="middle" fill="#6d28d9" font-size="9.5" font-weight="700">(Swapped to Disk)</text>
+            </svg>
+          </div>
+
+          <h3 style="margin:0.8rem 0 0.45rem;font-size:1.05rem;">Processes vs. Threads (High-Yield MCQ Distinction)</h3>
+          <ul>
+            <li><strong>Shared across threads of the same process:</strong> <mark>Code (Text), Data (.data/.bss), Heap, Open File Descriptors, Signals</mark>.</li>
+            <li><strong>Private per thread (TCB):</strong> <mark>Thread ID, Program Counter (PC), CPU Registers, and Thread Stack</mark>.</li>
+            <li><strong>User-Level Threads (ULT) vs. Kernel-Level Threads (KLT):</strong> ULT context-switch is ultra-fast (no kernel trap), but <mark>one blocking I/O syscall blocks ALL threads in the process</mark> (Many-to-One) and cannot exploit multi-core CPUs. KLT (One-to-One — Linux <code>pthreads</code>, Java threads) run truly in parallel across cores.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 7.2 ==================== -->
+        <section id="sec-7-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">7.2 CPU Scheduling Algorithms &amp; Metrics</h2>
+            <span class="badge badge-warn">Guaranteed Numerical Topic</span>
+          </div>
+          <p style="margin-top:0;">
+            <strong>Core Formulas:</strong>
+            <mark><code>TAT (Turnaround Time) = Completion Time (CT) - Arrival Time (AT)</code></mark> &bull;
+            <mark><code>WT (Waiting Time) = TAT - Burst Time (BT)</code></mark> &bull;
+            <code>RT (Response Time) = First CPU Time - AT</code>.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Algorithm</th>
+                  <th>Preemptive?</th>
+                  <th>Starvation?</th>
+                  <th>Key Properties &amp; Exam Traps</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>FCFS</strong></td>
+                  <td>No</td>
+                  <td>No</td>
+                  <td>Suffers <mark>Convoy Effect</mark> (short processes stuck behind one long CPU-bound job).</td>
+                </tr>
+                <tr>
+                  <td><strong>SJF (Non-Preemptive)</strong></td>
+                  <td>No</td>
+                  <td><mark>Yes</mark></td>
+                  <td>Optimal minimum avg WT among non-preemptive schedulers; future burst predicted via exponential averaging <code>&tau;_(n+1) = &alpha;t_n + (1-&alpha;)&tau;_n</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>SRTF (Preemptive SJF)</strong></td>
+                  <td>Yes</td>
+                  <td><mark>Yes</mark></td>
+                  <td><mark>Provably optimal minimum average Waiting Time</mark> among ALL scheduling algorithms.</td>
+                </tr>
+                <tr>
+                  <td><strong>Priority Scheduling</strong></td>
+                  <td>Both</td>
+                  <td><mark>Yes</mark></td>
+                  <td>Starvation solved by <mark>Aging</mark> (gradually boosting priority of waiting jobs). <mark>Priority Inversion</mark> solved by Priority Inheritance.</td>
+                </tr>
+                <tr>
+                  <td><strong>Round Robin (RR)</strong></td>
+                  <td>Yes (Quantum <code>q</code>)</td>
+                  <td><mark>No</mark></td>
+                  <td>Best for time-sharing response time. If <code>q &rarr; &infin;</code>, degrades to <mark>FCFS</mark>; if <code>q &rarr; 0</code>, excessive context-switching.</td>
+                </tr>
+                <tr>
+                  <td><strong>MLFQ</strong></td>
+                  <td>Yes</td>
+                  <td>No (with aging)</td>
+                  <td>Multilevel Feedback Queue lets processes move between priority queues based on CPU burst behavior (used in real OSes).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 7.3 ==================== -->
+        <section id="sec-7-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">7.3 Process Synchronization, Critical Section, Semaphores &amp; Monitors</h2>
+          </div>
+          <ul>
+            <li><strong>3 Mandatory Critical Section Requirements:</strong> (1) <mark>Mutual Exclusion</mark> (at most 1 process in CS), (2) <mark>Progress</mark> (selection among waiting processes cannot be postponed indefinitely), (3) <mark>Bounded Waiting</mark> (finite limit on how many times others enter before a waiting process gets its turn).</li>
+            <li><strong>Peterson's Algorithm:</strong> Software-only 2-process solution satisfying all 3 requirements using <code>flag[2]</code> and <code>turn</code>.</li>
+            <li><strong>Semaphores (Dijkstra):</strong> Atomic <code>wait(S)</code> / <code>P(S)</code> decrements <code>S</code> (blocks if <code>S &le; 0</code>); <code>signal(S)</code> / <code>V(S)</code> increments <code>S</code> (wakes a blocked process).
+              &bull; <strong>Counting Semaphore</strong> controls access to <code>k</code> identical resource instances.<br>
+              &bull; <strong>Mutex vs. Binary Semaphore Trap:</strong> A <mark>Mutex has strict ownership</mark> (only the locking thread can unlock it, supporting priority inheritance), whereas a Binary Semaphore can be signaled by ANY thread (ideal for producer-consumer signaling).</li>
+            <li><strong>Monitors:</strong> High-level language synchronization construct (e.g., Java <code>synchronized</code>) encapsulating shared data, mutual exclusion, and condition variables (<code>wait()</code>/<code>notify()</code>).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 7.4 ==================== -->
+        <section id="sec-7-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">7.4 Deadlocks: Coffman Conditions, RAG &amp; Banker's Algorithm</h2>
+            <span class="badge badge-danger">Top Paper III Objective Zone</span>
+          </div>
+          <ul>
+            <li><strong>4 Necessary Coffman Conditions (ALL 4 must hold simultaneously):</strong>
+              1. <mark>Mutual Exclusion</mark> (non-shareable resource),
+              2. <mark>Hold and Wait</mark> (holding &ge;1 resource while waiting for more),
+              3. <mark>No Preemption</mark> (resources released only voluntarily),
+              4. <mark>Circular Wait</mark> (<code>P0 &rarr; P1 &rarr; ... &rarr; P0</code> — broken by imposing total resource ordering!).</li>
+            <li><strong>Resource Allocation Graph (RAG) Rule:</strong>
+              &bull; If every resource type has a <mark>single instance</mark>, a cycle in RAG is <strong>BOTH necessary and sufficient</strong> for deadlock.<br>
+              &bull; If resource types have <mark>multiple instances</mark>, a cycle is <strong>necessary, NOT sufficient</strong>!</li>
+            <li><strong>Banker's Algorithm (Deadlock Avoidance — Dijkstra):</strong>
+              Computes <code>Need[i] = Max[i] - Allocation[i]</code> and searches for a <mark>Safe Sequence</mark> (<code>Need[i] &le; Work</code>) in <mark><code>O(m &middot; n^2)</code></mark> time (<code>m</code> resource types, <code>n</code> processes).
+              <strong>Key Trap:</strong> <mark>Safe State &rArr; Guaranteed No Deadlock</mark>, but <mark>Unsafe State &ne; Deadlock</mark> (it only means deadlock is <em>possible</em>!).</li>
+            <li><strong>Deadlock-Free Resource Minimum Formula:</strong> For <code>n</code> processes each needing at most <code>k</code> instances of a resource, minimum instances guaranteeing NO deadlock = <mark><code>n(k - 1) + 1</code></mark>.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 7.5 ==================== -->
+        <section id="sec-7-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">7.5 Memory Management: Paging, Segmentation, TLB &amp; Virtual Memory</h2>
+            <span class="badge badge-danger">Highest Numerical Yield in OS</span>
+          </div>
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Scheme</th>
+                  <th>Division Unit</th>
+                  <th>Fragmentation</th>
+                  <th>Hardware &amp; Key Exam Fact</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Contiguous Dynamic</strong></td>
+                  <td>Variable partitions</td>
+                  <td><mark>External Fragmentation</mark></td>
+                  <td>First-Fit, Best-Fit, Worst-Fit; fixed via Compaction.</td>
+                </tr>
+                <tr>
+                  <td><strong>Paging</strong></td>
+                  <td>Fixed-size <mark>Pages = Frames</mark></td>
+                  <td><mark>Internal Fragmentation</mark> (avg 0.5 page/process; ZERO external!)</td>
+                  <td>Logical Addr = <code>(p, d)</code>; Page Table maps <code>p &rarr; f</code>; offset <code>d</code> unchanged!</td>
+                </tr>
+                <tr>
+                  <td><strong>Segmentation</strong></td>
+                  <td>Variable logical units (Code, Stack, Heap)</td>
+                  <td><mark>External Fragmentation</mark></td>
+                  <td>Segment Table stores <code>(Base, Limit)</code>; checks <code>offset &lt; Limit</code> else Trap!</td>
+                </tr>
+                <tr>
+                  <td><strong>Inverted Page Table</strong></td>
+                  <td>1 entry per <mark>Physical Frame</mark></td>
+                  <td>Internal</td>
+                  <td>One global table for entire OS (saves RAM on 64-bit CPUs); uses hashing to speed lookup.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>TLB Effective Access Time (EAT):</strong> <mark><code>EAT = h(T_tlb + T_mem) + (1 - h)(T_tlb + 2 &middot; T_mem)</code></mark> (single-level page table; for <code>L</code>-level page table, miss adds <code>(L + 1) &middot; T_mem</code>!).</li>
+            <li><strong>Page Replacement Algorithms:</strong>
+              &bull; <strong>FIFO:</strong> Simple queue, suffers <mark>Belady's Anomaly</mark> (increasing frames can INCREASE page faults!).<br>
+              &bull; <strong>Optimal (MIN):</strong> Replaces page unused for longest future time (impossible online, lowest faults, no Belady).<br>
+              &bull; <strong>LRU (Least Recently Used):</strong> Stack algorithm, <mark>NO Belady's Anomaly</mark>, high hardware overhead.<br>
+              &bull; <strong>Clock (Second-Chance):</strong> Circular buffer using 1 Reference Bit (practical Linux/OS approximation of LRU).</li>
+            <li><strong>Demand Paging EAT &amp; Thrashing:</strong> <mark><code>EAT = (1 - p) &middot; ma + p &middot; S</code></mark> (<code>p</code> = page fault rate, <code>S</code> = page fault service time).
+              <strong>Thrashing</strong> occurs when degree of multiprogramming exceeds available frames so processes spend more time paging than executing &rarr; CPU utilization plummets. Controlled via <mark>Working-Set Model (Denning)</mark> and <mark>Page Fault Frequency (PFF)</mark>.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 7.6 ==================== -->
+        <section id="sec-7-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">7.6 File Allocation (Unix Inodes) &amp; Disk Scheduling</h2>
+          </div>
+          <ul>
+            <li><strong>File Allocation:</strong>
+              <strong>Contiguous</strong> (fastest sequential/direct read, external fragmentation, hard to grow),
+              <strong>Linked / FAT</strong> (no external frag, poor random access <code>O(n)</code>),
+              <strong>Indexed / Unix Inode</strong> (stores metadata + 12 direct pointers + 1 single indirect + 1 double indirect + 1 triple indirect &rarr; fast small files AND huge multi-TB files!).</li>
+            <li><strong>Disk Access Time:</strong> <code>Seek Time (arm to track) + Rotational Latency (avg = 1/2 revolution) + Transfer Time</code>.</li>
+            <li><strong>Disk Scheduling Comparison:</strong>
+              <strong>FCFS</strong> (fair, high seek),
+              <strong>SSTF</strong> (Shortest Seek Time First — greedy, <mark>can cause starvation</mark>),
+              <strong>SCAN (Elevator)</strong> (sweeps to track <code>0</code> or <code>max</code> and reverses),
+              <strong>C-SCAN</strong> (sweeps one direction to end, jumps back without servicing &rarr; uniform wait time),
+              <strong>LOOK / C-LOOK</strong> (reverses/jumps at the <mark>last pending request</mark> instead of wasting travel to empty disk boundary!).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 7.7 ==================== -->
+        <section id="sec-7-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">7.7 Worked Exam Numericals (8 Step-by-Step OS Problems)</h2>
+            <span class="badge badge-warn">Guaranteed 2-Mark Scoring Zone</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 1: SRTF (Preemptive SJF) Avg Waiting &amp; Turnaround Time</span>
+            <strong>Processes:</strong> <code>P1(AT=0, BT=8), P2(AT=1, BT=4), P3(AT=2, BT=9), P4(AT=3, BT=5)</code>.<br>
+            <strong>Gantt:</strong> <code>0–1: P1(rem 7)</code> &rarr; <code>1–5: P2(done, CT=5)</code> &rarr; <code>5–10: P4(done, CT=10)</code> &rarr; <code>10–17: P1(done, CT=17)</code> &rarr; <code>17–26: P3(done, CT=26)</code>.<br>
+            <strong>TAT = CT - AT:</strong> <code>P1=17, P2=4, P3=24, P4=7</code> (Avg TAT = <code>52/4 =</code> <mark><code>13.0</code></mark>).<br>
+            <strong>WT = TAT - BT:</strong> <code>P1=9, P2=0, P3=15, P4=2</code> (Avg WT = <code>26/4 =</code> <mark><code>6.5</code></mark>).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 2: Round Robin (Quantum <code>q = 3</code>)</span>
+            <strong>Processes (all AT=0):</strong> <code>P1(BT=5), P2(BT=4), P3(BT=2)</code>.<br>
+            <strong>Gantt:</strong> <code>0–3: P1(rem 2)</code> &rarr; <code>3–6: P2(rem 1)</code> &rarr; <code>6–8: P3(CT=8)</code> &rarr; <code>8–10: P1(CT=10)</code> &rarr; <code>10–11: P2(CT=11)</code>.<br>
+            <strong>WT:</strong> <code>P1=5, P2=7, P3=6</code> &rarr; Avg WT = <code>18/3 =</code> <mark><code>6.0</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 3: Deadlock-Free Minimum Resource Instances</span>
+            <strong>Problem:</strong> 5 processes each require at most 4 tape drives to complete. What is the minimum number of tape drives guaranteeing ZERO deadlock?<br>
+            <strong>Formula:</strong> <code>n(k - 1) + 1 = 5(4 - 1) + 1 = 15 + 1 =</code> <mark><code>16 drives</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 4: Paging Address Split &amp; Page Table Size</span>
+            <strong>Problem:</strong> 32-bit Logical Address, <code>4 KB</code> Page Size, <code>4-byte</code> Page Table Entry (PTE). Find page bits, offset bits, and single-level Page Table size.<br>
+            <strong>Solution:</strong> <code>Page Size = 4 KB = 2^12 B</code> &rarr; <mark>Offset = 12 bits</mark>; <mark>Page Number = 32 - 12 = 20 bits</mark>.<br>
+            Number of entries = <code>2^20</code> (1M entries). Page Table Size = <code>2^20 &times; 4 B =</code> <mark><code>4 MB</code></mark> per process!
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 5: TLB Effective Access Time (EAT)</span>
+            <strong>Problem:</strong> TLB hit ratio <code>h = 80%</code>, TLB lookup <code>= 20 ns</code>, RAM access <code>= 100 ns</code>.<br>
+            <strong>Solution:</strong> <code>EAT = 0.80(20 + 100) + 0.20(20 + 200) = 96 + 44 =</code> <mark><code>140 ns</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 6: Page Replacement Faults (FIFO vs. LRU vs. Optimal, 3 Frames)</span>
+            <strong>Reference String:</strong> <code>7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2</code> (13 refs, 3 frames).<br>
+            &bull; <strong>FIFO:</strong> <mark>10 page faults</mark>. &bull; <strong>LRU:</strong> <mark>9 page faults</mark>. &bull; <strong>Optimal:</strong> <mark>7 page faults</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 7: Unix Inode Max File Size (Direct + Single Indirect)</span>
+            <strong>Problem:</strong> Block size <code>4 KB</code>, block pointer <code>4 B</code>, <code>12</code> direct + <code>1</code> single-indirect pointer.<br>
+            <strong>Pointers per block:</strong> <code>4096 / 4 = 1024</code> pointers.<br>
+            <strong>Max blocks:</strong> <code>12 + 1024 = 1036</code> blocks &rarr; Max Size = <code>1036 &times; 4 KB =</code> <mark><code>4,144 KB (&approx; 4.05 MB)</code></mark>. (Adding 1 double-indirect adds <code>1024^2 &times; 4 KB = 4 GB</code>!).
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Numerical 8: Disk Scheduling Head Movement (SCAN vs. C-LOOK)</span>
+            <strong>Queue:</strong> <code>[98, 183, 37, 122, 14, 124, 65, 67]</code>, Cylinders <code>0–199</code>, Start Head = <code>53</code> moving toward <code>199</code>.<br>
+            &bull; <strong>SCAN (hits 199):</strong> <code>53 &rarr; 199 (146) + 199 &rarr; 14 (185) =</code> <mark><code>331 cylinders</code></mark>.<br>
+            &bull; <strong>C-LOOK (stops at 183, jumps to 14):</strong> <code>(183 - 53) + (183 - 14) + (37 - 14) = 130 + 169 + 23 =</code> <mark><code>322 cylinders</code></mark>.
+          </div>
+        </section>
+
+        <!-- ==================== 7.8 ==================== -->
+        <section id="sec-7-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">7.8 Banking &amp; SIDBI Server OS Context + 10-Mark Blueprint</h2>
+            <span class="badge badge-live">Descriptive Edge</span>
+          </div>
+          <ul>
+            <li><strong>OS Hardening &amp; Mandatory Access Control:</strong> Enterprise CBS and SIDBI digital-lending servers run hardened Linux (RHEL/Ubuntu LTS) enforcing <mark>SELinux / AppArmor</mark>, disabled root SSH, CIS benchmarks, kernel live-patching, and strict CVE patching SLAs aligned with <a href="https://m.rbi.org.in/scripts/BS_ViewMasDirections.aspx?id=13597" target="_blank" rel="noopener noreferrer">RBI AIFI Cybersecurity &amp; Tech Risk Directions 2026</a>.</li>
+            <li><strong>Preventing Thrashing on Banking DB Nodes:</strong> Oracle/PostgreSQL servers configure Linux <code>vm.swappiness=1</code> and <mark>HugePages (2 MB / 1 GB)</mark> to dramatically shrink Page Table size and maximize TLB reach, preventing catastrophic thrashing during end-of-day (EOD) MSME batch interest posting.</li>
+          </ul>
+          <div class="callout callout-info" style="margin-top:0.85rem;">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"Explain how Virtual Memory, TLB, and Thrashing impact high-throughput banking servers, and outline OS-level tuning controls to ensure deterministic transaction latency." (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (25w):</strong> Virtual memory decouples logical address space from physical RAM via demand paging.<br>
+            &bull; <strong>TLB &amp; Thrashing Mechanics (85w):</strong> Cite TLB EAT formula and explain how memory over-commitment triggers continuous page faults (thrashing), collapsing CPU utilization and causing CBS/API timeouts.<br>
+            &bull; <strong>OS Controls (70w):</strong> Working-Set / PFF monitoring, Linux <code>cgroups</code> memory limits per microservice, HugePages to cut TLB misses, low <code>vm.swappiness</code>, and proactive capacity planning.<br>
+            &bull; <strong>Conclusion (20w):</strong> Combining OS memory governance with RBI BCP/DR resilience keeps financial platforms predictable under peak load.
+          </div>
+        </section>
+
+        <!-- ==================== 7.9 ==================== -->
+        <section id="sec-7-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">7.9 5-Minute Rapid Revision Sheet &amp; 15 Exam-Level Practice MCQs</h2>
+            <span class="badge badge-warn">Last-Day Cram + Drill</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li>User Mode = Ring 3; Kernel Mode = Ring 0; transition happens via <mark>System Call (Trap)</mark>.</li>
+            <li><mark>Long-Term Scheduler</mark> controls Degree of Multiprogramming; <mark>Medium-Term</mark> performs swapping.</li>
+            <li>Calling <code>fork()</code> <code>n</code> times creates <mark><code>2^n</code> total processes</mark>.</li>
+            <li><mark>Zombie</mark> = exited child waiting for parent's <code>wait()</code>; <mark>Orphan</mark> = live child adopted by PID 1.</li>
+            <li>Threads share Code, Data, Heap &amp; Files; each thread has its own <mark>Stack, Registers &amp; PC</mark>.</li>
+            <li><mark>FCFS</mark> suffers Convoy Effect; <mark>SRTF</mark> gives provably minimum average Waiting Time.</li>
+            <li>Priority Scheduling starvation is fixed by <mark>Aging</mark>; Priority Inversion is fixed by Priority Inheritance.</li>
+            <li>Round Robin with <code>q &rarr; &infin;</code> behaves identically to <mark>FCFS</mark>.</li>
+            <li>Critical Section requires: <mark>Mutual Exclusion, Progress, and Bounded Waiting</mark>.</li>
+            <li><mark>Mutex</mark> has strict thread ownership; Binary Semaphore does not.</li>
+            <li>4 Coffman Conditions: <mark>Mutual Exclusion, Hold &amp; Wait, No Preemption, Circular Wait</mark>.</li>
+            <li>RAG cycle = necessary &amp; sufficient for single-instance resources; necessary ONLY for multi-instance.</li>
+            <li><mark>Banker's Algorithm</mark> (<code>O(m&middot;n^2)</code>): Safe &rArr; No Deadlock; Unsafe &ne; Deadlock.</li>
+            <li>Min deadlock-free instances for <code>n</code> processes each needing max <code>k</code> = <mark><code>n(k - 1) + 1</code></mark>.</li>
+            <li>Paging causes <mark>Internal Fragmentation</mark> (zero external); Segmentation causes <mark>External Fragmentation</mark>.</li>
+            <li><mark>Inverted Page Table</mark> has 1 entry per physical RAM frame (1 global table for entire OS).</li>
+            <li>TLB EAT = <code>h(T_tlb + T_mem) + (1 - h)(T_tlb + 2&middot;T_mem)</code>.</li>
+            <li><mark>FIFO</mark> suffers <mark>Belady's Anomaly</mark>; <mark>LRU &amp; Optimal</mark> (stack algorithms) NEVER suffer Belady's Anomaly.</li>
+            <li>Demand Paging EAT = <code>(1 - p)&middot;ma + p&middot;S</code>.</li>
+            <li><mark>Thrashing</mark> = excessive paging collapsing CPU utilization; mitigated via Working-Set / PFF.</li>
+            <li><mark>Unix Inode</mark> uses Direct + Single/Double/Triple Indirect pointers for fast random access &amp; huge files.</li>
+            <li><mark>SSTF</mark> disk scheduling can cause starvation of distant cylinders.</li>
+            <li><mark>SCAN</mark> travels to disk boundary; <mark>LOOK</mark> reverses at the last pending request.</li>
+            <li><mark>C-SCAN / C-LOOK</mark> provide more uniform wait times than SCAN/LOOK.</li>
+            <li>Linux <mark>HugePages</mark> shrink Page Tables and reduce TLB misses on large Core Banking DB servers.</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 7 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (22 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch7-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster1-ch06-daa.html">&larr; Prev: Chapter 6 — DAA</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard (Cluster 1 Complete!)</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-07', '[data-chapter-complete="it-07"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch7-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch7-q1',
+              marks: 1,
+              section: 'Processes & Threads',
+              prompt: 'Which set of resources is PRIVATE to each individual thread within a multi-threaded process (not shared with sibling threads)?',
+              options: [
+                'Heap memory and global variables',
+                'Open file descriptors and code segment',
+                'Stack, CPU registers, and Program Counter (PC)',
+                'Virtual memory page table and signal handlers',
+                'Static .bss variables and dynamic libraries'
+              ],
+              correctIndex: 2,
+              explanation: 'Threads within a process share Code, Data, Heap, and Open Files, while each thread maintains its own Stack, Registers, and Program Counter.'
+            },
+            {
+              id: 'ch7-q2',
+              marks: 1,
+              section: 'Unix Processes',
+              prompt: 'In Unix/Linux, a process that has finished execution but still retains an entry in the process table because its parent has not yet called wait() is known as a:',
+              options: [
+                'Orphan process',
+                'Daemon process',
+                'Zombie process',
+                'Swapped process',
+                'Kernel thread'
+              ],
+              correctIndex: 2,
+              explanation: 'A terminated child whose exit status has not been reaped by its parent via wait() is a Zombie process (state Z).'
+            },
+            {
+              id: 'ch7-q3',
+              marks: 2,
+              section: 'CPU Scheduling',
+              prompt: 'Three processes arrive at t=0 with burst times P1=6, P2=4, P3=2. Under Round Robin scheduling with Time Quantum q=2, what is the average Waiting Time?',
+              options: [
+                '3.33',
+                '4.00',
+                '4.67',
+                '5.33',
+                '6.00'
+              ],
+              correctIndex: 3,
+              explanation: 'Gantt: 0-2 P1, 2-4 P2, 4-6 P3 (CT=6), 6-8 P1, 8-10 P2 (CT=10), 10-12 P1 (CT=12). WT = CT - BT: P1=6, P2=6, P3=4. Avg WT = (6 + 6 + 4) / 3 = 16 / 3 = 5.33.'
+            },
+            {
+              id: 'ch7-q4',
+              marks: 1,
+              section: 'CPU Scheduling',
+              prompt: 'Which scheduling anomaly occurs in FCFS when multiple short I/O-bound processes get stuck waiting behind one long CPU-bound process?',
+              options: [
+                'Belady\'s Anomaly',
+                'Convoy Effect',
+                'Thrashing',
+                'Priority Inversion',
+                'Race-Around Condition'
+              ],
+              correctIndex: 1,
+              explanation: 'The Convoy Effect occurs in non-preemptive FCFS when short processes queue behind a single long CPU-bound process, degrading average waiting time and I/O device utilization.'
+            },
+            {
+              id: 'ch7-q5',
+              marks: 1,
+              section: 'Synchronization',
+              prompt: 'Which technique solves indefinite blocking (starvation) of low-priority processes in Priority Scheduling?',
+              options: [
+                'Compaction',
+                'Aging',
+                'Swapping',
+                'Spooling',
+                'Demand Paging'
+              ],
+              correctIndex: 1,
+              explanation: 'Aging gradually increases the priority of processes that wait in the ready queue for a long time, guaranteeing eventual execution.'
+            },
+            {
+              id: 'ch7-q6',
+              marks: 2,
+              section: 'Deadlocks',
+              prompt: 'A system has 6 processes, and each process requires a maximum of 3 identical resource units to finish. What is the MINIMUM number of resource units that guarantees the system will NEVER deadlock?',
+              options: [
+                '12 units',
+                '13 units',
+                '15 units',
+                '18 units',
+                '19 units'
+              ],
+              correctIndex: 1,
+              explanation: 'Minimum deadlock-free resources = n(k - 1) + 1 = 6(3 - 1) + 1 = 12 + 1 = 13 units.'
+            },
+            {
+              id: 'ch7-q7',
+              marks: 1,
+              section: 'Banker\'s Algorithm',
+              prompt: 'In Deadlock Avoidance using Banker\'s Algorithm, what is the exact relationship between an UNSAFE state and a DEADLOCK state?',
+              options: [
+                'Every unsafe state is immediately deadlocked',
+                'A safe state can still enter deadlock without violating Banker\'s rules',
+                'An unsafe state does NOT guarantee deadlock, but indicates deadlock is possible',
+                'Banker\'s Algorithm runs in O(n) linear time',
+                'Unsafe states occur only when all resources are single-instance'
+              ],
+              correctIndex: 2,
+              explanation: 'All deadlocked states are unsafe, and all safe states are deadlock-free, but an unsafe state merely means the OS can no longer guarantee avoidance if processes request their maximum claims.'
+            },
+            {
+              id: 'ch7-q8',
+              marks: 1,
+              section: 'Memory Fragmentation',
+              prompt: 'Which type of memory fragmentation is completely ELIMINATED by pure Paging, and which type can still occur in the last page of a process?',
+              options: [
+                'Internal eliminated; External still occurs',
+                'External eliminated; Internal still occurs',
+                'Both Internal and External are completely eliminated',
+                'Neither Internal nor External is reduced by Paging',
+                'External occurs only when TLB hit ratio drops below 50%'
+              ],
+              correctIndex: 1,
+              explanation: 'Because any free physical frame can hold any logical page, Paging eliminates External Fragmentation completely, though the final page of a process averages half a page of Internal Fragmentation.'
+            },
+            {
+              id: 'ch7-q9',
+              marks: 2,
+              section: 'Paging Calculation',
+              prompt: 'A CPU generates 32-bit logical addresses with a 8 KB page size. How many bits are used for the Page Offset and Page Number respectively?',
+              options: [
+                'Offset: 12 bits, Page Number: 20 bits',
+                'Offset: 13 bits, Page Number: 19 bits',
+                'Offset: 14 bits, Page Number: 18 bits',
+                'Offset: 10 bits, Page Number: 22 bits',
+                'Offset: 16 bits, Page Number: 16 bits'
+              ],
+              correctIndex: 1,
+              explanation: '8 KB = 8 × 1024 = 2^13 bytes → Page Offset = 13 bits. Remaining Page Number bits = 32 - 13 = 19 bits.'
+            },
+            {
+              id: 'ch7-q10',
+              marks: 2,
+              section: 'TLB Effective Access Time',
+              prompt: 'A paging system has a TLB hit ratio of 90%, TLB access time of 10 ns, and main memory access time of 100 ns. What is the Effective Access Time (EAT) for a single-level page table?',
+              options: [
+                '110 ns',
+                '120 ns',
+                '130 ns',
+                '150 ns',
+                '210 ns'
+              ],
+              correctIndex: 1,
+              explanation: 'EAT = 0.90(10 + 100) + 0.10(10 + 200) = 0.90(110) + 0.10(210) = 99 + 21 = 120 ns.'
+            },
+            {
+              id: 'ch7-q11',
+              marks: 1,
+              section: 'Page Replacement',
+              prompt: 'Which page replacement algorithm can exhibit Belady\'s Anomaly (where allocating MORE physical frames increases the number of page faults)?',
+              options: [
+                'Optimal (MIN)',
+                'Least Recently Used (LRU)',
+                'First-In First-Out (FIFO)',
+                'Most Recently Used (MRU) stack',
+                'Working-Set Algorithm'
+              ],
+              correctIndex: 2,
+              explanation: 'FIFO is NOT a stack algorithm and can suffer Belady\'s Anomaly; Optimal and LRU satisfy the inclusion property and never suffer it.'
+            },
+            {
+              id: 'ch7-q12',
+              marks: 1,
+              section: 'Virtual Memory',
+              prompt: 'When a heavily loaded transaction server spends more time swapping pages between RAM and disk than executing useful instructions, causing CPU utilization to collapse, the condition is called:',
+              options: [
+                'Spooling',
+                'Compaction',
+                'Thrashing',
+                'Fragmentation',
+                'Deadlock Avoidance'
+              ],
+              correctIndex: 2,
+              explanation: 'Thrashing occurs when active processes lack enough frames to hold their working sets, causing continuous page faults and severe CPU utilization collapse.'
+            },
+            {
+              id: 'ch7-q13',
+              marks: 2,
+              section: 'Unix Inode',
+              prompt: 'A Unix file system uses 2 KB disk blocks and 4-byte disk block addresses. How many data blocks can a SINGLE Indirect pointer block address?',
+              options: [
+                '256 blocks',
+                '512 blocks',
+                '1024 blocks',
+                '2048 blocks',
+                '4096 blocks'
+              ],
+              correctIndex: 1,
+              explanation: 'A single indirect block of 2048 bytes holding 4-byte pointers stores 2048 / 4 = 512 direct data block pointers.'
+            },
+            {
+              id: 'ch7-q14',
+              marks: 1,
+              section: 'Disk Scheduling',
+              prompt: 'How does the LOOK disk scheduling algorithm improve upon standard SCAN (Elevator)?',
+              options: [
+                'LOOK services requests strictly in FIFO arrival order',
+                'LOOK reverses direction immediately at the last pending request in that direction rather than traveling all the way to the empty disk boundary',
+                'LOOK eliminates rotational latency completely',
+                'LOOK uses random seek ordering to prevent starvation',
+                'LOOK requires solid-state NVMe flash instead of magnetic platters'
+              ],
+              correctIndex: 1,
+              explanation: 'SCAN always moves to cylinder 0 or max even if no requests exist there; LOOK reverses immediately upon reaching the farthest pending request in the current direction.'
+            },
+            {
+              id: 'ch7-q15',
+              marks: 1,
+              section: 'Banking OS Tuning',
+              prompt: 'Why do production Core Banking RDBMS servers on Linux enable HugePages (2 MB / 1 GB pages) for database shared memory buffers?',
+              options: [
+                'To eliminate the need for RAID storage arrays',
+                'To drastically reduce Page Table size and minimize TLB misses on multi-gigabyte memory pools',
+                'To disable kernel-mode Ring 0 protection',
+                'To force FIFO page replacement across all queries',
+                'To allow User-Level Threads to bypass TCP/IP networking'
+              ],
+              correctIndex: 1,
+              explanation: 'Larger page sizes cover vastly more RAM per TLB entry (higher TLB reach) and shrink page-table overhead, accelerating memory-intensive database workloads.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

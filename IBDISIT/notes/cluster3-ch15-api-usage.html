@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 15: API Usage (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 3 &bull; Chapter 15 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-15-1" class="active">15.1 REST, SOAP, GraphQL &amp; gRPC</a></li>
+          <li><a href="#sec-15-2">15.2 HTTP Methods, Idempotency &amp; Paging</a></li>
+          <li><a href="#sec-15-3">15.3 OAuth 2.0, OIDC, JWT &amp; mTLS (SVG)</a></li>
+          <li><a href="#sec-15-4">15.4 Gateways, Rate Limiting &amp; Webhooks</a></li>
+          <li><a href="#sec-15-5">15.5 OWASP API Security Top 10</a></li>
+          <li><a href="#sec-15-6">15.6 India DPI: OCEN, AA &amp; GST Sahay</a></li>
+          <li><a href="#sec-15-7">15.7 Worked API Case Scenarios (6)</a></li>
+          <li><a href="#sec-15-8">15.8 SIDBI 10-Mark Descriptive Blueprint</a></li>
+          <li><a href="#sec-15-9">15.9 Rapid Revision + 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-15">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster3-ch14-mis.html">&larr; Prev: Ch 14 MIS</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 3: SE &amp; Enterprise Systems</span>
+            <span class="badge badge-warn">Topic 15 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">High Open-Banking &amp; FinTech Yield</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 15: API Usage &amp; Open-Banking Integration</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Complete exam-depth treatise on REST vs. SOAP vs. GraphQL vs. gRPC vs. WebSockets, HTTP safety &amp; idempotency,
+            OAuth 2.0 / OIDC / JWT / mTLS (SVG), API Gateways, Token/Leaky Bucket rate limiting, Circuit Breakers, Webhooks,
+            OWASP API Top 10 (BOLA/BFLA), India's DPI (OCEN, Account Aggregator, GST Sahay), 6 worked scenarios, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 15.1 ==================== -->
+        <section id="sec-15-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">15.1 API Architectural Styles: REST vs. SOAP vs. GraphQL vs. gRPC</h2>
+            <span class="badge badge-info">Core Comparison</span>
+          </div>
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>REST</th>
+                  <th>SOAP</th>
+                  <th>GraphQL</th>
+                  <th>gRPC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Protocol / Style</strong></td>
+                  <td>Architectural style over HTTP/HTTPS</td>
+                  <td>Strict XML protocol (HTTP/SMTP/JMS)</td>
+                  <td>Query language over HTTP (single <code>/graphql</code>)</td>
+                  <td>High-performance RPC over <mark>HTTP/2</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Payload Format</strong></td>
+                  <td>JSON (primarily), XML, text</td>
+                  <td><mark>Strictly XML</mark> (Envelope/Header/Body)</td>
+                  <td>JSON</td>
+                  <td><mark>Protocol Buffers (Binary)</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Contract / Schema</strong></td>
+                  <td>OpenAPI (Swagger) 3.x</td>
+                  <td><mark>WSDL</mark> + XSD</td>
+                  <td>GraphQL SDL (strongly typed)</td>
+                  <td><code>.proto</code> IDL files</td>
+                </tr>
+                <tr>
+                  <td><strong>Key Strength</strong></td>
+                  <td>Simplicity, HTTP caching, universal public APIs</td>
+                  <td>Built-in <mark>WS-Security</mark>, ACID WS-AtomicTransaction</td>
+                  <td><mark>Eliminates over-fetching &amp; under-fetching</mark></td>
+                  <td><mark>Ultra-low latency, bi-directional streaming</mark></td>
+                </tr>
+                <tr>
+                  <td><strong>Banking Use Case</strong></td>
+                  <td>OCEN, GST Sahay, Account Aggregator, Partner APIs</td>
+                  <td>Legacy CBS, SWIFT/SFMS enterprise integrations</td>
+                  <td>Aggregating complex MSME mobile dashboard views</td>
+                  <td>Internal high-speed microservice-to-microservice calls</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin:0;font-size:0.92rem;">
+            <strong>Roy Fielding's 6 REST Constraints:</strong> (1) Client–Server separation, (2) <mark>Statelessness</mark> (server stores NO client session state between requests),
+            (3) Cacheability, (4) Uniform Interface (Resource URIs + HATEOAS), (5) Layered System, (6) Code-on-Demand (optional).
+            <strong>WebSockets (<code>wss://</code>):</strong> Persistent full-duplex TCP connection for real-time market tickers, live fraud alerts, or chat.
+          </p>
+        </section>
+
+        <!-- ==================== 15.2 ==================== -->
+        <section id="sec-15-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">15.2 HTTP Methods, Safety, Idempotency &amp; Pagination</h2>
+            <span class="badge badge-danger">Guaranteed MCQ Trap</span>
+          </div>
+          <div class="table-wrap" style="margin-bottom:0.85rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>HTTP Verb</th>
+                  <th>CRUD Action</th>
+                  <th>Safe? (Read-only)</th>
+                  <th>Idempotent? (Same state if repeated)</th>
+                  <th>Banking API Trap</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>GET</code></td><td>Read</td><td><mark>Yes</mark></td><td><mark>Yes</mark></td><td>Never put PAN/OTP/passwords in URL query strings (logged in proxies!).</td></tr>
+                <tr><td><code>POST</code></td><td>Create</td><td>No</td><td><mark>NO</mark></td><td>Retrying a timed-out <code>POST /disburse</code> causes double payout unless an <mark><code>Idempotency-Key</code></mark> header is enforced!</td></tr>
+                <tr><td><code>PUT</code></td><td>Full Replace</td><td>No</td><td><mark>Yes</mark></td><td>Replaces entire resource; repeating it leaves the exact same final state.</td></tr>
+                <tr><td><code>PATCH</code></td><td>Partial Update</td><td>No</td><td>Not guaranteed</td><td>Updates only specified fields (e.g., updating borrower mobile number).</td></tr>
+                <tr><td><code>DELETE</code></td><td>Delete</td><td>No</td><td><mark>Yes</mark></td><td>Deleting an already-deleted record leaves the resource absent.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>Pagination:</strong> <strong>Offset/Limit</strong> (<code>?offset=1000&amp;limit=20</code>) degrades on deep pages and skips/duplicates rows if live inserts occur; <mark><strong>Cursor (Keyset) Pagination</strong></mark> (<code>?after_id=TXN9981&amp;limit=20</code>) uses B+ Tree index seeks for constant <code>O(1)</code> performance on live banking ledgers.</li>
+            <li><strong>API Versioning:</strong> URI Path (<code>/api/v1/loans</code> — most common), Custom Header (<code>X-API-Version: 2</code>), or Content Negotiation (<code>Accept: application/vnd.sidbi.v2+json</code>).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 15.3 ==================== -->
+        <section id="sec-15-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">15.3 API Security: OAuth 2.0, OIDC, JWT &amp; Mutual TLS (mTLS)</h2>
+            <span class="badge badge-purple">High Paper III Objective &amp; Descriptive Yield</span>
+          </div>
+
+          <!-- Inline SVG: OAuth 2.0 + JWT Flow -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 155" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="OAuth 2.0 Client Credentials and JWT API Verification Flow">
+              <rect x="8" y="6" width="744" height="142" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="380" y="25" text-anchor="middle" fill="#0f2942" font-size="11.5" font-weight="800">B2B Banking API Auth Flow: mTLS + OAuth 2.0 + Signed JWT</text>
+              <rect x="24" y="42" width="150" height="48" rx="6" fill="#0f2942"/><text x="99" y="63" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Partner NBFC / LSP</text><text x="99" y="79" text-anchor="middle" fill="#cbd5e1" font-size="9.5">(Client Cert + Secret)</text>
+              <rect x="305" y="42" width="150" height="48" rx="6" fill="#1d4ed8"/><text x="380" y="63" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Auth Server (IAM)</text><text x="380" y="79" text-anchor="middle" fill="#dbeafe" font-size="9.5">Issues RS256 JWT</text>
+              <rect x="586" y="42" width="150" height="48" rx="6" fill="#0d9488"/><text x="661" y="63" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">SIDBI API Gateway</text><text x="661" y="79" text-anchor="middle" fill="#ccfbf1" font-size="9.5">Verifies Sig + Scope</text>
+              <line x1="174" y1="58" x2="305" y2="58" stroke="#1d4ed8" stroke-width="2"/><text x="240" y="52" text-anchor="middle" fill="#1d4ed8" font-size="9.5" font-weight="700">1. Token Req &rarr;</text>
+              <line x1="305" y1="78" x2="174" y2="78" stroke="#0f766e" stroke-width="2"/><text x="240" y="92" text-anchor="middle" fill="#0f766e" font-size="9.5" font-weight="700">&larr; 2. Access JWT</text>
+              <line x1="455" y1="66" x2="586" y2="66" stroke="#6d28d9" stroke-width="2" stroke-dasharray="4,3"/><text x="520" y="58" text-anchor="middle" fill="#6d28d9" font-size="9.5" font-weight="700">JWKS Public Key</text>
+              <rect x="110" y="106" width="540" height="30" rx="6" fill="#fef3c7" stroke="#eab308"/>
+              <text x="380" y="125" text-anchor="middle" fill="#1e293b" font-size="10.5" font-weight="700">3. Client calls API Gateway over mTLS with Header: Authorization: Bearer &lt;Header.Payload.Signature&gt;</text>
+            </svg>
+          </div>
+
+          <ul>
+            <li><strong>OAuth 2.0 vs. OpenID Connect (OIDC):</strong> <mark>OAuth 2.0 is strictly for <strong>Authorization</strong></mark> (delegated scoped access via Access Token); <mark>OIDC</mark> is an identity layer built ON TOP of OAuth 2.0 providing <strong>Authentication</strong> via an <code>ID Token</code>!</li>
+            <li><strong>OAuth 2.0 Key Grant Types:</strong>
+              &bull; <strong>Authorization Code + PKCE:</strong> Mandatory modern flow for user-facing web/mobile apps (PKCE prevents authorization-code interception!).<br>
+              &bull; <strong>Client Credentials:</strong> Machine-to-Machine (M2M) server-to-server calls (no human user present).</li>
+            <li><strong>JWT (JSON Web Token) Traps:</strong> Format = <code>Base64URL(Header).Base64URL(Payload).Signature</code>.
+              <mark>JWTs are SIGNED (tamper-proof), NOT ENCRYPTED</mark> (anyone can decode the payload—never store passwords/PAN inside unless using JWE!). Always pin allowed algorithms server-side to block the <code>alg: none</code> bypass.</li>
+            <li><strong>mTLS (Mutual TLS):</strong> Standard TLS authenticates only the server; <mark>mTLS verifies X.509 certificates on BOTH Client and Server</mark>—mandatory for RBI/NPCI/OCEN B2B banking APIs!</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 15.4 ==================== -->
+        <section id="sec-15-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">15.4 API Gateways, Rate Limiting, Circuit Breakers &amp; Webhooks</h2>
+          </div>
+          <ul>
+            <li><strong>Rate-Limiting Algorithms (Prevents DoS &amp; Quota Abuse &rarr; returns HTTP <code>429 Too Many Requests</code>):</strong>
+              &bull; <strong>Token Bucket:</strong> Tokens refill at steady rate up to bucket capacity; <mark>permits short controlled bursts</mark>.<br>
+              &bull; <strong>Leaky Bucket:</strong> Queue drains at a <mark>strict constant outflow rate</mark> (smooths spiky traffic; drops overflow).<br>
+              &bull; <strong>Sliding Window Counter:</strong> Fixes the boundary-spike flaw of Fixed Window counters.</li>
+            <li><strong>Circuit Breaker Pattern (Resilience):</strong> Prevents cascading failure when a downstream credit bureau (CIBIL/GSTN) stalls. Three states: <mark><strong>Closed</strong> (normal) &rarr; <strong>Open</strong> (fail-fast after error threshold) &rarr; <strong>Half-Open</strong> (sends probe requests to test recovery)</mark>. Pair with <strong>Exponential Backoff + Jitter</strong> on retries.</li>
+            <li><strong>Webhooks vs. Polling:</strong> Instead of clients repeatedly polling <code>GET /status</code> every second, the server pushes an HTTP <code>POST</code> event callback to the client's registered URL when loan sanction finishes—secured with an <mark>HMAC-SHA256 signature header</mark> to verify authenticity.</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 15.5 ==================== -->
+        <section id="sec-15-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">15.5 OWASP API Security Top 10 (Key Banking Vulnerabilities)</h2>
+            <span class="badge badge-danger">High Exam Trap Zone</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Vulnerability</th>
+                  <th>Real Banking Exploit Example &amp; Fix</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><mark>API1</mark></td><td><strong>BOLA (Broken Object Level Auth / IDOR)</strong></td><td>User A changes <code>GET /api/loans/1042</code> to <code>/1043</code> and views User B's loan! <strong>Fix:</strong> Enforce server-side ownership check on EVERY object ID.</td></tr>
+                <tr><td><strong>API2</strong></td><td><strong>Broken Authentication</strong></td><td>Weak JWT secret, missing token expiry, credential stuffing. <strong>Fix:</strong> Short-lived RS256 JWTs + MFA + lockout.</td></tr>
+                <tr><td><strong>API3</strong></td><td><strong>Broken Object Property Level Auth</strong></td><td>Returning hidden DB fields (Excessive Data Exposure) OR accepting <code>"role":"ADMIN"</code> in JSON body (<mark>Mass Assignment</mark>). <strong>Fix:</strong> Strict DTO allow-listing!</td></tr>
+                <tr><td><strong>API4</strong></td><td><strong>Unrestricted Resource Consumption</strong></td><td>Missing pagination/rate limits letting attacker request 10M rows. <strong>Fix:</strong> API Gateway throttling + payload size caps.</td></tr>
+                <tr><td><strong>API5</strong></td><td><strong>BFLA (Broken Function Level Auth)</strong></td><td>Regular borrower invokes <code>DELETE /api/admin/users/5</code>. <strong>Fix:</strong> Deny-by-default RBAC on every endpoint.</td></tr>
+                <tr><td><strong>API9</strong></td><td><strong>Improper Inventory Management</strong></td><td>Forgotten unpatched <code>/api/v1-beta/</code> (<mark>Zombie / Shadow APIs</mark>) still exposed to internet!</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 15.6 ==================== -->
+        <section id="sec-15-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">15.6 India's Open-Banking &amp; DPI API Ecosystem (AA, OCEN &amp; GST Sahay)</h2>
+            <span class="badge badge-live">2025–2026 SIDBI Exam Gold</span>
+          </div>
+          <ul>
+            <li><strong>Account Aggregator (AA) Ecosystem (RBI NBFC-AA Framework / ReBIT APIs):</strong>
+              &bull; <strong>FIP (Financial Information Provider):</strong> Banks, GSTN, Depositories holding customer data.<br>
+              &bull; <strong>FIU (Financial Information User):</strong> Lenders (like SIDBI/NBFCs) requesting consented financial data.<br>
+              &bull; <strong>AA (Account Aggregator):</strong> <mark>Data-blind consent manager</mark>—transmits end-to-end encrypted data only after explicit digital consent artifact; AA CANNOT read or store financial data!</li>
+            <li><strong>OCEN (Open Credit Enablement Network) &amp; <a href="https://www.sidbi.in/gst-sahay" target="_blank" rel="noopener noreferrer">SIDBI GST Sahay</a>:</strong>
+              Open standardized REST API protocol decoupling Loan Service Providers (LSPs — e.g., GST/e-commerce platforms) from Lenders, enabling completely paperless, presence-less, cash-flow-based MSME invoice financing (<a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">SIDBI Digital Initiatives</a>).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 15.7 ==================== -->
+        <section id="sec-15-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">15.7 Worked API Design &amp; Troubleshooting Scenarios (6 Cases)</h2>
+            <span class="badge badge-warn">Applied Practice</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Scenario 1: Preventing Duplicate Disbursement on Network Timeout</span>
+            A partner NBFC calls <code>POST /v1/loans/disburse</code>; the server commits the payout, but the response times out. The client retries. How do you stop a second payout?<br>
+            <strong>Fix:</strong> Require a client-generated UUID <mark><code>Idempotency-Key</code></mark> header stored with a <code>UNIQUE</code> DB constraint; retries return the cached original response without re-executing!
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Scenario 2: Spotting BOLA vs. Mass Assignment</span>
+            (a) Changing URL <code>/invoices/88</code> to <code>/invoices/89</code> to read another MSME's invoice &rarr; <mark>API1: BOLA</mark>.<br>
+            (b) Sending <code>{"mobile":"9999...", "credit_limit": 9999999}</code> to <code>PATCH /profile</code> and overwriting <code>credit_limit</code> &rarr; <mark>API3: Mass Assignment</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Scenario 3: Choosing the Optimal API Style</span>
+            &bull; Public MSME partner onboarding API &rarr; <mark>REST (OpenAPI + JSON)</mark>.<br>
+            &bull; Internal 50,000-RPS fraud-scoring microservice call &rarr; <mark>gRPC (HTTP/2 + Protobuf)</mark>.<br>
+            &bull; Live bi-directional market feed &rarr; <mark>WebSockets</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Scenario 4: Token Bucket Rate Limiter Math</span>
+            An API Gateway configures a Token Bucket with capacity <code>100</code> tokens and refill rate <code>10 tokens/sec</code>. Starting full, a partner fires <code>120</code> simultaneous requests in 1 second.<br>
+            <strong>Result:</strong> First <code>100</code> requests succeed (burst absorbed); remaining <code>20</code> receive <mark><code>HTTP 429 Too Many Requests</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Scenario 5: Auditing a Flawed JWT</span>
+            Developer puts <code>{"pan":"ABCDE1234F","balance":500000}</code> inside a standard JWS JWT payload assuming "it's encrypted".<br>
+            <strong>Flaw:</strong> JWT payload is merely <mark>Base64URL-encoded plaintext</mark>—trivially decoded by anyone without a key! Keep JWT payloads minimal (<code>sub, role, exp, jti</code>).
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Scenario 6: Account Aggregator Role Mapping</span>
+            An MSME gives consent for SIDBI to pull 12 months of bank statements from SBI via an RBI-licensed Aggregator.<br>
+            <strong>Roles:</strong> SBI = <mark>FIP</mark>; Aggregator = <mark>AA (data-blind)</mark>; SIDBI = <mark>FIU</mark>.
+          </div>
+        </section>
+
+        <!-- ==================== 15.8 ==================== -->
+        <section id="sec-15-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">15.8 SIDBI Open-Credit API Security Blueprint (10-Mark Descriptive)</h2>
+            <span class="badge badge-live">Paper III Part B Edge</span>
+          </div>
+          <div class="callout callout-info">
+            <span class="callout-title">10-Mark Model Answer Outline (200 Words)</span>
+            <strong>Question:</strong> <em>"Outline a defense-in-depth API architecture for an open-credit MSME lending platform like SIDBI's GST Sahay integrating with Account Aggregators and partner NBFCs."</em><br>
+            &bull; <strong>Intro (25w):</strong> Open-credit protocols (OCEN/AA) expose core lending workflows to external LSPs, making API security mission-critical.<br>
+            &bull; <strong>Transport &amp; Auth (65w):</strong> Enforce TLS 1.3 + <mark>mTLS</mark> for partner identity, OAuth 2.0 Client Credentials with short-lived RS256 JWTs, and HMAC-signed webhooks.<br>
+            &bull; <strong>Gateway &amp; OWASP Controls (85w):</strong> Deploy centralized API Gateway for schema validation (OpenAPI), Token-Bucket rate limiting (`429`), strict BOLA/BFLA authorization, DTO allow-lists against Mass Assignment, Idempotency Keys on `POST` disbursements, and Circuit Breakers for resilient bureau calls.<br>
+            &bull; <strong>Conclusion (25w):</strong> Continuous API inventory discovery eliminates Zombie APIs while centralized SIEM logging satisfies CERT-In and DPDP 2025 mandates.
+          </div>
+        </section>
+
+        <!-- ==================== 15.9 ==================== -->
+        <section id="sec-15-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">15.9 5-Minute Rapid Revision Sheet &amp; 15 Exam-Level Practice MCQs</h2>
+            <span class="badge badge-warn">Last-Day Cram + Drill</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li>REST's key constraint: <mark>Statelessness</mark> (each request carries full auth/context; no server session).</li>
+            <li><mark>SOAP</mark> strictly uses XML + WSDL + WS-Security; <mark>gRPC</mark> uses <strong>HTTP/2 + Binary Protocol Buffers</strong>.</li>
+            <li><mark>GraphQL</mark> solves over-fetching &amp; under-fetching via a single typed endpoint.</li>
+            <li><mark>WebSockets</mark> provide persistent full-duplex TCP connections for real-time push updates.</li>
+            <li>HTTP Idempotency: <code>GET, PUT, DELETE</code> are <mark>Idempotent</mark>; <mark><code>POST</code> is NOT idempotent</mark> (needs <code>Idempotency-Key</code>!).</li>
+            <li><mark>Cursor Pagination</mark> outperforms Offset Pagination on live, rapidly changing banking tables.</li>
+            <li><mark>OAuth 2.0</mark> = Authorization (Access Token); <mark>OIDC</mark> = Authentication (ID Token on top of OAuth 2.0).</li>
+            <li>OAuth 2.0 <mark>Authorization Code + PKCE</mark> for mobile/SPA; <mark>Client Credentials</mark> for server-to-server M2M.</li>
+            <li><mark>JWT</mark> = <code>Header.Payload.Signature</code> (Base64URL-encoded, signed NOT encrypted; block <code>alg: none</code>!).</li>
+            <li><mark>mTLS (Mutual TLS)</mark> authenticates BOTH client and server using X.509 certificates.</li>
+            <li><mark>Token Bucket</mark> allows bursts; <mark>Leaky Bucket</mark> enforces strict constant outflow rate; excess returns <code>HTTP 429</code>.</li>
+            <li><mark>Circuit Breaker</mark> states: <strong>Closed &rarr; Open &rarr; Half-Open</strong> (prevents cascading timeouts).</li>
+            <li>Retry storms are prevented via <mark>Exponential Backoff with Jitter</mark>.</li>
+            <li><mark>Webhooks</mark> eliminate polling; verify authenticity using <mark>HMAC-SHA256</mark> signature headers.</li>
+            <li><mark>API1: BOLA (IDOR)</mark> is the #1 OWASP API vulnerability (accessing another user's object ID).</li>
+            <li><mark>API3: Mass Assignment</mark> = attacker injecting privileged fields into JSON payloads (fix: DTO allow-list).</li>
+            <li><mark>API5: BFLA</mark> = low-privilege user invoking admin endpoints; <mark>API9</mark> = forgotten Zombie/Shadow APIs.</li>
+            <li><mark>OpenAPI (Swagger)</mark> defines machine-readable REST contracts for docs, mocking, and gateway validation.</li>
+            <li><mark>Account Aggregator (AA)</mark> is a <strong>data-blind</strong> RBI-regulated consent broker between FIP and FIU.</li>
+            <li>In AA flow: <mark>FIP</mark> = data holder (bank/GSTN); <mark>FIU</mark> = data consumer (lender like SIDBI).</li>
+            <li><mark>OCEN</mark> standardizes open-credit APIs powering <mark>SIDBI GST Sahay</mark> invoice-based lending.</li>
+            <li><code>CORS</code> (Cross-Origin Resource Sharing) is a browser-enforced header policy (<code>Access-Control-Allow-Origin</code>).</li>
+            <li><code>PUT</code> replaces the entire resource; <code>PATCH</code> applies a partial update.</li>
+            <li><code>401 Unauthorized</code> = missing/invalid token; <code>403 Forbidden</code> = valid token but insufficient scope/role.</li>
+            <li>Never transmit sensitive PII, OTPs, or tokens inside URL query parameters (they leak into server/proxy logs).</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 15 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (20 Marks Total) &bull; -0.25 Negative Marking &bull; 18-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch15-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster3-ch14-mis.html">&larr; Prev: Chapter 14 — MIS</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-15', '[data-chapter-complete="it-15"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch15-mcq-root',
+          durationMinutes: 18,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch15-q1',
+              marks: 1,
+              section: 'API Styles',
+              prompt: 'Which API protocol runs over HTTP/2 using compact binary Protocol Buffers (.proto contracts) to achieve ultra-low latency and bidirectional streaming between internal microservices?',
+              options: [
+                'SOAP',
+                'REST over HTTP/1.0',
+                'gRPC',
+                'XML-RPC',
+                'FTP'
+              ],
+              correctIndex: 2,
+              explanation: 'gRPC uses HTTP/2 multiplexing and binary Protocol Buffers for high-throughput, low-latency microservice communication and bidirectional streaming.'
+            },
+            {
+              id: 'ch15-q2',
+              marks: 1,
+              section: 'HTTP Idempotency',
+              prompt: 'Which standard HTTP method is NOT idempotent by specification and therefore requires an explicit Idempotency-Key header in financial disbursement APIs to prevent duplicate payouts on network retries?',
+              options: [
+                'GET',
+                'HEAD',
+                'PUT',
+                'POST',
+                'DELETE'
+              ],
+              correctIndex: 3,
+              explanation: 'GET, HEAD, PUT, and DELETE are idempotent; POST is non-idempotent because repeated submissions create multiple resources/transactions unless guarded by an Idempotency-Key.'
+            },
+            {
+              id: 'ch15-q3',
+              marks: 1,
+              section: 'GraphQL',
+              prompt: 'What primary client-side inefficiency of traditional multi-endpoint REST APIs does GraphQL directly solve?',
+              options: [
+                'Lack of HTTPS encryption support',
+                'Over-fetching unnecessary fields and under-fetching requiring multiple round-trip calls',
+                'Inability to serialize JSON payloads',
+                'Dependency on WSDL XML envelopes',
+                'Requirement for stateful server sessions'
+              ],
+              correctIndex: 1,
+              explanation: 'GraphQL lets the client specify the exact fields and nested relations needed in a single query, eliminating both over-fetching and N+1 under-fetching round trips.'
+            },
+            {
+              id: 'ch15-q4',
+              marks: 1,
+              section: 'OAuth 2.0 vs OIDC',
+              prompt: 'What is the precise functional distinction between OAuth 2.0 and OpenID Connect (OIDC)?',
+              options: [
+                'OAuth 2.0 handles Authorization (delegated access); OIDC adds an Authentication identity layer (ID Token) on top of OAuth 2.0',
+                'OAuth 2.0 is only for SOAP; OIDC is only for gRPC',
+                'OAuth 2.0 encrypts databases at rest; OIDC compresses HTTP headers',
+                'OAuth 2.0 replaces TLS certificates; OIDC replaces DNS',
+                'Both are identical protocols with different names'
+              ],
+              correctIndex: 0,
+              explanation: 'OAuth 2.0 issues Access Tokens for delegated Authorization; OpenID Connect (OIDC) extends OAuth 2.0 with an ID Token to verify user identity (Authentication).'
+            },
+            {
+              id: 'ch15-q5',
+              marks: 2,
+              section: 'JWT Security Trap',
+              prompt: 'Why is storing a borrower\'s unmasked Aadhaar number or password inside a standard signed JWT (JWS) payload a critical security flaw?',
+              options: [
+                'JWT payloads are truncated at 16 characters',
+                'JWT payloads are merely Base64URL-encoded (readable by anyone), NOT encrypted',
+                'JWT signatures only work on numeric integers',
+                'Standard JWTs cannot be sent over HTTPS',
+                'JWTs automatically expire after 1 millisecond'
+              ],
+              correctIndex: 1,
+              explanation: 'A standard JWS JWT provides integrity/authenticity via its signature, but its Header and Payload are plain Base64URL-encoded JSON—anyone holding the token can decode them.'
+            },
+            {
+              id: 'ch15-q6',
+              marks: 1,
+              section: 'OAuth 2.0 Grants',
+              prompt: 'Which OAuth 2.0 grant type is designed for automated server-to-server (Machine-to-Machine) API calls between a partner NBFC backend and SIDBI where no human user is logged in?',
+              options: [
+                'Implicit Grant',
+                'Client Credentials Grant',
+                'Resource Owner Password Grant',
+                'Device Code Grant',
+                'Anonymous Open Grant'
+              ],
+              correctIndex: 1,
+              explanation: 'The Client Credentials Grant authenticates a confidential backend service directly using its client credentials/mTLS certificate to obtain an access token.'
+            },
+            {
+              id: 'ch15-q7',
+              marks: 1,
+              section: 'Mutual TLS (mTLS)',
+              prompt: 'How does Mutual TLS (mTLS), widely mandated in Open Banking B2B APIs, strengthen standard server-side TLS?',
+              options: [
+                'It removes digital certificates to speed up handshakes',
+                'It requires BOTH the client and the server to present and cryptographically verify X.509 certificates',
+                'It replaces AES-256 with plaintext Base64',
+                'It disables HTTP/2 multiplexing',
+                'It runs exclusively over UDP port 53'
+              ],
+              correctIndex: 1,
+              explanation: 'In mTLS, both server and API client mutually authenticate via X.509 certificates, preventing stolen API keys from being replayed from unauthorized servers.'
+            },
+            {
+              id: 'ch15-q8',
+              marks: 1,
+              section: 'OWASP API Top 10',
+              prompt: 'A logged-in MSME borrower modifies an API request from GET /api/v1/applications/5012 to GET /api/v1/applications/5013 and successfully reads another business\'s financial statements. Which OWASP API Top 10 flaw is this?',
+              options: [
+                'API1: Broken Object Level Authorization (BOLA)',
+                'API4: Unrestricted Resource Consumption',
+                'API7: Server-Side Request Forgery (SSRF)',
+                'API9: Improper Inventory Management',
+                'DNS Cache Poisoning'
+              ],
+              correctIndex: 0,
+              explanation: 'BOLA (also known as IDOR) occurs when an API endpoint fails to verify that the authenticated user owns or is authorized to access the requested object ID.'
+            },
+            {
+              id: 'ch15-q9',
+              marks: 2,
+              section: 'OWASP API Top 10',
+              prompt: 'An API endpoint PATCH /api/v1/borrower binds incoming JSON directly to a database entity object, allowing an attacker to add "is_kyc_verified": true to the JSON body and bypass KYC. What is this attack called?',
+              options: [
+                'SQL Injection',
+                'Mass Assignment (API3: Broken Object Property Level Authorization)',
+                'Clickjacking',
+                'ARP Spoofing',
+                'Buffer Underflow'
+              ],
+              correctIndex: 1,
+              explanation: 'Mass Assignment exploits automatic request-to-model binding to overwrite sensitive internal fields; always bind requests to explicit allow-listed DTOs.'
+            },
+            {
+              id: 'ch15-q10',
+              marks: 1,
+              section: 'Rate Limiting',
+              prompt: 'Which HTTP status code should an API Gateway return when a client exceeds its allocated Token Bucket rate limit?',
+              options: [
+                '400 Bad Request',
+                '401 Unauthorized',
+                '403 Forbidden',
+                '429 Too Many Requests',
+                '502 Bad Gateway'
+              ],
+              correctIndex: 3,
+              explanation: 'HTTP 429 Too Many Requests signals rate-limit throttling (typically paired with a Retry-After header).'
+            },
+            {
+              id: 'ch15-q11',
+              marks: 1,
+              section: 'Resilience Patterns',
+              prompt: 'What are the three operational states of the Circuit Breaker resilience pattern used to protect banking APIs from cascading downstream timeouts?',
+              options: [
+                'Ready, Running, Blocked',
+                'Closed, Open, Half-Open',
+                'Active, Passive, Standby',
+                'Init, Sync, Commit',
+                'Read, Write, Execute'
+              ],
+              correctIndex: 1,
+              explanation: 'A Circuit Breaker transitions from Closed (normal flow) → Open (fail-fast after threshold breaches) → Half-Open (trial probes to verify downstream recovery).'
+            },
+            {
+              id: 'ch15-q12',
+              marks: 1,
+              section: 'Webhooks Security',
+              prompt: 'How does a partner application cryptographically verify that an incoming asynchronous Webhook POST callback genuinely originated from SIDBI\'s server and was not forged?',
+              options: [
+                'By trusting the User-Agent string alone',
+                'By recomputing and verifying an HMAC-SHA256 signature header using a shared webhook secret',
+                'By switching from HTTPS to HTTP',
+                'By disabling JSON parsing',
+                'By polling GET /status every 100 milliseconds'
+              ],
+              correctIndex: 1,
+              explanation: 'Signed webhooks include an HMAC-SHA256 digest of the payload + timestamp in a custom header so the receiver can verify authenticity and prevent replay attacks.'
+            },
+            {
+              id: 'ch15-q13',
+              marks: 2,
+              section: 'Account Aggregator (AA)',
+              prompt: 'In India\'s RBI-regulated Account Aggregator (AA) API ecosystem, what is the strict regulatory role of the Account Aggregator entity itself?',
+              options: [
+                'It stores unencrypted customer bank statements permanently for credit resale',
+                'It acts as a data-blind consent broker transmitting end-to-end encrypted data from FIPs to FIUs without reading or storing the financial data',
+                'It replaces the Reserve Bank of India as the banking regulator',
+                'It issues credit cards directly to MSME borrowers',
+                'It operates physical ATM cash networks'
+              ],
+              correctIndex: 1,
+              explanation: 'An NBFC-AA is strictly data-blind: financial data flows end-to-end encrypted from FIP (bank/GSTN) to FIU (lender) only upon explicit user consent.'
+            },
+            {
+              id: 'ch15-q14',
+              marks: 1,
+              section: 'Pagination',
+              prompt: 'Why is Cursor (Keyset) Pagination preferred over Offset/Limit Pagination when exposing high-volume live transaction histories via REST APIs?',
+              options: [
+                'Cursor pagination works without any database index',
+                'Cursor pagination prevents skipped/duplicate rows during concurrent inserts and maintains O(1) seek speed on deep pages',
+                'Offset pagination cannot return JSON arrays',
+                'Cursor pagination eliminates the need for authentication',
+                'Offset pagination is forbidden in HTTP/2'
+              ],
+              correctIndex: 1,
+              explanation: 'Offset pagination rescans and discards offset rows (slow on deep pages) and shifts when new rows are inserted; Cursor pagination seeks directly via an indexed key.'
+            },
+            {
+              id: 'ch15-q15',
+              marks: 1,
+              section: 'OWASP API9',
+              prompt: 'Unpatched, forgotten legacy API versions (such as /api/v1-test/) left running in production outside the API Gateway inventory are known in OWASP API Security as:',
+              options: [
+                'Zombie / Shadow APIs',
+                'Canary APIs',
+                'Idempotent APIs',
+                'Webhook APIs',
+                'GraphQL Resolvers'
+              ],
+              correctIndex: 0,
+              explanation: 'API9 (Improper Inventory Management) highlights the severe risk of undocumented Shadow APIs and deprecated unpatched Zombie APIs.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

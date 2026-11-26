@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 2: Computer Fundamentals (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 1 &bull; Chapter 2 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-2-1" class="active">2.1 Organization, CPU, Buses &amp; DMA</a></li>
+          <li><a href="#sec-2-2">2.2 Number Systems, Complements &amp; Codes</a></li>
+          <li><a href="#sec-2-3">2.3 IEEE 754 Floating-Point Standard</a></li>
+          <li><a href="#sec-2-4">2.4 Memory Hierarchy, RAM, Flash &amp; Cache</a></li>
+          <li><a href="#sec-2-5">2.5 Boolean Logic, Gates &amp; Flip-Flops</a></li>
+          <li><a href="#sec-2-6">2.6 Worked Exam Numericals (8)</a></li>
+          <li><a href="#sec-2-7">2.7 Banking Hardware (RAID/HSM/ECC)</a></li>
+          <li><a href="#sec-2-8">2.8 5-Minute Rapid Revision Sheet</a></li>
+          <li><a href="#sec-2-9">2.9 Chapter Drill: 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-02">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster1-ch01-intro-software.html">&larr; Prev: Ch 1 Software</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 1: Core CS &amp; Programming</span>
+            <span class="badge badge-warn">Topic 2 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">High Numerical &amp; MCQ Yield</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 2: Computer Fundamentals</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Exhaustive exam-ready coverage of computer generations, Von Neumann vs. Harvard &amp; RISC vs. CISC architectures, CPU registers &amp; DMA,
+            number systems, 2's complement &amp; Hamming codes, IEEE 754 floating-point, SRAM/DRAM/Flash &amp; cache bit-splitting, Boolean algebra &amp; sequential circuits,
+            8 step-by-step worked numericals, banking-grade RAID/HSM/ECC hardware, 25 rapid-revision one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 2.1 ==================== -->
+        <section id="sec-2-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">2.1 Computer Organization, Generations, CPU Registers, RISC vs. CISC &amp; DMA</h2>
+            <span class="badge badge-info">Core Foundation</span>
+          </div>
+
+          <h3 style="margin:0.4rem 0 0.45rem;font-size:1.05rem;">A. Five Generations of Computers (Phase I + Paper III Quick Table)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Gen</th>
+                  <th>Period</th>
+                  <th>Core Hardware Technology</th>
+                  <th>Memory &amp; Language</th>
+                  <th>Representative Systems</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1st</strong></td>
+                  <td>1940–1956</td>
+                  <td><mark>Vacuum Tubes</mark></td>
+                  <td>Magnetic drums; Machine (1GL)</td>
+                  <td>ENIAC, EDVAC (stored-program), UNIVAC I</td>
+                </tr>
+                <tr>
+                  <td><strong>2nd</strong></td>
+                  <td>1956–1963</td>
+                  <td><mark>Transistors</mark> (Bell Labs)</td>
+                  <td>Magnetic core; Assembly (2GL), early FORTRAN/COBOL</td>
+                  <td>IBM 1401, CDC 1604</td>
+                </tr>
+                <tr>
+                  <td><strong>3rd</strong></td>
+                  <td>1964–1971</td>
+                  <td><mark>Integrated Circuits (IC — SSI/MSI)</mark></td>
+                  <td>Semiconductor RAM; HLL (C, Pascal), OS time-sharing</td>
+                  <td>IBM System/360, PDP-8</td>
+                </tr>
+                <tr>
+                  <td><strong>4th</strong></td>
+                  <td>1971–Present</td>
+                  <td><mark>Microprocessors (VLSI)</mark></td>
+                  <td>SRAM/DRAM, SSD; OOP, SQL, GUI, Internet</td>
+                  <td>Intel 4004 (first CPU), x86, ARM PCs</td>
+                </tr>
+                <tr>
+                  <td><strong>5th</strong></td>
+                  <td>Present &amp; Beyond</td>
+                  <td><mark>ULSI, GPUs/TPUs, AI Accelerators, Quantum</mark></td>
+                  <td>Parallel distributed memory; NLP/AI/ML frameworks</td>
+                  <td>Supercomputers, AI clusters, Quantum QPUs</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">B. Von Neumann Architecture, System Buses &amp; Instruction Cycle</h3>
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 225" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="Von Neumann CPU, System Bus, and Memory Diagram">
+              <rect x="15" y="15" width="335" height="148" rx="10" fill="#0f2942"/>
+              <text x="182" y="38" text-anchor="middle" fill="#99f6e4" font-size="13" font-weight="700">Central Processing Unit (CPU)</text>
+              <rect x="30" y="50" width="142" height="45" rx="6" fill="#1e3a5f" stroke="#38bdf8"/>
+              <text x="101" y="70" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">Control Unit (CU)</text>
+              <text x="101" y="86" text-anchor="middle" fill="#cbd5e1" font-size="10">Hardwired / Microprogrammed</text>
+
+              <rect x="192" y="50" width="142" height="45" rx="6" fill="#1e3a5f" stroke="#2dd4bf"/>
+              <text x="263" y="70" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">ALU</text>
+              <text x="263" y="86" text-anchor="middle" fill="#cbd5e1" font-size="10">Arithmetic, Logic &amp; Shifts</text>
+
+              <rect x="30" y="106" width="304" height="44" rx="6" fill="#0d9488"/>
+              <text x="182" y="125" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="700">Registers: PC | IR | MAR | MDR | AC | SP | PSW</text>
+              <text x="182" y="140" text-anchor="middle" fill="#ccfbf1" font-size="10">Fastest on-die storage (~0.2–1 ns)</text>
+
+              <rect x="525" y="15" width="220" height="88" rx="10" fill="#1d4ed8"/>
+              <text x="635" y="44" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">Main Memory (RAM)</text>
+              <text x="635" y="64" text-anchor="middle" fill="#dbeafe" font-size="11">Shared Instructions + Data</text>
+              <text x="635" y="82" text-anchor="middle" fill="#fde047" font-size="10.5" font-weight="700">(Von Neumann Bottleneck)</text>
+
+              <rect x="525" y="118" width="220" height="45" rx="10" fill="#475569"/>
+              <text x="635" y="138" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">I/O Controllers &amp; DMA</text>
+              <text x="635" y="153" text-anchor="middle" fill="#e2e8f0" font-size="10">Direct RAM transfer bypassing CPU</text>
+
+              <line x1="350" y1="45" x2="525" y2="45" stroke="#eab308" stroke-width="3"/>
+              <text x="437" y="37" text-anchor="middle" fill="#b45309" font-size="10.5" font-weight="700">Address Bus (Unidirectional &rarr;)</text>
+
+              <line x1="350" y1="80" x2="525" y2="80" stroke="#0d9488" stroke-width="3"/>
+              <text x="437" y="72" text-anchor="middle" fill="#0f766e" font-size="10.5" font-weight="700">Data Bus (&larr; Bidirectional &rarr;)</text>
+
+              <line x1="350" y1="138" x2="525" y2="138" stroke="#64748b" stroke-width="3"/>
+              <text x="437" y="130" text-anchor="middle" fill="#475569" font-size="10.5" font-weight="700">Control Bus (RD/WR/CLK/IRQ)</text>
+
+              <rect x="15" y="178" width="730" height="34" rx="6" fill="#f1f5f9" stroke="#cbd5e1"/>
+              <text x="380" y="199" text-anchor="middle" fill="#0f172a" font-size="11.5" font-weight="700">Instruction Cycle: 1. Fetch (PC &rarr; MAR &rarr; MDR &rarr; IR; PC++) &rarr; 2. Decode (CU) &rarr; 3. Execute (ALU) &rarr; 4. Writeback</text>
+            </svg>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Register</th>
+                  <th>Full Name</th>
+                  <th>Exact Exam Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>PC</code></td>
+                  <td>Program Counter</td>
+                  <td>Holds the <mark>memory address of the NEXT instruction</mark> to fetch.</td>
+                </tr>
+                <tr>
+                  <td><code>IR</code></td>
+                  <td>Instruction Register</td>
+                  <td>Holds the <mark>current instruction</mark> being decoded/executed by CU.</td>
+                </tr>
+                <tr>
+                  <td><code>MAR</code></td>
+                  <td>Memory Address Register</td>
+                  <td>Drives the <mark>unidirectional Address Bus</mark> with target RAM address.</td>
+                </tr>
+                <tr>
+                  <td><code>MDR / MBR</code></td>
+                  <td>Memory Data / Buffer Register</td>
+                  <td>Buffers data words moving over the <mark>bidirectional Data Bus</mark>.</td>
+                </tr>
+                <tr>
+                  <td><code>SP / BP</code></td>
+                  <td>Stack Pointer / Base Pointer</td>
+                  <td>Tracks top of call stack &amp; current stack frame (function calls, interrupts, local vars).</td>
+                </tr>
+                <tr>
+                  <td><code>PSW / FLAGS</code></td>
+                  <td>Program Status Word</td>
+                  <td>Stores status bits: <mark>Zero (Z), Sign (S), Carry (C), Overflow (V), Parity (P), Interrupt Enable (IE)</mark>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">C. RISC vs. CISC &amp; I/O Transfer Modes (Polling vs. Interrupt vs. DMA)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>RISC (Reduced Instruction Set)</th>
+                  <th>CISC (Complex Instruction Set)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Instruction Format</strong></td>
+                  <td><mark>Fixed-length</mark> instructions; simple decoding; easy pipelining</td>
+                  <td><mark>Variable-length</mark> instructions; complex multi-cycle ops</td>
+                </tr>
+                <tr>
+                  <td><strong>Memory Access</strong></td>
+                  <td><mark>Load/Store architecture</mark> (ALU operates only on registers)</td>
+                  <td>Memory-to-memory ALU instructions supported</td>
+                </tr>
+                <tr>
+                  <td><strong>Control Unit &amp; Registers</strong></td>
+                  <td><mark>Hardwired CU</mark>; large register file (32+ registers)</td>
+                  <td><mark>Microprogrammed CU</mark>; fewer registers; many addressing modes</td>
+                </tr>
+                <tr>
+                  <td><strong>Examples</strong></td>
+                  <td>ARM, RISC-V, MIPS, Apple Silicon (M-series)</td>
+                  <td>Intel x86 / AMD64 (internally decodes CISC into RISC &mu;ops!)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul style="margin-top:0.8rem;">
+            <li><strong>Programmed I/O (Polling):</strong> CPU repeatedly checks device status flag in a busy-wait loop &rarr; wastes CPU cycles.</li>
+            <li><strong>Interrupt-Driven I/O:</strong> Device raises an <mark>IRQ</mark> when ready; CPU saves context (PC/PSW on stack) and runs ISR &rarr; still transfers 1 word at a time via CPU.</li>
+            <li><strong>DMA (Direct Memory Access):</strong> A dedicated DMA controller transfers bulk blocks directly between I/O device and RAM <mark>bypassing the CPU</mark>, interrupting CPU only once at completion. Modes: <mark>Burst Mode</mark> (DMA holds bus until entire block completes) and <mark>Cycle Stealing</mark> (DMA steals 1 bus cycle per word, letting CPU interleave).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 2.2 ==================== -->
+        <section id="sec-2-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">2.2 Number Systems, Complements, Character Codes &amp; Error Control</h2>
+            <span class="badge badge-danger">Guaranteed Paper III MCQs</span>
+          </div>
+
+          <h3 style="margin:0.4rem 0 0.45rem;font-size:1.05rem;">A. Signed Integer Representations (n-bit)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Format</th>
+                  <th>Exact Range (n-bit)</th>
+                  <th>8-bit Range</th>
+                  <th>Zeros</th>
+                  <th>Exam Traps &amp; Rules</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Unsigned</strong></td>
+                  <td><code>0</code> to <code>2^n - 1</code></td>
+                  <td><code>0</code> to <code>255</code></td>
+                  <td>1</td>
+                  <td>Overflow occurs iff Carry-out from MSB = 1.</td>
+                </tr>
+                <tr>
+                  <td><strong>Sign-Magnitude</strong></td>
+                  <td><code>-(2^(n-1)-1)</code> to <code>+(2^(n-1)-1)</code></td>
+                  <td><code>-127</code> to <code>+127</code></td>
+                  <td><mark>2 (+0, -0)</mark></td>
+                  <td>Used in IEEE 754 mantissa sign bit, NOT integer ALU.</td>
+                </tr>
+                <tr>
+                  <td><strong>1's Complement</strong></td>
+                  <td><code>-(2^(n-1)-1)</code> to <code>+(2^(n-1)-1)</code></td>
+                  <td><code>-127</code> to <code>+127</code></td>
+                  <td><mark>2 (+0, -0)</mark></td>
+                  <td>Requires <mark>end-around carry</mark> addition.</td>
+                </tr>
+                <tr>
+                  <td><strong>2's Complement</strong></td>
+                  <td><mark><code>-2^(n-1)</code> to <code>+(2^(n-1)-1)</code></mark></td>
+                  <td><mark><code>-128</code> to <code>+127</code></mark></td>
+                  <td><mark>1 unique zero</mark></td>
+                  <td>Universal CPU format. Signed overflow iff <mark><code>C_in &ne; C_out</code> at MSB</mark> (i.e., <code>C_in &oplus; C_out = 1</code>).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">B. Binary, Character &amp; Error-Control Codes</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Code / Standard</th>
+                  <th>Width / Structure</th>
+                  <th>Key Properties &amp; Formulas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>BCD (8421)</strong></td>
+                  <td>4 bits per decimal digit</td>
+                  <td>Weighted code; <code>1010</code>–<code>1111</code> (10–15) are invalid states. Used in decimal financial hardware.</td>
+                </tr>
+                <tr>
+                  <td><strong>Excess-3 (XS-3)</strong></td>
+                  <td>BCD + <code>0011</code> (+3)</td>
+                  <td><mark>Unweighted, self-complementing code</mark> (9's complement = bitwise 1's complement).</td>
+                </tr>
+                <tr>
+                  <td><strong>Gray Code</strong></td>
+                  <td>Unit-distance (reflected)</td>
+                  <td>Adjacent values differ by <mark>exactly 1 bit</mark>. Binary &rarr; Gray: <code>G_i = B_i &oplus; B_(i+1)</code> (MSB unchanged).</td>
+                </tr>
+                <tr>
+                  <td><strong>ASCII / EBCDIC / UTF-8</strong></td>
+                  <td>ASCII: <mark>7-bit</mark> (128)<br>EBCDIC: 8-bit (IBM)<br>UTF-8: 1–4 bytes</td>
+                  <td><code>'0'=48</code>, <code>'A'=65</code>, <code>'a'=97</code>. UTF-8 is variable-width &amp; 100% backward-compatible with 7-bit ASCII.</td>
+                </tr>
+                <tr>
+                  <td><strong>Hamming Distance &amp; Code</strong></td>
+                  <td>Parity bits at positions <code>1, 2, 4, 8... (2^k)</code></td>
+                  <td>Detect <code>t</code> errors: <mark><code>d_min &ge; t + 1</code></mark>. Correct <code>t</code> errors: <mark><code>d_min &ge; 2t + 1</code></mark>.<br>Minimum parity bits <code>r</code> for <code>m</code> data bits: <mark><code>2^r &ge; m + r + 1</code></mark>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 2.3 ==================== -->
+        <section id="sec-2-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">2.3 IEEE 754 Floating-Point Standard &amp; Financial Precision Trap</h2>
+            <span class="badge badge-warn">High 2-Mark Yield</span>
+          </div>
+
+          <!-- Inline SVG: IEEE 754 32-bit layout -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 95" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="IEEE 754 32-bit Single Precision Bit Layout">
+              <rect x="10" y="20" width="70" height="46" rx="6" fill="#b91c1c"/>
+              <text x="45" y="42" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">Sign (S)</text>
+              <text x="45" y="58" text-anchor="middle" fill="#fecaca" font-size="10">1 bit [31]</text>
+
+              <rect x="86" y="20" width="210" height="46" rx="6" fill="#1d4ed8"/>
+              <text x="191" y="42" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">Biased Exponent (E)</text>
+              <text x="191" y="58" text-anchor="middle" fill="#dbeafe" font-size="10">8 bits [30..23] &bull; Bias = 127</text>
+
+              <rect x="302" y="20" width="448" height="46" rx="6" fill="#0d9488"/>
+              <text x="526" y="42" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">Mantissa / Significand Fraction (M) — Implicit leading 1</text>
+              <text x="526" y="58" text-anchor="middle" fill="#ccfbf1" font-size="10">23 bits [22..0] &bull; Value = (-1)^S &times; (1.M)_2 &times; 2^(E - 127)</text>
+
+              <text x="380" y="86" text-anchor="middle" fill="#475569" font-size="11" font-weight="600">Special Values: E=0, M=0 (&plusmn;0) | E=0, M&ne;0 (Subnormal) | E=255, M=0 (&plusmn;&infin;) | E=255, M&ne;0 (NaN)</text>
+            </svg>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>IEEE 754 Format</th>
+                  <th>Total Bits</th>
+                  <th>Sign</th>
+                  <th>Exponent (Bias)</th>
+                  <th>Mantissa</th>
+                  <th>Primary Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Half (FP16)</strong></td>
+                  <td>16-bit</td>
+                  <td>1</td>
+                  <td>5 (Bias 15)</td>
+                  <td>10</td>
+                  <td>GPU graphics &amp; mixed-precision AI inference</td>
+                </tr>
+                <tr>
+                  <td><strong>BFloat16 (Brain Float)</strong></td>
+                  <td>16-bit</td>
+                  <td>1</td>
+                  <td><mark>8 (Bias 127)</mark></td>
+                  <td>7</td>
+                  <td>Deep Learning training (same dynamic range as FP32!)</td>
+                </tr>
+                <tr>
+                  <td><strong>Single (FP32 / <code>float</code>)</strong></td>
+                  <td>32-bit</td>
+                  <td>1</td>
+                  <td><mark>8 (Bias 127)</mark></td>
+                  <td><mark>23</mark></td>
+                  <td>Standard scientific &amp; graphics computation (~7 decimal digits)</td>
+                </tr>
+                <tr>
+                  <td><strong>Double (FP64 / <code>double</code>)</strong></td>
+                  <td>64-bit</td>
+                  <td>1</td>
+                  <td><mark>11 (Bias 1023)</mark></td>
+                  <td><mark>52</mark></td>
+                  <td>High-precision engineering (~15–17 decimal digits)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-warn" style="margin-top:0.85rem;">
+            <span class="callout-title">Banking IT Trap: Why CBS Never Uses IEEE 754 Binary Float for Money</span>
+            Decimal fractions like <code>0.1</code> and <code>0.2</code> are non-terminating repeating fractions in binary, causing <code>0.1 + 0.2 = 0.30000000000000004</code>.
+            Core banking ledgers therefore store monetary balances using <mark>Fixed-Point Decimal types</mark> (SQL <code>DECIMAL(18,2)</code>, Java <code>BigDecimal</code>, Python <code>Decimal</code>) or scaled integer paise.
+          </div>
+        </section>
+
+        <!-- ==================== 2.4 ==================== -->
+        <section id="sec-2-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">2.4 Memory Hierarchy, SRAM vs. DRAM, ROM/Flash &amp; Cache Mapping</h2>
+            <span class="badge badge-info">High Objective Yield</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Memory Tier</th>
+                  <th>Technology</th>
+                  <th>Typical Latency</th>
+                  <th>Volatile?</th>
+                  <th>Cost/Bit &amp; Capacity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>CPU Registers</strong></td>
+                  <td>Flip-Flops on CPU die</td>
+                  <td>&lt; 1 ns (1 cycle)</td>
+                  <td>Yes</td>
+                  <td>Highest cost &bull; Bytes–KBs</td>
+                </tr>
+                <tr>
+                  <td><strong>L1 / L2 / L3 Cache</strong></td>
+                  <td><mark>SRAM (6 Transistors, no refresh)</mark></td>
+                  <td>1–15 ns</td>
+                  <td>Yes</td>
+                  <td>Very high &bull; KB to tens of MB</td>
+                </tr>
+                <tr>
+                  <td><strong>Main Memory (RAM)</strong></td>
+                  <td><mark>DRAM (1T1C capacitor, periodic refresh)</mark></td>
+                  <td>50–80 ns</td>
+                  <td>Yes</td>
+                  <td>Moderate &bull; GB to TB (DDR4/DDR5)</td>
+                </tr>
+                <tr>
+                  <td><strong>Solid-State Drive (NVMe)</strong></td>
+                  <td><mark>NAND Flash (block-level erase)</mark></td>
+                  <td>20–100 &mu;s</td>
+                  <td>No</td>
+                  <td>Low &bull; GB to multi-TB</td>
+                </tr>
+                <tr>
+                  <td><strong>Hard Disk Drive (HDD)</strong></td>
+                  <td>Magnetic platters (seek + rotational)</td>
+                  <td>5–10 ms</td>
+                  <td>No</td>
+                  <td>Very low &bull; Multi-TB</td>
+                </tr>
+                <tr>
+                  <td><strong>Magnetic Tape (LTO)</strong></td>
+                  <td>Sequential tape (air-gapped WORM)</td>
+                  <td>Seconds–minutes</td>
+                  <td>No</td>
+                  <td>Lowest &bull; Petabytes (bank archival/ransomware vault)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">ROM &amp; Flash Family + Cache Write &amp; Mapping Rules</h3>
+          <ul>
+            <li><strong>ROM Evolution:</strong> <code>PROM</code> (one-time fuse burn) &rarr; <code>EPROM</code> (erased by <mark>UV light</mark> through quartz window) &rarr; <code>EEPROM</code> (electrically erasable <mark>byte-by-byte</mark>) &rarr; <code>Flash</code> (electrically erasable <mark>block-by-block</mark>). <mark>NOR Flash</mark> supports Execute-In-Place (XIP) for firmware/UEFI; <mark>NAND Flash</mark> provides high density for SSDs (SLC &gt; MLC &gt; TLC &gt; QLC in endurance/speed).</li>
+            <li><strong>Locality of Reference:</strong> <mark>Temporal Locality</mark> (reusing recently accessed data soon, e.g., loop index) and <mark>Spatial Locality</mark> (accessing nearby contiguous addresses, e.g., array scan—exploited by fetching entire cache lines/blocks).</li>
+            <li><strong>Cache Write Policies:</strong>
+              <mark>Write-Through</mark> updates both Cache and RAM simultaneously (simple, always consistent, higher bus traffic) vs.
+              <mark>Write-Back</mark> updates only Cache and sets a <mark>Dirty Bit</mark>, flushing to RAM only upon eviction (faster, less bus traffic).</li>
+            <li><strong>Cache Address Bit Split (Total Physical Address = <code>Tag + Index + Block Offset</code>):</strong>
+              &bull; <code>Block Offset = log2(Block Size)</code>.<br>
+              &bull; <strong>Direct Mapped:</strong> <code>Index = log2(Number of Cache Lines)</code>; <code>Tag = AddrBits - Index - Offset</code>.<br>
+              &bull; <strong>k-Way Set Associative:</strong> <code>Sets = Total Lines / k</code>; <code>Index = log2(Sets)</code>.<br>
+              &bull; <strong>Fully Associative:</strong> <code>Index = 0</code> (no index field; compares Tag against all lines in parallel via CAM).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 2.5 ==================== -->
+        <section id="sec-2-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">2.5 Boolean Algebra, Universal Gates, Combinational &amp; Sequential Circuits</h2>
+          </div>
+
+          <h3 style="margin:0.4rem 0 0.45rem;font-size:1.05rem;">A. Universal Gates (NAND vs. NOR Exact Count Table — High-Frequency Trap!)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Target Gate</th>
+                  <th>Min 2-Input NAND Gates</th>
+                  <th>Min 2-Input NOR Gates</th>
+                  <th>Key Identity / Property</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>NOT</strong></td><td><mark>1</mark></td><td><mark>1</mark></td><td>Tie both inputs together: <code>(A &middot; A)' = A'</code></td></tr>
+                <tr><td><strong>AND</strong></td><td><mark>2</mark></td><td><mark>3</mark></td><td>NAND + NOT</td></tr>
+                <tr><td><strong>OR</strong></td><td><mark>3</mark></td><td><mark>2</mark></td><td>De Morgan: <code>(A' &middot; B')' = A + B</code></td></tr>
+                <tr><td><strong>XOR</strong></td><td><mark>4</mark></td><td><mark>5</mark></td><td>Inequality detector / Odd-1s parity generator</td></tr>
+                <tr><td><strong>XNOR</strong></td><td><mark>5</mark></td><td><mark>4</mark></td><td>Equality detector (<code>1</code> when <code>A == B</code>)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:1.1rem 0 0.45rem;font-size:1.05rem;">B. Combinational vs. Sequential Building Blocks</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Circuit</th>
+                  <th>Type</th>
+                  <th>Core Equation / Specification</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Half Adder / Full Adder</strong></td>
+                  <td>Combinational</td>
+                  <td>HA: <code>S = A &oplus; B, C = AB</code>. FA: <code>S = A &oplus; B &oplus; C_in</code>, <mark>1 FA = 2 HA + 1 OR</mark>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Multiplexer (MUX)</strong></td>
+                  <td>Combinational</td>
+                  <td><code>2^n</code> data inputs, <code>n</code> select lines, 1 output. <mark>Universal combinational circuit</mark> (any n-var Boolean function fits in a <code>2^(n-1):1</code> MUX).</td>
+                </tr>
+                <tr>
+                  <td><strong>Decoder (<code>n &rarr; 2^n</code>)</strong></td>
+                  <td>Combinational</td>
+                  <td>Activates 1 of <code>2^n</code> minterm outputs; used in <mark>RAM address decoding</mark>.</td>
+                </tr>
+                <tr>
+                  <td><strong>SR Flip-Flop</strong></td>
+                  <td>Sequential</td>
+                  <td><code>S=1, R=1</code> is <mark>Invalid / Forbidden state</mark>.</td>
+                </tr>
+                <tr>
+                  <td><strong>JK Flip-Flop</strong></td>
+                  <td>Sequential</td>
+                  <td><code>J=1, K=1 &rarr; Toggle (Q')</code>. Suffers <mark>Race-Around Condition</mark> in level-triggered mode &rarr; solved by <mark>Master-Slave JK</mark> or edge-triggering.</td>
+                </tr>
+                <tr>
+                  <td><strong>D &amp; T Flip-Flops</strong></td>
+                  <td>Sequential</td>
+                  <td><strong>D (Delay):</strong> <code>Q(t+1) = D</code> (used in Registers &amp; Shift Registers). <strong>T (Toggle):</strong> <code>Q(t+1) = T &oplus; Q</code> (used in Binary Counters; n-bit counter has <code>2^n</code> states, MOD-<code>2^n</code>).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 2.6 ==================== -->
+        <section id="sec-2-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">2.6 Worked Exam Numericals (8 Step-by-Step Problems)</h2>
+            <span class="badge badge-warn">Guaranteed 2-Mark Scoring Zone</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 1: Hexadecimal Fractional Conversion</span>
+            <strong>Problem:</strong> Convert <code>(2F.A)_16</code> to Binary and Decimal.<br>
+            <strong>Binary (4 bits/hex digit):</strong> <code>2 = 0010</code>, <code>F = 1111</code>, <code>A = 1010</code> &rarr; <mark><code>(00101111.1010)_2</code></mark>.<br>
+            <strong>Decimal:</strong> <code>2&times;16^1 + 15&times;16^0 + 10&times;16^-1 = 32 + 15 + 10/16 = 47 + 0.625 =</code> <mark><code>47.625</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 2: 8-bit 2's Complement Addition &amp; Signed Overflow</span>
+            <strong>Problem:</strong> Compute <code>(-45) + (-90)</code> in 8-bit 2's complement and verify overflow.<br>
+            <strong>Step 1:</strong> <code>+45 = 0010 1101</code> &rarr; 2's comp = <code>1101 0011</code>. <code>+90 = 0101 1010</code> &rarr; 2's comp = <code>1010 0110</code>.<br>
+            <strong>Step 2:</strong> <code>1101 0011 + 1010 0110 = (1) 0111 1001</code>. Here Carry-in to MSB = <code>0</code>, Carry-out from MSB = <code>1</code>.<br>
+            <strong>Verdict:</strong> Since <code>C_in &ne; C_out</code> (and true sum <code>-135 &lt; -128</code>), <mark>Signed Overflow OCCURS</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 3: Binary to Gray Code Conversion</span>
+            <strong>Problem:</strong> Convert Binary <code>10110_2</code> to Gray code.<br>
+            <strong>Rule:</strong> Keep MSB unchanged; each next Gray bit = XOR of adjacent Binary bits.<br>
+            <code>G4 = 1</code>, <code>G3 = 1&oplus;0 = 1</code>, <code>G2 = 0&oplus;1 = 1</code>, <code>G1 = 1&oplus;1 = 0</code>, <code>G0 = 1&oplus;0 = 1</code> &rarr; <mark><code>11101</code> (Gray)</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 4: IEEE 754 32-bit Floating-Point Encoding</span>
+            <strong>Problem:</strong> Encode <code>-13.625</code> in IEEE 754 Single Precision (Hex).<br>
+            <strong>Steps:</strong> Negative &rarr; <code>S = 1</code>. <code>13.625 = 1101.101_2 = 1.101101 &times; 2^3</code>.
+            Biased Exponent <code>E = 3 + 127 = 130 = 10000010_2</code>. Mantissa <code>M = 10110100000000000000000</code>.<br>
+            <strong>Result:</strong> <code>1100 0001 0101 1010 0000 0000 0000 0000</code> = <mark><code>0xC15A0000</code></mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 5: Hamming Code Parity Bits Calculation</span>
+            <strong>Problem:</strong> How many minimum redundant parity bits <code>r</code> are required to protect an <code>8-bit</code> data word using single-error-correcting Hamming code?<br>
+            <strong>Formula:</strong> <code>2^r &ge; m + r + 1</code> (here <code>m = 8</code>).<br>
+            Try <code>r = 3</code>: <code>2^3 = 8 &lt; 8 + 3 + 1 = 12</code> (fails). Try <code>r = 4</code>: <code>2^4 = 16 &ge; 8 + 4 + 1 = 13</code> (holds!).<br>
+            <strong>Answer:</strong> <mark>4 parity bits</mark> (total 12-bit codeword, placed at positions 1, 2, 4, 8).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 6: Memory Addressing &amp; Chip Count</span>
+            <strong>Problem:</strong> A byte-addressable server has <code>16 MB</code> RAM constructed from <code>512K &times; 8</code> chips. Find address lines and chip count.<br>
+            <strong>Solution:</strong> <code>16 MB = 2^4 &times; 2^20 = 2^24 bytes</code> &rarr; <mark>24 address lines</mark>.<br>
+            Chips = <code>(16 &times; 1024 KB) / 512 KB = 16384 / 512 =</code> <mark>32 chips</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Numerical 7: CPU Time, MIPS &amp; Amdahl's Law</span>
+            <strong>Problem:</strong> A <code>2 GHz</code> CPU runs <code>10^9</code> instructions at <code>CPI = 2.5</code>. A crypto accelerator speeds up 40% of runtime by 4&times;.<br>
+            <strong>Solution:</strong> <code>Exec Time = (10^9 &times; 2.5) / (2 &times; 10^9) =</code> <mark>1.25 s</mark>; <code>MIPS = 2000 / 2.5 =</code> <mark>800 MIPS</mark>.<br>
+            Amdahl Speedup <code>S = 1 / [(1 - 0.4) + 0.4/4] = 1 / 0.7 =</code> <mark>1.43&times;</mark>.
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Numerical 8: Direct-Mapped Cache Tag / Index / Offset Split &amp; EAT</span>
+            <strong>Problem:</strong> A 32-bit byte-addressable CPU has a <code>64 KB</code> direct-mapped cache with <code>64-byte</code> blocks. Find Tag, Index, and Block Offset bits.<br>
+            <strong>Solution:</strong><br>
+            &bull; <code>Block Offset = log2(64) =</code> <mark>6 bits</mark>.<br>
+            &bull; <code>Number of Cache Lines = 64 KB / 64 B = 1024 = 2^10</code> &rarr; <code>Index =</code> <mark>10 bits</mark>.<br>
+            &bull; <code>Tag = 32 - (10 + 6) =</code> <mark>16 bits</mark>.
+          </div>
+        </section>
+
+        <!-- ==================== 2.7 ==================== -->
+        <section id="sec-2-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">2.7 Banking &amp; SIDBI Hardware Infrastructure (RAID, HSM, ECC &amp; DR)</h2>
+            <span class="badge badge-live">Descriptive Edge</span>
+          </div>
+
+          <div class="table-wrap" style="margin-bottom:0.9rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>RAID Level</th>
+                  <th>Mechanism</th>
+                  <th>Min Disks</th>
+                  <th>Fault Tolerance</th>
+                  <th>Usable Capacity (N disks)</th>
+                  <th>Banking Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>RAID 0</strong></td>
+                  <td>Striping (no redundancy)</td>
+                  <td>2</td>
+                  <td><mark>0 disks (any failure loses all)</mark></td>
+                  <td>100% (<code>N</code>)</td>
+                  <td>Never for CBS; temp scratch only</td>
+                </tr>
+                <tr>
+                  <td><strong>RAID 1</strong></td>
+                  <td>Mirroring</td>
+                  <td>2</td>
+                  <td>1 disk per mirror pair</td>
+                  <td>50% (<code>N/2</code>)</td>
+                  <td>OS boot drives, small critical logs</td>
+                </tr>
+                <tr>
+                  <td><strong>RAID 5</strong></td>
+                  <td>Striping + Distributed Single Parity</td>
+                  <td><mark>3</mark></td>
+                  <td><mark>1 disk failure</mark></td>
+                  <td><code>(N - 1) / N</code></td>
+                  <td>Read-heavy archival &amp; document stores</td>
+                </tr>
+                <tr>
+                  <td><strong>RAID 6</strong></td>
+                  <td>Striping + Dual Distributed Parity</td>
+                  <td><mark>4</mark></td>
+                  <td><mark>2 simultaneous disk failures</mark></td>
+                  <td><code>(N - 2) / N</code></td>
+                  <td>Large compliance / audit log arrays</td>
+                </tr>
+                <tr>
+                  <td><strong>RAID 10 (1+0)</strong></td>
+                  <td>Mirrored pairs striped together</td>
+                  <td><mark>4</mark></td>
+                  <td>1 disk per mirrored pair</td>
+                  <td>50% (<code>N/2</code>)</td>
+                  <td><mark>Gold standard for CBS OLTP RDBMS</mark> (high random write IOPS, fast rebuild)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <ul>
+            <li><strong>Hardware Security Modules (HSM):</strong> FIPS 140-2/140-3 tamper-evident cryptographic appliances storing root CA keys, payment signing keys, and PIN verification keys in protected silicon—zero plaintext key export.</li>
+            <li><strong>ECC Server RAM (SEC-DED):</strong> Banking servers mandate Error-Correcting Code DRAM using extended Hamming codes to <mark>correct 1-bit errors and detect 2-bit errors</mark> silently in hardware, preventing ledger corruption.</li>
+            <li><strong>Tier III/IV Data Centres &amp; BCP/DR (<a href="https://m.rbi.org.in/scripts/BS_ViewMasDirections.aspx?id=13597" target="_blank" rel="noopener noreferrer">RBI AIFI Tech Risk &amp; Resilience Directions 2026</a>):</strong> AIFIs maintain Primary Data Centres (PDC) and geographically separated Disaster Recovery (DR) sites in distinct seismic zones, tested periodically against strict <strong>RPO</strong> (Recovery Point Objective — max data loss) and <strong>RTO</strong> (Recovery Time Objective — max downtime).</li>
+          </ul>
+
+          <div class="callout callout-info" style="margin-top:0.85rem;">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"Compare RAID 5, RAID 6, and RAID 10 for Core Banking storage, and explain how ECC RAM and HSMs strengthen hardware-level resilience in an AIFI like SIDBI." (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (25w):</strong> Hardware faults directly threaten financial integrity and RBI availability mandates.<br>
+            &bull; <strong>RAID Comparison (85w):</strong> Contrast write penalty &amp; rebuild risk—why RAID 10 wins for write-heavy OLTP CBS databases while RAID 6 suits multi-terabyte audit/compliance archives.<br>
+            &bull; <strong>ECC &amp; HSM Layer (70w):</strong> Explain SEC-DED Hamming protection against bit flips in RAM + FIPS-certified HSM physical key isolation for digital lending/OCEN signatures.<br>
+            &bull; <strong>Conclusion (20w):</strong> Hardware redundancy must pair with geo-replicated DR drills (RPO/RTO) and immutable backups.
+          </div>
+        </section>
+
+        <!-- ==================== 2.8 ==================== -->
+        <section id="sec-2-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">2.8 5-Minute Rapid Revision Sheet (25 High-Yield One-Liners)</h2>
+            <span class="badge badge-warn">Last-Day Cram</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0;">
+            <li>Generations: 1st Vacuum Tubes &rarr; 2nd Transistors &rarr; 3rd ICs &rarr; 4th VLSI Microprocessors &rarr; 5th ULSI/AI/Quantum.</li>
+            <li><mark>Address Bus</mark> = unidirectional (CPU &rarr; Mem/IO); <mark>Data Bus</mark> = bidirectional; <code>k</code> lines address <code>2^k</code> locations.</li>
+            <li><mark>PC</mark> = address of NEXT instruction; <mark>IR</mark> = CURRENT instruction; <mark>MAR</mark> = target RAM address; <mark>MDR</mark> = data word.</li>
+            <li><mark>Von Neumann Bottleneck</mark> = shared memory/bus for instructions &amp; data; modern CPUs use <mark>Modified Harvard</mark> (split L1i/L1d).</li>
+            <li><mark>RISC</mark> = fixed-length, Load/Store, hardwired CU, many registers; <mark>CISC</mark> = variable-length, microprogrammed CU.</li>
+            <li><mark>DMA</mark> transfers bulk I/O blocks directly to RAM bypassing CPU (Burst Mode &amp; Cycle Stealing).</li>
+            <li><mark>2's Complement</mark> n-bit range: <code>-2^(n-1)</code> to <code>+(2^(n-1)-1)</code>; ONE zero; signed overflow iff <code>C_in &ne; C_out</code> at MSB.</li>
+            <li><mark>Excess-3</mark> is unweighted and self-complementing; <mark>Gray Code</mark> is unit-distance (adjacent codes differ by 1 bit).</li>
+            <li><mark>ASCII</mark> = 7-bit (128 chars); <code>'0'=48, 'A'=65, 'a'=97</code>; <mark>UTF-8</mark> = 1–4 bytes, ASCII-compatible.</li>
+            <li>Hamming distance: detect <code>t</code> errors &rarr; <code>d_min &ge; t + 1</code>; correct <code>t</code> errors &rarr; <code>d_min &ge; 2t + 1</code>.</li>
+            <li>Hamming parity bit count: <mark><code>2^r &ge; m + r + 1</code></mark>; parity bits sit at powers of 2 (1, 2, 4, 8...).</li>
+            <li><mark>IEEE 754 Single (32-bit):</mark> <code>1 S | 8 E (Bias 127) | 23 M</code>; <mark>Double (64-bit):</mark> <code>1 S | 11 E (Bias 1023) | 52 M</code>.</li>
+            <li>IEEE 754 special: <code>E=all 1s, M=0 &rarr; &plusmn;&infin;</code>; <code>E=all 1s, M&ne;0 &rarr; NaN</code>; <mark>BFloat16</mark> keeps FP32's 8-bit exponent for AI.</li>
+            <li>Banks avoid binary <code>float</code> for currency (<code>0.1 + 0.2 &ne; 0.3</code>); use fixed-point <code>DECIMAL</code> / <code>BigDecimal</code>.</li>
+            <li><mark>SRAM</mark> = 6T flip-flop, no refresh, CPU Cache; <mark>DRAM</mark> = 1T1C capacitor, needs refresh, Main RAM.</li>
+            <li><mark>EPROM</mark> = UV-erased; <mark>EEPROM</mark> = byte-level electrical erase; <mark>Flash</mark> = block-level electrical erase (NOR=XIP, NAND=SSD).</li>
+            <li><mark>Write-Back cache</mark> uses a Dirty Bit and writes to RAM only on eviction; <mark>Write-Through</mark> updates RAM immediately.</li>
+            <li>Direct-Mapped Cache: <code>Offset = log2(BlockSize)</code>, <code>Index = log2(Lines)</code>, <code>Tag = Addr - Index - Offset</code>.</li>
+            <li><mark>NAND gate counts:</mark> NOT(1), AND(2), OR(3), XOR(4), XNOR(5). <mark>NOR counts:</mark> NOT(1), OR(2), AND(3), XNOR(4), XOR(5).</li>
+            <li><mark>Full Adder</mark> = 2 Half Adders + 1 OR gate; <mark>MUX</mark> is a universal combinational logic block.</li>
+            <li><mark>Master-Slave JK Flip-Flop</mark> eliminates the Race-Around Condition when <code>J=1, K=1</code>.</li>
+            <li><mark>CPU Execution Time</mark> = <code>(IC &times; CPI) / Clock Rate</code>; <mark>Amdahl's Law</mark> = <code>1 / [(1 - f) + f / k]</code>.</li>
+            <li><mark>Hierarchical Cache EAT</mark> = <code>h &middot; Tc + (1 - h) &middot; (Tc + Tm)</code>.</li>
+            <li><mark>RAID 5</mark> (min 3 disks, 1 failure), <mark>RAID 6</mark> (min 4 disks, 2 failures), <mark>RAID 10</mark> (min 4 disks, best CBS OLTP IOPS).</li>
+            <li><mark>ECC RAM</mark> = SEC-DED (corrects 1-bit, detects 2-bit errors); <mark>HSM</mark> = FIPS-certified hardware key vault.</li>
+          </ol>
+        </section>
+
+        <!-- ==================== 2.9 ==================== -->
+        <section id="sec-2-9" class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">2.9 Chapter 2 Exam-Level Practice Drill (15 Unbiased 5-Option MCQs)</h2>
+              <p class="card-subtitle">1 &amp; 2 Mark Mix (22 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+            </div>
+          </div>
+          <div id="ch2-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster1-ch01-intro-software.html">&larr; Prev: Chapter 1 — Introduction to Software</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-02', '[data-chapter-complete="it-02"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch2-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch2-q1',
+              marks: 1,
+              section: 'CPU Registers',
+              prompt: 'Which CPU register holds the memory address of the NEXT instruction to be fetched during the instruction cycle?',
+              options: [
+                'Instruction Register (IR)',
+                'Memory Data Register (MDR)',
+                'Program Counter (PC)',
+                'Accumulator (AC)',
+                'Program Status Word (PSW)'
+              ],
+              correctIndex: 2,
+              explanation: 'The Program Counter (PC) holds the address of the next instruction; once fetched into IR, PC increments to the subsequent instruction address.'
+            },
+            {
+              id: 'ch2-q2',
+              marks: 1,
+              section: 'RISC vs CISC',
+              prompt: 'Which architectural characteristic strictly belongs to a pure RISC (Load/Store) processor design?',
+              options: [
+                'Variable-length instructions decoded via microcode ROM',
+                'ALU arithmetic instructions operating directly on two RAM operands',
+                'Fixed-length instructions with memory access restricted to Load and Store ops',
+                'Minimal register file of 4 general-purpose registers',
+                'Absence of instruction pipelining stages'
+              ],
+              correctIndex: 2,
+              explanation: 'RISC architectures use fixed-length instructions, a large register file, hardwired control, and Load/Store memory semantics so ALU ops execute strictly on registers.'
+            },
+            {
+              id: 'ch2-q3',
+              marks: 1,
+              section: 'I/O & DMA',
+              prompt: 'In Direct Memory Access (DMA) transfers, what does "Cycle Stealing" mode refer to?',
+              options: [
+                'The CPU permanently halts all interrupts until disk formatting ends',
+                'The DMA controller takes over the system bus for one memory cycle at a time to transfer a word while letting the CPU interleave',
+                'The operating system reallocates cache lines from L1 to magnetic tape',
+                'Two CPUs alternate clock frequencies to save electrical power',
+                'The I/O device executes user application instructions inside its buffer'
+              ],
+              correctIndex: 1,
+              explanation: 'In Cycle Stealing mode, the DMA controller acquires the bus for a single cycle per word transfer, minimizing CPU stall compared to Burst Mode.'
+            },
+            {
+              id: 'ch2-q4',
+              marks: 2,
+              section: '2\'s Complement Overflow',
+              prompt: 'In an 8-bit signed 2\'s complement ALU, which hardware condition accurately detects signed arithmetic overflow during addition?',
+              options: [
+                'Carry-out from the MSB is always equal to 1',
+                'The Zero flag and Parity flag are both set to 1',
+                'Carry-in to the MSB differs from Carry-out of the MSB (Cin XOR Cout = 1)',
+                'Both operands have opposite sign bits prior to addition',
+                'The least significant bit of the sum equals 0'
+              ],
+              correctIndex: 2,
+              explanation: 'Signed overflow in 2\'s complement addition occurs if and only if the carry into the sign bit (MSB) does not equal the carry out of the sign bit.'
+            },
+            {
+              id: 'ch2-q5',
+              marks: 2,
+              section: 'Gray Code',
+              prompt: 'What is the 5-bit Gray code equivalent of the binary number 11010?',
+              options: [
+                '10111',
+                '10011',
+                '11101',
+                '10101',
+                '01111'
+              ],
+              correctIndex: 0,
+              explanation: 'MSB stays 1. Next bits: 1^1=0, 1^0=1, 0^1=1, 1^0=1 → 10111.'
+            },
+            {
+              id: 'ch2-q6',
+              marks: 2,
+              section: 'IEEE 754',
+              prompt: 'In IEEE 754 single-precision (32-bit) floating-point representation, what does an exponent field of all 1s (255) paired with a non-zero mantissa represent?',
+              options: [
+                'Positive Zero (+0.0)',
+                'Subnormal (Denormalized) number',
+                'Positive or Negative Infinity',
+                'Not a Number (NaN)',
+                'Maximum normalized integer'
+              ],
+              correctIndex: 3,
+              explanation: 'In IEEE 754, E = all 1s with M = 0 represents ±Infinity, whereas E = all 1s with M ≠ 0 represents NaN (Not a Number).'
+            },
+            {
+              id: 'ch2-q7',
+              marks: 2,
+              section: 'IEEE 754 Exponent',
+              prompt: 'In IEEE 754 single-precision (32-bit) format, what true unbiased power of 2 does the biased exponent 10000101 (binary) represent?',
+              options: [
+                '2^4',
+                '2^5',
+                '2^6',
+                '2^7',
+                '2^8'
+              ],
+              correctIndex: 2,
+              explanation: 'Binary 10000101 = 133. Subtracting the single-precision bias of 127 yields 133 - 127 = 6, representing 2^6.'
+            },
+            {
+              id: 'ch2-q8',
+              marks: 2,
+              section: 'Hamming Code',
+              prompt: 'What is the minimum number of parity bits required in a single-error-correcting Hamming code to protect an 11-bit data message?',
+              options: [
+                '3 parity bits',
+                '4 parity bits',
+                '5 parity bits',
+                '6 parity bits',
+                '7 parity bits'
+              ],
+              correctIndex: 1,
+              explanation: 'Using 2^r >= m + r + 1 with m = 11: for r = 3, 8 < 15 (fails); for r = 4, 2^4 = 16 >= 11 + 4 + 1 = 16 (holds). Hence 4 parity bits.'
+            },
+            {
+              id: 'ch2-q9',
+              marks: 1,
+              section: 'Memory Technology',
+              prompt: 'Why does DRAM require periodic refresh cycles whereas SRAM retains its stored bits without refreshing while powered?',
+              options: [
+                'DRAM stores charge in a tiny capacitor that gradually leaks, while SRAM uses cross-coupled flip-flop transistors',
+                'DRAM is built using magnetic platters that lose magnetization every millisecond',
+                'SRAM uses non-volatile NOR Flash cells requiring no electrical power',
+                'DRAM operates exclusively on the unidirectional address bus',
+                'SRAM stores data inside CPU microcode ROM'
+              ],
+              correctIndex: 0,
+              explanation: 'A DRAM cell consists of 1 transistor + 1 capacitor (1T1C) whose charge leaks over milliseconds and must be refreshed; SRAM uses a 6-transistor static latch.'
+            },
+            {
+              id: 'ch2-q10',
+              marks: 2,
+              section: 'Memory Addressing',
+              prompt: 'How many 256K × 8 RAM chips are required to build an 8 MB byte-addressable main memory system?',
+              options: [
+                '16 chips',
+                '24 chips',
+                '32 chips',
+                '48 chips',
+                '64 chips'
+              ],
+              correctIndex: 2,
+              explanation: '8 MB = 8 × 1024 KB = 8192 KB. Each 256K × 8 chip holds 256 KB. Chips needed = 8192 / 256 = 32 chips.'
+            },
+            {
+              id: 'ch2-q11',
+              marks: 2,
+              section: 'Cache Bit Split',
+              prompt: 'A 32-bit byte-addressable system has a 32 KB direct-mapped cache with 64-byte blocks. How many bits are used for the Tag field?',
+              options: [
+                '15 bits',
+                '16 bits',
+                '17 bits',
+                '18 bits',
+                '20 bits'
+              ],
+              correctIndex: 2,
+              explanation: 'Block Offset = log2(64) = 6 bits. Number of lines = 32 KB / 64 B = 512 = 2^9 → Index = 9 bits. Tag = 32 - (9 + 6) = 17 bits.'
+            },
+            {
+              id: 'ch2-q12',
+              marks: 1,
+              section: 'Universal Gates',
+              prompt: 'What is the minimum number of 2-input NOR gates required to implement a single 2-input XOR gate?',
+              options: [
+                '2 NOR gates',
+                '3 NOR gates',
+                '4 NOR gates',
+                '5 NOR gates',
+                '6 NOR gates'
+              ],
+              correctIndex: 3,
+              explanation: 'Be careful of the NAND vs NOR trap! With NOR gates: NOT=1, OR=2, AND=3, XNOR=4, and XOR=5 two-input NOR gates.'
+            },
+            {
+              id: 'ch2-q13',
+              marks: 1,
+              section: 'Sequential Circuits',
+              prompt: 'Which flip-flop configuration specifically eliminates the Race-Around Condition occurring when J=1 and K=1 during a long clock pulse?',
+              options: [
+                'Unclocked SR Latch',
+                'Master-Slave JK Flip-Flop',
+                'Half Adder Combinational Latch',
+                'Asynchronous Ripple Multiplexer',
+                '4-to-16 Address Decoder'
+              ],
+              correctIndex: 1,
+              explanation: 'The Master-Slave JK Flip-Flop isolates the master (active on positive clock phase) from the slave (active on negative phase), ensuring output toggles at most once per clock cycle.'
+            },
+            {
+              id: 'ch2-q14',
+              marks: 2,
+              section: 'Amdahl\'s Law',
+              prompt: 'A hardware accelerator speeds up 50% of a banking batch job by a factor of 5× while the remaining 50% stays unchanged. What is the overall speedup according to Amdahl\'s Law?',
+              options: [
+                '1.43×',
+                '1.67×',
+                '2.00×',
+                '2.50×',
+                '3.00×'
+              ],
+              correctIndex: 1,
+              explanation: 'Amdahl\'s Law: S = 1 / [(1 - f) + f / k] = 1 / [(1 - 0.5) + 0.5 / 5] = 1 / (0.5 + 0.1) = 1 / 0.6 = 1.67×.'
+            },
+            {
+              id: 'ch2-q15',
+              marks: 1,
+              section: 'Banking Hardware (RAID)',
+              prompt: 'Which RAID level provides fault tolerance against TWO simultaneous disk failures in a large banking compliance archive array?',
+              options: [
+                'RAID 0',
+                'RAID 1 (2-disk pair)',
+                'RAID 5',
+                'RAID 6',
+                'JBOD'
+              ],
+              correctIndex: 3,
+              explanation: 'RAID 6 uses dual distributed parity across at least 4 disks, surviving up to two simultaneous drive failures without data loss.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

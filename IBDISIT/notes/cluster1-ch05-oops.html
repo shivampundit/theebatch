@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 5: Object-Oriented Systems (Master Edition) — SIDBI Grade A/B IT 2026</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-badge">IT</span>
+        <span>SIDBI Grade A/B IT 2026</span>
+      </a>
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="../index.html">Dashboard</a></li>
+          <li><a href="../index.html#syllabus-tracker" class="active">25 IT Topics</a></li>
+          <li><a href="../descriptive/practice-lab.html">Descriptive Lab</a></li>
+          <li><a href="../index.html#mocks-hub">Mock Engine</a></li>
+          <li><a href="../index.html#revision-hub">Revision Hub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">&#9790; Dark</button>
+        <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-grid">
+      <!-- Sticky Sidebar TOC -->
+      <aside class="sidebar" aria-label="Chapter Table of Contents">
+        <p class="sidebar-title">Cluster 1 &bull; Chapter 5 (Deep)</p>
+        <ul class="toc-list">
+          <li><a href="#sec-5-1" class="active">5.1 Four Pillars &amp; Access Control</a></li>
+          <li><a href="#sec-5-2">5.2 Class Relationships (UML SVG)</a></li>
+          <li><a href="#sec-5-3">5.3 SOLID, DRY &amp; Law of Demeter</a></li>
+          <li><a href="#sec-5-4">5.4 UML 2.5 Diagrams (All 14)</a></li>
+          <li><a href="#sec-5-5">5.5 GoF Design Patterns Matrix</a></li>
+          <li><a href="#sec-5-6">5.6 OOAD, CRC Cards &amp; CK Metrics</a></li>
+          <li><a href="#sec-5-7">5.7 Worked OOAD Case Scenarios (5)</a></li>
+          <li><a href="#sec-5-8">5.8 Banking Context + 10M Blueprint</a></li>
+          <li><a href="#sec-5-9">5.9 Rapid Revision + 15 Exam MCQs</a></li>
+        </ul>
+        <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" data-chapter-complete="it-05">Mark Chapter Complete</button>
+          <a class="btn btn-secondary btn-sm" href="cluster1-ch04-programming-languages.html">&larr; Prev: Ch 4 Programming</a>
+        </div>
+      </aside>
+
+      <!-- Main Chapter Content -->
+      <main class="main-content">
+        <section class="card">
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.55rem;">
+            <span class="badge badge-info">Cluster 1: Core CS &amp; Programming</span>
+            <span class="badge badge-warn">Topic 5 of 25 &bull; Master Depth</span>
+            <span class="badge badge-live">High Paper III Part A &amp; Part B Yield</span>
+          </div>
+          <h1 style="margin:0 0 0.45rem;font-size:1.75rem;">Chapter 5: Object-Oriented Systems</h1>
+          <p style="margin:0;color:var(--text-muted);">
+            Complete exam-depth guide to OOP pillars, Encapsulation vs. Abstraction, Association/Aggregation/Composition (with UML SVG notation),
+            SOLID &amp; Law of Demeter, all 14 UML 2.5 diagrams (`&lt;&lt;include&gt;&gt;` vs. `&lt;&lt;extend&gt;&gt;`), Gang of Four (GoF) Creational/Structural/Behavioral patterns,
+            Chidamber &amp; Kemerer (CK) OO metrics, 5 worked OOAD case scenarios, SIDBI modular platform architecture, 25 one-liners, and 15 exam-level 5-option MCQs.
+          </p>
+        </section>
+
+        <!-- ==================== 5.1 ==================== -->
+        <section id="sec-5-1" class="card">
+          <div class="card-header">
+            <h2 class="card-title">5.1 OOP Paradigm, The Four Pillars &amp; Access Specifiers</h2>
+            <span class="badge badge-info">Core Foundation</span>
+          </div>
+          <p>
+            <strong>Object-Oriented Systems</strong> organize software around <mark>Objects</mark>—runtime instances of a <mark>Class</mark> (blueprint)
+            combining <strong>State</strong> (attributes/fields), <strong>Behavior</strong> (methods), and <strong>Identity</strong> (unique memory/object reference).
+            Unlike procedural programming (functions operating on exposed global data), OOP binds data and operations together to maximize modularity and maintainability.
+          </p>
+
+          <div class="table-wrap" style="margin-bottom:1rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>OOP Pillar</th>
+                  <th>Core Definition</th>
+                  <th>Mechanism</th>
+                  <th>Classic Exam Trap / Distinction</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. Encapsulation</strong></td>
+                  <td>Bundling data + methods into one unit and <mark>restricting direct access to internal state</mark>.</td>
+                  <td><code>private</code> fields + validated getters/setters</td>
+                  <td><strong>Implementation-level</strong> ("HOW" data is protected from invalid mutation).</td>
+                </tr>
+                <tr>
+                  <td><strong>2. Abstraction</strong></td>
+                  <td>Exposing only essential external behavior while <mark>hiding complex internal details</mark>.</td>
+                  <td>Abstract classes, Interfaces, API contracts</td>
+                  <td><strong>Design-level</strong> ("WHAT" an object does; e.g., <code>disburseLoan()</code> hides ledger/SMS/audit internals).</td>
+                </tr>
+                <tr>
+                  <td><strong>3. Inheritance</strong></td>
+                  <td>Deriving a specialized subclass (<code>IS-A</code>) from a base superclass to reuse and extend behavior.</td>
+                  <td><code>extends</code> (Java), <code>: public</code> (C++), <code>class B(A)</code> (Python)</td>
+                  <td>Overusing deep inheritance creates <mark>Fragile Base Class</mark> tight coupling &rarr; prefer Composition!</td>
+                </tr>
+                <tr>
+                  <td><strong>4. Polymorphism</strong></td>
+                  <td>"Many forms" — one interface/call invokes different behaviors depending on type.</td>
+                  <td><strong>Static:</strong> Overloading, Templates<br><strong>Dynamic:</strong> Overriding (<code>virtual</code>)</td>
+                  <td><mark>Early (Compile-time) binding</mark> = Overloading; <mark>Late (Runtime) binding</mark> = Overriding.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:0.8rem 0 0.45rem;font-size:1.05rem;">Access Specifier Visibility Matrix (Java / C++ Reference)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Modifier</th>
+                  <th>Same Class</th>
+                  <th>Same Package (Java)</th>
+                  <th>Subclass (Other Pkg)</th>
+                  <th>World / External</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>private</code> (<code>-</code> in UML)</td><td>Yes</td><td>No</td><td>No</td><td>No</td></tr>
+                <tr><td><em>default</em> / package-private (<code>~</code>)</td><td>Yes</td><td>Yes</td><td>No</td><td>No</td></tr>
+                <tr><td><code>protected</code> (<code>#</code> in UML)</td><td>Yes</td><td>Yes</td><td><mark>Yes</mark></td><td>No</td></tr>
+                <tr><td><code>public</code> (<code>+</code> in UML)</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 5.2 ==================== -->
+        <section id="sec-5-2" class="card">
+          <div class="card-header">
+            <h2 class="card-title">5.2 Class Relationships: Association, Aggregation, Composition &amp; UML Notation</h2>
+            <span class="badge badge-danger">Top Paper III MCQ Trap</span>
+          </div>
+
+          <!-- Inline SVG: UML Class Relationship Arrows -->
+          <div style="margin:0.8rem 0 1rem;overflow-x:auto;">
+            <svg viewBox="0 0 760 235" width="100%" style="max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;" role="img" aria-label="UML Class Relationship Arrows and Diamonds">
+              <rect x="10" y="8" width="740" height="220" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <!-- Row 1: Association -->
+              <text x="28" y="38" fill="#0f2942" font-size="12" font-weight="700">1. Association (USES / LINKS)</text>
+              <line x1="280" y1="34" x2="430" y2="34" stroke="#0f2942" stroke-width="2.2"/>
+              <text x="450" y="38" fill="#475569" font-size="11">Independent lifecycles (Bank &mdash; Customer)</text>
+
+              <!-- Row 2: Aggregation -->
+              <text x="28" y="78" fill="#0f2942" font-size="12" font-weight="700">2. Aggregation (Weak HAS-A)</text>
+              <polygon points="280,74 294,66 308,74 294,82" fill="#ffffff" stroke="#0d9488" stroke-width="2.2"/>
+              <line x1="308" y1="74" x2="430" y2="74" stroke="#0d9488" stroke-width="2.2"/>
+              <text x="450" y="78" fill="#0f766e" font-size="11" font-weight="600">Hollow Diamond: Child survives parent (Dept &loz;&mdash; Emp)</text>
+
+              <!-- Row 3: Composition -->
+              <text x="28" y="118" fill="#0f2942" font-size="12" font-weight="700">3. Composition (Strong PART-OF)</text>
+              <polygon points="280,114 294,106 308,114 294,122" fill="#b91c1c" stroke="#b91c1c" stroke-width="2"/>
+              <line x1="308" y1="114" x2="430" y2="114" stroke="#b91c1c" stroke-width="2.2"/>
+              <text x="450" y="118" fill="#b91c1c" font-size="11" font-weight="600">Filled Diamond: Child dies with parent (Loan &diams;&mdash; EMI)</text>
+
+              <!-- Row 4: Generalization -->
+              <text x="28" y="158" fill="#0f2942" font-size="12" font-weight="700">4. Generalization (IS-A)</text>
+              <line x1="280" y1="154" x2="412" y2="154" stroke="#1d4ed8" stroke-width="2.2"/>
+              <polygon points="430,154 412,145 412,163" fill="#ffffff" stroke="#1d4ed8" stroke-width="2.2"/>
+              <text x="450" y="158" fill="#1d4ed8" font-size="11" font-weight="600">Solid + Hollow Triangle: Inheritance (MSMELoan &rarr; Loan)</text>
+
+              <!-- Row 5: Realization & Dependency -->
+              <text x="28" y="198" fill="#0f2942" font-size="12" font-weight="700">5. Realization (Implements)</text>
+              <line x1="280" y1="194" x2="412" y2="194" stroke="#6d28d9" stroke-width="2.2" stroke-dasharray="6,4"/>
+              <polygon points="430,194 412,185 412,203" fill="#ffffff" stroke="#6d28d9" stroke-width="2.2"/>
+              <text x="450" y="198" fill="#6d28d9" font-size="11" font-weight="600">Dashed + Hollow Triangle (GSTSahay &dash;&gt; IPayment)</text>
+            </svg>
+          </div>
+
+          <div class="callout callout-warn">
+            <span class="callout-title">Exam Trap: Aggregation vs. Composition Lifecycle Test</span>
+            Ask: <em>"If the Whole (Parent) object is deleted, do the Part (Child) objects cease to exist?"</em><br>
+            &bull; <strong>NO</strong> (employees still exist if a bank branch closes) &rarr; <mark>Aggregation (Hollow Diamond)</mark>.<br>
+            &bull; <strong>YES</strong> (an invoice's line-items or a loan's EMI schedule cannot exist independently without the parent loan) &rarr; <mark>Composition (Filled Black Diamond)</mark>.<br>
+            &bull; <strong>Dependency</strong> (dashed open arrow <code>- - -&gt;</code>) is the weakest relationship: Class A temporarily uses Class B as a method parameter or local variable.
+          </div>
+        </section>
+
+        <!-- ==================== 5.3 ==================== -->
+        <section id="sec-5-3" class="card">
+          <div class="card-header">
+            <h2 class="card-title">5.3 SOLID Design Principles, Cohesion/Coupling &amp; Law of Demeter</h2>
+            <span class="badge badge-warn">High Objective &amp; Descriptive Yield</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Principle</th>
+                  <th>Exact Definition (Robert C. Martin)</th>
+                  <th>Banking Violation vs. Clean Refactor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>S — Single Responsibility (SRP)</strong></td>
+                  <td>A class should have <mark>only ONE reason to change</mark>.</td>
+                  <td><em>Bad:</em> <code>Loan</code> class calculates EMI, writes SQL, and sends SMS.<br><em>Good:</em> Split into <code>EMICalculator</code>, <code>LoanRepository</code>, <code>NotificationService</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>O — Open / Closed (OCP)</strong></td>
+                  <td>Open for <mark>extension</mark>, closed for <mark>modification</mark>.</td>
+                  <td><em>Bad:</em> Adding a new MSME scheme requires editing a giant <code>if-else</code> block.<br><em>Good:</em> Implement a new <code>SchemeRule</code> class behind a common interface.</td>
+                </tr>
+                <tr>
+                  <td><strong>L — Liskov Substitution (LSP)</strong></td>
+                  <td>Subtypes must be <mark>substitutable for their base types</mark> without breaking correctness.</td>
+                  <td><em>Classic Trap:</em> Making <code>FixedDepositAccount</code> inherit <code>withdraw()</code> from <code>SavingsAccount</code> and throwing <code>UnsupportedOperationException</code> violates LSP!</td>
+                </tr>
+                <tr>
+                  <td><strong>I — Interface Segregation (ISP)</strong></td>
+                  <td>Clients should NOT be forced to depend on <mark>methods they do not use</mark>.</td>
+                  <td><em>Good:</em> Split fat <code>IBankAccount</code> into <code>IDepositable</code>, <code>IWithdrawable</code>, <code>ILoanable</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>D — Dependency Inversion (DIP)</strong></td>
+                  <td>High-level modules must depend on <mark>abstractions (interfaces), not concrete low-level classes</mark>.</td>
+                  <td><em>Good:</em> <code>LoanService</code> depends on <code>ICreditBureau</code> interface (injected via Spring DI), not hardcoded <code>CibilClient</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul style="margin-top:0.8rem;">
+            <li><strong>High Cohesion &amp; Low Coupling:</strong> The golden rule of modular design—keep closely related responsibilities inside one class (<mark>High Cohesion</mark>) and minimize inter-class dependencies (<mark>Low Coupling</mark>).</li>
+            <li><strong>Law of Demeter (Principle of Least Knowledge):</strong> "Talk only to your immediate friends"—avoid chained navigation like <code>loan.getBorrower().getAddress().getPincode()</code>; instead expose <code>loan.getBorrowerPincode()</code>.</li>
+            <li><strong>DRY / KISS / YAGNI:</strong> <em>Don't Repeat Yourself</em> (single source of truth), <em>Keep It Simple</em>, <em>You Aren't Gonna Need It</em> (avoid speculative over-engineering).</li>
+          </ul>
+        </section>
+
+        <!-- ==================== 5.4 ==================== -->
+        <section id="sec-5-4" class="card">
+          <div class="card-header">
+            <h2 class="card-title">5.4 Unified Modeling Language (UML 2.5) — Complete 14-Diagram Map</h2>
+            <span class="badge badge-purple">Frequent Paper III Questions</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>UML Category</th>
+                  <th>Diagram Name</th>
+                  <th>What It Models (Exam Keywords)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="4"><strong>Structural (Static)</strong><br><em>7 Total: Class, Object, Component, Deployment, Package, Composite Structure, Profile</em></td>
+                  <td><strong>Class Diagram</strong></td>
+                  <td>Classes, attributes, methods, visibility (<code>+ - # ~</code>), multiplicities (<code>1..*</code>), relationships.</td>
+                </tr>
+                <tr>
+                  <td><strong>Object Diagram</strong></td>
+                  <td><mark>Runtime snapshot</mark> of specific object instances and their attribute values at a point in time.</td>
+                </tr>
+                <tr>
+                  <td><strong>Component Diagram</strong></td>
+                  <td>High-level modular software artifacts (JARs, microservices, APIs) &amp; provided/required interfaces (lollipop/socket).</td>
+                </tr>
+                <tr>
+                  <td><strong>Deployment Diagram</strong></td>
+                  <td><mark>Physical hardware nodes</mark> (PDC servers, DB clusters, HSM, firewalls) and where software artifacts run.</td>
+                </tr>
+                <tr>
+                  <td rowspan="5"><strong>Behavioral (Dynamic)</strong><br><em>7 Total: Use Case, Sequence, Activity, State Machine, Communication, Timing, Interaction Overview</em></td>
+                  <td><strong>Use Case Diagram</strong></td>
+                  <td>Actors &amp; functional goals. <mark><code>&lt;&lt;include&gt;&gt;</code> = MANDATORY</mark> sub-step (arrow from Base &rarr; Included); <mark><code>&lt;&lt;extend&gt;&gt;</code> = OPTIONAL/conditional</mark> behavior (arrow from Extension &rarr; Base!).</td>
+                </tr>
+                <tr>
+                  <td><strong>Sequence Diagram</strong></td>
+                  <td><mark>Time-ordered message exchange</mark> across object Lifelines (top-to-bottom time axis, activation bars, sync/async arrows).</td>
+                </tr>
+                <tr>
+                  <td><strong>Activity Diagram</strong></td>
+                  <td>Workflow / business-process flowchart with <mark>Swimlanes</mark> (roles) and <mark>Fork / Join bars</mark> for parallel execution.</td>
+                </tr>
+                <tr>
+                  <td><strong>State Machine Diagram</strong></td>
+                  <td>Lifecycle states of ONE object triggered by events/guards (e.g., Loan: <code>Applied &rarr; Verified &rarr; Sanctioned &rarr; Disbursed &rarr; Closed / NPA</code>).</td>
+                </tr>
+                <tr>
+                  <td><strong>Communication Diagram</strong></td>
+                  <td>Same interactions as Sequence diagram, but emphasizes <mark>structural links &amp; numbered messages</mark> instead of time axis.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 5.5 ==================== -->
+        <section id="sec-5-5" class="card">
+          <div class="card-header">
+            <h2 class="card-title">5.5 Gang of Four (GoF) Design Patterns — High-Yield Matrix</h2>
+            <span class="badge badge-danger">Guaranteed Paper III Favorite</span>
+          </div>
+          <p>
+            The classic GoF book defines <mark>23 Design Patterns</mark> in 3 categories: <strong>Creational (5)</strong>, <strong>Structural (7)</strong>, and <strong>Behavioral (11)</strong>. Below are the 13 most frequently tested in Banking/Regulatory IT exams:
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Pattern</th>
+                  <th>Core Intent (1-Line Recognition Key)</th>
+                  <th>Banking / Enterprise Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="4"><strong>Creational</strong><br><em>(Object Creation)</em></td>
+                  <td><strong>Singleton</strong></td>
+                  <td>Ensures a class has <mark>only ONE instance</mark> globally with a global access point.</td>
+                  <td>CBS Config Manager, Logger, DB Connection Pool (use <code>enum</code> or Double-Checked Locking + <code>volatile</code>).</td>
+                </tr>
+                <tr>
+                  <td><strong>Factory Method</strong></td>
+                  <td>Defines an interface for creating an object, letting <mark>subclasses decide which concrete class to instantiate</mark>.</td>
+                  <td><code>LoanFactory.create("MUDRA")</code> vs. <code>"MSE-GIFT"</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Abstract Factory</strong></td>
+                  <td>Creates <mark>families of related objects</mark> without specifying concrete classes.</td>
+                  <td>Creating matched Payment + KYC + Receipt objects per regulator region.</td>
+                </tr>
+                <tr>
+                  <td><strong>Builder</strong></td>
+                  <td>Constructs a complex object <mark>step-by-step</mark> (avoids telescoping constructors).</td>
+                  <td>Building a 25-field MSME Loan Application / SQL Query object fluently.</td>
+                </tr>
+                <tr>
+                  <td rowspan="4"><strong>Structural</strong><br><em>(Class/Object Composition)</em></td>
+                  <td><strong>Adapter</strong></td>
+                  <td>Converts one <mark>incompatible interface</mark> into another expected by clients (Wrapper).</td>
+                  <td>Wrapping legacy ISO 8583 / SOAP CBS messages into modern OCEN REST JSON.</td>
+                </tr>
+                <tr>
+                  <td><strong>Decorator</strong></td>
+                  <td>Attaches <mark>additional responsibilities dynamically</mark> at runtime without subclass explosion.</td>
+                  <td>Java <code>BufferedInputStream(FileInputStream)</code>; stacking encryption + compression + logging on API streams.</td>
+                </tr>
+                <tr>
+                  <td><strong>Facade</strong></td>
+                  <td>Provides a <mark>unified, simplified interface</mark> to a complex set of subsystems.</td>
+                  <td>Single <code>approveMSMELoan()</code> endpoint hiding CIBIL, GST, Udyam, and AML checks.</td>
+                </tr>
+                <tr>
+                  <td><strong>Proxy</strong></td>
+                  <td>Acts as a <mark>surrogate/placeholder</mark> controlling access, caching, or lazy loading of another object.</td>
+                  <td>RBAC security proxy, Spring AOP transaction proxy, API rate-limit proxy.</td>
+                </tr>
+                <tr>
+                  <td rowspan="5"><strong>Behavioral</strong><br><em>(Object Interaction)</em></td>
+                  <td><strong>Strategy</strong></td>
+                  <td>Encapsulates a family of <mark>interchangeable algorithms</mark> selectable at runtime.</td>
+                  <td>Swapping EMI calculation or ML credit-scoring rules dynamically per loan product.</td>
+                </tr>
+                <tr>
+                  <td><strong>Observer</strong></td>
+                  <td>Defines a <mark>one-to-many Pub/Sub dependency</mark> so dependents auto-update on state change.</td>
+                  <td>Loan disbursement event automatically notifies SMS, Email, Audit Log, and Ledger services.</td>
+                </tr>
+                <tr>
+                  <td><strong>Command</strong></td>
+                  <td>Encapsulates a request as an object, enabling <mark>queuing, logging, and Undo/Redo</mark>.</td>
+                  <td>Queued financial transfer commands with compensating rollback transactions.</td>
+                </tr>
+                <tr>
+                  <td><strong>Template Method</strong></td>
+                  <td>Defines an <mark>algorithm skeleton in a base class</mark>, deferring specific steps to subclasses.</td>
+                  <td>Base <code>KYCWorkflow.verify()</code> fixing step order while Aadhaar/PAN subclasses implement fetch steps.</td>
+                </tr>
+                <tr>
+                  <td><strong>Chain of Responsibility</strong></td>
+                  <td>Passes a request along a <mark>chain of handlers</mark> until one handles it.</td>
+                  <td>Tiered loan-sanction approval limits (Branch Manager &rarr; Regional Head &rarr; Credit Committee) or HTTP auth filters.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== 5.6 ==================== -->
+        <section id="sec-5-6" class="card">
+          <div class="card-header">
+            <h2 class="card-title">5.6 OOAD, CRC Cards &amp; Chidamber–Kemerer (CK) OO Metrics</h2>
+            <span class="badge badge-info">High-Yield SE + OOP Bridge</span>
+          </div>
+          <ul>
+            <li><strong>CRC Cards (Class – Responsibility – Collaborator):</strong> Lightweight brainstorming cards used during Object-Oriented Analysis (OOA) to map domain nouns (Classes), verbs (Responsibilities), and interacting classes (Collaborators).</li>
+            <li><strong>Chidamber &amp; Kemerer (CK) Object-Oriented Metrics Suite (6 Classic Metrics):</strong>
+              <ol style="margin-top:0.4rem;">
+                <li><mark><code>WMC</code> (Weighted Methods per Class):</mark> Sum of cyclomatic complexities of all methods in a class &rarr; high WMC = hard to maintain/test.</li>
+                <li><mark><code>DIT</code> (Depth of Inheritance Tree):</mark> Longest path from class to root (<code>Object</code>). High DIT = more reuse, but higher complexity &amp; unpredictability.</li>
+                <li><mark><code>NOC</code> (Number of Children):</mark> Direct immediate subclasses of a class. High NOC = high reuse, high impact if base class changes.</li>
+                <li><mark><code>CBO</code> (Coupling Between Object classes):</mark> Count of other classes to which a class is coupled &rarr; <mark>LOWER is better</mark>.</li>
+                <li><mark><code>RFC</code> (Response For a Class):</mark> Number of methods in the class + methods directly called by them &rarr; high RFC = harder debugging/testing.</li>
+                <li><mark><code>LCOM</code> (Lack of Cohesion in Methods):</mark> Measures dissimilarity of methods sharing instance variables &rarr; <mark>LOWER is better (0 = maximally cohesive)</mark>; high LCOM signals the class should be split (SRP!).</li>
+              </ol>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ==================== 5.7 ==================== -->
+        <section id="sec-5-7" class="card">
+          <div class="card-header">
+            <h2 class="card-title">5.7 Worked OOAD &amp; Design Pattern Case Scenarios (5 Exam Problems)</h2>
+            <span class="badge badge-warn">Applied Practice</span>
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Scenario 1: UML Use-Case Arrow Direction Trap (<code>&lt;&lt;include&gt;&gt;</code> vs. <code>&lt;&lt;extend&gt;&gt;</code>)</span>
+            <strong>Case:</strong> On SIDBI's portal, every <em>"Submit Loan Application"</em> MUST execute <em>"Verify Udyam ID"</em>, and optionally triggers <em>"Apply Green Subsidy (MSE-GIFT)"</em> if the borrower owns solar equipment.<br>
+            <strong>UML Modeling:</strong><br>
+            &bull; <code>Submit Loan Application</code> <code>- - &lt;&lt;include&gt;&gt; -&gt;</code> <code>Verify Udyam ID</code> (arrow points <strong>TO</strong> mandatory included step).<br>
+            &bull; <code>Apply Green Subsidy</code> <code>- - &lt;&lt;extend&gt;&gt; -&gt;</code> <code>Submit Loan Application</code> (arrow points <strong>FROM</strong> optional extension <strong>TO</strong> base!).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Scenario 2: Applying OCP + Strategy + DIP to Banking Interest Calculation</span>
+            <pre><code>// Clean OCP + Strategy + DIP Refactor (Java/C#-style pseudocode)
+interface InterestStrategy { BigDecimal calculate(BigDecimal principal, int months); }
+class FixedRateStrategy implements InterestStrategy { /* ... */ }
+class FloatingRepoStrategy implements InterestStrategy { /* ... */ }
+
+class LoanProcessor {
+  private final InterestStrategy strategy; // DIP: depends on abstraction
+  LoanProcessor(InterestStrategy strategy) { this.strategy = strategy; }
+  BigDecimal compute(BigDecimal p, int m) { return strategy.calculate(p, m); }
+}</code></pre>
+            Adding a new <em>Green Subvention Interest Rule</em> requires ZERO changes to <code>LoanProcessor</code> (OCP satisfied!).
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Scenario 3: Rapid GoF Pattern Identification (4 Banking Cases)</span>
+            &bull; Legacy ISO 8583 binary ATM switch wrapped to expose JSON REST API &rarr; <mark>Adapter</mark>.<br>
+            &bull; One unified REST endpoint orchestrating CIBIL + GST + PAN + AML verification services &rarr; <mark>Facade</mark>.<br>
+            &bull; Disbursement event triggering SMS, Email, Webhook, and SIEM Audit subscribers &rarr; <mark>Observer</mark>.<br>
+            &bull; Loan sanction escalating from Officer (&le;5L) &rarr; Manager (&le;25L) &rarr; Committee (&gt;25L) &rarr; <mark>Chain of Responsibility</mark>.
+          </div>
+
+          <div class="callout callout-info" style="margin-bottom:0.8rem;">
+            <span class="callout-title">Scenario 4: Identifying Aggregation vs. Composition</span>
+            &bull; <code>BankBranch</code> and <code>Customer</code> &rarr; <mark>Aggregation</mark> (if branch closes, customer accounts migrate; customers still exist).<br>
+            &bull; <code>LoanContract</code> and <code>AmortizationRow</code> &rarr; <mark>Composition</mark> (if loan contract is voided/deleted, its amortization schedule rows have no independent existence).
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-title">Scenario 5: Computing CK Metrics (DIT &amp; NOC)</span>
+            <strong>Hierarchy:</strong> <code>Account</code> (root) has 2 direct children: <code>DepositAccount</code> and <code>LoanAccount</code>. <code>LoanAccount</code> has 3 direct children: <code>TermLoan</code>, <code>WorkingCapitalLoan</code>, <code>GreenLoan</code>.<br>
+            <strong>Metrics:</strong> For <code>LoanAccount</code>: <code>DIT = 1</code>, <code>NOC = 3</code>. For <code>GreenLoan</code>: <code>DIT = 2</code>, <code>NOC = 0</code>.
+          </div>
+        </section>
+
+        <!-- ==================== 5.8 ==================== -->
+        <section id="sec-5-8" class="card">
+          <div class="card-header">
+            <h2 class="card-title">5.8 Banking &amp; SIDBI Enterprise OOP Context + 10-Mark Blueprint</h2>
+            <span class="badge badge-live">Descriptive Edge</span>
+          </div>
+          <p>
+            SIDBI's <a href="https://www.sidbi.in/en/digital-initiatives" target="_blank" rel="noopener noreferrer">Udyamimitra plug-and-play platform</a>
+            onboards multiple ministerial MSME credit schemes with separate branded front-ends sharing a common backend—a textbook real-world application of
+            <strong>OCP, Dependency Inversion, Factory/Strategy patterns, and Facade APIs</strong>. Similarly, integrating partner NBFCs and banks on
+            <a href="https://www.sidbi.in/gst-sahay" target="_blank" rel="noopener noreferrer">GST Sahay (OCEN)</a> relies heavily on <strong>Adapter</strong> layers to bridge diverse legacy CBS formats into unified JSON credit protocols.
+          </p>
+          <div class="callout callout-info">
+            <span class="callout-title">Paper III (Part B) 10-Mark Descriptive Model Blueprint</span>
+            <strong>Probable Question:</strong> <em>"Explain the SOLID design principles and demonstrate how at least three Gang of Four (GoF) design patterns improve maintainability and agility in an MSME digital lending platform." (10 Marks | 200 Words)</em><br>
+            &bull; <strong>Intro (25w):</strong> Frequent regulatory and MSME scheme updates demand loosely coupled, extensible OOP architectures.<br>
+            &bull; <strong>SOLID Summary (75w):</strong> Concisely define SRP, OCP, LSP, ISP, and DIP—emphasizing high cohesion and low coupling.<br>
+            &bull; <strong>3 Banking GoF Patterns (80w):</strong> <strong>Strategy</strong> (pluggable scheme eligibility &amp; interest engines), <strong>Adapter</strong> (bridging legacy CBS to OCEN/GST Sahay APIs), and <strong>Observer</strong> (decoupled SMS/email/audit notifications on loan sanction).<br>
+            &bull; <strong>Conclusion (20w):</strong> Together, SOLID and GoF patterns reduce regression defects and shorten time-to-market for new government MSME initiatives.
+          </div>
+        </section>
+
+        <!-- ==================== 5.9 ==================== -->
+        <section id="sec-5-9" class="card">
+          <div class="card-header">
+            <h2 class="card-title">5.9 5-Minute Rapid Revision Sheet &amp; 15 Exam-Level Practice MCQs</h2>
+            <span class="badge badge-warn">Last-Day Cram + Drill</span>
+          </div>
+          <ol style="padding-left:1.25rem;margin:0 0 1.4rem;">
+            <li><mark>Encapsulation</mark> = implementation-level data hiding (<code>private</code> + getters/setters); <mark>Abstraction</mark> = design-level complexity hiding (interfaces).</li>
+            <li>Compile-time polymorphism = <mark>Method/Operator Overloading</mark> (early binding); Runtime polymorphism = <mark>Method Overriding</mark> (late binding).</li>
+            <li>UML visibility symbols: <code>+</code> public, <code>-</code> private, <code>#</code> protected, <code>~</code> package-private.</li>
+            <li><mark>Aggregation</mark> = Hollow Diamond (weak HAS-A, independent child lifecycle); <mark>Composition</mark> = Filled Black Diamond (strong PART-OF, child dies with parent).</li>
+            <li><mark>Generalization (IS-A)</mark> = solid line + hollow triangle; <mark>Realization (Implements)</mark> = dashed line + hollow triangle.</li>
+            <li>Favor <mark>Composition over Inheritance</mark> to avoid the Fragile Base Class problem.</li>
+            <li><mark>SRP:</mark> One class = one reason to change. <mark>OCP:</mark> Open for extension, closed for modification.</li>
+            <li><mark>LSP:</mark> Subclasses must safely replace base classes without throwing unexpected exceptions or breaking contracts.</li>
+            <li><mark>ISP:</mark> Prefer small role-specific interfaces over one fat interface.</li>
+            <li><mark>DIP:</mark> Depend on abstractions, not concrete implementations (foundation of Dependency Injection).</li>
+            <li><mark>Law of Demeter:</mark> Talk only to immediate collaborators (no deep <code>a.b().c().d()</code> chains).</li>
+            <li>UML 2.5 has <mark>14 diagrams</mark>: 7 Structural (Static) + 7 Behavioral (Dynamic).</li>
+            <li>Use Case trap: <mark><code>&lt;&lt;include&gt;&gt;</code></mark> = mandatory (Base &rarr; Included); <mark><code>&lt;&lt;extend&gt;&gt;</code></mark> = optional (Extension &rarr; Base!).</li>
+            <li><mark>Sequence Diagram</mark> emphasizes time-ordering across lifelines; <mark>Deployment Diagram</mark> maps software to physical hardware nodes.</li>
+            <li><mark>Activity Diagram</mark> uses Swimlanes and Fork/Join bars for parallel business workflows.</li>
+            <li>GoF catalog = <mark>23 patterns</mark>: 5 Creational, 7 Structural, 11 Behavioral.</li>
+            <li><mark>Singleton</mark> = single global instance; <mark>Factory Method</mark> = subclasses choose concrete class; <mark>Builder</mark> = step-by-step complex construction.</li>
+            <li><mark>Adapter</mark> = converts incompatible interface; <mark>Facade</mark> = simplifies complex subsystem; <mark>Decorator</mark> = dynamically wraps extra behavior.</li>
+            <li><mark>Proxy</mark> = surrogate for access control/caching/lazy init (same interface as real subject).</li>
+            <li><mark>Strategy</mark> = interchangeable runtime algorithms; <mark>Observer</mark> = 1-to-many Pub/Sub notifications.</li>
+            <li><mark>Command</mark> = request as object (Undo/Redo/Queue); <mark>Template Method</mark> = base-class skeleton + subclass steps.</li>
+            <li><mark>Chain of Responsibility</mark> = sequential approval/filter handlers.</li>
+            <li><mark>CRC Cards:</mark> Class – Responsibility – Collaborator (used in OO Analysis).</li>
+            <li>CK Metrics: <mark>Lower CBO</mark> (Coupling) and <mark>Lower LCOM</mark> (Lack of Cohesion) indicate better OO design!</li>
+            <li>High <mark>DIT</mark> (Depth of Inheritance Tree) increases reuse but reduces understandability and increases test complexity.</li>
+          </ol>
+
+          <h3 style="margin:0 0 0.35rem;font-size:1.1rem;">Chapter 5 Practice Drill — 15 Exam-Level 5-Option MCQs</h3>
+          <p class="card-subtitle" style="margin-bottom:0.85rem;">1 &amp; 2 Mark Mix (21 Marks Total) &bull; -0.25 Negative Marking &bull; 20-Min Timer &bull; Options auto-shuffle on every attempt.</p>
+          <div id="ch5-mcq-root"></div>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-secondary" href="cluster1-ch04-programming-languages.html">&larr; Prev: Chapter 4 — Programming Languages</a>
+          <a class="btn btn-primary" href="../index.html">Back to Dashboard</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.SIDBIPortal) {
+        window.SIDBIPortal.initChapterCompletionButton('it-05', '[data-chapter-complete="it-05"]');
+        window.SIDBIPortal.initMCQEngine({
+          mountId: 'ch5-mcq-root',
+          durationMinutes: 20,
+          negativeMark: 0.25,
+          questions: [
+            {
+              id: 'ch5-q1',
+              marks: 1,
+              section: 'UML Relationships',
+              prompt: 'In a UML Class Diagram, which symbol represents COMPOSITION (strong whole-part ownership where child objects cannot exist without the parent)?',
+              options: [
+                'Solid line with a hollow diamond at the parent end',
+                'Solid line with a filled (black) diamond at the parent end',
+                'Dashed line with a hollow triangle at the parent end',
+                'Solid line with a hollow triangle at the parent end',
+                'Dashed line with an open arrowhead'
+              ],
+              correctIndex: 1,
+              explanation: 'Composition is denoted by a filled (black) diamond on the whole/parent side, indicating strong lifecycle ownership; a hollow diamond denotes weak Aggregation.'
+            },
+            {
+              id: 'ch5-q2',
+              marks: 1,
+              section: 'OOP Pillars',
+              prompt: 'Which distinction accurately separates Method Overloading from Method Overriding?',
+              options: [
+                'Overloading is resolved at runtime via vtable; Overriding is resolved at compile time',
+                'Overloading occurs within the same class with different parameter lists (compile-time); Overriding occurs in a subclass with the same signature (runtime)',
+                'Overloading requires abstract interfaces; Overriding forbids inheritance',
+                'Overloading works only on static constructors; Overriding works only on private fields',
+                'Both Overloading and Overriding are strictly compile-time static bindings'
+              ],
+              correctIndex: 1,
+              explanation: 'Method Overloading is compile-time (static) polymorphism distinguished by parameter types/count; Method Overriding is runtime (dynamic) polymorphism using identical signatures in a subclass.'
+            },
+            {
+              id: 'ch5-q3',
+              marks: 2,
+              section: 'SOLID Principles',
+              prompt: 'A banking developer creates a FixedDepositAccount subclass inheriting from SavingsAccount, and overrides withdraw() to throw an UnsupportedOperationException. Which SOLID principle is directly violated?',
+              options: [
+                'Single Responsibility Principle (SRP)',
+                'Open/Closed Principle (OCP)',
+                'Liskov Substitution Principle (LSP)',
+                'Dependency Inversion Principle (DIP)',
+                'Law of Demeter'
+              ],
+              correctIndex: 2,
+              explanation: 'Liskov Substitution Principle states that a subtype must be safely substitutable for its base type without breaking expected behavior or throwing unexpected exceptions.'
+            },
+            {
+              id: 'ch5-q4',
+              marks: 1,
+              section: 'SOLID Principles',
+              prompt: 'Which SOLID principle is directly implemented by Dependency Injection (DI) containers like Spring when high-level service classes reference interfaces rather than concrete database clients?',
+              options: [
+                'Single Responsibility Principle',
+                'Liskov Substitution Principle',
+                'Interface Segregation Principle',
+                'Dependency Inversion Principle',
+                'Composite Reuse Principle'
+              ],
+              correctIndex: 3,
+              explanation: 'Dependency Inversion Principle (DIP) mandates that both high-level and low-level modules depend on abstractions (interfaces), not concrete implementations.'
+            },
+            {
+              id: 'ch5-q5',
+              marks: 2,
+              section: 'UML Use Case',
+              prompt: 'In a UML Use Case diagram, an optional "Apply Subsidized Green Rate" use case only runs under specific conditions during "Process MSME Loan". How should this relationship be drawn?',
+              options: [
+                'Dashed arrow labeled <<include>> from Process MSME Loan to Apply Subsidized Green Rate',
+                'Dashed arrow labeled <<extend>> from Apply Subsidized Green Rate to Process MSME Loan',
+                'Dashed arrow labeled <<extend>> from Process MSME Loan to Apply Subsidized Green Rate',
+                'Solid line with filled diamond from Process MSME Loan to Apply Subsidized Green Rate',
+                'Solid generalization arrow from Process MSME Loan to Apply Subsidized Green Rate'
+              ],
+              correctIndex: 1,
+              explanation: 'Optional conditional behavior uses <<extend>>, and its dashed arrow points FROM the extending (optional) use case TO the base use case.'
+            },
+            {
+              id: 'ch5-q6',
+              marks: 1,
+              section: 'UML Diagrams',
+              prompt: 'Which UML diagram is specifically classified as a STRUCTURAL diagram used to depict physical hardware servers, HSM appliances, and the software artifacts deployed onto them?',
+              options: [
+                'Sequence Diagram',
+                'Activity Diagram',
+                'State Machine Diagram',
+                'Deployment Diagram',
+                'Communication Diagram'
+              ],
+              correctIndex: 3,
+              explanation: 'Deployment Diagrams are UML structural diagrams modeling physical/virtual execution nodes (servers, cloud clusters, HSMs) and deployed software artifacts.'
+            },
+            {
+              id: 'ch5-q7',
+              marks: 1,
+              section: 'GoF Structural Patterns',
+              prompt: 'A bank needs to integrate a legacy mainframe CBS speaking fixed-width ISO 8583 messages with a modern JSON/REST OCEN lending gateway without modifying the legacy core. Which GoF pattern best fits?',
+              options: [
+                'Singleton Pattern',
+                'Adapter Pattern',
+                'Observer Pattern',
+                'Prototype Pattern',
+                'Memento Pattern'
+              ],
+              correctIndex: 1,
+              explanation: 'The Adapter pattern acts as a translator/wrapper converting an existing incompatible interface into the interface expected by modern clients.'
+            },
+            {
+              id: 'ch5-q8',
+              marks: 2,
+              section: 'GoF Structural Patterns',
+              prompt: 'How does the Decorator pattern differ from the Facade pattern in the GoF structural catalog?',
+              options: [
+                'Decorator dynamically adds new behaviors to an object while preserving its interface; Facade provides a new simplified interface over a complex subsystem',
+                'Decorator restricts a class to a single instance; Facade clones existing instances',
+                'Decorator is a behavioral pattern; Facade is a creational pattern',
+                'Decorator requires multiple inheritance; Facade forbids composition',
+                'Decorator hides incompatible legacy protocols; Facade handles undo/redo stacks'
+              ],
+              correctIndex: 0,
+              explanation: 'Decorator wraps an object to stack extra behavior dynamically using the same interface (e.g., Java I/O streams), whereas Facade introduces a unified simplified entry point over multiple subsystem classes.'
+            },
+            {
+              id: 'ch5-q9',
+              marks: 1,
+              section: 'GoF Behavioral Patterns',
+              prompt: 'Whenever an MSME loan status changes to "Disbursed", four independent modules (SMS Gateway, Email Service, Accounting Ledger, and Audit SIEM) must automatically react. Which GoF pattern models this?',
+              options: [
+                'Builder Pattern',
+                'Adapter Pattern',
+                'Observer Pattern',
+                'Flyweight Pattern',
+                'Bridge Pattern'
+              ],
+              correctIndex: 2,
+              explanation: 'The Observer (Publish-Subscribe) pattern defines a one-to-many dependency so all registered listeners are notified automatically upon state changes.'
+            },
+            {
+              id: 'ch5-q10',
+              marks: 2,
+              section: 'GoF Behavioral Patterns',
+              prompt: 'A credit-underwriting engine must switch dynamically at runtime between "Micro-Enterprise Cashflow Scoring", "GST Invoice Scoring", and "Collateral Scoring" without altering the core LoanEvaluator class. Which pattern should be applied?',
+              options: [
+                'Singleton Pattern',
+                'Strategy Pattern',
+                'Composite Pattern',
+                'Iterator Pattern',
+                'Prototype Pattern'
+              ],
+              correctIndex: 1,
+              explanation: 'The Strategy pattern encapsulates interchangeable algorithms behind a common interface, allowing runtime selection while upholding the Open/Closed Principle.'
+            },
+            {
+              id: 'ch5-q11',
+              marks: 1,
+              section: 'GoF Behavioral Patterns',
+              prompt: 'A loan sanction workflow routes requests sequentially from Branch Officer (<=5L) to Regional Manager (<=25L) to Head Office Credit Committee (>25L) until an authorized tier handles it. Which GoF pattern is this?',
+              options: [
+                'Chain of Responsibility',
+                'Abstract Factory',
+                'Proxy Pattern',
+                'Decorator Pattern',
+                'Flyweight Pattern'
+              ],
+              correctIndex: 0,
+              explanation: 'Chain of Responsibility decouples the sender from the receiver by passing a request along a chain of potential handlers until one processes it.'
+            },
+            {
+              id: 'ch5-q12',
+              marks: 1,
+              section: 'GoF Creational Patterns',
+              prompt: 'Which GoF Creational pattern constructs a complex object with many optional parameters step-by-step, avoiding unwieldy "telescoping constructors"?',
+              options: [
+                'Singleton',
+                'Builder',
+                'Adapter',
+                'Observer',
+                'Template Method'
+              ],
+              correctIndex: 1,
+              explanation: 'The Builder pattern separates step-by-step construction of a complex object from its representation, providing readable fluent assembly.'
+            },
+            {
+              id: 'ch5-q13',
+              marks: 2,
+              section: 'CK OO Metrics',
+              prompt: 'In the Chidamber & Kemerer (CK) Object-Oriented Metrics suite, what does a VERY HIGH LCOM (Lack of Cohesion in Methods) value for a class typically indicate?',
+              options: [
+                'The class is maximally cohesive and ideally designed',
+                'The class has zero dependencies on any external class',
+                'Methods inside the class do not share common attributes and the class should likely be split into smaller classes (SRP)',
+                'The class sits at Depth 0 of the inheritance hierarchy',
+                'The class uses only static compile-time polymorphism'
+              ],
+              correctIndex: 2,
+              explanation: 'LCOM measures lack of cohesion; a high LCOM value means methods operate on disjoint subsets of fields, signaling a bloated class violating SRP that should be refactored.'
+            },
+            {
+              id: 'ch5-q14',
+              marks: 1,
+              section: 'Design Heuristics',
+              prompt: 'Which design guideline discourages chained method calls like order.getCustomer().getWallet().getBalance() in favor of talking only to immediate object collaborators?',
+              options: [
+                'Brooks\' Law',
+                'Amdahl\'s Law',
+                'Law of Demeter (Principle of Least Knowledge)',
+                'Conway\'s Law',
+                'Moore\'s Law'
+              ],
+              correctIndex: 2,
+              explanation: 'The Law of Demeter reduces structural coupling by restricting an object to invoke methods only on itself, its parameters, objects it creates, or its direct fields.'
+            },
+            {
+              id: 'ch5-q15',
+              marks: 1,
+              section: 'OOAD Tools',
+              prompt: 'During early Object-Oriented Analysis (OOA), what do the three letters in a CRC Card stand for?',
+              options: [
+                'Cyclic Redundancy Check',
+                'Class – Responsibility – Collaborator',
+                'Cohesion – Reuse – Coupling',
+                'Component – Runtime – Container',
+                'Constructor – Reference – Collection'
+              ],
+              correctIndex: 1,
+              explanation: 'In OOAD (not Networking!), CRC stands for Class–Responsibility–Collaborator cards used for collaborative domain modeling.'
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>
